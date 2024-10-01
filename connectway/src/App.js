@@ -1,7 +1,17 @@
 import logo from './logo.svg';
+import React, { useEffect } from "react";
 import './App.css';
+import  app  from "./firebaseConfig"; 
 
 function App() {
+  useEffect(() => {
+    // Comprobando si Firebase se ha inicializado correctamente
+    if (app) {
+      console.log("Firebase se ha inicializado correctamente");
+    } else {
+      console.error("Error al inicializar Firebase");
+    }
+  }, []);
   return (
     <div className="App">
       <header className="App-header">
