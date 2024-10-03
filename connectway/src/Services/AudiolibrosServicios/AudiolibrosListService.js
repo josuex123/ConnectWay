@@ -1,5 +1,5 @@
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
-import app from '../../firebaseConfig';
+import {app} from '../../firebaseConfig';
 import { Audiobook } from './Audiolibro';
 const db = getFirestore(app);
 
