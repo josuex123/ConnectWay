@@ -39,7 +39,8 @@ const AudiobookList = () => {
                     <p><strong>Creado en:</strong> {convertTimestamp(created)}</p>
                     <p><strong>Actualizado en:</strong> {convertTimestamp(updated)}</p>
                     <img 
-                        src={imagenPortadaUrl} 
+                        src={imagenPortadaUrl}
+                        
                         alt={title} 
                         onError={(e) => { e.target.onerror = null; e.target.src = IMAGE_FALLBACK; }} 
                     />

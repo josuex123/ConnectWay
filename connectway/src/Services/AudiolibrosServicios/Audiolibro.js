@@ -1,5 +1,5 @@
 export class Audiobook {
-    constructor(id, title, author, category, created, description, duration) {
+    constructor(id, title, author, category, created, description, duration, imagenPortadaUrl, archivoUrl, updated) {
         this._id = id;
         this._title = title;
         this._author = author;
@@ -7,6 +7,9 @@ export class Audiobook {
         this._created = created;
         this._description = description;
         this._duration = duration;
+        this._imagenPortadaUrl = imagenPortadaUrl;
+        this._archivoUrl = archivoUrl;
+        this._updated = updated;
     }
 
     get id() {
@@ -37,6 +40,18 @@ export class Audiobook {
         return this._duration;
     }
 
+    get imagenPortadaUrl() {
+        return this._imagenPortadaUrl;
+    }
+
+    get archivoUrl() {
+        return this._archivoUrl;
+    }
+
+    get updated() {
+        return this._updated;
+    }
+
     set title(value) {
         if (typeof value !== 'string') {
             throw new Error('Title must be a string');
@@ -56,5 +71,23 @@ export class Audiobook {
             throw new Error('Duration must be a number');
         }
         this._duration = value;
+    }
+
+    set imagenPortadaUrl(value) {
+        if (typeof value !== 'string') {
+            throw new Error('Image URL must be a string');
+        }
+        this._imagenPortadaUrl = value;
+    }
+
+    set archivoUrl(value) {
+        if (typeof value !== 'string') {
+            throw new Error('Audio URL must be a string');
+        }
+        this._archivoUrl = value;
+    }
+
+    set updated(value) {
+        this._updated = value;
     }
 }
