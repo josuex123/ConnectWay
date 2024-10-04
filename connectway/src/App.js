@@ -22,7 +22,7 @@ function App() {
         <Route path="/MiActividad" element={<MiActividad />} />
         <Route path="/Perfil" element={<Perfil />} />
         <Route path="/Audiolibros/añadir" element={<AudiolibrosAñadir />} />
-        <Route path="/Audiolibros/registrados" element={<AudiolibrosRegistrado />} />
+        <Route path="/Audiolibros/registrados" element={<AudiobookList />} />
         <Route path="/ListaAudioLibros" element={<AudiobookList/>} />
         <Route path="/Formulario" element={<Formulario/>} /> 
       </Routes>
