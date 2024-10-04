@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getAudiobooks } from './AudiolibrosListService';
+import { getAudiobookId } from './EncontrarAudiolibroService';
 
 const AudiobookList = () => {
     const [audiobooks, setAudiobooks] = useState([]);
@@ -43,11 +44,13 @@ const AudiobookList = () => {
                         
                         alt={title} 
                         onError={(e) => { e.target.onerror = null; e.target.src = IMAGE_FALLBACK; }} 
+                        width="300" height="300"
                     />
                     <audio controls>
                         <source src={archivoUrl} type="audio/mpeg" />
                         Tu navegador no soporta el elemento de audio.
                     </audio>
+                    <button onClick={() => console.log(id)}>Press</button>
                 </div>
             ))}
         </div>

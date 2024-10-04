@@ -10,6 +10,7 @@ import AudiolibrosAñadir from './pages/audiolibros/AudiolibrosAñadir';
 import Comunidad from './pages/comunidad/comunidad';
 import MiActividad from './pages/miActividad/miActividad';
 import Perfil from './pages/perfil/perfil';
+import FormularioEditar from './pages/audiolibros/FormularioEditar';
 
 function App() {
   
@@ -25,6 +26,7 @@ function App() {
         <Route path="/Audiolibros/registrados" element={<AudiobookList />} />
         <Route path="/ListaAudioLibros" element={<AudiobookList/>} />
         <Route path="/Formulario" element={<Formulario/>} /> 
+        <Route path="/FormularioEditar" element={<FormularioEditar/>} /> 
       </Routes>
     </Router>
   );
