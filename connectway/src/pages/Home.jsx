@@ -1,7 +1,7 @@
 import React from 'react'
 import "./Home.css";
-import Header from '../components/Header/Header'
-
+//import Header from '../components/Header/Header'
+import PaginaInicio from '../components/PaginaInicio/PaginaInicio';
 
 const Home = () => {
  
@@ -9,7 +9,7 @@ const Home = () => {
   return (
     
     <div className="home-container">
-        <Header/>
+        <PaginaInicio/>
       
     </div>
     
