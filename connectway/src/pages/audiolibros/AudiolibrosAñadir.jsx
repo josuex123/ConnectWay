@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from '../../components/PaginaInicio/Navbar';
-import '../../estilos/PaginaInicio/Audiolibros/AudiolibrosAñadir.css'
+import '../../estilos/Audiolibros/AudiolibrosAñadir.css'
 import Formulario from './Formulario';
 //import MainImage from './MainImage';
 

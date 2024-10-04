@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from '../../components/PaginaInicio/Navbar';
-import '../../estilos/PaginaInicio/Audiolibros/AudiolibrosRegistrado.css'
+import '../../estilos/Audiolibros/AudiolibrosRegistrado.css'
 //import MainImage from './MainImage';
 
 const AudiolibroRegistrado = () => {
