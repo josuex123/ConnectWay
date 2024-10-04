@@ -1,26 +1,25 @@
 import React, { useState } from 'react';
 import './Formulario.css';
+import Dropz from '../../components/Dropzone/Drop';  // Importamos el componente con las dropzones
 
 function Formulario() {
     const [titulo, setTitulo] = useState('');
     const [autor, setAutor] = useState('');
     const [categoria, setCategoria] = useState('');
     const [descripcion, setDescripcion] = useState('');
-  
+
     const handleCancel = () => {
-      // Reiniciar los campos
-      setTitulo('');
-      setAutor('');
-      setCategoria('');
-      setDescripcion('');
+        setTitulo('');
+        setAutor('');
+        setCategoria('');
+        setDescripcion('');
     };
-  
+
     const handleSubmit = (event) => {
-      event.preventDefault();
-      // Aquí puedes manejar lo que suceda al enviar el formulario
-      console.log({ titulo, autor, categoria, descripcion });
+        event.preventDefault();
+        console.log({ titulo, autor, categoria, descripcion });
     };
-  
+
     return (
       <>
         <h1 className="title">Subir Audiolibro</h1>
@@ -33,7 +32,7 @@ function Formulario() {
             value={titulo}
             onChange={(e) => setTitulo(e.target.value)}
           />
-  
+
           <label htmlFor="autor">Autor:</label>
           <input
             type="text"
@@ -42,7 +41,7 @@ function Formulario() {
             value={autor}
             onChange={(e) => setAutor(e.target.value)}
           />
-  
+
           <label htmlFor="categoria">Categoría:</label>
           <select
             id="categoria"
@@ -50,44 +49,25 @@ function Formulario() {
             onChange={(e) => setCategoria(e.target.value)}
           >
             <option value="">Elegir categoría</option>
-            <option value="novela">Autoestima</option>
-            <option value="ensayo">Ansiedad</option>
-            <option value="biografia">Depresion</option>
-            <option value="educativo">Inteligencia Emocional</option>
+            <option value="autoestima">Autoestima</option>
+            <option value="ansiedad">Ansiedad</option>
+            <option value="depresion">Depresión</option>
+            <option value="inteligencia_emocional">Inteligencia Emocional</option>
           </select>
-  
-            <label htmlFor="descripcion">Descripción:</label>
+
+          <label htmlFor="descripcion">Descripción:</label>
           <textarea
             id="descripcion"
             placeholder="Escribe una breve descripción del libro"
             value={descripcion}
             onChange={(e) => setDescripcion(e.target.value)}
           />
-  
-          <div className="file-upload-container">
-            <div className="file-upload-field">
-              <label htmlFor="imagen">Subir imagen:</label>
-              <input
-                type="file"
-                id="imagen"
-                accept="image/*"
-                className="upload-field"
-              />
-            </div>
-            <div className="file-upload-field">
-              <label htmlFor="audiolibro">Subir Audiolibro:</label>
-              <input
-                type="file"
-                id="audiolibro"
-                accept="audio/*"
-                className="upload-field"
-              />
-            </div>
-          </div>
+
+          {/* Aquí incluimos el componente FormAudiolibro que tiene las dropzones */}
+          <Dropz />
         </form>
       </>
     );
-  }
-  
-  
-export default Formulario
+}
+
+export default Formulario;
