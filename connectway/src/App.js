@@ -5,12 +5,12 @@ import './App.css';
 import AudiobookList from "./Services/AudiolibrosServicios/AudiobooksList";
 import Formulario from './pages/audiolibros/Formulario';
 import Audiolibros from './pages/audiolibros/Audiolibros';
-import AudiolibrosRegistrado from './pages/audiolibros/AudiolibrosRegistrado';
+//import AudiolibrosRegistrado from './pages/audiolibros/AudiolibrosRegistrado';
 import AudiolibrosAñadir from './pages/audiolibros/AudiolibrosAñadir';
 import Comunidad from './pages/comunidad/comunidad';
 import MiActividad from './pages/miActividad/miActividad';
 import Perfil from './pages/perfil/perfil';
-import FormularioEditar from './pages/audiolibros/FormularioEditar';
+import AudiobookEdit from './pages/audiolibros/FormularioEditar';
 
 function App() {
   
@@ -26,7 +26,7 @@ function App() {
         <Route path="/Audiolibros/registrados" element={<AudiobookList />} />
         <Route path="/ListaAudioLibros" element={<AudiobookList/>} />
         <Route path="/Formulario" element={<Formulario/>} /> 
-        <Route path="/FormularioEditar" element={<FormularioEditar/>} /> 
+        <Route path="/FormularioEditar" element={<AudiobookEdit/>} /> 
       </Routes>
     </Router>
   );
