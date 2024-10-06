@@ -8,9 +8,9 @@ import FormularioAñadir from './components/FormularioAñadir/Formulario';
 import Audiolibros from './pages/audiolibros/Audiolibros';
 import AudiolibrosRegistrado from './pages/audiolibros/AudiolibrosRegistrado';
 import AudiolibrosAñadir from './pages/audiolibros/AudiolibrosAñadir';
-import Comunidad from './pages/comunidad/Comunidad';
-import MiActividad from './pages/miActividad/MiActividad';
-import Perfil from './pages/perfil/Perfil';
+import Comunidad from './pages/comunidad/comunidad';
+import MiActividad from './pages/miActividad/miActividad';
+import Perfil from './pages/perfil/perfil';
 
 function App() {
   
