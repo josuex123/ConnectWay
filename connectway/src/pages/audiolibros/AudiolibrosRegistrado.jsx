@@ -3,7 +3,7 @@ import Navbar from '../../components/PaginaInicio/Navbar';
 import '../../estilos/Audiolibros/AudiolibrosRegistrado.css';
 import Contenedor from '../../components/Contenedor/Contenedor';
 import { db } from '../../firebaseConfig';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, doc, deleteDoc } from 'firebase/firestore';
 import ModalNotificacion from '../../components/Modal/ModalNotificacion';
 import ModalConfirmacion from '../../components/Modal/ModalConfirmacion';
 
@@ -20,21 +20,22 @@ const AudiolibroRegistrado = () => {
     const [selectedLibro, setSelectedLibro] = useState(null); 
 
     useEffect(() => {
-        const fetchAudiolibros = async () => {
-            const audiolibrosCollection = collection(db, 'Audiolibro');
-            const audiolibrosSnapshot = await getDocs(audiolibrosCollection);
-            const audiolibrosList = audiolibrosSnapshot.docs.map(doc => ({
-                imagenPortadaURL: doc.data().imagenPortadaURL,
-                titulo: doc.data().titulo,
-                autor: doc.data().autor,
-                descripcion: doc.data().descripcion,
-                duracion: doc.data().duracion,
-            }));
-            setAudiolibros(audiolibrosList);
-        };
-
-        fetchAudiolibros();
+        reloadAudiolibros();
     }, []);
+
+    const reloadAudiolibros = async () => {
+        const audiolibrosCollection = collection(db, 'Audiolibro');
+        const audiolibrosSnapshot = await getDocs(audiolibrosCollection);
+        const audiolibrosList = audiolibrosSnapshot.docs.map(doc => ({
+            id: doc.id,
+            imagenPortadaURL: doc.data().imagenPortadaURL,
+            titulo: doc.data().titulo,
+            autor: doc.data().autor,
+            descripcion: doc.data().descripcion,
+            duracion: doc.data().duracion,
+        }));
+        setAudiolibros(audiolibrosList);
+    };
 
     const next = () => {
         if (currentIndex < audiolibros.length - maxItems) {
@@ -54,7 +55,8 @@ const AudiolibroRegistrado = () => {
         setIsModalNotificacionOpen(true);
     };
 
-    const closeModalNotificacion = () => {
+    const closeModalNotificacion = async () => {
+        await reloadAudiolibros(); 
         setIsModalNotificacionOpen(false);
     };
 
@@ -68,15 +70,15 @@ const AudiolibroRegistrado = () => {
         setSelectedLibro(null);
     };
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (selectedLibro) {
-            // logica eliminar
-            const isDeletedSuccessfully = true; 
-    
-            if (isDeletedSuccessfully) {
+            try {
+                const audiolibroRef = doc(db, 'Audiolibro', selectedLibro.id);
+                await deleteDoc(audiolibroRef);
                 closeConfirmModal();
                 showModalNotificacion('success', 'El audiolibro ha sido eliminado exitosamente.');
-            } else {
+            } catch (error) {
+                console.error('Error al eliminar el audiolibro:', error);
                 closeConfirmModal();
                 showModalNotificacion('error', 'El audiolibro no se pudo eliminar correctamente.');
             }
@@ -139,7 +141,7 @@ const AudiolibroRegistrado = () => {
                 onClose={closeModalNotificacion}
                 type={notificationType}
                 message={notificationMessage}
-                iconClass={notificationType === '!success' ? 'fa fa-check' : 'fa fa-exclamation'}
+                iconClass={notificationType === 'success' ? 'fa fa-check' : 'fa fa-exclamation'}
             />
             <ModalConfirmacion
                 isOpen={isConfirmModalOpen}
