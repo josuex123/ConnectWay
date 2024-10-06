@@ -1,38 +1,66 @@
-import React, { useState, useEffect } from 'react'; 
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom'; // Agregar useNavigate
+import { updateAudiobook } from '../../Services/AudiolibrosServicios/UpdateAudiobook';
 import './Formulario.css';
+import EditMediaDrop from '../../components/Dropzone/EditMediaDrop'; // Ruta correcta
 
 const AudiobookEdit = () => {
     const location = useLocation();
-    const { audiobook } = location.state || {};  // Extraer los datos del audiolibro de la ubicación
+    const navigate = useNavigate(); // Inicializar useNavigate
+    const { audiobook } = location.state || {}; // Extraer los datos del audiolibro de la ubicación
 
     const [titulo, setTitulo] = useState('');
     const [autor, setAutor] = useState('');
     const [categoria, setCategoria] = useState('');
     const [descripcion, setDescripcion] = useState('');
-    const [imagenUrl, setImagenUrl] = useState(''); 
+    const [imagenUrl, setImagenUrl] = useState('');
     const [audioUrl, setAudioUrl] = useState('');
 
     // Cargar los datos del audiolibro cuando estén disponibles
     useEffect(() => {
         if (audiobook) {
             setTitulo(audiobook._title || '');
-            setAutor(audiobook._author || ''); 
+            setAutor(audiobook._author || '');
             setCategoria(audiobook._category || '');
             setDescripcion(audiobook._description || '');
-            setImagenUrl(audiobook._imageUrl || ''); 
-            setAudioUrl(audiobook._audioUrl || ''); 
+            setImagenUrl(audiobook._imagenPortadaUrl || '');
+            setAudioUrl(audiobook._archivoUrl || '');
         }
     }, [audiobook]);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // Implementar la logica para editar
+    
+        const updatedData = {
+            title: titulo,
+            author: autor,
+            category: categoria,
+            description: descripcion,
+            imagenPortadaUrl: imagenUrl,
+            archivoUrl: audioUrl,
+        };
+    
+        // Imprimir en consola los datos que se van a actualizar
+        console.log('Datos a actualizar:', updatedData);
+    
+        try {
+            // Llamar a la función para actualizar el audiolibro
+            await updateAudiobook(audiobook._id, updatedData); // Actualizar audiolibro
+            console.log('Audiolibro actualizado correctamente');
+    
+            // Redirigir a la página deseada después de la actualización
+            navigate('/Audiolibros/registrados'); // Cambia '/ruta-deseada' por la ruta a la que quieres redirigir
+        } catch (error) {
+            console.error('Error al actualizar el audiolibro: ', error);
+            // Manejo del error, como mostrar un mensaje de error al usuario
+        }
     };
+    
 
     return (
         <div className="audiobook-edit-page">
             <h1>Editar Audiolibro</h1>
+            <h1>{imagenUrl}</h1>
             <form onSubmit={handleSubmit} className="form-container">
                 <label htmlFor="titulo">Título:</label>
                 <input
@@ -74,6 +102,14 @@ const AudiobookEdit = () => {
                     onChange={(e) => setDescripcion(e.target.value)}
                 />
 
+                {/* Componente para editar la imagen y el audio */}
+                <EditMediaDrop
+                    initialImageUrl={imagenUrl}  // Corregido aquí
+                    initialAudioUrl={audioUrl}   // Aquí está correcto
+                    onImageChange={setImagenUrl}  // Actualiza la URL de la imagen
+                    onAudioChange={setAudioUrl}   // Actualiza la URL del audio
+                />
+
                 <div className="form-buttons">
                     <button type="submit">Guardar cambios</button>
                     <button type="button" onClick={() => window.history.back()}>Cancelar</button>
@@ -84,4 +120,3 @@ const AudiobookEdit = () => {
 };
 
 export default AudiobookEdit;
-
