@@ -1,9 +1,15 @@
 import React from 'react';
 import '../../estilos/contenedor/Contenedor.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css'; 
 
 const Contenedor = ({ imgPortada, titulo, autor, descripcion, duracion, onEdit, onDelete }) => {
+    const navigate = useNavigate(); 
+
+    const handleEdit = () => {
+        navigate('/Audiolibros/editar'); 
+    };
     return (
         <div className="contenedor card mb-4">
             <img src={imgPortada} className="card-img-top img-portada" alt="Portada" />
@@ -14,7 +20,7 @@ const Contenedor = ({ imgPortada, titulo, autor, descripcion, duracion, onEdit, 
                 <p className="duracion text-start"><i className="fas fa-clock"></i> {duracion} minutos</p>
                 <div className="d-flex align-items-center gap-2 text-start mb-2">
                     <i className="fas fa-edit icono-editar"></i> 
-                    <button className="btn btn-outline-secondary boton-editar" onClick={onEdit}>
+                    <button className="btn btn-outline-secondary boton-editar" onClick={handleEdit}>
                         Editar
                     </button>
                 </div>

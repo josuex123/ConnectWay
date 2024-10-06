@@ -7,6 +7,7 @@ import AudiobookList from "./Services/AudiolibrosServicios/AudiobooksList";
 import FormularioAñadir from './components/FormularioAñadir/Formulario';
 import Audiolibros from './pages/audiolibros/Audiolibros';
 import AudiolibrosRegistrado from './pages/audiolibros/AudiolibrosRegistrado';
+import AudiolibrosEditar from './pages/audiolibros/AudiolibrosEditar';
 import AudiolibrosAñadir from './pages/audiolibros/AudiolibrosAñadir';
 import Comunidad from './pages/comunidad/comunidad';
 import MiActividad from './pages/miActividad/miActividad';
@@ -24,6 +25,7 @@ function App() {
         <Route path="/Perfil" element={<Perfil />} />
         <Route path="/Audiolibros/añadir" element={<AudiolibrosAñadir />} />
         <Route path="/Audiolibros/registrados" element={<AudiolibrosRegistrado />} />
+        <Route path="/Audiolibros/editar" element={<AudiolibrosEditar />} />
         <Route path="/ListaAudioLibros" element={<AudiobookList/>} />
         <Route path="/Formulario" element={<FormularioAñadir/>} /> 
       </Routes>
