@@ -1,15 +1,14 @@
 import React from 'react';
-import Navbar from '../../components/PaginaInicio/Navbar';
-import '../../estilos/miActividad/miActividad.css'
-import noContentPage from '../noContent/noContentPage'
+import '../../estilos/miActividad/MiActividad.css'
+import NoContentPage from '../noContent/noContentPage'
 //import MainImage from './MainImage';
 
 const Audiolibros = () => {
     return (
         <div className="pagina-inicio">
-            <Navbar />
+            
             <div className="content">
-            <noContentPage/>
+            <NoContentPage/>
             </div>
         </div>
     );

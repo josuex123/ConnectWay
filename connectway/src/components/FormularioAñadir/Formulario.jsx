@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import './Formulario.css';
-import Dropz from '../../components/Dropzone/Drop';  // Importamos el componente con las dropzones
+import '../../estilos/Audiolibros/FormularioAñadir/Formulario.css';
+import Dropz from '../Dropzone/Drop';  // Importamos el componente con las dropzones
 
 function Formulario() {
     const [titulo, setTitulo] = useState('');
@@ -8,12 +8,7 @@ function Formulario() {
     const [categoria, setCategoria] = useState('');
     const [descripcion, setDescripcion] = useState('');
 
-    const handleCancel = () => {
-        setTitulo('');
-        setAutor('');
-        setCategoria('');
-        setDescripcion('');
-    };
+
 
     const handleSubmit = (event) => {
         event.preventDefault();

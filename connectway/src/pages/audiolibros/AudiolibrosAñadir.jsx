@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from '../../components/PaginaInicio/Navbar';
 import '../../estilos/Audiolibros/AudiolibrosAñadir.css'
-import Formulario from './Formulario';
+import Formulario from '../../components/FormularioAñadir/Formulario';
 //import MainImage from './MainImage';
 
 const AudiolibrosAñadir = () => {
