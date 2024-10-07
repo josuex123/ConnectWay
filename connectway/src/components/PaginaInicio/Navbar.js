@@ -1,13 +1,26 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import '../../estilos/PaginaInicio/Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const Navbar = () => {
   const [click, setClick] = useState(false);
-  
+  const [isAudiolibrosOpen, setAudiolibrosOpen] = useState(false); // Nuevo estado
+  const navigate = useNavigate();
+
   const handleClick = () => setClick(!click);
+
+  const handleAudiolibrosClick = (e) => {
+    e.preventDefault(); // Evitar la navegación inmediata
+    if (isAudiolibrosOpen) {
+      // Si el menú ya estaba abierto, redirigir a la página principal de Audiolibros
+      navigate('/audiolibros');
+    } else {
+      // Si el menú no estaba abierto, desplegarlo
+      setAudiolibrosOpen(true);
+    }
+  };
 
   return (
     <nav className="navbar">
@@ -23,17 +36,22 @@ const Navbar = () => {
             </NavLink>
           </li>
           <li className="nav-item dropdown">
-            <NavLink to="/audiolibros" className="nav-links dropbtn" onClick={handleClick}>
+            <span
+              className="nav-links dropbtn"
+              onClick={handleAudiolibrosClick} // Actualizado
+            >
               Audiolibros
-            </NavLink>
-            <div className="dropdown-content">
-              <NavLink to="/audiolibros/añadir" className="dropdown-link">
-                Añadir audiolibro
-              </NavLink>
-              <NavLink to="/audiolibros/registrados" className="dropdown-link">
-                Audiolibros registrados
-              </NavLink>
-            </div>
+            </span>
+            {isAudiolibrosOpen && (
+              <div className="dropdown-content">
+                <NavLink to="/audiolibros/añadir" className="dropdown-link" onClick={() => setAudiolibrosOpen(false)}>
+                  Añadir audiolibro
+                </NavLink>
+                <NavLink to="/audiolibros/registrados" className="dropdown-link" onClick={() => setAudiolibrosOpen(false)}>
+                  Audiolibros registrados
+                </NavLink>
+              </div>
+            )}
           </li>
           <li className="nav-item">
             <NavLink to="/comunidad" className="nav-links" onClick={handleClick}>
