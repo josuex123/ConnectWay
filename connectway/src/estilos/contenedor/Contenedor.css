@@ -1,0 +1,59 @@
+.contenedor {
+    max-width: 300px;
+    min-height: 400px;
+    margin: auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+}
+ 
+  
+.img-portada {
+    height: 150px;
+    width: 100%;
+    object-fit: cover;
+    padding: 5% ;
+}
+  .descripcion {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Limita el número de líneas */
+    -webkit-box-orient: vertical;
+}
+  .titulo, .autor, .descripcion, .duracion {
+    text-align: left;
+  }
+  .icono-editar, .icono-eliminar {
+    margin-right: 20%;
+  }
+ 
+  
+  .titulo {
+    font-size: 1.1rem; /* Ajusta el tamaño de la fuente */
+    line-height: 1.3rem; /* Controla el espaciado entre líneas */
+    max-height: 2.6rem; /* Forza el tamaño máximo del título */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+  
+  .autor, .descripcion, .duracion {
+    font-size: 0.9rem;
+    color: #555;
+  }
+  
+  .duracion {
+    margin-top: 10px;
+  }
+  
+  .boton-editar, .boton-eliminar {
+    width: 100px;
+  }
+  
+  .boton-editar i, .boton-eliminar i {
+    margin-right: 5px;
+  }
+  
+  

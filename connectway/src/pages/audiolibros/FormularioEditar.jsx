@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'; // Agregar useNavigate
 import { updateAudiobook } from '../../Services/AudiolibrosServicios/UpdateAudiobook';
-import './Formulario.css';
+import '../../estilos/Audiolibros/FormularioEditar/Formulario.css';
 import EditMediaDrop from '../../components/Dropzone/EditMediaDrop'; // Ruta correcta
 
 const AudiobookEdit = () => {

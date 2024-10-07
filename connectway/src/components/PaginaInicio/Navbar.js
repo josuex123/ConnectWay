@@ -15,8 +15,9 @@ const Navbar = () => {
                     </div>
                 </li>
                 <li><a href="/comunidad">Comunidad</a></li>
-                <li><a href="/actividad">Mi actividad</a></li>
-                <li><a href="/perfil">Perfil</a></li>
+                <li><a href="/MiActividad">Mi actividad</a></li>
+                <li ><a className="nav-link perfil" href="/Perfil">Perfil</a>
+                </li>
             </ul>
         </nav>
     );
