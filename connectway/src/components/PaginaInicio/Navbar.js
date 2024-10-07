@@ -1,26 +1,63 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import '../../estilos/PaginaInicio/Navbar.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const Navbar = () => {
-    return (
-        <nav className="navbar">
-            <div className="logo">CONNECTWAY</div>
-            <ul className="nav-links">
-                <li><a href="/">Inicio</a></li>
-                <li className="dropdown">
-                    <a href="/audiolibros" className="dropbtn">Audiolibros</a>
-                    <div className="dropdown-content">
-                        <a href="/audiolibros/añadir">Añadir audiolibro</a>
-                        <a href="/audiolibros/registrados">Audiolibros registrados</a>
-                    </div>
-                </li>
-                <li><a href="/comunidad">Comunidad</a></li>
-                <li><a href="/MiActividad">Mi actividad</a></li>
-                <li ><a className="nav-link perfil" href="/Perfil">Perfil</a>
-                </li>
-            </ul>
-        </nav>
-    );
+  const [click, setClick] = useState(false);
+  
+  const handleClick = () => setClick(!click);
+
+  return (
+    <nav className="navbar">
+      <div className="nav-container">
+        <NavLink exact to="/" className="nav-logo">
+          CONNECTWAY
+        </NavLink>
+
+        <ul className={click ? "nav-menu active" : "nav-menu"}>
+          <li className="nav-item">
+            <NavLink exact to="/" className="nav-links" onClick={handleClick}>
+              Inicio
+            </NavLink>
+          </li>
+          <li className="nav-item dropdown">
+            <NavLink to="/audiolibros" className="nav-links dropbtn" onClick={handleClick}>
+              Audiolibros
+            </NavLink>
+            <div className="dropdown-content">
+              <NavLink to="/audiolibros/añadir" className="dropdown-link">
+                Añadir audiolibro
+              </NavLink>
+              <NavLink to="/audiolibros/registrados" className="dropdown-link">
+                Audiolibros registrados
+              </NavLink>
+            </div>
+          </li>
+          <li className="nav-item">
+            <NavLink to="/comunidad" className="nav-links" onClick={handleClick}>
+              Comunidad
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink to="/MiActividad" className="nav-links" onClick={handleClick}>
+              Mi actividad
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink to="/Perfil" className="nav-links" onClick={handleClick}>
+              Perfil
+            </NavLink>
+          </li>
+        </ul>
+
+        <div className="nav-icon" onClick={handleClick}>
+          <FontAwesomeIcon icon={click ? faTimes : faBars} className="menu-icon" />
+        </div>
+      </div>
+    </nav>
+  );
 };
 
 export default Navbar;
