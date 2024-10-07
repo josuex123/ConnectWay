@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -13,16 +13,9 @@ import Comunidad from './pages/comunidad/comunidad';
 import MiActividad from './pages/miActividad/miActividad';
 import Perfil from './pages/perfil/perfil';
 import AudiobookEdit from './pages/audiolibros/FormularioEditar';
-import  app  from "./firebaseConfig"; 
 
 function App() {
-  useEffect(() => {
-    if (app) {
-      console.log("Firebase se ha inicializado correctamente");
-    } else {
-      console.error("Error al inicializar Firebase");
-    }
-  }, []);
+  
   return (
     <Router>
       <Routes>
