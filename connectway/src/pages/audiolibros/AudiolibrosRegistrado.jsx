@@ -6,6 +6,7 @@ import { db } from '../../firebaseConfig';
 import { collection, getDocs, doc, deleteDoc } from 'firebase/firestore';
 import ModalNotificacion from '../../components/Modal/ModalNotificacion';
 import ModalConfirmacion from '../../components/Modal/ModalConfirmacion';
+import { useNavigate } from 'react-router-dom';
 
 const AudiolibroRegistrado = () => {
     const [audiolibros, setAudiolibros] = useState([]);
@@ -19,6 +20,8 @@ const AudiolibroRegistrado = () => {
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
     const [selectedLibro, setSelectedLibro] = useState(null); 
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         reloadAudiolibros();
     }, []);
@@ -28,7 +31,7 @@ const AudiolibroRegistrado = () => {
         const audiolibrosSnapshot = await getDocs(audiolibrosCollection);
         const audiolibrosList = audiolibrosSnapshot.docs.map(doc => ({
             id: doc.id,
-            imagenPortadaURL: doc.data().imagenPortadaURL,
+            imagenPortadaURL: doc.data().imagenPortadaUrl, 
             titulo: doc.data().titulo,
             autor: doc.data().autor,
             descripcion: doc.data().descripcion,
@@ -85,6 +88,14 @@ const AudiolibroRegistrado = () => {
         }
     };
 
+    const handleEditAudiobook = (id) => {
+        const selectedAudiobook = audiolibros.find(libro => libro.id === id);
+        
+        if (selectedAudiobook) {
+            navigate('/Audiolibros/editar', { state: { audiobook: selectedAudiobook } });
+        }
+    };
+
     return (
         <div className="pagina-inicio">
             <Navbar />
@@ -116,6 +127,7 @@ const AudiolibroRegistrado = () => {
                                 autor={libro.autor}
                                 descripcion={libro.descripcion}
                                 duracion={libro.duracion}
+                                onEdit={() => handleEditAudiobook(libro.id)} 
                                 onDelete={() => openConfirmModal(libro)} 
                             />
                         ))}

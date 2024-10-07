@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom'; // Agregar useNavigate
+import { useLocation, useNavigate } from 'react-router-dom';
 import { updateAudiobook } from '../../Services/AudiolibrosServicios/UpdateAudiobook';
 import '../../estilos/Audiolibros/FormularioEditar/Formulario.css';
-import EditMediaDrop from '../../components/Dropzone/EditMediaDrop'; // Ruta correcta
+import EditMediaDrop from '../../components/Dropzone/EditMediaDrop';
 
 const AudiobookEdit = () => {
     const location = useLocation();
-    const navigate = useNavigate(); // Inicializar useNavigate
-    const { audiobook } = location.state || {}; // Extraer los datos del audiolibro de la ubicación
+    const navigate = useNavigate();
+    const { audiobook } = location.state || {};
 
     const [titulo, setTitulo] = useState('');
     const [autor, setAutor] = useState('');
@@ -16,21 +16,20 @@ const AudiobookEdit = () => {
     const [imagenUrl, setImagenUrl] = useState('');
     const [audioUrl, setAudioUrl] = useState('');
 
-    // Cargar los datos del audiolibro cuando estén disponibles
     useEffect(() => {
         if (audiobook) {
-            setTitulo(audiobook._title || '');
-            setAutor(audiobook._author || '');
-            setCategoria(audiobook._category || '');
-            setDescripcion(audiobook._description || '');
-            setImagenUrl(audiobook._imagenPortadaUrl || '');
-            setAudioUrl(audiobook._archivoUrl || '');
+            setTitulo(audiobook.titulo || '');
+            setAutor(audiobook.autor || '');
+            setCategoria(audiobook.categoria || '');
+            setDescripcion(audiobook.descripcion || '');
+            setImagenUrl(audiobook.imagenPortadaUrl || '');
+            setAudioUrl(audiobook.archivoUrl || '');
         }
     }, [audiobook]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-    
+
         const updatedData = {
             title: titulo,
             author: autor,
@@ -39,28 +38,18 @@ const AudiobookEdit = () => {
             imagenPortadaUrl: imagenUrl,
             archivoUrl: audioUrl,
         };
-    
-        // Imprimir en consola los datos que se van a actualizar
-        console.log('Datos a actualizar:', updatedData);
-    
+
         try {
-            // Llamar a la función para actualizar el audiolibro
-            await updateAudiobook(audiobook._id, updatedData); // Actualizar audiolibro
-            console.log('Audiolibro actualizado correctamente');
-    
-            // Redirigir a la página deseada después de la actualización
-            navigate('/Audiolibros/registrados'); // Cambia '/ruta-deseada' por la ruta a la que quieres redirigir
+            await updateAudiobook(audiobook.id, updatedData); 
+            navigate('/Audiolibros/registrados'); 
         } catch (error) {
             console.error('Error al actualizar el audiolibro: ', error);
-            // Manejo del error, como mostrar un mensaje de error al usuario
         }
     };
-    
 
     return (
         <div className="audiobook-edit-page">
             <h1>Editar Audiolibro</h1>
-            <h1>{imagenUrl}</h1>
             <form onSubmit={handleSubmit} className="form-container">
                 <label htmlFor="titulo">Título:</label>
                 <input
@@ -91,7 +80,6 @@ const AudiobookEdit = () => {
                     <option value="ansiedad">Ansiedad</option>
                     <option value="depresion">Depresión</option>
                     <option value="inteligencia_emocional">Inteligencia Emocional</option>
-                    {/* Añadir más opciones según tus necesidades */}
                 </select>
 
                 <label htmlFor="descripcion">Descripción:</label>
@@ -102,12 +90,11 @@ const AudiobookEdit = () => {
                     onChange={(e) => setDescripcion(e.target.value)}
                 />
 
-                {/* Componente para editar la imagen y el audio */}
                 <EditMediaDrop
-                    initialImageUrl={imagenUrl}  // Corregido aquí
-                    initialAudioUrl={audioUrl}   // Aquí está correcto
-                    onImageChange={setImagenUrl}  // Actualiza la URL de la imagen
-                    onAudioChange={setAudioUrl}   // Actualiza la URL del audio
+                    initialImageUrl={imagenUrl}
+                    initialAudioUrl={audioUrl}
+                    onImageChange={setImagenUrl}
+                    onAudioChange={setAudioUrl}
                 />
 
                 <div className="form-buttons">

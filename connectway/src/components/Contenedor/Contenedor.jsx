@@ -4,12 +4,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css'; 
 
-const Contenedor = ({ imgPortada, titulo, autor, descripcion, duracion, onEdit, onDelete }) => {
+const Contenedor = ({ imgPortada, titulo, autor, descripcion, duracion, id, onEdit, onDelete }) => {
     const navigate = useNavigate(); 
 
     const handleEdit = () => {
-        navigate('/Audiolibros/editar'); 
+        if (onEdit) {
+            onEdit(id); 
+        } else {
+            navigate('/Audiolibros/editar'); 
+        }
     };
+
     return (
         <div className="contenedor card mb-4">
             <img src={imgPortada} className="card-img-top img-portada" alt="Portada" />
