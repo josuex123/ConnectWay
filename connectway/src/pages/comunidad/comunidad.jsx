@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../estilos/comunidad/Comunidad.css'
+import '../../estilos/comunidad/comunidad.css'
 import NoContentPage from '../noContent/noContentPage'
 
 const Audiolibros = () => {

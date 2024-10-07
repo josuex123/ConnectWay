@@ -1,11 +1,12 @@
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
-import {app} from '../../firebaseConfig';
+import { app } from '../../firebaseConfig';
 import { Audiobook } from './Audiolibro';
+
 const db = getFirestore(app);
 
 export const getAudiobookId = async (id) => {
     try {
-        const docRef = doc(db, 'Audiolibro', id);
+        const docRef = doc(db, 'Audiolibro', id); // Verifica el nombre de la colección
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
@@ -27,6 +28,6 @@ export const getAudiobookId = async (id) => {
         }
     } catch (error) {
         console.error('Error fetching audiobook by ID: ', error);
-        throw error;
+        throw error; // Puedes lanzar el error para manejarlo en otro lugar
     }
 };

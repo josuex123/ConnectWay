@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../estilos/perfil/Perfil.css'
+import '../../estilos/perfil/perfil.css'
 import NoContentPage from '../noContent/noContentPage'
 //import MainImage from './MainImage';
 

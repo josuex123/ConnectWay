@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../estilos/miActividad/MiActividad.css'
+import '../../estilos/miActividad/miActividad.css'
 import NoContentPage from '../noContent/noContentPage'
 //import MainImage from './MainImage';
 
