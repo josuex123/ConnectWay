@@ -134,7 +134,7 @@ function Formulario() {
             <label htmlFor="autor">Autor:</label>
               <div
                 className="tooltip-container"
-                onMouseEnter={() => setShowTooltip(autor === "")}
+                 onMouseEnter={() => setShowTooltip(autor === "")}
                 onMouseLeave={() => setShowTooltip(false)}
               >
                 <input
@@ -157,6 +157,7 @@ function Formulario() {
         <div className="row mb-3">
           <div className="col-md-6">
             <label htmlFor="categoria">Categoría:</label>
+            
             <select
               id="categoria"
               className="form-select"
@@ -169,6 +170,7 @@ function Formulario() {
               <option value="salud_mental">Salud mental en la Universidad</option>
               <option value="psicologia_parejas">Psicología de parejas</option>
             </select>
+            
           </div>
         </div>
 

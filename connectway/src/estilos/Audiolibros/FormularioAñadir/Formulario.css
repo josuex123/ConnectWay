@@ -1,11 +1,10 @@
-/* Estilos generales del formulario */
 .form-container {
-  background-color: #f8f9fa;
+  background-color: #9EE493;
   padding: 20px;
-  border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   max-width: 700px;
   margin: 0 auto;
+  border: 2px solid #0a1044;
 }
 
 .title {
@@ -21,11 +20,10 @@
   margin-bottom: 15px;
 }
 
-/* Estilos específicos de las dropzones */
 .file-upload-container {
   display: flex;
   justify-content: space-between;
-  gap: 20px; /* Espacio entre los dos dropzones */
+  gap: 20px; 
 }
 
 .dropzone-container {
@@ -108,9 +106,8 @@
   background-color: #c82333;
 }
 
-/* Estilos para los botones del formulario */
 button[type="submit"] {
-  background-color: #28a745;
+  background-color: #0a1044;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -124,7 +121,7 @@ button[type="submit"]:hover {
 }
 
 button[type="button"] {
-  background-color: #6c757d;
+  background-color: #0a1044;
   color: white;
   padding: 10px 20px;
   border: none;

@@ -5,7 +5,6 @@ import NoContentPage from '../../pages/noContent/noContentPage'
 const Audiolibros = () => {
     return (
         <div className="pagina-inicio">
-            
             <div className="content">
             <NoContentPage/>
             </div>

@@ -49,7 +49,7 @@ const AudiobookEdit = () => {
 
     return (
         <div className="audiobook-edit-page">
-            <h1>Editar Audiolibro</h1>
+            <h1>Editar Aiolibro</h1>
             <form onSubmit={handleSubmit} className="form-container">
                 <label htmlFor="titulo">Título:</label>
                 <input
