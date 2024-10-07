@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'; // Importar desde Firebase Storage
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { updateAudiobook } from '../../Services/AudiolibrosServicios/UpdateAudiobook';
 import '../../estilos/Audiolibros/FormularioEditar/Formulario.css';
-import EditMediaDrop from '../../components/Dropzone/EditMediaDrop';
+import EditMediaDrop from '../../components/Dropzone/EditMediaDrop'; // Componente para manejar imágenes y audio
 import ModalNotificacion from '../../components/Modal/ModalNotificacion';
 import ModalConfirmacion from '../../components/Modal/ModalConfirmacion';
 
@@ -16,8 +16,8 @@ const AudiobookEdit = () => {
     const [autor, setAutor] = useState('');
     const [categoria, setCategoria] = useState('');
     const [descripcion, setDescripcion] = useState('');
-    const [imagenUrl, setImagenUrl] = useState('');
-    const [audioUrl, setAudioUrl] = useState('');
+    const [imagenUrl, setImagenUrl] = useState(''); // Campo para imagen
+    const [audioUrl, setAudioUrl] = useState('');   // Campo para el audio
 
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
     const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
@@ -26,23 +26,23 @@ const AudiobookEdit = () => {
 
     const storage = getStorage();
 
+    // Cargamos los valores del audiolibro cuando el componente se monta
     useEffect(() => {
         if (audiobook) {
             setTitulo(audiobook.titulo || '');
             setAutor(audiobook.autor || '');
             setCategoria(audiobook.categoria || '');
             setDescripcion(audiobook.descripcion || '');
-            setImagenUrl(audiobook.imagenPortadaUrl || '');
-            setAudioUrl(audiobook.archivoUrl || '');
+            setImagenUrl(audiobook.imagenPortadaURL || ''); // Cargar imagen existente
+            setAudioUrl(audiobook.archivoAudioURL || '');   // Cargar archivo de audio existente
         }
     }, [audiobook]);
 
+    // Función para subir la imagen a Firebase Storage
     const uploadImageToStorage = async (file) => {
         if (!file) return null;
-
         const storageRef = ref(storage, `Portadas/${file.name}`);
         const uploadTask = uploadBytesResumable(storageRef, file);
-
         return new Promise((resolve, reject) => {
             uploadTask.on(
                 'state_changed',
@@ -51,7 +51,35 @@ const AudiobookEdit = () => {
                     console.log(`Upload is ${progress}% done`);
                 },
                 (error) => {
-                    console.error('Error subiendo archivo:', error);
+                    console.error('Error subiendo imagen:', error);
+                    reject(error);
+                },
+                async () => {
+                    try {
+                        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                        resolve(downloadURL);
+                    } catch (error) {
+                        reject(error);
+                    }
+                }
+            );
+        });
+    };
+
+    // Función para subir el archivo de audio a Firebase Storage
+    const uploadAudioToStorage = async (file) => {
+        if (!file) return null;
+        const storageRef = ref(storage, `Audios/${file.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+        return new Promise((resolve, reject) => {
+            uploadTask.on(
+                'state_changed',
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log(`Upload is ${progress}% done`);
+                },
+                (error) => {
+                    console.error('Error subiendo archivo de audio:', error);
                     reject(error);
                 },
                 async () => {
@@ -68,9 +96,15 @@ const AudiobookEdit = () => {
 
     const handleSubmit = async () => {
         let imageUrlToSave = imagenUrl;
+        let audioUrlToSave = audioUrl;
 
+        // Si es un archivo nuevo, lo subimos
         if (typeof imagenUrl === 'object') {
             imageUrlToSave = await uploadImageToStorage(imagenUrl);
+        }
+
+        if (typeof audioUrl === 'object') {
+            audioUrlToSave = await uploadAudioToStorage(audioUrl);
         }
 
         const updatedData = {
@@ -79,7 +113,7 @@ const AudiobookEdit = () => {
             categoria,
             descripcion,
             imagenPortadaURL: imageUrlToSave,
-            archivoAudioURL: audioUrl,
+            archivoAudioURL: audioUrlToSave, // Guardamos la nueva URL o la URL existente del audio
         };
 
         try {
@@ -154,10 +188,10 @@ const AudiobookEdit = () => {
                 />
 
                 <EditMediaDrop
-                    initialImageUrl={imagenUrl}
-                    initialAudioUrl={audioUrl}
-                    onImageChange={setImagenUrl}
-                    onAudioChange={setAudioUrl}
+                    initialImageUrl={imagenUrl}   // Mostrar la imagen actual o subir una nueva
+                    initialAudioUrl={audioUrl}    // Mostrar el audio actual o subir uno nuevo
+                    onImageChange={setImagenUrl}  // Callback para cuando cambie la imagen
+                    onAudioChange={setAudioUrl}   // Callback para cuando cambie el audio
                 />
 
                 <div className="form-buttons">
