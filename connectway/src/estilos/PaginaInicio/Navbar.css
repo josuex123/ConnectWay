@@ -1,63 +1,144 @@
+/* General styles for the navbar */
 .navbar {
+    background-color: #9EE493;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+  
+.nav-container {
     display: flex;
     justify-content: space-between;
-    background-color: #9EE493;
-    padding: 10px;
-    color: white;
+    align-items: center;
+    width: 100%;
+    height: 80px;
+    max-width: 1500px;
 }
-
-.logo {
+  
+.nav-logo {
     font-size: 24px;
     font-weight: bold;
     color: #0A1044;
+    margin-left: 20px;
+    text-decoration: none;
 }
-
-.nav-links {
+  
+.nav-menu {
     display: flex;
     list-style: none;
-    gap: 15px;
+    text-align: center;
+    margin-right: 2rem;
 }
-
-.nav-links a {
+  
+.nav-item {
+    margin-right: 1rem;
+}
+  
+.nav-links {
     color: #0A1044;
-    /*font-weight: bold;*/
     text-decoration: none;
-    transition: background-color 0.3s, color 0.3s; /* transición épica*/
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s, color 0.3s;
 }
-
-.nav-links a:hover {
-    background-color: #0A1044; 
-    color: white; 
-    padding: 5px 10px; 
-    border-radius: 5px; 
+  
+.nav-links:hover {
+    background-color: #0A1044;
+    color: white;
+    border-radius: 5px;
 }
-
-.dropdown {
-    position: relative;
-}
-
+  
+/* Dropdown specific styles */
 .dropdown-content {
     display: none;
     position: absolute;
     background-color: #0A1044;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1;
 }
-
+  
 .dropdown:hover .dropdown-content {
     display: block;
 }
-
-.dropdown-content a {
+  
+.dropdown-link {
     padding: 10px;
     display: block;
     text-decoration: none;
     color: white;
-    background-color: #0A1044;
-    transition: background-color 0.3s, color 0.3s; 
+    transition: background-color 0.3s, color 0.3s;
 }
+  
+.dropdown-link:hover {
+    background-color: #9EE493;
+    color: #0A1044;
+}
+  
+/* Hamburger menu icon styles */
+.nav-icon {
+    display: none;
+    cursor: pointer;
+}
+  
+.hamburger-open,
+.hamburger-close {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    background-color: #0A1044;
+}
+  
+/* Responsive styles */
+@media screen and (max-width: 960px) {
+    .nav-menu {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 80px;
+        left: -110%;
+        opacity: 1;
+        transition: all 0.5s ease;
+        background: #9EE493;
+    }
 
-.dropdown-content a:hover {
-    background-color: #9EE493; 
-    color: #0A1044; 
+    .nav-menu.active {
+        left: 0;
+        opacity: 1;
+    }
+
+    /* Adjust spacing for mobile dropdown */
+    .nav-links {
+        padding: 1.5rem;
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-item {
+        margin-bottom: 1rem;
+    }
+
+    /* Position dropdowns directly under their parent link */
+    .dropdown-content {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    .dropdown-link {
+        padding: 1rem 0;
+    }
+
+    .nav-icon {
+        display: block;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translate(-100%, -50%);
+    }
 }
