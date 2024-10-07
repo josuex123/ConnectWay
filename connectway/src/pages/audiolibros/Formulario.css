@@ -1,0 +1,85 @@
+/* Título principal */
+.title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #000;
+  }
+  
+  /* Contenedor del formulario */
+  .form-container {
+    max-width: 50%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  /* Ajuste de ancho para campos más pequeños */
+  input, select {
+    width: 50%; /* Ancho reducido */
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  textarea {
+    width: 100%; /* Mantener el textarea con ancho completo */
+    height: 100px;
+    padding: 2px;
+    margin-right: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  /* Estilo para los campos de subir archivos */
+  .upload-field {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px dashed #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* Estilos para mantener los campos de subir imagen y audiolibro a la misma altura */
+  .file-upload-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .file-upload-field {
+    width: 48%; /* Ajustar el ancho para que los campos queden alineados */
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+  }
+  
+  button[type="button"] {
+    background-color: #6c757d;
+  }
+  
+  button:hover {
+    opacity: 0.9;
+  }
+  
