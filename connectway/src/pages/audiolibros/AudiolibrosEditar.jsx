@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from '../../components/PaginaInicio/Navbar';
 import '../../estilos/Audiolibros/AudiolibrosAñadir.css'
-import Formulario from '../../components/FormularioAñadir/Formulario';
+import Formulario from './FormularioEditar';
 //import MainImage from './MainImage';
 
 const AudiolibrosAñadir = () => {
@@ -10,10 +10,9 @@ const AudiolibrosAñadir = () => {
             <Navbar />
             
             <div className="content">
-                 <h3 className="titulo-añadir"> Pagina de añadir audiolibros</h3>
-                <div className="formulario-añadir">
-                    <Formulario/>
-                </div>
+                 <h3 className="titulo-añadir"> Editar audiolibros</h3>
+                <Formulario/>
+               
                 
             </div>
         </div>

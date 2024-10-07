@@ -1,0 +1,23 @@
+
+.titulo-aud-reg {
+    text-align: center;
+    margin: 20px 0;
+}
+.contenedor-imagen {
+    width: 100%; 
+    height: auto;
+    max-height: 150px; 
+    object-fit: cover; 
+}
+
+.contenedor {
+    width: 300px; 
+    margin: 0 10px; 
+}
+
+.carousel-item {
+    display: flex;
+    justify-content: center; 
+    padding: 20px; 
+}
+

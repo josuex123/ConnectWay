@@ -1,0 +1,102 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 8px;
+    width: 400px;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.close-button {
+    background: none; 
+    border: none; 
+    font-size: 2rem; 
+    cursor: pointer; 
+    color: black; 
+    margin-left: auto;
+}
+
+.modal-divider {
+    border: none; 
+    height: 4px; 
+    background-color: #333; 
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.icon-container i {
+    font-size: 3rem;
+    color: #0A1044; 
+}
+
+.modal-body p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    margin-top: 20px;
+}
+.modal-footer-noti {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    margin-top: 20px;
+}
+
+.cancel-button {
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 30%; 
+    margin-right: 10px;
+    background-color: transparent; 
+    color: Black;
+    border: 2px solid #0A1044;
+}
+
+.confirm-button {
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 30%; 
+    background-color: #0A1044; 
+    color: white;
+    border: none;
+}
+.title-modal{
+    font-size: 1.2rem;
+    font-weight: bold;
+}
