@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'; // Importar desde Firebase Storage
 import { updateAudiobook } from '../../Services/AudiolibrosServicios/UpdateAudiobook';
 import '../../estilos/Audiolibros/FormularioEditar/Formulario.css';
 import EditMediaDrop from '../../components/Dropzone/EditMediaDrop';
+import ModalNotificacion from '../../components/Modal/ModalNotificacion';
+import ModalConfirmacion from '../../components/Modal/ModalConfirmacion';
 
 const AudiobookEdit = () => {
     const location = useLocation();
@@ -16,6 +19,13 @@ const AudiobookEdit = () => {
     const [imagenUrl, setImagenUrl] = useState('');
     const [audioUrl, setAudioUrl] = useState('');
 
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+    const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
+    const [notificationType, setNotificationType] = useState('success');
+    const [notificationMessage, setNotificationMessage] = useState('');
+
+    const storage = getStorage();
+
     useEffect(() => {
         if (audiobook) {
             setTitulo(audiobook.titulo || '');
@@ -27,30 +37,83 @@ const AudiobookEdit = () => {
         }
     }, [audiobook]);
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    const uploadImageToStorage = async (file) => {
+        if (!file) return null;
+
+        const storageRef = ref(storage, `Portadas/${file.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        return new Promise((resolve, reject) => {
+            uploadTask.on(
+                'state_changed',
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log(`Upload is ${progress}% done`);
+                },
+                (error) => {
+                    console.error('Error subiendo archivo:', error);
+                    reject(error);
+                },
+                async () => {
+                    try {
+                        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                        resolve(downloadURL);
+                    } catch (error) {
+                        reject(error);
+                    }
+                }
+            );
+        });
+    };
+
+    const handleSubmit = async () => {
+        let imageUrlToSave = imagenUrl;
+
+        if (typeof imagenUrl === 'object') {
+            imageUrlToSave = await uploadImageToStorage(imagenUrl);
+        }
 
         const updatedData = {
-            title: titulo,
-            author: autor,
-            category: categoria,
-            description: descripcion,
-            imagenPortadaUrl: imagenUrl,
-            archivoUrl: audioUrl,
+            titulo,
+            autor,
+            categoria,
+            descripcion,
+            imagenPortadaURL: imageUrlToSave,
+            archivoAudioURL: audioUrl,
         };
 
         try {
-            await updateAudiobook(audiobook.id, updatedData); 
-            navigate('/Audiolibros/registrados'); 
+            await updateAudiobook(audiobook.id, updatedData);
+            showModalNotificacion('success', 'El audiolibro ha sido actualizado exitosamente.');
+            navigate('/Audiolibros/registrados');
         } catch (error) {
             console.error('Error al actualizar el audiolibro: ', error);
+            showModalNotificacion('error', 'Hubo un error al actualizar el audiolibro.');
         }
+    };
+
+    const showModalNotificacion = (type, message) => {
+        setNotificationType(type);
+        setNotificationMessage(message);
+        setIsModalNotificacionOpen(true);
+    };
+
+    const closeModalNotificacion = () => {
+        setIsModalNotificacionOpen(false);
+    };
+
+    const openConfirmModal = () => {
+        setIsConfirmModalOpen(true);
+    };
+
+    const closeConfirmModal = () => {
+        setIsConfirmModalOpen(false);
     };
 
     return (
         <div className="audiobook-edit-page">
             <h1>Editar Audiolibro</h1>
-            <form onSubmit={handleSubmit} className="form-container">
+            <form className="form-container">
                 <label htmlFor="titulo">Título:</label>
                 <input
                     type="text"
@@ -76,10 +139,10 @@ const AudiobookEdit = () => {
                     onChange={(e) => setCategoria(e.target.value)}
                 >
                     <option value="">Elegir categoría</option>
-                    <option value="autoestima">Autoestima</option>
-                    <option value="ansiedad">Ansiedad</option>
-                    <option value="depresion">Depresión</option>
+                    <option value="meditacion">Meditación</option>
                     <option value="inteligencia_emocional">Inteligencia Emocional</option>
+                    <option value="salud_mental">Salud Mental</option>
+                    <option value="psicologia_parejas">Psicología de Parejas</option>
                 </select>
 
                 <label htmlFor="descripcion">Descripción:</label>
@@ -98,10 +161,27 @@ const AudiobookEdit = () => {
                 />
 
                 <div className="form-buttons">
-                    <button type="submit">Guardar cambios</button>
+                    <button type="button" onClick={openConfirmModal}>Guardar cambios</button>
                     <button type="button" onClick={() => window.history.back()}>Cancelar</button>
                 </div>
             </form>
+
+            <ModalNotificacion
+                isOpen={isModalNotificacionOpen}
+                onClose={closeModalNotificacion}
+                type={notificationType}
+                message={notificationMessage}
+                iconClass={notificationType === 'success' ? 'fa fa-check' : 'fa fa-exclamation'}
+            />
+
+            <ModalConfirmacion
+                isOpen={isConfirmModalOpen}
+                onClose={closeConfirmModal}
+                onConfirm={handleSubmit}
+                title="Confirmar"
+                description="¿Estás seguro de que deseas guardar los cambios?"
+                iconClass="fa fa-save"
+            />
         </div>
     );
 };
