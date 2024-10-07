@@ -1,11 +1,10 @@
 BEENET 🐝🐝🐝🐝
 ## Herramientas necesarias:<br>
 -> Es necesario tener instalado node.js
--> En el frontend, para dropzones: npm install react-dropzone @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons
 
 ## arranque-frontend:
 Pasos a seguir:
-1. En una ruta cualquiera, asegúrate de tener Git instalado y abre la terminal para clonar:
+1. En una ruta cualquiera, clona el repositorio:
  -> git clone https://github.com/josuex123/ConnectWay.git
 2. La carpeta se llamará "ConnectWay", abre esta carpeta en Visual Studio
 3. Una vez abierta la carpeta en Visual Studio, presiona [ctrl +ñ] para abrir la terminal
