@@ -31,7 +31,7 @@ const AudiolibroRegistrado = () => {
         const audiolibrosSnapshot = await getDocs(audiolibrosCollection);
         const audiolibrosList = audiolibrosSnapshot.docs.map(doc => ({
             id: doc.id,
-            imagenPortadaURL: doc.data().imagenPortadaUrl, 
+            imagenPortadaURL: doc.data().imagenPortadaURL, 
             titulo: doc.data().titulo,
             autor: doc.data().autor,
             descripcion: doc.data().descripcion,
