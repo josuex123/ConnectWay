@@ -115,3 +115,21 @@ button:hover {
     flex-direction: column;
     align-items: center;
 }
+.dropzone {
+  width: 100%; /* Ocupa todo el ancho disponible */
+  height: 250px; /* Altura fija */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border: 2px dashed #6c757d;
+  border-radius: 8px;
+  background-color: #e9ecef;
+  color: #6c757d;
+  text-align: center;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.dropzone:hover {
+  background-color: #f1f3f5;
+}

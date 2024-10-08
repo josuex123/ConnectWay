@@ -19,6 +19,7 @@
 }
 
 .titulo {
+  font-family: sans-serif;
   font-size: 1.1rem;
   line-height: 1.3rem;
   min-height: 2.8rem; 
@@ -32,7 +33,8 @@
 
 .descripcion {
   font-size: 0.9rem;
-  color: #555;
+  font-family: sans-serif;
+  color: black;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -42,6 +44,7 @@
 }
 
 .autor, .descripcion, .duracion {
+  font-family: sans-serif;
   text-align: left;
 }
 
@@ -52,9 +55,11 @@
 .duracion {
   margin-top: 10px;
   font-size: 0.9rem;
-  color: #555;
+  color: black;
 }
-
+.boton-editar{
+  color: black;
+}
 .boton-editar, .boton-eliminar {
   width: 100px;
 }

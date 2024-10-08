@@ -4,12 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faMusic, faExclamationCircle, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import ModalNotificacion from '../../components/Modal/ModalNotificacion';
-import { collection, addDoc } from 'firebase/firestore';
-import { db , storage} from '../../firebaseConfig'; 
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../estilos/Audiolibros/FormularioAñadir/Formulario.css';
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { app } from '../../firebaseConfig';
 
 function Formulario() {
   const [titulo, setTitulo] = useState('');
@@ -29,7 +29,8 @@ function Formulario() {
   const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
   const [notificationType, setNotificationType] = useState('success'); 
   const [notificationMessage, setNotificationMessage] = useState('');
-
+  const storage = getStorage(app);
+  const db = getFirestore(app);
 
   const showModalNotificacion = (type, message) => { 
     setNotificationType(type);
@@ -42,64 +43,60 @@ function Formulario() {
   };
 
   const handleCancel = () => {
-    setTitulo('');
-    setAutor('');
-    setCategoria('');
-    setDescripcion('');
-    setImageFiles([]);
-    setAudioFiles([]);
-    setError('');
     window.location.href = "/";
   };
-  const uploadFileToStorage = async (file) => {
-    const storageRef = ref(storage, `uploads/${file.name}`);
-    await uploadBytes(storageRef, file);
-    const fileURL = await getDownloadURL(storageRef);
-    return fileURL;
-};
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+  
     if (!titulo || !autor || !categoria || !descripcion) {
-        setError('Por favor, rellena todos los campos antes de enviar el formulario.');
-        return;
+      setError('Por favor, rellena todos los campos antes de enviar el formulario.');
+      return;
     }
-
+  
     if (!textRegex.test(titulo) || !textRegex.test(autor)) {
-        setError('El título y el autor solo pueden contener letras y signos de puntuación comunes.');
-        return;
+      setError('El título y el autor solo pueden contener letras y signos de puntuación comunes.');
+      return;
     }
-
+  
     if (audioFiles.length === 0 || imageFiles.length === 0) {
-        setError('No deje vacio los campos para subir archivos');
-        return;
+      setError('No dejes vacío los campos para subir archivos.');
+      return;
     }
-
+  
     setError('');
-
+  
     try {
-        const imageUrl = await uploadFileToStorage(imageFiles[0]);
-        const audioUrl = await uploadFileToStorage(audioFiles[0]);
-
-        const audiolibroData = {
-            titulo,
-            autor,
-            categoria,
-            descripcion,
-            duracion: audioFiles[0].duration, // Asegúrate de tener esta propiedad
-            imagenPortadaURL: imageUrl,
-            archivoAudioURL: audioUrl,
-            creadoEn: new Date(),
-            actualizadoEn: new Date(),
-        };
-
-        const docRef = await addDoc(collection(db, 'audiolibros'), audiolibroData);
-        console.log("Audiolibro agregado con ID: ", docRef.id);
-        showModalNotificacion('success', 'Audiolibro agregado exitosamente!');
+      // Subir la imagen al Storage
+      const imageFile = imageFiles[0];
+      const imageRef = ref(storage, `Portadas/${imageFile.name}`);
+      await uploadBytes(imageRef, imageFile);
+      const imageUrl = await getDownloadURL(imageRef);
+  
+      // Subir el audio al Storage
+      const audioFile = audioFiles[0];
+      const audioRef = ref(storage, `Audios/${audioFile.name}`);
+      await uploadBytes(audioRef, audioFile);
+      const audioUrl = await getDownloadURL(audioRef);
+  
+      // Guardar en Firestore
+      const audiolibroDoc = {
+        titulo,
+        autor,
+        categoria,
+        descripcion,
+        imagenPortadaURL: imageUrl,
+        archivoAudioURL: audioUrl
+      };
+  
+      await addDoc(collection(db, "Audiolibro"), audiolibroDoc);
+  
+      showModalNotificacion('success', 'Audiolibro subido correctamente');
     } catch (error) {
-        console.error("Error al agregar audiolibro: ", error);
-        showModalNotificacion('error', 'Error al agregar el audiolibro. Intente de nuevo.');
+      setError('Error al subir el audiolibro, por favor intenta nuevamente.');
+      showModalNotificacion('error', 'Hubo un problema al subir el audiolibro.');
     }
-};
+  };
 
   const closeModal = () => setShowModal(false);
 
@@ -336,19 +333,14 @@ function Formulario() {
             </div>
           </div>
         </div>
-
-        <div className="d-flex justify-content-between mt-3">
+        <div className='form-buttons'>
+        
           <button type="button" 
-                  className="btn btn-secondary" 
-                  onClick={handleCancel}>
-            Cancelar
-          </button>
+                  onClick={handleCancel}> Cancelar</button>
           <button type="submit" 
-                  className="btn btn-primary"
-                  >
-            Subir Audiolibro
-          </button>
+                > Subir </button>
         </div>
+        
       </form>
 
       <Modal show={showModal} onHide={closeModal} centered>
