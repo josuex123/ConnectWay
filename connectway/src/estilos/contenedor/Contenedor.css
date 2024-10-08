@@ -1,59 +1,69 @@
 .contenedor {
-    max-width: 300px;
-    min-height: 400px;
-    margin: auto;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; 
+  max-width: 300px;
+  min-height: 400px;
+  margin: auto;
+  border: 1px solid #ccc;
+  background-color: #9EE493;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden; 
 }
- 
-  
+
 .img-portada {
-    height: 150px;
-    width: 100%;
-    object-fit: cover;
-    padding: 5% ;
+  height: 150px;
+  width: 100%;
+  object-fit: cover;
+  padding: 5%;
 }
-  .descripcion {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3; /* Limita el número de líneas */
-    -webkit-box-orient: vertical;
+
+.titulo {
+  font-family: sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.3rem;
+  min-height: 2.8rem; 
+  max-height: 2.8rem; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
-  .titulo, .autor, .descripcion, .duracion {
-    text-align: left;
-  }
-  .icono-editar, .icono-eliminar {
-    margin-right: 20%;
-  }
- 
-  
-  .titulo {
-    font-size: 1.1rem; /* Ajusta el tamaño de la fuente */
-    line-height: 1.3rem; /* Controla el espaciado entre líneas */
-    max-height: 2.6rem; /* Forza el tamaño máximo del título */
-    overflow: hidden;
-    text-overflow: ellipsis;
+
+.descripcion {
+  font-size: 0.9rem;
+  font-family: sans-serif;
+  color: black;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; 
+  -webkit-box-orient: vertical;
+  min-height: 4rem;
 }
-  
-  .autor, .descripcion, .duracion {
-    font-size: 0.9rem;
-    color: #555;
-  }
-  
-  .duracion {
-    margin-top: 10px;
-  }
-  
-  .boton-editar, .boton-eliminar {
-    width: 100px;
-  }
-  
-  .boton-editar i, .boton-eliminar i {
-    margin-right: 5px;
-  }
-  
-  
+
+.autor, .descripcion, .duracion {
+  font-family: sans-serif;
+  text-align: left;
+}
+
+.icono-editar, .icono-eliminar {
+  margin-right: 20%;
+}
+
+.duracion {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: black;
+}
+.boton-editar{
+  color: black;
+}
+.boton-editar, .boton-eliminar {
+  width: 100px;
+}
+
+.boton-editar i, .boton-eliminar i {
+  margin-right: 5px;
+}

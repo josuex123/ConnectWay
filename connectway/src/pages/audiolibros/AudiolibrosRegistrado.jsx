@@ -36,6 +36,7 @@ const AudiolibroRegistrado = () => {
             autor: doc.data().autor,
             descripcion: doc.data().descripcion,
             duracion: doc.data().duracion,
+            archivoAudioURL: doc.data().archivoAudioURL
         }));
         setAudiolibros(audiolibrosList);
     };
@@ -101,7 +102,7 @@ const AudiolibroRegistrado = () => {
             <Navbar />
             <div className="content">
                 <div>
-                    <h1 className='titulo-aud-reg'>Audiolibros registrados</h1>
+                    <h1 className='titulo-aud-reg'>AUDIOLIBROS REGISTRADOS</h1>
                 </div>
                 <div className="d-flex justify-content-between align-items-center">
                     <button

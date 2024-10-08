@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'; // Importar desde Firebase Storage
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { updateAudiobook } from '../../Services/AudiolibrosServicios/UpdateAudiobook';
-import '../../estilos/Audiolibros/FormularioEditar/Formulario.css';
-import EditMediaDrop from '../../components/Dropzone/EditMediaDrop';
+import '../../estilos/Audiolibros/FormularioAñadir/Formulario.css';
+import EditMediaDrop from '../../components/Dropzone/EditMediaDrop'; 
 import ModalNotificacion from '../../components/Modal/ModalNotificacion';
 import ModalConfirmacion from '../../components/Modal/ModalConfirmacion';
 
@@ -16,8 +16,8 @@ const AudiobookEdit = () => {
     const [autor, setAutor] = useState('');
     const [categoria, setCategoria] = useState('');
     const [descripcion, setDescripcion] = useState('');
-    const [imagenUrl, setImagenUrl] = useState('');
-    const [audioUrl, setAudioUrl] = useState('');
+    const [imagenUrl, setImagenUrl] = useState(''); // Campo para imagen
+    const [audioUrl, setAudioUrl] = useState('');   // Campo para el audio
 
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
     const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
@@ -26,23 +26,23 @@ const AudiobookEdit = () => {
 
     const storage = getStorage();
 
+    // Cargamos los valores del audiolibro cuando el componente se monta
     useEffect(() => {
         if (audiobook) {
             setTitulo(audiobook.titulo || '');
             setAutor(audiobook.autor || '');
             setCategoria(audiobook.categoria || '');
             setDescripcion(audiobook.descripcion || '');
-            setImagenUrl(audiobook.imagenPortadaUrl || '');
-            setAudioUrl(audiobook.archivoUrl || '');
+            setImagenUrl(audiobook.imagenPortadaURL || ''); 
+            setAudioUrl(audiobook.archivoAudioURL || '');   
         }
     }, [audiobook]);
 
+    // Función para subir la imagen a Firebase Storage
     const uploadImageToStorage = async (file) => {
         if (!file) return null;
-
         const storageRef = ref(storage, `Portadas/${file.name}`);
         const uploadTask = uploadBytesResumable(storageRef, file);
-
         return new Promise((resolve, reject) => {
             uploadTask.on(
                 'state_changed',
@@ -51,7 +51,35 @@ const AudiobookEdit = () => {
                     console.log(`Upload is ${progress}% done`);
                 },
                 (error) => {
-                    console.error('Error subiendo archivo:', error);
+                    console.error('Error subiendo imagen:', error);
+                    reject(error);
+                },
+                async () => {
+                    try {
+                        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                        resolve(downloadURL);
+                    } catch (error) {
+                        reject(error);
+                    }
+                }
+            );
+        });
+    };
+
+    // Función para subir el archivo de audio a Firebase Storage
+    const uploadAudioToStorage = async (file) => {
+        if (!file) return null;
+        const storageRef = ref(storage, `Audios/${file.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+        return new Promise((resolve, reject) => {
+            uploadTask.on(
+                'state_changed',
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log(`Upload is ${progress}% done`);
+                },
+                (error) => {
+                    console.error('Error subiendo archivo de audio:', error);
                     reject(error);
                 },
                 async () => {
@@ -68,9 +96,15 @@ const AudiobookEdit = () => {
 
     const handleSubmit = async () => {
         let imageUrlToSave = imagenUrl;
+        let audioUrlToSave = audioUrl;
 
+        // Si es un archivo nuevo, lo subimos
         if (typeof imagenUrl === 'object') {
             imageUrlToSave = await uploadImageToStorage(imagenUrl);
+        }
+
+        if (typeof audioUrl === 'object') {
+            audioUrlToSave = await uploadAudioToStorage(audioUrl);
         }
 
         const updatedData = {
@@ -79,7 +113,7 @@ const AudiobookEdit = () => {
             categoria,
             descripcion,
             imagenPortadaURL: imageUrlToSave,
-            archivoAudioURL: audioUrl,
+            archivoAudioURL: audioUrlToSave, // Guardamos la nueva URL o la URL existente del audio
         };
 
         try {
@@ -111,58 +145,82 @@ const AudiobookEdit = () => {
     };
 
     return (
-        <div className="audiobook-edit-page">
-            <h1>Editar Audiolibro</h1>
+        <>
+            <h1 className="title">Editar Audiolibro</h1>
             <form className="form-container">
-                <label htmlFor="titulo">Título:</label>
-                <input
-                    type="text"
-                    id="titulo"
-                    placeholder="Título"
-                    value={titulo}
-                    onChange={(e) => setTitulo(e.target.value)}
-                />
+                <div className="form-group-horizontal mb-3">
+                    <label htmlFor="titulo">Título:</label>
+                    <div className="tooltip-container">
+                        <input
+                            type="text"
+                            className='form-control'
+                            id="titulo"
+                            placeholder="Título"
+                            value={titulo}
+                            onChange={(e) => setTitulo(e.target.value)}
+                        />
+                    </div>
+                </div>
 
-                <label htmlFor="autor">Autor:</label>
-                <input
-                    type="text"
-                    id="autor"
-                    placeholder="Autor"
-                    value={autor}
-                    onChange={(e) => setAutor(e.target.value)}
-                />
+                <div className="form-group-horizontal mb-3">
+                    <label htmlFor="autor">Autor:</label>
+                    <div className="tooltip-container">
+                        <input
+                            type="text"
+                            className='form-control'
+                            id="autor"
+                            placeholder="Autor"
+                            value={autor}
+                            onChange={(e) => setAutor(e.target.value)}
+                        />
+                    </div>
+                </div>
 
-                <label htmlFor="categoria">Categoría:</label>
-                <select
-                    id="categoria"
-                    value={categoria}
-                    onChange={(e) => setCategoria(e.target.value)}
-                >
-                    <option value="">Elegir categoría</option>
-                    <option value="meditacion">Meditación</option>
-                    <option value="inteligencia_emocional">Inteligencia Emocional</option>
-                    <option value="salud_mental">Salud Mental</option>
-                    <option value="psicologia_parejas">Psicología de Parejas</option>
-                </select>
+                <div className="form-group-horizontal mb-3">
+                    <label htmlFor="categoria">Categoría:</label>
+                    <div className="tooltip-container">
+                        <select
+                            id="categoria"
+                            className='form-select'
+                            value={categoria}
+                            onChange={(e) => setCategoria(e.target.value)}
+                        >
+                            <option value="">Elegir categoría</option>
+                            <option value="meditacion">Meditación</option>
+                            <option value="inteligencia_emocional">Inteligencia Emocional</option>
+                            <option value="salud_mental">Salud Mental</option>
+                            <option value="psicologia_parejas">Psicología de Parejas</option>
+                        </select>
+                    </div>
+                </div>
 
-                <label htmlFor="descripcion">Descripción:</label>
-                <textarea
-                    id="descripcion"
-                    placeholder="Descripción"
-                    value={descripcion}
-                    onChange={(e) => setDescripcion(e.target.value)}
-                />
+                <div className="form-group mb-3">
+                    <label htmlFor="descripcion">Descripción:</label>
+                    <div className="tooltip-container">
+                        <textarea
+                            id="descripcion"
+                            className='form-control'
+                            placeholder="Descripción"
+                            value={descripcion}
+                            rows="5"
+                            maxLength="500"
+                            onChange={(e) => setDescripcion(e.target.value)}
+                            style={{ resize: 'none' }}
+                        />
+                    </div>
+                </div>
 
                 <EditMediaDrop
-                    initialImageUrl={imagenUrl}
-                    initialAudioUrl={audioUrl}
-                    onImageChange={setImagenUrl}
-                    onAudioChange={setAudioUrl}
+                    initialImageUrl={imagenUrl}   // Mostrar la imagen actual o subir una nueva
+                    initialAudioUrl={audioUrl}    // Mostrar el audio actual o subir uno nuevo
+                    onImageChange={setImagenUrl}  // Callback para cuando cambie la imagen
+                    onAudioChange={setAudioUrl}   // Callback para cuando cambie el audio
                 />
 
                 <div className="form-buttons">
-                    <button type="button" onClick={openConfirmModal}>Guardar cambios</button>
+                    
                     <button type="button" onClick={() => window.history.back()}>Cancelar</button>
+                    <button type="button" onClick={openConfirmModal}>Guardar</button>
                 </div>
             </form>
 
@@ -182,7 +240,7 @@ const AudiobookEdit = () => {
                 description="¿Estás seguro de que deseas guardar los cambios?"
                 iconClass="fa fa-save"
             />
-        </div>
+        </>
     );
 };
 
