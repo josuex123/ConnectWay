@@ -1,8 +1,8 @@
-import React, { useCallback, useState, useEffect } from 'react'; 
+import React, { useCallback, useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
+import './Drop.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faMusic } from '@fortawesome/free-solid-svg-icons';
-import './Drop.css'; 
 
 function EditMediaDrop({ initialImageUrl, initialAudioUrl, onImageChange, onAudioChange }) {
     const [imageFiles, setImageFiles] = useState([]);
@@ -19,21 +19,12 @@ function EditMediaDrop({ initialImageUrl, initialAudioUrl, onImageChange, onAudi
         setAudioUrl(initialAudioUrl);
     }, [initialImageUrl, initialAudioUrl]);
 
-    // Efecto de limpieza para liberar URLs temporales
-    useEffect(() => {
-        return () => {
-            imageFiles.forEach(file => URL.revokeObjectURL(file.preview));
-        };
-    }, [imageFiles]);
-
     const onDropImage = useCallback((acceptedFiles) => {
         const file = acceptedFiles[0];
-        if (file) {
-            const imagePreviewUrl = URL.createObjectURL(file); 
-            setImageFiles([file]);
-            setImageUrl(imagePreviewUrl); 
-            if (onImageChange) onImageChange(file); 
-        }
+        const imagePreviewUrl = URL.createObjectURL(file);
+        setImageFiles([file]);
+        setImageUrl(imagePreviewUrl); // Actualizar la URL de la imagen
+        if (onImageChange) onImageChange(file); // Pasar el archivo de imagen actualizado
     }, [onImageChange]);
 
     const onDropAudio = useCallback((acceptedFiles) => {
@@ -53,12 +44,24 @@ function EditMediaDrop({ initialImageUrl, initialAudioUrl, onImageChange, onAudi
                 setShowModal(true);
             } else {
                 setAudioFiles([file]);
-                setAudioUrl(URL.createObjectURL(file)); 
+                setAudioUrl(URL.createObjectURL(file)); // Actualizar la URL del audio
                 setAudioError(null);
-                if (onAudioChange) onAudioChange(file); 
+                if (onAudioChange) onAudioChange(file); // Pasar el archivo de audio actualizado
             }
         };
     }, [onAudioChange]);
+
+    const removeImageFile = () => {
+        setImageFiles([]);
+        setImageUrl('');
+        if (onImageChange) onImageChange(null); // Limpiar el archivo de imagen
+    };
+
+    const removeAudioFile = () => {
+        setAudioFiles([]);
+        setAudioUrl('');
+        if (onAudioChange) onAudioChange(null); // Limpiar el archivo de audio
+    };
 
     const imageDropzone = useDropzone({
         onDrop: onDropImage,
@@ -84,6 +87,7 @@ function EditMediaDrop({ initialImageUrl, initialAudioUrl, onImageChange, onAudi
                 </div>
             )}
 
+            {/* Subtítulo para la portada */}
             <div className="dropzone-container">
                 <h3 className="dropzone-title">Imagen de la portada:</h3>
                 <div {...imageDropzone.getRootProps()} className="dropzone">
@@ -101,18 +105,15 @@ function EditMediaDrop({ initialImageUrl, initialAudioUrl, onImageChange, onAudi
                     <input {...imageDropzone.getInputProps()} style={{ display: 'none' }} />
                     {(imageUrl || imageFiles.length > 0) && (
                         <div className="uploaded-file">
-                            <img 
-                                src={imageUrl} 
-                                alt="Portada" 
-                                className="uploaded-image"  // Nueva clase para el CSS
-                                onClick={imageDropzone.open} 
-                            />
-                            {imageFiles.length > 0 && <p>{imageFiles[0].name}</p>}
+                            <h4>Imagen Actual:</h4>
+                            <img src={imageUrl} alt="Portada" width="100px" />
+                            <button onClick={removeImageFile}>Eliminar</button>
                         </div>
                     )}
                 </div>
             </div>
 
+            {/* Subtítulo para el audiolibro */}
             <div className="dropzone-container">
                 <h3 className="dropzone-title">Audiolibro:</h3>
                 <div {...audioDropzone.getRootProps()} className="dropzone">
@@ -130,7 +131,9 @@ function EditMediaDrop({ initialImageUrl, initialAudioUrl, onImageChange, onAudi
                     <input {...audioDropzone.getInputProps()} style={{ display: 'none' }} />
                     {(audioUrl || audioFiles.length > 0) && (
                         <div className="uploaded-file">
+                            <h4>Audio Actual:</h4>
                             <audio controls src={audioUrl}></audio>
+                            <button onClick={removeAudioFile}>Eliminar</button>
                         </div>
                     )}
                 </div>
