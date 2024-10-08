@@ -4,6 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faMusic, faExclamationCircle, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import ModalNotificacion from '../../components/Modal/ModalNotificacion';
+import { collection, addDoc } from 'firebase/firestore';
+import { db , storage} from '../../firebaseConfig'; 
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../estilos/Audiolibros/FormularioAñadir/Formulario.css';
@@ -48,27 +51,55 @@ function Formulario() {
     setError('');
     window.location.href = "/";
   };
-
-  const handleSubmit = (event) => {
+  const uploadFileToStorage = async (file) => {
+    const storageRef = ref(storage, `uploads/${file.name}`);
+    await uploadBytes(storageRef, file);
+    const fileURL = await getDownloadURL(storageRef);
+    return fileURL;
+};
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if(!titulo || !autor || !categoria || !descripcion){
-      setError('Por favor, rellena todos los campos antes de enviar el formulario.');
-      return;
+    if (!titulo || !autor || !categoria || !descripcion) {
+        setError('Por favor, rellena todos los campos antes de enviar el formulario.');
+        return;
     }
 
-    if(!textRegex.test(titulo) || !textRegex.test(autor)) {
-      setError('El título y el autor solo pueden contener letras y signos de puntuación comunes.');
-      return;
+    if (!textRegex.test(titulo) || !textRegex.test(autor)) {
+        setError('El título y el autor solo pueden contener letras y signos de puntuación comunes.');
+        return;
     }
 
-    if(audioFiles.length === 0 || imageFiles.length === 0){
-      setError('No deje vacio los campos para subir archivos');
-      return;
+    if (audioFiles.length === 0 || imageFiles.length === 0) {
+        setError('No deje vacio los campos para subir archivos');
+        return;
     }
+
     setError('');
-    showModalNotificacion();
-    /*AQUI HAZ LOS IFS PARA DETECTAR EL ERROR*/
-  };
+
+    try {
+        const imageUrl = await uploadFileToStorage(imageFiles[0]);
+        const audioUrl = await uploadFileToStorage(audioFiles[0]);
+
+        const audiolibroData = {
+            titulo,
+            autor,
+            categoria,
+            descripcion,
+            duracion: audioFiles[0].duration, // Asegúrate de tener esta propiedad
+            imagenPortadaURL: imageUrl,
+            archivoAudioURL: audioUrl,
+            creadoEn: new Date(),
+            actualizadoEn: new Date(),
+        };
+
+        const docRef = await addDoc(collection(db, 'audiolibros'), audiolibroData);
+        console.log("Audiolibro agregado con ID: ", docRef.id);
+        showModalNotificacion('success', 'Audiolibro agregado exitosamente!');
+    } catch (error) {
+        console.error("Error al agregar audiolibro: ", error);
+        showModalNotificacion('error', 'Error al agregar el audiolibro. Intente de nuevo.');
+    }
+};
 
   const closeModal = () => setShowModal(false);
 
@@ -90,8 +121,8 @@ function Formulario() {
     const audio = new Audio(URL.createObjectURL(file));
     audio.onloadedmetadata = () => {
       const duration = audio.duration / 60;
-      if (duration < 15 || duration > 30) {
-        setAudioError('La duración del audio debe estar entre 15 y 30 minutos.');
+      if ( duration > 30) {
+        setAudioError('La duración del audio debe ser menor a 30 minutos.');
         setShowModal(true);
       } else {
         setAudioFiles([file]);

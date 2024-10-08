@@ -146,7 +146,8 @@ const AudiobookEdit = () => {
 
     return (
         <div className="audiobook-edit-page">
-            <form className="form-container2">
+            <h1 className="title">Editar Audiolibro</h1>
+            <form className="form-container">
                 <label htmlFor="titulo">Título:</label>
                 <input
                     type="text"

@@ -101,7 +101,7 @@ const AudiolibroRegistrado = () => {
             <Navbar />
             <div className="content">
                 <div>
-                    <h1 className='titulo-aud-reg'>Audiolibros registrados</h1>
+                    <h1 className='titulo-aud-reg'>AUDIOLIBROS REGISTRADOS</h1>
                 </div>
                 <div className="d-flex justify-content-between align-items-center">
                     <button
