@@ -1,5 +1,5 @@
 .navbar {
-    background-color: #9EE493;
+    background-color: #ffffff;
     height: 80px;
     display: flex;
     justify-content: center;
@@ -32,6 +32,7 @@
     list-style: none;
     text-align: center;
     margin-right: 2rem;
+    
 }
   
 .nav-item {
@@ -42,13 +43,19 @@
     color: #0A1044;
     text-decoration: none;
     padding: 0.5rem 1rem;
+    border-radius: 5px;
     transition: background-color 0.3s, color 0.3s;
 }
   
 .nav-links:hover {
     background-color: #0A1044;
-    color: white;
+    color: rgb(255, 255, 255);
     border-radius: 5px;
+}
+
+.nav-links.active {
+    background-color: #0A1044; 
+    color: white; 
 }
   
 .dropdown-content {
@@ -66,13 +73,14 @@
     padding: 10px;
     display: block;
     text-decoration: none;
+    background-color: #0A1044;
     color: #0A1044;
     transition: background-color 0.3s, color 0.3s;
 }
   
 .dropdown-link:hover {
-    background-color: #0A1044;
-    color: #9EE493;
+    background-color: #9ee493;
+    color: #0A1044;
 }
   
 .nav-icon {
@@ -98,7 +106,7 @@
         left: -110%;
         opacity: 1;
         transition: all 0.5s ease;
-        background: #9EE493;
+        background: #ffffff;  
     }
 
     .nav-menu.active {
@@ -107,6 +115,12 @@
     }
 
     .nav-links {
+        padding: 1.5rem;
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-linkss {
         padding: 1.5rem;
         width: 100%;
         text-align: center;
@@ -147,4 +161,50 @@
         font-size: 3rem;
         color: #0A1044;
     }
+}
+
+.nav-logo-image {
+    width: 110px;
+    height: auto;
+}
+
+.nav-logo-image1 {
+    width: 20px;
+    height: auto;
+    margin: 5px;
+    margin-top: -1px;
+}
+
+.nav-logo-image2 {
+    width: 24px;
+    height: auto;
+    margin: 5px;
+    margin-top: -1px;
+}
+
+.nav-links:hover .nav-logo-image1{
+    content: url('../../images/usuario1.png'); 
+}
+
+.nav-linkss {
+    color: #0A1044;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+  
+.nav-linkss:hover {
+    background-color: #0A1044;
+    color: rgb(255, 255, 255);
+    border-radius: 5px;
+}
+
+.nav-linkss.active {
+    background-color: #0A1044; 
+    color: white; 
+  }
+
+.nav-linkss:hover .nav-logo-image1{
+    content: url('../../images/hogar1.png'); 
 }

@@ -154,6 +154,11 @@ function Formulario() {
 
         <div className="form-group-horizontal mb-3">
           <label htmlFor="titulo">Título:</label>
+          <div
+                className="tooltip-container"
+                onMouseEnter={() => setShowTooltip(titulo === "")}
+                onMouseLeave={() => setShowTooltip(false)}
+          >
           <div className="tooltip-container">
             <input
               type="text"
@@ -168,42 +173,51 @@ function Formulario() {
                 El título debe contener solo letras (A-Z, a-z).
               </div>
             )}
+            </div>
           </div>
         </div>
 
-        <div className="form-group-horizontal mb-3">
-          <label htmlFor="autor">Autor:</label>
-          <div className="tooltip-container">
-            <input
-              type="text"
-              className="form-control"
-              id="autor"
-              placeholder="Ej: Daniel Goleman"
-              value={autor}
-              onChange={(e) => setAutor(e.target.value)}
-            />
-            {showTooltip && (
-              <div className="tooltip-box">
-                El nombre del autor debe contener solo letras (A-Z, a-z).
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <label htmlFor="autor">Autor:</label>
+              <div
+                className="tooltip-container"
+                onMouseEnter={() => setShowTooltip(autor === "")}
+                onMouseLeave={() => setShowTooltip(false)}
+              >
+                <input
+                  type="text"
+                  className="form-control"
+                  id="autor"
+                  placeholder="Ej: Daniel Goleman"
+                  value={autor}
+                  onChange={(e) => setAutor(e.target.value)}
+                />
+                {showTooltip && (
+                  <div className="tooltip-box">
+                    El nombre del autor debe contener solo letras (A-Z, a-z).
+                  </div>
+                )}
               </div>
-            )}
           </div>
         </div>
 
-        <div className="form-group-horizontal mb-3">
-          <label htmlFor="categoria">Categoría:</label>
-          <select
-            id="categoria"
-            className="form-select"
-            value={categoria}
-            onChange={(e) => setCategoria(e.target.value)}
-          >
-            <option value="">Elegir categoría</option>
-            <option value="meditacion">Meditación</option>
-            <option value="inteligencia_emocional">Inteligencia Emocional</option>
-            <option value="salud_mental">Salud mental en la Universidad</option>
-            <option value="psicologia_parejas">Psicología de parejas</option>
-          </select>
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <label htmlFor="categoria">Categoría:</label>
+            <select
+              id="categoria"
+              className="form-select"
+              value={categoria}
+              onChange={(e) => setCategoria(e.target.value)}
+            >
+              <option value="">Elegir categoría</option>
+              <option value="meditacion">Meditación</option>
+              <option value="inteligencia_emocional">Inteligencia Emocional</option>
+              <option value="salud_mental">Salud mental en la Universidad</option>
+              <option value="psicologia_parejas">Psicología de parejas</option>
+            </select>
+          </div>
         </div>
 
         <div className="form-group mb-3">
