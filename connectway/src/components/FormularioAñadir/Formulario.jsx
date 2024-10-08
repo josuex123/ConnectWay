@@ -161,7 +161,7 @@ function Formulario() {
               type="text"
               className="form-control"
               id="titulo"
-              placeholder="Ej: Inteligencia Emocional"
+              placeholder="Ej: La Ventaja De Ser Introvertido"
               value={titulo}
               onChange={(e) => setTitulo(e.target.value)}
             />
@@ -174,9 +174,12 @@ function Formulario() {
           </div>
         </div>
 
-        <div className="row mb-3">
-          <div className="col-md-6">
-            <label htmlFor="autor">Autor:</label>
+       
+        <div className='form-group-horizontal mb-3'>
+        <label htmlFor="autor">Autor:</label> 
+            
+            <div className='tooltip-container'>
+            
               <div
                 className="tooltip-container"
                 onMouseEnter={() => setShowTooltip(autor === "")}
@@ -196,12 +199,12 @@ function Formulario() {
                   </div>
                 )}
               </div>
-          </div>
+            </div>
         </div>
-
-        <div className="row mb-3">
-          <div className="col-md-6">
+        <div className='form-group-horizontal mb-3'>
+     
             <label htmlFor="categoria">Categoría:</label>
+            <div className='tooltip-container'>
             <select
               id="categoria"
               className="form-select"
@@ -214,8 +217,9 @@ function Formulario() {
               <option value="salud_mental">Salud mental en la Universidad</option>
               <option value="psicologia_parejas">Psicología de parejas</option>
             </select>
-          </div>
+            </div>
         </div>
+        
 
         <div className="form-group mb-3">
           <label htmlFor="descripcion">Descripción:</label>

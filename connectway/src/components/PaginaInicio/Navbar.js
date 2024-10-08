@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import '../../estilos/PaginaInicio/Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -7,31 +7,33 @@ import logo from '../../images/logoejemplo.png';
 import person from '../../images/usuario.png';
 import home from '../../images/hogar.png';
 
-
 const Navbar = () => {
   const [click, setClick] = useState(false);
-  const [isAudiolibrosOpen, setAudiolibrosOpen] = useState(false); // Nuevo estado
+  const [isAudiolibrosOpen, setAudiolibrosOpen] = useState(false);
+  const location = useLocation(); // Para obtener la ruta actual
   const navigate = useNavigate();
 
   const handleClick = () => setClick(!click);
 
   const handleAudiolibrosClick = (e) => {
-    e.preventDefault(); // Evitar la navegación inmediata
+    e.preventDefault(); 
     if (isAudiolibrosOpen) {
-      // Si el menú ya estaba abierto, redirigir a la página principal de Audiolibros
       navigate('/audiolibros');
     } else {
-      // Si el menú no estaba abierto, desplegarlo
       setAudiolibrosOpen(true);
     }
+  };
+
+  // Función para verificar si el botón de Audiolibros o los submenús están activos
+  const isAudiolibrosActive = () => {
+    return location.pathname.includes('/audiolibros');
   };
 
   return (
     <nav className="navbar">
       <div className="nav-container">
-
         <NavLink exact to="/" className="nav-logo">
-        <img src={logo} alt="Logo" className="nav-logo-image" />
+          <img src={logo} alt="Logo" className="nav-logo-image" />
           CONNECTWAY
         </NavLink>
 
@@ -42,24 +44,34 @@ const Navbar = () => {
               <img src={home} alt="IconHome" className="nav-logo-image1" />
             </NavLink>
           </li>
+
           <li className="nav-item dropdown">
             <span
-              className="nav-links dropbtn"
-              onClick={handleAudiolibrosClick} // Actualizado
+              className={`nav-links dropbtn ${isAudiolibrosActive() ? 'active' : ''}`} 
+              onClick={handleAudiolibrosClick}
             >
               Audiolibros
             </span>
             {isAudiolibrosOpen && (
               <div className="dropdown-content">
-                <NavLink to="/audiolibros/añadir" className="dropdown-link" onClick={() => setAudiolibrosOpen(false)}>
+                <NavLink 
+                  to="/audiolibros/añadir" 
+                  className={`dropdown-link ${location.pathname === '/audiolibros/añadir' ? 'active' : ''}`}
+                  onClick={() => setAudiolibrosOpen(false)}
+                >
                   Añadir audiolibro
                 </NavLink>
-                <NavLink to="/audiolibros/registrados" className="dropdown-link" onClick={() => setAudiolibrosOpen(false)}>
+                <NavLink 
+                  to="/audiolibros/registrados" 
+                  className={`dropdown-link ${location.pathname === '/audiolibros/registrados' ? 'active' : ''}`} 
+                  onClick={() => setAudiolibrosOpen(false)}
+                >
                   Audiolibros registrados
                 </NavLink>
               </div>
             )}
           </li>
+
           <li className="nav-item">
             <NavLink to="/comunidad" className="nav-links" onClick={handleClick}>
               Comunidad
