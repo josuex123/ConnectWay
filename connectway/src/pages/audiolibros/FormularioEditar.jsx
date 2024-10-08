@@ -34,7 +34,7 @@ const AudiobookEdit = () => {
             setCategoria(audiobook.categoria || '');
             setDescripcion(audiobook.descripcion || '');
             setImagenUrl(audiobook.imagenPortadaURL || ''); // Cargar imagen existente
-            setAudioUrl(audiobook.archivoAudioURL || '');   // Cargar archivo de audio existente
+            setAudioUrl(audiobook.archivoAudioURL|| '');   // Cargar archivo de audio existente
         }
     }, [audiobook]);
 
