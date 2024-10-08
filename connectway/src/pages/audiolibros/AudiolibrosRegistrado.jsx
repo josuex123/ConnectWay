@@ -36,6 +36,7 @@ const AudiolibroRegistrado = () => {
             autor: doc.data().autor,
             descripcion: doc.data().descripcion,
             duracion: doc.data().duracion,
+            archivoAudioURL: doc.data().archivoAudioURL
         }));
         setAudiolibros(audiolibrosList);
     };
