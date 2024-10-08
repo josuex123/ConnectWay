@@ -224,17 +224,22 @@ function Formulario() {
               )}
               <input {...imageDropzone.getInputProps()} style={{ display: 'none' }} />
               {imageFiles.length > 0 && (
-                <div className="uploaded-file">
-                  <h4>Imagen Subida:</h4>
-                  {imageFiles.map((file) => (
-                    <div key={file.path}>
-                      <img src={file.preview} alt={file.name} width="100px" />
-                      <p>{file.name}</p>
-                      <button onClick={removeImageFile}>Eliminar</button>
-                    </div>
-                  ))}
-                </div>
-              )}
+  <div className="uploaded-file">
+    {imageFiles.map((file) => (
+      <div key={file.path}>
+        <img 
+          src={file.preview} 
+          alt={file.name} 
+          width="100px" 
+          onClick={imageDropzone.open} 
+          style={{ cursor: 'pointer' }} 
+        />
+        <p>{file.name}</p>
+      </div>
+    ))}
+  </div>
+)}
+
             </div>
           </div>
 
