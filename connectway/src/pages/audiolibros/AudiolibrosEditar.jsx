@@ -10,7 +10,7 @@ const AudiolibrosAñadir = () => {
             <Navbar />
             
             <div className="content">
-                 <h3 className="titulo-añadir"> Editar audiolibros</h3>
+                 <h3 className="titulo-añadir"> Editar audiolibro</h3>
                 <Formulario/>
                
                 

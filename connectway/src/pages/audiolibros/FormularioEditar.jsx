@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { updateAudiobook } from '../../Services/AudiolibrosServicios/UpdateAudiobook';
 import '../../estilos/Audiolibros/FormularioEditar/Formulario.css';
-import EditMediaDrop from '../../components/Dropzone/EditMediaDrop'; // Componente para manejar imágenes y audio
+import EditMediaDrop from '../../components/Dropzone/EditMediaDrop'; 
 import ModalNotificacion from '../../components/Modal/ModalNotificacion';
 import ModalConfirmacion from '../../components/Modal/ModalConfirmacion';
 
@@ -33,8 +33,8 @@ const AudiobookEdit = () => {
             setAutor(audiobook.autor || '');
             setCategoria(audiobook.categoria || '');
             setDescripcion(audiobook.descripcion || '');
-            setImagenUrl(audiobook.imagenPortadaURL || ''); // Cargar imagen existente
-            setAudioUrl(audiobook.archivoAudioURL|| '');   // Cargar archivo de audio existente
+            setImagenUrl(audiobook.imagenPortadaURL || ''); 
+            setAudioUrl(audiobook.archivoAudioURL || '');   
         }
     }, [audiobook]);
 
@@ -146,8 +146,7 @@ const AudiobookEdit = () => {
 
     return (
         <div className="audiobook-edit-page">
-            <h1>Editar Audiolibro</h1>
-            <form className="form-container">
+            <form className="form-container2">
                 <label htmlFor="titulo">Título:</label>
                 <input
                     type="text"
@@ -195,7 +194,7 @@ const AudiobookEdit = () => {
                 />
 
                 <div className="form-buttons">
-                    <button type="button" onClick={openConfirmModal}>Guardar cambios</button>
+                    <button type="button" onClick={openConfirmModal}>Guardar</button>
                     <button type="button" onClick={() => window.history.back()}>Cancelar</button>
                 </div>
             </form>
