@@ -19,7 +19,7 @@ const Contenedor = ({ imgPortada, titulo, autor, descripcion, duracion, id, onEd
         <div className="contenedor card mb-4">
             <img src={imgPortada} className="card-img-top img-portada" alt="Portada" />
             <div className="card-body">
-                <h5 className="card-title titulo text-start">{titulo}</h5>
+                <h5 className="card-title titulo text-start"><strong>{titulo}</strong></h5>
                 <p className="autor text-start"><strong>Autor:</strong> {autor}</p>
                 <p className="descripcion text-start"><strong>Descripción:</strong> {descripcion}</p>
                 <p className="duracion text-start"><i className="fas fa-clock"></i> {duracion} minutos</p>
