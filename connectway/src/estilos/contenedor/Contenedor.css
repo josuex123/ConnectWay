@@ -3,10 +3,12 @@
   min-height: 400px;
   margin: auto;
   border: 1px solid #ccc;
+  background-color: #9EE493;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden; 
 }
 
 .img-portada {
@@ -19,8 +21,8 @@
 .titulo {
   font-size: 1.1rem;
   line-height: 1.3rem;
-  min-height: 2.6rem; /* Asegura que el título ocupe al menos 2 líneas */
-  max-height: 2.6rem; /* Limita el título a 2 líneas */
+  min-height: 2.8rem; 
+  max-height: 2.8rem; 
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -34,9 +36,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* Limita el número de líneas a 3 */
+  -webkit-line-clamp: 3; 
   -webkit-box-orient: vertical;
-  min-height: 4.5rem; /* Asegura que la descripción ocupe al menos 3 líneas */
+  min-height: 4rem;
 }
 
 .autor, .descripcion, .duracion {
