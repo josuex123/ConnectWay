@@ -74,14 +74,14 @@
     padding: 10px;
     display: block;
     text-decoration: none;
-    background-color: #0A1044;
-    color: white;
+    background-color: white;
+    color: #0A1044;
     transition: background-color 0.3s, color 0.3s;
 }
   
 .dropdown-link:hover {
-    background-color: #9ee493;
-    color: #0A1044;
+    background-color: #0A1044;
+    color: white;
 }
   
 .nav-icon {
@@ -147,7 +147,7 @@
         display: block;
         position: absolute;
         top: 50%;
-        right: 20px;
+        right: -15px;
         transform: translate(-100%, -50%);
     }
 
