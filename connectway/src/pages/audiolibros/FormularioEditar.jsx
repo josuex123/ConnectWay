@@ -29,6 +29,7 @@ const AudiobookEdit = () => {
     // Cargamos los valores del audiolibro cuando el componente se monta
     useEffect(() => {
         if (audiobook) {
+            console.log(audiobook);
             setTitulo(audiobook.titulo || '');
             setAutor(audiobook.autor || '');
             setCategoria(audiobook.categoria || '');

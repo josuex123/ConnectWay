@@ -34,6 +34,7 @@ const AudiolibroRegistrado = () => {
             imagenPortadaURL: doc.data().imagenPortadaURL, 
             titulo: doc.data().titulo,
             autor: doc.data().autor,
+            categoria: doc.data().categoria,
             descripcion: doc.data().descripcion,
             duracion: doc.data().duracion,
             archivoAudioURL: doc.data().archivoAudioURL
@@ -92,6 +93,8 @@ const AudiolibroRegistrado = () => {
     const handleEditAudiobook = (id) => {
         const selectedAudiobook = audiolibros.find(libro => libro.id === id);
         
+        console.log("asd"+selectedAudiobook);
+
         if (selectedAudiobook) {
             navigate('/Audiolibros/editar', { state: { audiobook: selectedAudiobook } });
         }
