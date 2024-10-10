@@ -1,5 +1,4 @@
-.dropzone {
-  width: 45%;
+.dropzone { 
   padding: 20px;
   border-width: 2px;
   border-radius: 5px;
@@ -8,6 +7,11 @@
   background-color: #ededed;
   text-align: center;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 150px; /* Ajusta el tamaño mínimo para mejor apariencia */
 }
 
 .select-button {
@@ -55,7 +59,8 @@
 .dropzone-container {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 45%;
+  margin-bottom: 20px;
 }
 
 .dropzone-title {
@@ -65,20 +70,19 @@
   text-align: left;
 }
 
-
 @media (max-width: 600px) {
   .dropzone-container {
-      width: 100%; 
+    width: 100%; 
   }
 
   .uploaded-file img {
-      max-height: 150px;    
-      object-fit: contain;  
+    max-height: 150px;    
+    object-fit: contain;  
   }
 
   .dropzone {
-      width: 100%;          
-      padding: 10px;        
-      margin-left: 0;       
+    width: 100%;          
+    padding: 10px;        
+    margin-left: 0;       
   }
 }
