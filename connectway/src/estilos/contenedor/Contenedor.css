@@ -1,29 +1,35 @@
 .contenedor {
-  max-width: 300px;
-  min-height: 400px;
-  margin: auto;
-  border: 1px solid #ccc;
-  background-color: #9EE493;
-  border-radius: 8px;
+  max-width: 400px; 
+  margin: 20px;
+  background-color: #ffffff; 
+  border: none;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  padding: 15px;
+  position: relative;
   justify-content: space-between;
-  overflow: hidden; 
+}
+
+.contenedor:hover {
+  background-color: #F1F6F4;
 }
 
 .img-portada {
-  height: 150px;
   width: 100%;
   object-fit: cover;
-  padding: 5%;
+  border-radius: 5px;
+  padding-left: 20%;
+  padding-right: 20%;
+  flex-shrink: 0;
 }
 
 .titulo {
   font-family: sans-serif;
-  font-size: 1.1rem;
-  line-height: 1.3rem;
-  min-height: 2.8rem; 
-  max-height: 2.8rem; 
+  font-size: 1rem;
+  line-height: 1.2rem;
+  color: #0A1044;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -31,39 +37,43 @@
   -webkit-box-orient: vertical;
 }
 
-.descripcion {
-  font-size: 0.9rem;
-  font-family: sans-serif;
-  color: black;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3; 
-  -webkit-box-orient: vertical;
-  min-height: 4rem;
-}
-
 .autor, .descripcion, .duracion {
+  font-size: 0.85rem;
   font-family: sans-serif;
+  color: #6D7891;
   text-align: left;
 }
 
-.icono-editar, .icono-eliminar {
-  margin-right: 20%;
+.descripcion {
+  
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  
+}
+.duracion i {
+  margin-right: 5px; 
+}
+.duracion {
+  margin-top: auto; 
+  font-size: 0.85rem;
+  color: #6D7891;
+  display: flex;
+  align-items: center;
+
 }
 
-.duracion {
-  margin-top: 10px;
-  font-size: 0.9rem;
-  color: black;
-}
-.boton-editar{
-  color: black;
-}
 .boton-editar, .boton-eliminar {
-  width: 100px;
+  font-size: 0.85rem;
+  width: 90px;
+  text-align: center;
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
 }
 
 .boton-editar i, .boton-eliminar i {
-  margin-right: 5px;
+  margin-right: 7px;
 }
