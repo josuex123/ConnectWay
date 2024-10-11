@@ -13,6 +13,7 @@ import Comunidad from './pages/comunidad/comunidad';
 import MiActividad from './pages/miActividad/miActividad';
 import Perfil from './pages/perfil/perfil';
 import AudiobookEdit from './pages/audiolibros/FormularioEditar';
+import AudiobookSearch from "./Services/AudiolibrosServicios/pruebaBusqueda/search";
 
 function App() {
   
@@ -30,6 +31,9 @@ function App() {
         <Route path="/ListaAudioLibros" element={<AudiobookList/>} />
         <Route path="/Formulario" element={<FormularioAñadir/>} /> 
         <Route path="/FormularioEditar" element={<AudiobookEdit/>} /> 
+
+        <Route path="/search" element={<AudiobookSearch/>} />
+
       </Routes>
     </Router>
   );
