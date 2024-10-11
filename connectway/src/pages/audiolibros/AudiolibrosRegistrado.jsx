@@ -93,7 +93,6 @@ const AudiolibroRegistrado = () => {
     const handleEditAudiobook = (id) => {
         const selectedAudiobook = audiolibros.find(libro => libro.id === id);
         
-        console.log("asd"+selectedAudiobook);
 
         if (selectedAudiobook) {
             navigate('/Audiolibros/editar', { state: { audiobook: selectedAudiobook } });
