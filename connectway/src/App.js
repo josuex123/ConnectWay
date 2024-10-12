@@ -13,7 +13,7 @@ import Comunidad from './pages/comunidad/comunidad';
 import MiActividad from './pages/miActividad/miActividad';
 import Perfil from './pages/perfil/perfil';
 import AudiobookEdit from './pages/audiolibros/FormularioEditar';
-import AudiobookSearch from "./Services/AudiolibrosServicios/pruebaBusqueda/search";
+import AudiobookSearch from "./pages/audiolibros/AudiolbroBuscar";
 
 function App() {
   

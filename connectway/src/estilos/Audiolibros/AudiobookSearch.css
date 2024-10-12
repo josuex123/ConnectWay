@@ -1,0 +1,57 @@
+/* Contenedor que contiene la barra de búsqueda y el botón */
+.search-container {
+    position: relative; /* Cambia a relative */
+    margin-top: 10px; /* Ajusta el margen superior según lo necesario */
+    width: 500px; /* Ajusta el ancho del contenedor */
+    margin-left: auto;  /* Centra el contenedor horizontalmente */
+    margin-right: auto; /* Centra el contenedor horizontalmente */
+}
+
+/* Estilo de la barra de búsqueda */
+.search-bar {
+    display: flex;
+    align-items: center;
+    width: 100%; /* Ocupa el 100% del ancho del contenedor */
+    height: 40px; /* Altura de la barra de búsqueda */
+    border: 2px solid #ccc; /* Borde de la barra de búsqueda */
+    border-radius: 10px; /* Esquinas redondeadas */
+    overflow: hidden; /* Oculta cualquier contenido que sobresalga */
+}
+
+/* Estilo del campo de entrada */
+.search-bar input {
+    width: 100%; /* Ocupa el 100% del espacio disponible */
+    height: 100%; /* Asegura que el input tenga la misma altura que el botón */
+    padding: 10px 20px; /* Espaciado dentro del input */
+    border: none; /* Elimina el borde del input */
+    outline: none; /* Elimina el contorno al hacer clic */
+    font-size: 16px; /* Tamaño del texto dentro del input */
+}
+
+/* Estilo del botón de búsqueda */
+.search-bar .search-button {
+    background-color: #000; /* Color de fondo del botón */
+    border: none; /* Elimina el borde del botón */
+    padding: 0 20px; /* Espaciado interno del botón */
+    height: 100%; /* Asegura que el botón tenga la misma altura que el input */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    display: flex; /* Flexbox para centrar el ícono */
+    align-items: center; /* Centra verticalmente el ícono */
+    justify-content: center; /* Centra horizontalmente el ícono */
+    border-radius: 0 10px 10px 0; /* Esquinas redondeadas en el lado derecho */
+}
+
+/* Estilo del ícono de la lupa */
+.search-bar .search-button i {
+    color: #fff; /* Color del ícono */
+    font-size: 20px; /* Tamaño del ícono */
+}
+
+/* Estilo para el contenedor de los resultados */
+.resultados {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px; /* Espacio entre los contenedores */
+    margin-top: 20px; /* Margen superior para separar de la barra de búsqueda */
+}
