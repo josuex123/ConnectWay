@@ -1,16 +1,24 @@
-import React from 'react';
-import '../../estilos/PaginaInicio/Description.css';
-import Slider from 'react-slick';
+import React, { useState, useEffect } from 'react';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import okkoImage from '../../images/okko.jpg';
-import keyoImage from '../../images/keyo.png';
+import Slider from 'react-slick';
+import { db } from '../../firebaseConfig';
+import { collection, getDocs } from 'firebase/firestore';
+import '../../estilos/PaginaInicio/Description.css';
 
 const Description = () => {
-    const images = [
-        okkoImage,
-        keyoImage
-    ];
+    const [images, setImages] = useState([]);
+
+    useEffect(() => {
+        const fetchImages = async () => {
+            const audiolibrosCollection = collection(db, 'Audiolibro');
+            const audiolibrosSnapshot = await getDocs(audiolibrosCollection);
+            const imagesList = audiolibrosSnapshot.docs.map(doc => doc.data().imagenPortadaURL);
+            setImages(imagesList);
+        };
+
+        fetchImages();
+    }, []);
 
     const settings = {
         dots: true,
@@ -25,9 +33,9 @@ const Description = () => {
     return (
         <div className="description">
             <Slider {...settings}>
-                {images.map((url, index) => (
+                {images.map((image, index) => (
                     <div key={index} className="description-box">
-                        <img src={url} alt={`Portada del libro ${index}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        <img src={image} alt={`Audiolibro ${index}`} />
                     </div>
                 ))}
             </Slider>
