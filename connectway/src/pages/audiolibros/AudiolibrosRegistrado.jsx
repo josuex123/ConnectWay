@@ -98,6 +98,9 @@ const AudiolibroRegistrado = () => {
             navigate('/Audiolibros/editar', { state: { audiobook: selectedAudiobook } });
         }
     };
+    const handleContainerClick = (id) => {
+        navigate(`/Audiolibros/registrados/informacion`, { state: { idLibro: id } });
+    };
 
     return (
         <div className="pagina-inicio">
@@ -132,6 +135,7 @@ const AudiolibroRegistrado = () => {
                                 duracion={libro.duracion}
                                 onEdit={() => handleEditAudiobook(libro.id)} 
                                 onDelete={() => openConfirmModal(libro)} 
+                                onClick={() => handleContainerClick(libro.id)}
                             />
                         ))}
                     </div>

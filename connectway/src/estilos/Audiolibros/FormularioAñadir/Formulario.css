@@ -83,8 +83,8 @@
 
 .select-button {
   display: inline-block;
-  background-color: #007bff;
-  color: white;
+  background-color: #2CE080; 
+  color: #03314B; 
   padding: 8px 16px;
   border: none;
   border-radius: 4px;
@@ -158,8 +158,8 @@ button[type="button"] {
 }
 
 .modal-footer button {
-  background-color: #007bff;
-  color: white;
+  background-color: #2CE080; 
+  color: #03314B; 
   border: none;
   padding: 8px 16px;
   border-radius: 4px;
