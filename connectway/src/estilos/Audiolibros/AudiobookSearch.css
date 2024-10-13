@@ -2,7 +2,7 @@
 .search-container {
     position: relative; /* Cambia a relative */
     margin-top: 10px; /* Ajusta el margen superior según lo necesario */
-    width: 500px; /* Ajusta el ancho del contenedor */
+    width: 380px; /* Ajusta el ancho del contenedor */
     margin-left: auto;  /* Centra el contenedor horizontalmente */
     margin-right: auto; /* Centra el contenedor horizontalmente */
 }
