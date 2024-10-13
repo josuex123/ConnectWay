@@ -43,7 +43,7 @@ function Formulario() {
   };
 
   const handleCancel = () => {
-    window.location.href = "/";
+    window.location.href = "/Home";
   };
 
   const handleSubmit = async (event) => {

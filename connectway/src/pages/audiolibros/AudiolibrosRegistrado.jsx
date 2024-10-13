@@ -93,11 +93,13 @@ const AudiolibroRegistrado = () => {
     const handleEditAudiobook = (id) => {
         const selectedAudiobook = audiolibros.find(libro => libro.id === id);
         
-        console.log("asd"+selectedAudiobook);
 
         if (selectedAudiobook) {
             navigate('/Audiolibros/editar', { state: { audiobook: selectedAudiobook } });
         }
+    };
+    const handleContainerClick = (id) => {
+        navigate(`/Audiolibros/registrados/informacion`, { state: { idLibro: id } });
     };
 
     return (
@@ -133,6 +135,7 @@ const AudiolibroRegistrado = () => {
                                 duracion={libro.duracion}
                                 onEdit={() => handleEditAudiobook(libro.id)} 
                                 onDelete={() => openConfirmModal(libro)} 
+                                onClick={() => handleContainerClick(libro.id)}
                             />
                         ))}
                     </div>

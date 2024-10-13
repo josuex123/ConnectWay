@@ -32,14 +32,14 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="nav-container">
-        <NavLink exact to="/" className="nav-logo">
+        <NavLink exact to="/Home" className="nav-logo">
           <img src={logo} alt="Logo" className="nav-logo-image" />
           CONNECTWAY
         </NavLink>
 
         <ul className={click ? "nav-menu active" : "nav-menu"}>
           <li className="nav-item">
-            <NavLink exact to="/" className="nav-linkss" onClick={handleClick}>
+            <NavLink exact to="/Home" className="nav-linkss" onClick={handleClick}>
               Inicio
               <img src={home} alt="IconHome" className="nav-logo-image1" />
             </NavLink>
