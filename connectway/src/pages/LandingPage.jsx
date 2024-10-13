@@ -28,9 +28,9 @@ const LandingPage = () => {
                 <FontAwesomeIcon icon={faSignInAlt} style={{ marginLeft: '5px' }} />
               </NavLink>
             </li>
-            <li className='nav-items'>
+            {/*<li className='nav-items'>
               <NavLink className="nav-lin-start" to="/Home"> Comenzar </NavLink>
-            </li>
+            </li>*/}
           </ul>
         </div>
       </nav>
