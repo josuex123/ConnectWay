@@ -5,7 +5,7 @@
     color: #0cc7b4;
 }
 
-.nav-container-lan {
+.nav-container-landing {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -14,14 +14,14 @@
     max-width: 1500px;
 }
 
-.nav-menu {
+.nav-menu-landing {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     gap: 10px;
 }
 
-.nav-lin {
+.nav-link-landing {
     color: #03314B;
     text-decoration: none;
     padding: 0.5rem 0.8rem;
@@ -32,7 +32,7 @@
     align-items: center;
 }
 
-.nav-lin-start {
+.nav-link-start-landing {
     color: #03314B;
     text-decoration: none;
     background-color: #2CE080;
@@ -41,31 +41,31 @@
     font-weight: 600;
 }
 
-.nav-lin:hover {
+.nav-link-landing:hover {
     background-color: #2CE080;
     color: #03314B;
     border-radius: 5px;
 }
-.nav-lin-start:hover {
+.nav-link-start-landing:hover {
     background-color:#20BA68;
     color: #03314B;
     border-radius: 5px;
 }
-.nav-items {
+.nav-items-landing {
     margin-right: 1rem;
 }
 
-.nav-logo {
+.nav-logo-landing {
     flex: 1; 
 }
 
-.nav-menu {
+.nav-menu-landing {
     flex: 2; 
     display: flex;
     align-items: center;
 }
 
-.nav-icon {
+.nav-icon-landing {
     display: none; 
 }
 
@@ -109,7 +109,7 @@
 }
 
 /* Botón Comenzar */
-.btn-start {
+.btn-start-landing {
     background-color: #2CE080;
     color: #03314B;
     padding: 0.5rem 10rem; 
@@ -118,7 +118,7 @@
     font-weight: bold;
     display: inline-block;
 }
-.btn-start:hover {
+.btn-start-landing:hover {
     background-color:#20BA68;
     color: #03314B;
     border-radius: 5px;
@@ -139,11 +139,11 @@
         margin-top: 30px;
     }
 
-    .nav-menu {
+    .nav-menu-landing {
         display: none; 
     }
 
-    .nav-icon {
+    .nav-icon-landing {
         display: block; 
     }
     .phone-image {
