@@ -29,6 +29,7 @@ function Formulario() {
   const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
   const [notificationType, setNotificationType] = useState('success'); 
   const [notificationMessage, setNotificationMessage] = useState('');
+  const [duracion, setDuracion] = useState(0);
   const storage = getStorage(app);
   const db = getFirestore(app);
 
@@ -85,6 +86,7 @@ function Formulario() {
         autor,
         categoria,
         descripcion,
+        duracion,
         imagenPortadaURL: imageUrl,
         archivoAudioURL: audioUrl
       };
@@ -117,7 +119,8 @@ function Formulario() {
 
     const audio = new Audio(URL.createObjectURL(file));
     audio.onloadedmetadata = () => {
-      const duration = audio.duration / 60;
+      const duration = Math.round(audio.duration / 60); 
+      setDuracion(duration);
       if ( duration > 30) {
         setAudioError('La duración del audio debe ser menor a 30 minutos.');
         setShowModal(true);
