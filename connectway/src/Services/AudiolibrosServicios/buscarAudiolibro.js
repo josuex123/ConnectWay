@@ -6,7 +6,7 @@ const db = getFirestore(app);
 
 export const buscarAudiolibro = async (term) => {
     term = String(term).toLowerCase(); // Convertir a minúsculas para comparación
-    if (term === '' || term.length < 2) {
+    if (term === '' || term.length < 3) {
         return [];
     }
 
@@ -30,7 +30,7 @@ export const buscarAudiolibro = async (term) => {
             );
 
             // Filtrar por el término en el título
-            if (data.titulo.toLowerCase().includes(term)) {
+            if (data.titulo.toLowerCase().includes(term) || data.autor.toLowerCase().includes(term)) {
                 audiobooks.push(audiobook); 
             }
         });
