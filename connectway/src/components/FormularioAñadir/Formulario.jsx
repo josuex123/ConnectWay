@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faMusic, faExclamationCircle, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
@@ -51,16 +51,19 @@ function Formulario() {
   
     if (!titulo || !autor || !categoria || !descripcion) {
       setError('Por favor, rellena todos los campos antes de enviar el formulario.');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
   
     if (!textRegex.test(titulo) || !textRegex.test(autor)) {
       setError('El título y el autor solo pueden contener letras y signos de puntuación comunes.');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
   
     if (audioFiles.length === 0 || imageFiles.length === 0) {
       setError('No dejes vacío los campos para subir archivos.');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
   
@@ -101,10 +104,45 @@ function Formulario() {
   const closeModal = () => setShowModal(false);
 
   const onDropImage = useCallback((acceptedFiles) => {
-    setImageFiles(acceptedFiles.map(file => Object.assign(file, {
-      preview: URL.createObjectURL(file)
-    })));
+    if (acceptedFiles.length > 0) {
+      const file = acceptedFiles[0];
+      const img = new Image();
+  
+      img.onload = () => {
+        const maxWidth = 177;
+        const maxHeight = 284;
+  
+        console.log("width: "+ img.width);
+        console.log("heigth: "+ img.height);
+        if (img.width > maxWidth + 20 || img.height > maxHeight + 20 || img.width < maxWidth - 20 || img.height < maxHeight - 20) {
+          setError(`La imagen debe estar en tamaño de 1000x1600.`);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
+  
+        // Crear un canvas con las dimensiones deseadas
+        const canvas = document.createElement('canvas');
+        canvas.width = maxWidth; // Establecer ancho a 1000
+        canvas.height = maxHeight; // Establecer alto a 1600
+        const ctx = canvas.getContext('2d');
+        
+        // Dibujar la imagen en el canvas
+        ctx.drawImage(img, 0, 0, maxWidth, maxHeight);
+  
+        // Convertir el canvas a un blob y crear un archivo
+        canvas.toBlob((blob) => {
+          const resizedFile = new File([blob], file.name, { type: file.type });
+          setImageFiles([Object.assign(resizedFile, {
+            preview: URL.createObjectURL(resizedFile)
+          })]);
+        }, file.type);
+      };
+  
+      img.src = URL.createObjectURL(file);
+    }
   }, []);
+  
+  
 
   const onDropAudio = useCallback((acceptedFiles) => {
     const file = acceptedFiles[0];
@@ -114,11 +152,11 @@ function Formulario() {
       setShowModal(true);
       return;
     }
-
+  
     const audio = new Audio(URL.createObjectURL(file));
     audio.onloadedmetadata = () => {
       const duration = audio.duration / 60;
-      if ( duration > 30) {
+      if (duration > 30) {
         setAudioError('La duración del audio debe ser menor a 30 minutos.');
         setShowModal(true);
       } else {
@@ -128,7 +166,7 @@ function Formulario() {
     };
   }, []);
 
-  const removeImageFile = () => setImageFiles([]);
+  //const removeImageFile = () => setImageFiles([]);
   const removeAudioFile = () => setAudioFiles([]);
 
   const imageDropzone = useDropzone({
@@ -202,22 +240,19 @@ function Formulario() {
             </div>
         </div>
         <div className='form-group-horizontal mb-3'>
-     
-            <label htmlFor="categoria">Categoría:</label>
-            <div className='tooltip-container'>
-            <select
-              id="categoria"
-              className="form-select"
-              value={categoria}
-              onChange={(e) => setCategoria(e.target.value)}
-            >
-              <option value="">Elegir categoría</option>
-              <option value="meditacion">Meditación</option>
-              <option value="inteligencia_emocional">Inteligencia Emocional</option>
-              <option value="salud_mental">Salud mental en la Universidad</option>
-              <option value="psicologia_parejas">Psicología de parejas</option>
-            </select>
-            </div>
+          <label htmlFor="autor">Categoría:</label>
+          <select
+            id="categoria"
+            className="form-select"
+            value={categoria}
+            onChange={(e) => setCategoria(e.target.value)}
+          >
+            <option value="">Elegir categoría</option>
+            <option value="meditacion">Meditación</option>
+            <option value="inteligencia_emocional">Inteligencia Emocional</option>
+            <option value="salud_mental">Salud mental en la Universidad</option>
+            <option value="psicologia_parejas">Psicología de parejas</option>
+          </select>
         </div>
         
 
@@ -240,7 +275,7 @@ function Formulario() {
             />
             {showTooltip && (
               <div className="tooltip-box">
-                La descipción debe tener 400 ceracteres como máximo, 
+                La descipción debe tener 400 caracteres como máximo, 
                 usar solo letras y numeros
               </div>
             )}
@@ -258,7 +293,8 @@ function Formulario() {
                 {showTooltipIcon1 && (
                 <div className="tooltip-box-icon">
                   Elija una imagen representativa en formato JPG o PNG.<br/>
-                  El peso de la imagen no debe exceder los 5MB.
+                  El peso de la imagen no debe exceder los 5MB y<br/>
+                  la imagen debe estar en un tamaño de 1000x1600.
                 </div>
               )}
               </span>
@@ -277,21 +313,21 @@ function Formulario() {
               )}
               <input {...imageDropzone.getInputProps()} style={{ display: 'none' }} />
               {imageFiles.length > 0 && (
-  <div className="uploaded-file">
-    {imageFiles.map((file) => (
-      <div key={file.path}>
-        <img 
-          src={file.preview} 
-          alt={file.name} 
-          width="100px" 
-          onClick={imageDropzone.open} 
-          style={{ cursor: 'pointer' }} 
-        />
-        <p>{file.name}</p>
-      </div>
-    ))}
-  </div>
-)}
+                <div className="uploaded-file">
+                  {imageFiles.map((file) => (
+                    <div key={file.path}>
+                      <img 
+                        src={file.preview} 
+                        alt={file.name} 
+                        width="100px" 
+                        onClick={imageDropzone.open} 
+                        style={{ cursor: 'pointer' }} 
+                      />
+                      <p>{file.name}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
 
             </div>
           </div>
@@ -338,11 +374,12 @@ function Formulario() {
           </div>
         </div>
         <div className='form-buttons'>
-        
           <button type="button" 
-                  onClick={handleCancel}> Cancelar</button>
+                  onClick={handleCancel}> Cancelar
+          </button>
           <button type="submit" 
-                > Subir </button>
+                > Subir 
+          </button>
         </div>
         
       </form>
