@@ -19,7 +19,7 @@ const AudiolibroRegistrado = () => {
 
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
     const [selectedLibro, setSelectedLibro] = useState(null); 
-
+    const rol = 1;
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -133,6 +133,7 @@ const AudiolibroRegistrado = () => {
                                 autor={libro.autor}
                                 descripcion={libro.descripcion}
                                 duracion={libro.duracion}
+                                rol={rol}
                                 onEdit={() => handleEditAudiobook(libro.id)} 
                                 onDelete={() => openConfirmModal(libro)} 
                                 onClick={() => handleContainerClick(libro.id)}

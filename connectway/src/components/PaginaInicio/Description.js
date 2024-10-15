@@ -7,17 +7,17 @@ import { collection, getDocs } from 'firebase/firestore';
 import '../../estilos/PaginaInicio/Description.css';
 
 const Description = () => {
-    const [images, setImages] = useState([]);
+    const [audiolibros, setAudiolibros] = useState([]);
 
     useEffect(() => {
-        const fetchImages = async () => {
+        const fetchAudiolibros = async () => {
             const audiolibrosCollection = collection(db, 'Audiolibro');
             const audiolibrosSnapshot = await getDocs(audiolibrosCollection);
-            const imagesList = audiolibrosSnapshot.docs.map(doc => doc.data().imagenPortadaURL);
-            setImages(imagesList);
+            const audiolibrosList = audiolibrosSnapshot.docs.map(doc => doc.data());
+            setAudiolibros(audiolibrosList);
         };
 
-        fetchImages();
+        fetchAudiolibros();
     }, []);
 
     const settings = {
@@ -26,7 +26,7 @@ const Description = () => {
         speed: 500,
         slidesToShow: 3, // Mostrar tres imágenes a la vez
         slidesToScroll: 1,
-        autoplay: true, 
+        autoplay: true,
         autoplaySpeed: 2500,
         responsive: [
             {
@@ -52,9 +52,13 @@ const Description = () => {
     return (
         <div className="description">
             <Slider {...settings}>
-                {images.map((image, index) => (
+                {audiolibros.map((audiolibro, index) => (
                     <div key={index} className="description-box">
-                        <img src={image} alt={`Audiolibro ${index + 1}`} />
+                        <img src={audiolibro.imagenPortadaURL} alt={`Audiolibro ${index + 1}`} />
+                        <div className="audiolibro-info">
+                            <h3>{audiolibro.titulo}</h3>
+                            <p>{audiolibro.autor}</p>
+                        </div>
                     </div>
                 ))}
             </Slider>
@@ -63,3 +67,4 @@ const Description = () => {
 };
 
 export default Description;
+
