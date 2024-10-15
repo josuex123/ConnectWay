@@ -30,7 +30,7 @@ export const buscarAudiolibro = async (term) => {
             );
 
             // Filtrar por el término en el título
-            if (data.titulo.toLowerCase().includes(term) || data.autor.toLowerCase().includes(term)) {
+            if (data.titulo.toLowerCase().includes(term)) {
                 audiobooks.push(audiobook); 
             }
         });
