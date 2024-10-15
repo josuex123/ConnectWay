@@ -6,7 +6,7 @@ const AudiobookSearch2 = ({ onResults, setSearchPerformed }) => {
 
     // useEffect para ejecutar la búsqueda cada vez que el usuario escribe
     useEffect(() => {
-        if (searchTerm.trim() !== '' && searchTerm.length>2) { // Verifica si el término no es solo espacios en blanco
+        if (searchTerm.trim() !== '' && searchTerm.length > 2) { // Verifica si el término no es solo espacios en blanco
             const fetchAudiobooks = async () => {
                 const resultados = await buscarAudiolibro(searchTerm);
                 onResults(resultados); // Pasar los resultados al componente padre
