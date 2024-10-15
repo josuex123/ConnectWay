@@ -8,10 +8,10 @@ import NoContentPage from '../../pages/noContent/noContentPage';
 const PaginaInicio = () => {
     return (
         <div className="pagina-inicio">
-            {/*<Navbar />*/}
+            <Navbar />
             <Header />
             <div className="content">
-                <NoContentPage/>
+                <Description/>
                 
             </div>
         </div>

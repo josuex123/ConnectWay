@@ -10,26 +10,26 @@ const LandingPage = () => {
   return (
     <div className="landing-container">
       <nav className="nav-landing">
-        <div className='nav-container-lan'>
-          <NavLink exact to="/" className="nav-logo">
+        <div className='nav-container-landing'>
+          <NavLink exact to="/" className="nav-logo-landing">
             <img src={logo} alt="Logo" className="nav-logo-image" />
             CONNECTWAY
           </NavLink>
-          <ul className="nav-menu">
-            <li className='nav-items'>
-              <NavLink className="nav-lin">
+          <ul className="nav-menu-landing">
+            <li className='nav-items-landing'>
+              <NavLink className="nav-link-landing">
                 Categorías 
                 <FontAwesomeIcon icon={faChevronDown} style={{ marginLeft: '5px' }} />
               </NavLink>
             </li>
-            <li className='nav-items'>
-              <NavLink className="nav-lin">
+            <li className='nav-items-landing'>
+              <NavLink className="nav-link-landing">
                 Iniciar sesión
                 <FontAwesomeIcon icon={faSignInAlt} style={{ marginLeft: '5px' }} />
               </NavLink>
             </li>
-            {/*<li className='nav-items'>
-              <NavLink className="nav-lin-start" to="/Home"> Comenzar </NavLink>
+            {/*<li className='nav-items-landing'>
+              <NavLink className="nav-link-start-landing" to="/Home"> Comenzar </NavLink>
             </li>*/}
           </ul>
         </div>
@@ -46,7 +46,7 @@ const LandingPage = () => {
             en 15 minutos con la aplicación ConnectWay.<br/>
             Conéctate con gente y diviértete en comunidades.
           </p>
-          <NavLink className="btn-start" to="/Home">Comenzar</NavLink>
+          <NavLink className="btn-start-landing" to="/Home">Comenzar</NavLink>
         </div>
         <div className="image-content">
           <img src={portada} alt="Portada" className="phone-image" />
