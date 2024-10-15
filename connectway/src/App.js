@@ -18,6 +18,7 @@ import Perfil from './pages/perfil/perfil';
 import LogIn from './pages/users/login';
 import AudiobookEdit from './pages/audiolibros/FormularioEditar';
 import AudiobookSearch from "./pages/audiolibros/AudiolbroBuscar";
+import AudiobookPage from './Services/AudiolibrosServicios/pruebaBusqueda/PaginaBuscador';
 
 function App() {
   
@@ -41,6 +42,8 @@ function App() {
         <Route path="/FormularioEditar" element={<AudiobookEdit/>} /> 
         
         <Route path="/search" element={<AudiobookSearch/>} />
+
+        <Route path="/buscador" element={<AudiobookPage/>} />
 
       </Routes>
     </Router>

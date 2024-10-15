@@ -2,7 +2,7 @@
 .search-container {
     position: relative; /* Cambia a relative */
     margin-top: 10px; /* Ajusta el margen superior según lo necesario */
-    width: 380px; /* Ajusta el ancho del contenedor */
+    width: 400px; /* Ajusta el ancho del contenedor (reducido) */
     margin-left: auto;  /* Centra el contenedor horizontalmente */
     margin-right: auto; /* Centra el contenedor horizontalmente */
 }
@@ -13,38 +13,41 @@
     align-items: center;
     width: 100%; /* Ocupa el 100% del ancho del contenedor */
     height: 40px; /* Altura de la barra de búsqueda */
-    border: 2px solid #ccc; /* Borde de la barra de búsqueda */
-    border-radius: 10px; /* Esquinas redondeadas */
+    border: 1px solid #ccc; /* Borde de la barra de búsqueda */
+    border-radius: 8px; /* Esquinas redondeadas */
     overflow: hidden; /* Oculta cualquier contenido que sobresalga */
+    background-color: #ffffff; /* Color de fondo de la barra */
 }
 
 /* Estilo del campo de entrada */
 .search-bar input {
     width: 100%; /* Ocupa el 100% del espacio disponible */
     height: 100%; /* Asegura que el input tenga la misma altura que el botón */
-    padding: 10px 20px; /* Espaciado dentro del input */
+    padding: 10px 15px; /* Espaciado dentro del input (ajustado) */
     border: none; /* Elimina el borde del input */
     outline: none; /* Elimina el contorno al hacer clic */
     font-size: 16px; /* Tamaño del texto dentro del input */
+    color: #333; /* Color del texto */
+    background-color: transparent; /* Fondo transparente para el input */
 }
 
 /* Estilo del botón de búsqueda */
 .search-bar .search-button {
-    background-color: #000; /* Color de fondo del botón */
+    background-color: #2CE080; /* Color de fondo del botón (azul) */
     border: none; /* Elimina el borde del botón */
-    padding: 0 20px; /* Espaciado interno del botón */
-    height: 100%; /* Asegura que el botón tenga la misma altura que el input */
+    padding: 0 10px; /* Espaciado interno del botón (ajustado) */
+    height: 40px; /* Asegura que el botón tenga la misma altura que la barra */
     cursor: pointer; /* Cambia el cursor al pasar por encima */
     display: flex; /* Flexbox para centrar el ícono */
     align-items: center; /* Centra verticalmente el ícono */
     justify-content: center; /* Centra horizontalmente el ícono */
-    border-radius: 0 10px 10px 0; /* Esquinas redondeadas en el lado derecho */
+    border-radius: 0 8px 8px 0; /* Esquinas redondeadas en el lado derecho */
 }
 
 /* Estilo del ícono de la lupa */
 .search-bar .search-button i {
-    color: #fff; /* Color del ícono */
-    font-size: 20px; /* Tamaño del ícono */
+    color: #fff; /* Color del ícono (ajustado) */
+    font-size: 16px; /* Tamaño del ícono (ajustado) */
 }
 
 /* Estilo para el contenedor de los resultados */
