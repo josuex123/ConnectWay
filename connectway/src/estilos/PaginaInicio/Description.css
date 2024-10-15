@@ -47,10 +47,17 @@
     align-items: center;
     opacity: 0.75; 
     transition: opacity 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .slick-prev:hover, .slick-next:hover {
     opacity: 1; 
+}
+
+.slick-prev:before, .slick-next:before {
+    font-size: 24px; 
+    color: white; 
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.75); 
 }
 
 .slick-prev {
@@ -61,10 +68,21 @@
     right: -50px;
 }
 
-.slick-prev:before, .slick-next:before {
-    font-size: 24px; 
-    color: white; 
+@media (max-width: 768px) {
+    .slick-prev, .slick-next {
+        width: 30px; 
+        height: 30px;
+    }
+
+    .slick-prev {
+        left: -30px; 
+    }
+
+    .slick-next {
+        right: -30px;
+    }
 }
+
 
 
 @media (max-width: 768px) {
