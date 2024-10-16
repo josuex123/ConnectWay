@@ -24,7 +24,8 @@ function Formulario() {
   const [audioFiles, setAudioFiles] = useState([]);
   const [audioError, setAudioError] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const textRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s.,]+$/;
+  const textTit = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s.,0123456789]+$/;
+  const textAut = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s.,]+$/;
 
   const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
   const [notificationType, setNotificationType] = useState('success'); 
@@ -50,20 +51,52 @@ function Formulario() {
   const handleSubmit = async (event) => {
     event.preventDefault();
   
-    if (!titulo || !autor || !categoria || !descripcion) {
-      setError('Por favor, rellena todos los campos antes de enviar el formulario.');
+    if (!titulo) {
+      setError('Por favor, rellena el título en el formulario.');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    if (!autor) {
+      setError('Por favor, rellena el autor antes de enviar el formulario.');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    if (!categoria) {
+      setError('Por favor, selecciona un categoria antes de enviar le formulario.');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    if (!descripcion) {
+      setError('Por favor, escribe una descripción antes de enviar el formulario.');
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
   
-    if (!textRegex.test(titulo) || !textRegex.test(autor)) {
-      setError('El título y el autor solo pueden contener letras y signos de puntuación comunes.');
+    if (!textTit.test(titulo)) {
+      setError('El título solo puede contener letras, numeros y signos de puntuación comunes.');
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
   
-    if (audioFiles.length === 0 || imageFiles.length === 0) {
-      setError('No dejes vacío los campos para subir archivos.');
+    if (!textAut.test(autor)) {
+      setError('El autor solo puede contener letras y signos de puntuación comunes.');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    if (!textAut.test(descripcion)) {
+      setError('La descipción solo puede contener letras y signos de puntuación comunes.');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+  
+    if (imageFiles.length === 0) {
+      setError('Por favor, sube la portada del libro antes de enviar el formulario.');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    if (audioFiles.length === 0) {
+      setError('Por favor, sube el audiolibro antes de enviar el formulario.');
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
@@ -122,16 +155,13 @@ function Formulario() {
           return;
         }
   
-        // Crear un canvas con las dimensiones deseadas
         const canvas = document.createElement('canvas');
-        canvas.width = maxWidth; // Establecer ancho a 1000
-        canvas.height = maxHeight; // Establecer alto a 1600
+        canvas.width = maxWidth;
+        canvas.height = maxHeight;
         const ctx = canvas.getContext('2d');
         
-        // Dibujar la imagen en el canvas
         ctx.drawImage(img, 0, 0, maxWidth, maxHeight);
   
-        // Convertir el canvas a un blob y crear un archivo
         canvas.toBlob((blob) => {
           const resizedFile = new File([blob], file.name, { type: file.type });
           setImageFiles([Object.assign(resizedFile, {
@@ -159,7 +189,7 @@ function Formulario() {
     audio.onloadedmetadata = () => {
       const duration = Math.round(audio.duration / 60); 
       setDuracion(duration);
-      if ( duration > 30) {
+      if ( duration > 30 || duration < 10) {
         setAudioError('La duración del audio debe ser menor a 30 minutos.');
         setShowModal(true);
       } else {
@@ -186,229 +216,233 @@ function Formulario() {
 
   return (
     <>
-      <h1 className="title">Subir Audiolibro</h1>
-      <form onSubmit={handleSubmit} className="form-container">
+    <h1 className="title">Registrar Audiolibro</h1>
+    <form onSubmit={handleSubmit} className="form-container">
         {error && <div className="alert alert-danger">{error}</div>}
-
         <div className="form-group-horizontal mb-3">
-          <label htmlFor="titulo">Título:</label>
-          <div
+            <label htmlFor="titulo">Título:</label>
+            <div
                 className="tooltip-container"
                 onMouseEnter={() => setShowTooltip(titulo === "")}
                 onMouseLeave={() => setShowTooltip(false)}
-          >
-          <div className="tooltip-container">
-            <input
-              type="text"
-              className="form-control"
-              id="titulo"
-              placeholder="Ej: La Ventaja De Ser Introvertido"
-              value={titulo}
-              onChange={(e) => setTitulo(e.target.value)}
-            />
-            {showTooltip && (
-              <div className="tooltip-box">
-                El título debe contener solo letras (A-Z, a-z).
-              </div>
-            )}
+            >
+                <div className="tooltip-container">
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="titulo"
+                        placeholder="Ej: La Ventaja De Ser Introvertido"
+                        value={titulo}
+                        maxLength="100"
+                        onChange={(e) => setTitulo(e.target.value)}
+                    />
+                    {showTooltip && (
+                        <div className="tooltip-box">
+                            El título debe contener solo letras y números.<br/>
+                            Un máximo de 100 caracteres.
+                        </div>
+                    )}
+                </div>
             </div>
-          </div>
         </div>
 
-       
         <div className='form-group-horizontal mb-3'>
-        <label htmlFor="autor">Autor:</label> 
-            
+            <label htmlFor="autor">Autor:</label> 
             <div className='tooltip-container'>
-            
-              <div
-                className="tooltip-container"
-                onMouseEnter={() => setShowTooltip(autor === "")}
-                onMouseLeave={() => setShowTooltip(false)}
-              >
-                <input
-                  type="text"
-                  className="form-control"
-                  id="autor"
-                  placeholder="Ej: Daniel Goleman"
-                  value={autor}
-                  onChange={(e) => setAutor(e.target.value)}
-                />
-                {showTooltip && (
-                  <div className="tooltip-box">
-                    El nombre del autor debe contener solo letras (A-Z, a-z).
-                  </div>
-                )}
-              </div>
+                <div
+                    className="tooltip-container"
+                    onMouseEnter={() => setShowTooltip(autor === "")}
+                    onMouseLeave={() => setShowTooltip(false)}
+                >
+                    <input
+                    type="text"
+                    className="form-control"
+                    id="autor"
+                    placeholder="Ej: Daniel Goleman"
+                    value={autor}
+                    maxLength="100"
+                    onChange={(e) => setAutor(e.target.value)}
+                    />
+                    {showTooltip && (
+                        <div className="tooltip-box">
+                            El nombre del autor debe contener solamente letras 
+                            y algunos signos de puntuación comunes.<br/>
+                            Un máximo de 100 caracteres.
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
+
         <div className='form-group-horizontal mb-3'>
-          <label htmlFor="autor">Categoría:</label>
-          <select
-            id="categoria"
-            className="form-select"
-            value={categoria}
-            onChange={(e) => setCategoria(e.target.value)}
-          >
-            <option value="">Elegir categoría</option>
-            <option value="meditacion">Meditación</option>
-            <option value="inteligencia_emocional">Inteligencia Emocional</option>
-            <option value="salud_mental">Salud mental en la Universidad</option>
-            <option value="psicologia_parejas">Psicología de parejas</option>
-          </select>
+            <label htmlFor="autor">Categoría:</label>
+            <select
+                id="categoria"
+                className="form-select"
+                value={categoria}
+                onChange={(e) => setCategoria(e.target.value)}
+            >
+                <option value="">Elegir categoría</option>
+                <option value="meditacion">Meditación</option>
+                <option value="inteligencia_emocional">Inteligencia Emocional</option>
+                <option value="salud_mental">Salud mental en la Universidad</option>
+                <option value="psicologia_parejas">Psicología de parejas</option>
+            </select>
         </div>
         
 
         <div className="form-group mb-3">
-          <label htmlFor="descripcion">Descripción:</label>
-          <div
-            className="tooltip-container"
-            onMouseEnter={() => setShowTooltip(descripcion === "")}
-            onMouseLeave={() => setShowTooltip(false)}
-          >
-            <textarea
-              id="descripcion"
-              className="form-control"
-              placeholder="Escribe una breve descripción del libro"
-              value={descripcion}
-              onChange={(e) => setDescripcion(e.target.value)}
-              rows="5"
-              maxLength="500"
-              style={{ resize: 'none' }}
-            />
-            {showTooltip && (
-              <div className="tooltip-box">
-                La descipción debe tener 400 caracteres como máximo, 
-                usar solo letras y numeros
-              </div>
-            )}
-          </div>
+            <label htmlFor="descripcion">Descripción:</label>
+            <div
+                className="tooltip-container"
+                onMouseEnter={() => setShowTooltip(descripcion === "")}
+                onMouseLeave={() => setShowTooltip(false)}
+            >
+                <textarea
+                    id="descripcion"
+                    className="form-control"
+                    placeholder="Escribe una breve descripción del libro"
+                    value={descripcion}
+                    onChange={(e) => setDescripcion(e.target.value)}
+                    rows="5"
+                    maxLength="400"
+                    style={{ resize: 'none' }}
+                />
+                {showTooltip && (
+                    <div className="tooltip-box">
+                        La descipción debe tener 400 caracteres como máximo, 
+                        usar solo letras y números.
+                    </div>
+                )}
+            </div>
         </div>
 
         <div className="file-upload-container">
-          <div className="dropzone-container">
-            <h3 className="dropzone-title">
-              Subir portada:
-              <span className="info-icon" 
-                    onClick={() => setShowTooltipIcon1(!showTooltipIcon1)}
-              >
-                <FontAwesomeIcon icon={faInfoCircle}/>
-                {showTooltipIcon1 && (
-                <div className="tooltip-box-icon">
-                  Elija una imagen representativa en formato JPG o PNG.<br/>
-                  El peso de la imagen no debe exceder los 5MB y<br/>
-                  la imagen debe estar en un tamaño de 1000x1600.
-                </div>
-              )}
-              </span>
-            </h3>
-            <div {...imageDropzone.getRootProps()} className="dropzone">
-              {imageFiles.length === 0 && (
-                <>
-                  <div className="icon-container">
-                    <FontAwesomeIcon icon={faImage} size="2x" className="icon" />
-                  </div>
-                  <button type="button" onClick={imageDropzone.open} className="select-button">
-                    Sube un archivo
-                  </button>
-                  <p>ó deslizalo aquí</p>
-                </>
-              )}
-              <input {...imageDropzone.getInputProps()} style={{ display: 'none' }} />
-              {imageFiles.length > 0 && (
-                <div className="uploaded-file">
-                  {imageFiles.map((file) => (
-                    <div key={file.path}>
-                      <img 
-                        src={file.preview} 
-                        alt={file.name} 
-                        width="100px" 
-                        onClick={imageDropzone.open} 
-                        style={{ cursor: 'pointer' }} 
-                      />
-                      <p>{file.name}</p>
-                    </div>
-                  ))}
-                </div>
-              )}
+            <div className="dropzone-container">
+                <h3 className="dropzone-title">
+                    Subir portada:
+                    <span   
+                        className="info-icon" 
+                        onMouseEnter={() => setShowTooltipIcon1(true)}
+                        onMouseLeave={() => setShowTooltipIcon1(false)}
+                    >
+                        <FontAwesomeIcon icon={faInfoCircle}/>
+                        {showTooltipIcon1 && (
+                            <div className="tooltip-box-icon">
+                                Elija una imagen representativa en formato JPG o PNG.<br/>
+                                El peso de la imagen no debe exceder los 5MB y 
+                                la imagen debe estar en un tamaño de 1000x1600.
+                            </div>
+                        )}
+                    </span>
+                </h3>
 
-            </div>
-          </div>
-
-          <div className="dropzone-container">
-            <h3 className="dropzone-title">Subir audiolibro:
-              <span className="info-icon" 
-                    onClick={() => setShowTooltipIcon2(!showTooltipIcon2)}
-                >
-                  <FontAwesomeIcon icon={faInfoCircle} />
-                  {showTooltipIcon2 && (
-                  <div className="tooltip-box-icon">
-                    El formato de audio debe ser en MP3 ó WAV.<br/>
-                    El peso limite del audiolibro es de 200MG.
-                  </div>
-                )}
-                </span>
-            </h3>
-            <div {...audioDropzone.getRootProps()} className="dropzone">
-              {audioFiles.length === 0 && (
-                <>
-                  <div className="icon-container">
-                    <FontAwesomeIcon icon={faMusic} size="2x" className="icon" />
-                  </div>
-                  <button type="button" onClick={audioDropzone.open} className="select-button">
-                    Sube un archivo
-                  </button>
-                  <p>ó deslizalo aquí</p>
-                </>
-              )}
-              <input {...audioDropzone.getInputProps()} style={{ display: 'none' }} />
-              {audioFiles.length > 0 && (
-                <div className="uploaded-file">
-                  
-                  {audioFiles.map((file) => (
-                    <div key={file.path}>
-                      <p>{file.name}</p>
-                      <button className="btn btn-outline-danger" onClick={removeAudioFile}>Eliminar</button>
-                    </div>
-                  ))}
+                <div {...imageDropzone.getRootProps()} className="dropzone">
+                    {imageFiles.length === 0 && (
+                        <>
+                        <div className="icon-container">
+                            <FontAwesomeIcon icon={faImage} size="2x" className="icon" />
+                        </div>
+                        <button type="button" onClick={imageDropzone.open} className="select-button">
+                            Sube un archivo
+                        </button>
+                        <p>ó deslizalo aquí</p>
+                        </>
+                    )}
+                    <input {...imageDropzone.getInputProps()} style={{ display: 'none' }} />
+                    {imageFiles.length > 0 && (
+                        <div className="uploaded-file">
+                        {imageFiles.map((file) => (
+                            <div key={file.path}>
+                            <img 
+                                src={file.preview} 
+                                alt={file.name} 
+                                width="100px" 
+                                onClick={imageDropzone.open} 
+                                style={{ cursor: 'pointer' }} 
+                            />
+                            <p>{file.name}</p>
+                            </div>
+                        ))}
+                        </div>
+                    )}
                 </div>
-              )}
             </div>
-          </div>
+
+            <div className="dropzone-container">
+                <h3 className="dropzone-title">Subir audiolibro:
+                    <span className="info-icon" 
+                        onMouseEnter={() => setShowTooltipIcon2(true)}
+                        onMouseLeave={() => setShowTooltipIcon2(false)}
+                        
+                    >
+                        <FontAwesomeIcon icon={faInfoCircle} />
+                        {showTooltipIcon2 && (
+                            <div className="tooltip-box-icon">
+                                El formato de audio debe ser en MP3 ó WAV.<br/>
+                                El peso limite del audiolibro es de 200MG.
+                            </div>
+                        )}
+                    </span>
+                </h3>
+                <div {...audioDropzone.getRootProps()} className="dropzone">
+                    {audioFiles.length === 0 && (
+                        <>
+                        <div className="icon-container">
+                            <FontAwesomeIcon icon={faMusic} size="2x" className="icon" />
+                        </div>
+                        <button type="button" onClick={audioDropzone.open} className="select-button">
+                            Sube un archivo
+                        </button>
+                        <p>ó deslizalo aquí</p>
+                        </>
+                    )}
+                    <input {...audioDropzone.getInputProps()} style={{ display: 'none' }} />
+                    {audioFiles.length > 0 && (
+                        <div className="uploaded-file">
+                        <div>
+                            <audio controls src={URL.createObjectURL(audioFiles[0])}></audio>
+                            <p>{audioFiles[0].name}</p>
+                            <button onClick={removeAudioFile}>Eliminar</button>
+                        </div>
+                        </div>
+                    )}
+                </div>
+            </div>
         </div>
+
         <div className='form-buttons'>
-          <button type="button" 
-                  onClick={handleCancel}> Cancelar
-          </button>
-          <button type="submit" 
-                > Subir 
-          </button>
+            <button type="button" onClick={handleCancel}> 
+                Cancelar
+            </button>
+            <button type="submit">
+                Registrar 
+            </button>
         </div>
-        
-      </form>
+    </form>
 
-      <Modal show={showModal} onHide={closeModal} centered>
+    <Modal show={showModal} onHide={closeModal} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Error</Modal.Title>
+            <Modal.Title>Error</Modal.Title>
         </Modal.Header>
         <Modal.Body className="text-center">
-          <FontAwesomeIcon icon={faExclamationCircle} size="3x" style={{ color: 'black' }} />
-          <p className="mt-3">{audioError}</p>
+            <FontAwesomeIcon icon={faExclamationCircle} size="3x" style={{ color: 'black' }} />
+            <p className="mt-3">{audioError}</p>
         </Modal.Body>
         <Modal.Footer className="justify-content-center">
-          <Button variant="secondary" onClick={closeModal}>
-            Cerrar
-          </Button>
+            <Button variant="secondary" onClick={closeModal}>
+                Cerrar
+            </Button>
         </Modal.Footer>
-      </Modal>
+    </Modal>
 
-      <ModalNotificacion
-                isOpen={isModalNotificacionOpen}
-                onClose={closeModalNotificacion}
-                type={notificationType}
-                message={notificationMessage}
-                iconClass={notificationType === 'success' ? 'fa fa-check' : 'fa fa-exclamation'}
-            />
+    <ModalNotificacion
+        isOpen={isModalNotificacionOpen}
+        onClose={closeModalNotificacion}
+        type={notificationType}
+        message={notificationMessage}
+        iconClass={notificationType === 'success' ? 'fa fa-check' : 'fa fa-exclamation'}
+    />
     </>
   );
 }
