@@ -79,7 +79,13 @@
 }
 
 .nav-icon-landing {
-    display: none; 
+    display: none;
+    cursor: pointer;
+}
+
+.menu-icon-landing {
+    font-size: 2rem;
+    color: #03314B;
 }
 
 .main-content {
@@ -132,34 +138,83 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-    .main-content {
+/* Ajustes para la vista en móviles */
+.nav-icon-landing {
+    display: none;
+    cursor: pointer;
+}
+
+.menu-icon-landing {
+    font-size: 2rem;
+    color: #03314B;
+}
+
+.image-content {
+    display: flex; /* Cambia de block a flex */
+    justify-content: center; /* Centra la imagen horizontalmente */
+    align-items: center; /* Centra la imagen verticalmente si fuera necesario */
+    margin-top: 30px;
+    text-align: center;
+}
+
+/* Imagen del teléfono */
+.phone-image {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 20px;
+    margin-left: 70%;
+}
+
+@media screen and (max-width: 768px) {
+    .nav-menu-landing {
+        display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        position: absolute;
+        top: 80px;
+        left: -100%;
+        width: 100%;
+        background-color: #ffffff;
+        transition: left 0.3s ease;
     }
 
-    .titulo-landing {
-        font-size: 36px;
+    .nav-menu-landing.active {
+        left: 0;
+    }
+
+    .nav-icon-landing {
+        display: block;
+        position: absolute;
+        top: 25px;
+        right: 20px;
+        transform: translate(-100%, 50%);
+    }
+
+    .nav-items-landing {
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    
+    .nav-link-landing {
+        padding: 1rem;
+    }
+
+    .main-content {
+        flex-direction: column;
+        align-items: center;
     }
 
     .image-content {
         margin-top: 30px;
+        text-align: center;
     }
 
-    .nav-menu-landing {
-        list-style: none; 
-        padding: 0; 
-        margin: 0;
-        display: flex; 
-        align-items: center;
-        justify-content: flex-end;
-    }
-
-    .nav-icon-landing {
-        display: block; 
-    }
     .phone-image {
-        width: 400px;
-        border-radius: 20px;
+        width: 100%;
+        max-width: 300px;
+        margin-left: 0;
+    }
+
+    .btn-start-landing {
+        padding: 0.5rem 5rem;
     }
 }
