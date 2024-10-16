@@ -220,8 +220,8 @@ const AudiobookEdit = () => {
 
                 <div className="form-buttons">
                     
-                    <button type="button" onClick={() => window.history.back()}>Cancelar</button>
-                    <button type="button" onClick={openConfirmModal}>Guardar</button>
+                    <button className="cancel-bot" type="button" onClick={() => window.history.back()}>Cancelar</button>
+                    <button className="submit-bot"type="button" onClick={openConfirmModal}>Guardar</button>
                 </div>
             </form>
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faMusic, faExclamationCircle, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
@@ -368,7 +368,7 @@ function Formulario() {
                   {audioFiles.map((file) => (
                     <div key={file.path}>
                       <p>{file.name}</p>
-                      <button className="btn btn-outline-danger" onClick={removeAudioFile}>Eliminar</button>
+                      <button className="btn btn-outline-danger eliminar-botton" onClick={removeAudioFile}>Eliminar</button>
                     </div>
                   ))}
                 </div>
@@ -377,10 +377,10 @@ function Formulario() {
           </div>
         </div>
         <div className='form-buttons'>
-          <button type="button" 
+          <button className="cancel-bot" type="button" 
                   onClick={handleCancel}> Cancelar
           </button>
-          <button type="submit" 
+          <button className="submit-bot" type="submit" 
                 > Subir 
           </button>
         </div>

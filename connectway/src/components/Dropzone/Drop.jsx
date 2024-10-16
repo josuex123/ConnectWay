@@ -129,7 +129,9 @@ function Drop() {
               {audioFiles.map((file) => (
                 <div key={file.path}>
                   <p>{file.name}</p>
-                  <button className="btn btn-outline-danger" onClick={removeAudioFile}>Eliminar</button>
+                  <div className="cont-eliminar">
+                    <button className="btn btn-outline-danger" onClick={removeAudioFile}>Eliminar</button>
+                  </div>
                 </div>
               ))}
             </div>

@@ -212,6 +212,8 @@ const AudiolibroRegistrado = () => {
                 onConfirm={handleDelete}
                 title="Confirmar"
                 description={`¿Estás seguro de que deseas eliminar el audiolibro?\nEsta acción es irreversible`}
+                confirmButtonText="Eliminar"
+                cancelButtonText="Cancelar"
                 iconClass="fa fa-trash"
             />
         </div>

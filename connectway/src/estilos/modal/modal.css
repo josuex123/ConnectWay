@@ -17,7 +17,6 @@
     padding: 20px;
     text-align: center;
     position: relative;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .modal-header {
@@ -75,30 +74,40 @@
 }
 
 .cancel-button {
-    padding: 10px 20px;
-    font-size: 14px;
+    
+    padding: 7px 23px;
+    font-size: 0.85rem;
+    border-radius: 5px;
+    width: auto; 
+    margin-right: 10px; 
+    border-color: #03314B; 
+    color: #03314B; 
+    border-style: solid;
+    border-width: 1px;
+    
+}
+.cancel-button:hover {
+    background-color: #03314B; 
+    color: white; 
+}
+.confirm-button {
+    padding: 8px 23px;
+    font-size: 0.85rem;
     border-radius: 5px;
     cursor: pointer;
-    width: auto; /* Ajuste automático del ancho según el contenido */
-    margin-right: 10px; /* Espacio entre el botón de cancelar y aceptar */
-    background-color: #F44336; /* Color de fondo para diferenciar de aceptar */
+    width: auto; 
+    border-color: #03314B; 
+    background-color: #03314B; 
     color: white; 
-    font-weight: bold;
     border: none;
 }
-
-.confirm-button {
-    padding: 10px 20px;
-    font-size: 14px;
-    border-radius: 5px;
-    cursor: pointer;
-    width: auto; /* Ajuste automático del ancho según el contenido */
-    background-color: #2CE080; /* Color de fondo para aceptar */
-    color: #03314B; 
-    font-weight: bold;
-    border: none;
+.confirm-button:hover {
+    border-color: #03314B; 
+    background-color: #03314B; 
+    
 }
 .title-modal{
     font-size: 1.2rem;
     font-weight: bold;
 }
+
