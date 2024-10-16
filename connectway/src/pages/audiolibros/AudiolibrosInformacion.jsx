@@ -25,7 +25,6 @@ const AudiolibrosInformacion = () => {
             <div className="audiolibro-container">
             
                 <div className="audiolibro-detalles">
-                    
                     <div className="contenido-audiolibro p">
                         <p><strong>Título:</strong> Título del Audiolibro</p>
 
@@ -36,9 +35,6 @@ const AudiolibrosInformacion = () => {
                         <img src={Logo} alt="Portada del Audiolibro" />
                     </div>
                 </div>
-                
-                <hr style={{ border: '2px solid black', width: '600px', marginLeft: '120px' }} />
-                
 
                 <div className="detalles-orden" >  
                     <div style={{ display: 'flex', alignItems: 'center' }}>
