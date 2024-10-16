@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import logo from '../images/logoejemplo.png';
-import portada from '../images/hero_desktop.webp';
+import portada from '../images/desktop.png';
 
 const LandingPage = () => {
   return (
