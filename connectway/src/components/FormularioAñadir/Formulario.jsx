@@ -364,11 +364,11 @@ function Formulario() {
               <input {...audioDropzone.getInputProps()} style={{ display: 'none' }} />
               {audioFiles.length > 0 && (
                 <div className="uploaded-file">
-                  <h4>Audio Subido:</h4>
+                  
                   {audioFiles.map((file) => (
                     <div key={file.path}>
                       <p>{file.name}</p>
-                      <button onClick={removeAudioFile}>Eliminar</button>
+                      <button className="btn btn-outline-danger" onClick={removeAudioFile}>Eliminar</button>
                     </div>
                   ))}
                 </div>

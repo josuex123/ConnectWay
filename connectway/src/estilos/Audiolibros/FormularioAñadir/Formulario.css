@@ -102,17 +102,17 @@
   margin-top: 15px;
 }
 
-.uploaded-file img {
+/*.uploaded-file img {
   border: 1px solid #ced4da;
   border-radius: 8px;
   margin-bottom: 10px;
-}
+}*/
 
 .uploaded-file p {
   margin-bottom: 5px;
 }
 
-.uploaded-file button {
+/*.uploaded-file button {
   background-color: #dc3545;
   color: white;
   border: none;
@@ -124,7 +124,7 @@
 
 .uploaded-file button:hover {
   background-color: #c82333;
-}
+}*/
 
 button[type="submit"] {
   background-color: #2CE080;

@@ -6,7 +6,10 @@ import { faSignInAlt, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import logo from '../images/logoejemplo.png';
 import portada from '../images/desktop.png';
 
+
 const LandingPage = () => {
+  const isDisabled = true; 
+
   return (
     <div className="landing-container">
       <nav className="nav-landing">
@@ -17,13 +20,13 @@ const LandingPage = () => {
           </NavLink>
           <ul className="nav-menu">
             <li className='nav-items'>
-              <NavLink className="nav-lin">
+              <NavLink className={`nav-lin ${isDisabled ? 'disabled' : ''}`}>
                 Categorías 
                 <FontAwesomeIcon icon={faChevronDown} style={{ marginLeft: '5px' }} />
               </NavLink>
             </li>
             <li className='nav-items'>
-              <NavLink className="nav-lin">
+              <NavLink className={`nav-lin ${isDisabled ? 'disabled' : ''}`}>
                 Iniciar sesión
                 <FontAwesomeIcon icon={faSignInAlt} style={{ marginLeft: '5px' }} />
               </NavLink>

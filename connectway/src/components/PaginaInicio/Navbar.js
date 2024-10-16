@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import '../../estilos/PaginaInicio/Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,12 +8,10 @@ import person from '../../images/usuario.png';
 import home from '../../images/hogar.png';
 
 const Navbar = () => {
-  const [click, setClick] = useState(false);
   const [isAudiolibrosOpen, setAudiolibrosOpen] = useState(false);
   const location = useLocation(); // Para obtener la ruta actual
   const navigate = useNavigate();
-
-  const handleClick = () => setClick(!click);
+  const isDisabled = true; 
 
   const handleAudiolibrosClick = (e) => {
     e.preventDefault(); 
@@ -37,9 +35,9 @@ const Navbar = () => {
           CONNECTWAY
         </NavLink>
 
-        <ul className={click ? "nav-menu active" : "nav-menu"}>
+        <ul className="nav-menu">
           <li className="nav-item">
-            <NavLink exact to="/Home" className="nav-linkss" onClick={handleClick}>
+            <NavLink exact to="/Home" className="nav-linkss">
               Inicio
               <img src={home} alt="IconHome" className="nav-logo-image1" />
             </NavLink>
@@ -73,25 +71,37 @@ const Navbar = () => {
           </li>
 
           <li className="nav-item">
-            <NavLink to="/comunidad" className="nav-links" onClick={handleClick}>
+            <NavLink 
+              to="/comunidad" 
+              className={`nav-links ${isDisabled ? 'disabled' : ''}`} 
+              style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
+            >
               Comunidad
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="/MiActividad" className="nav-links" onClick={handleClick}>
+            <NavLink 
+              to="/MiActividad" 
+              className={`nav-links ${isDisabled ? 'disabled' : ''}`} 
+              style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
+            >
               Mi actividad
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="/Perfil" className="nav-links" onClick={handleClick}>
+            <NavLink 
+              to="/Perfil" 
+              className={`nav-links ${isDisabled ? 'disabled' : ''}`} 
+              style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
+            >
               Perfil
               <img src={person} alt="IconPerson" className="nav-logo-image1" />
             </NavLink>
           </li>
         </ul>
 
-        <div className="nav-icon" onClick={handleClick}>
-          <FontAwesomeIcon icon={click ? faTimes : faBars} className="menu-icon" />
+        <div className="nav-icon" onClick={() => {}}>
+          <FontAwesomeIcon icon={faBars} className="menu-icon" />
         </div>
       </div>
     </nav>
@@ -99,3 +109,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+  
