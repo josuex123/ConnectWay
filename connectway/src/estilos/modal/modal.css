@@ -63,13 +63,13 @@
 
 .modal-footer {
     display: flex;
-    justify-content: space-between; 
+    justify-content: flex-end; /* Alinea los botones hacia la derecha */
     align-items: center;
     margin-top: 20px;
 }
 .modal-footer-noti {
     display: flex;
-    justify-content: center; 
+    justify-content: flex-end; 
     align-items: center;
     margin-top: 20px;
 }
@@ -79,10 +79,10 @@
     font-size: 14px;
     border-radius: 5px;
     cursor: pointer;
-    width: 30%; 
-    margin-right: 10px;
-    background-color: #2CE080;
-    color: #03314B; 
+    width: auto; /* Ajuste automático del ancho según el contenido */
+    margin-right: 10px; /* Espacio entre el botón de cancelar y aceptar */
+    background-color: #F44336; /* Color de fondo para diferenciar de aceptar */
+    color: white; 
     font-weight: bold;
     border: none;
 }
@@ -92,8 +92,8 @@
     font-size: 14px;
     border-radius: 5px;
     cursor: pointer;
-    width: 30%; 
-    background-color: #2CE080;
+    width: auto; /* Ajuste automático del ancho según el contenido */
+    background-color: #2CE080; /* Color de fondo para aceptar */
     color: #03314B; 
     font-weight: bold;
     border: none;

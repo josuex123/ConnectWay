@@ -72,13 +72,13 @@ const AudiolibroUsuario = () => {
         <div className="pagina-inicio">
             <Navbar />
             <div className="content">
-                <div>
-                    <h4>Audiolibros recientes</h4>
-                </div>
+                
 
                 {/* Barra de búsqueda */}
                 <AudiobookSearch2 onResults={handleSearchResults} setSearchPerformed={setSearchPerformed} />
-                    
+                <div>
+                    <p className='titulo-1'>Audiolibros recientes</p>
+                </div>
                 <div className="d-flex justify-content-between align-items-center">
                     <button
                         className="btn"
