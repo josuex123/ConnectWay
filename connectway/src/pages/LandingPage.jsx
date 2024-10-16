@@ -10,26 +10,26 @@ const LandingPage = () => {
   return (
     <div className="landing-container">
       <nav className="nav-landing">
-        <div className='nav-container-landing'>
-          <NavLink exact to="/" className="nav-logo-landing">
+        <div className='nav-container-lan'>
+          <NavLink exact to="/" className="nav-logo">
             <img src={logo} alt="Logo" className="nav-logo-image" />
             CONNECTWAY
           </NavLink>
-          <ul className="nav-menu-landing">
-            <li className='nav-items-landing'>
-              <NavLink className="nav-link-landing">
-                 Categorías 
+          <ul className="nav-menu">
+            <li className='nav-items'>
+              <NavLink className="nav-lin">
+                Categorías 
                 <FontAwesomeIcon icon={faChevronDown} style={{ marginLeft: '5px' }} />
               </NavLink>
             </li>
-            <li className='nav-items-landing'>
-              <NavLink className="nav-link-landing">
+            <li className='nav-items'>
+              <NavLink className="nav-lin">
                 Iniciar sesión
                 <FontAwesomeIcon icon={faSignInAlt} style={{ marginLeft: '5px' }} />
               </NavLink>
             </li>
-            {/*<li className='nav-items-landing'>
-              <NavLink className="nav-link-start-landing" to="/Home"> Comenzar </NavLink>
+            {/*<li className='nav-items'>
+              <NavLink className="nav-lin-start" to="/Home"> Comenzar </NavLink>
             </li>*/}
           </ul>
         </div>
@@ -45,7 +45,7 @@ const LandingPage = () => {
           y <span className="highlight">psicología de parejas</span> con ConnectWay. Únete, aprende y 
           conecta en comunidad.
           </p>
-          <NavLink className="btn-start-landing" to="/Home">Comenzar</NavLink>
+          <NavLink className="btn-start" to="/Home">Comenzar</NavLink>
         </div>
         <div className="image-content">
           <img src={portada} alt="Portada" className="phone-image" />

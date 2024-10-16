@@ -5,7 +5,7 @@
     color: #0cc7b4;
 }
 
-.nav-container-landing {
+.nav-container-lan {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -14,14 +14,14 @@
     max-width: 1500px;
 }
 
-.nav-menu-landing {
+.nav-menu {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     gap: 10px;
 }
 
-.nav-link-landing {
+.nav-lin {
     color: #03314B;
     text-decoration: none;
     padding: 0.5rem 0.8rem;
@@ -32,7 +32,7 @@
     align-items: center;
 }
 
-.nav-link-start-landing {
+.nav-lin-start {
     color: #03314B;
     text-decoration: none;
     background-color: #2CE080;
@@ -41,44 +41,31 @@
     font-weight: 600;
 }
 
-.nav-link-landing:hover {
+.nav-lin:hover {
     background-color: #2CE080;
     color: #03314B;
     border-radius: 5px;
 }
-.nav-link-start-landing:hover {
+.nav-lin-start:hover {
     background-color:#20BA68;
     color: #03314B;
     border-radius: 5px;
 }
-.nav-items-landing {
+.nav-items {
     margin-right: 1rem;
 }
 
-.nav-logo-landing {
-    font-size: 24px;
-    font-weight: bold;
-    color: #03314B; 
-    display: flex;
-    align-items: center;
-    text-decoration: none;
+.nav-logo {
+    flex: 1; 
 }
 
-.nav-link-landing, .nav-link-start-landing {
-    color: #03314B; 
-    text-decoration: none;
-    padding: 0.5rem 0.8rem;
-}
-
-.nav-menu-landing {
-    list-style: none; 
-    padding: 0;
-    margin: 0;
+.nav-menu {
+    flex: 2; 
     display: flex;
     align-items: center;
 }
 
-.nav-icon-landing {
+.nav-icon {
     display: none; 
 }
 
@@ -94,7 +81,11 @@
 }
 
 .titulo-landing {
-    font-size: 36px;
+    font-size: 45px;
+    font-family: 'CeraPRO', sans-serif;
+    color: black;
+    margin-bottom: 20px;
+    font-weight: 600;
 }
 
 .texto-landing {
@@ -116,7 +107,8 @@
     margin-left: 45%;
 }
 
-.btn-start-landing {
+/* Botón Comenzar */
+.btn-start {
     background-color: #2CE080;
     color: #03314B;
     padding: 0.5rem 10rem; 
@@ -125,7 +117,7 @@
     font-weight: bold;
     display: inline-block;
 }
-.btn-start-landing:hover {
+.btn-start:hover {
     background-color:#20BA68;
     color: #03314B;
     border-radius: 5px;
@@ -146,16 +138,11 @@
         margin-top: 30px;
     }
 
-    .nav-menu-landing {
-        list-style: none; 
-        padding: 0; 
-        margin: 0;
-        display: flex; 
-        align-items: center;
-        justify-content: flex-end;
+    .nav-menu {
+        display: none; 
     }
 
-    .nav-icon-landing {
+    .nav-icon {
         display: block; 
     }
     .phone-image {

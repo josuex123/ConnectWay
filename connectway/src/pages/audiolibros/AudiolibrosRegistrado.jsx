@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Navbar from '../../components/PaginaInicio/Navbar';
 import '../../estilos/Audiolibros/AudiolibrosRegistrado.css';
 import Contenedor from '../../components/Contenedor/Contenedor';
@@ -7,6 +7,7 @@ import { collection, getDocs, doc, deleteDoc } from 'firebase/firestore';
 import ModalNotificacion from '../../components/Modal/ModalNotificacion';
 import ModalConfirmacion from '../../components/Modal/ModalConfirmacion';
 import { useNavigate } from 'react-router-dom';
+import AudiobookSearch2 from '../../components/BarraBuscador/BarraBuscador'; // Importar la barra de búsqueda
 
 const AudiolibroRegistrado = () => {
     const [audiolibros, setAudiolibros] = useState([]);
@@ -19,7 +20,9 @@ const AudiolibroRegistrado = () => {
 
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
     const [selectedLibro, setSelectedLibro] = useState(null); 
-
+    const [searchPerformed, setSearchPerformed] = useState(false); // Indica si se realizó una búsqueda
+    const [searchResults, setSearchResults] = useState([]); // Resultados de la búsqueda
+    const rol = 1;
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -43,7 +46,7 @@ const AudiolibroRegistrado = () => {
     };
 
     const next = () => {
-        if (currentIndex < audiolibros.length - maxItems) {
+        if (currentIndex < getMaxIndex()) {
             setCurrentIndex(currentIndex + 1);
         }
     };
@@ -52,6 +55,13 @@ const AudiolibroRegistrado = () => {
         if (currentIndex > 0) {
             setCurrentIndex(currentIndex - 1);
         }
+    };
+
+    const getMaxIndex = () => {
+        if (searchPerformed) {
+            return Math.max(searchResults.length - maxItems, 0);
+        }
+        return Math.max(audiolibros.length - maxItems, 0);
     };
 
     const showModalNotificacion = (type, message) => { 
@@ -93,14 +103,21 @@ const AudiolibroRegistrado = () => {
     const handleEditAudiobook = (id) => {
         const selectedAudiobook = audiolibros.find(libro => libro.id === id);
         
-
         if (selectedAudiobook) {
             navigate('/Audiolibros/editar', { state: { audiobook: selectedAudiobook } });
         }
     };
+
     const handleContainerClick = (id) => {
         navigate(`/Audiolibros/registrados/informacion`, { state: { idLibro: id } });
     };
+
+    // Función para manejar los resultados de la búsqueda
+    const handleSearchResults = useCallback((resultados) => {
+        setSearchResults(resultados); 
+        setSearchPerformed(true); 
+        setCurrentIndex(0); // Reiniciar el índice al realizar una búsqueda
+    }, []);
 
     return (
         <div className="pagina-inicio">
@@ -109,6 +126,10 @@ const AudiolibroRegistrado = () => {
                 <div>
                     <h1 className='titulo-aud-reg'>Audiolibros Registrados</h1>
                 </div>
+
+                {/* Barra de búsqueda */}
+                <AudiobookSearch2 onResults={handleSearchResults} setSearchPerformed={setSearchPerformed} />
+
                 <div className="d-flex justify-content-between align-items-center">
                     <button
                         className="btn"
@@ -125,24 +146,47 @@ const AudiolibroRegistrado = () => {
                         &lt;
                     </button>
                     <div className="d-flex justify-content-around flex-wrap" style={{ width: '80%' }}>
-                        {audiolibros.slice(currentIndex, currentIndex + maxItems).map((libro, index) => (
-                            <Contenedor
-                                key={index}
-                                imgPortada={libro.imagenPortadaURL}
-                                titulo={libro.titulo}
-                                autor={libro.autor}
-                                descripcion={libro.descripcion}
-                                duracion={libro.duracion}
-                                onEdit={() => handleEditAudiobook(libro.id)} 
-                                onDelete={() => openConfirmModal(libro)} 
-                                onClick={() => handleContainerClick(libro.id)}
-                            />
-                        ))}
+                        {/* Mostrar resultados de la búsqueda o los audiolibros por defecto */}
+                        {searchPerformed ? (
+                            searchResults.length === 0 ? (
+                                <p>No encontramos resultados que coincidan con tu búsqueda. Intenta con términos diferentes o revisa la ortografía.</p>
+                            ) : (
+                                searchResults.slice(currentIndex, currentIndex + maxItems).map((libro, index) => (
+                                    <Contenedor
+                                        key={libro.id}//cambié id por index
+                                        imgPortada={libro.imagenPortadaUrl}
+                                        titulo={libro.title}
+                                        autor={libro.author}
+                                        descripcion={libro.description}
+                                        duracion={libro.duration}
+                                        rol={rol}
+                                        onEdit={() => handleEditAudiobook(libro.id)} 
+                                        onDelete={() => openConfirmModal(libro)} 
+                                        onClick={() => handleContainerClick(libro.id)}
+                                    />
+                                ))
+                            )
+                        ) : (
+                            audiolibros.slice(currentIndex, currentIndex + maxItems).map((libro, index) => (
+                                <Contenedor
+                                    key={libro.id}//cambié id por index
+                                    imgPortada={libro.imagenPortadaURL}
+                                    titulo={libro.titulo}
+                                    autor={libro.autor}
+                                    descripcion={libro.descripcion}
+                                    duracion={libro.duracion}
+                                    rol={rol}
+                                    onEdit={() => handleEditAudiobook(libro.id)} 
+                                    onDelete={() => openConfirmModal(libro)} 
+                                    onClick={() => handleContainerClick(libro.id)}
+                                />
+                            ))
+                        )}
                     </div>
                     <button
                         className="btn"
                         onClick={next}
-                        disabled={currentIndex >= audiolibros.length - maxItems}
+                        disabled={currentIndex >= getMaxIndex()}
                         style={{
                             fontSize: '3rem',
                             paddingRight: '10px',
@@ -167,7 +211,7 @@ const AudiolibroRegistrado = () => {
                 onClose={closeConfirmModal}
                 onConfirm={handleDelete}
                 title="Confirmar"
-                description={`¿Estás seguro de que deseas eliminar el audiolibro?`}
+                description={`¿Estás seguro de que deseas eliminar el audiolibro?\nEsta acción es irreversible`}
                 iconClass="fa fa-trash"
             />
         </div>
