@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import logo from '../images/logoejemplo.png';
-import portada from '../images/hero_desktop.webp';
+import portada from '../images/desktop.png';
 
 const LandingPage = () => {
   return (
@@ -18,7 +18,7 @@ const LandingPage = () => {
           <ul className="nav-menu-landing">
             <li className='nav-items-landing'>
               <NavLink className="nav-link-landing">
-                Categorías 
+                 Categorías 
                 <FontAwesomeIcon icon={faChevronDown} style={{ marginLeft: '5px' }} />
               </NavLink>
             </li>
@@ -28,9 +28,9 @@ const LandingPage = () => {
                 <FontAwesomeIcon icon={faSignInAlt} style={{ marginLeft: '5px' }} />
               </NavLink>
             </li>
-            <li className='nav-items-landing'>
+            {/*<li className='nav-items-landing'>
               <NavLink className="nav-link-start-landing" to="/Home"> Comenzar </NavLink>
-            </li>
+            </li>*/}
           </ul>
         </div>
       </nav>
@@ -40,11 +40,10 @@ const LandingPage = () => {
           <h1 className='titulo-landing'>“El alma que se cura a sí misma puede curar a otros” - Pitágoras</h1>
           
           <p className='texto-landing'>
-            Explora audiolibros sobre 
-            <span className="highlight">inteligencia emocional</span>, <span className="highlight">meditación</span>, 
-            <span className="highlight">salud mental</span> y <span className="highlight">psicología de parejas</span> 
-            en 15 minutos con la aplicación ConnectWay.<br/>
-            Conéctate con gente y diviértete en comunidades.
+          Descubre audiolibros sobre <span className="highlight">inteligencia emocional</span>, 
+          <span className="highlight">meditación</span>, <span className="highlight">salud mental</span> 
+          y <span className="highlight">psicología de parejas</span> con ConnectWay. Únete, aprende y 
+          conecta en comunidad.
           </p>
           <NavLink className="btn-start-landing" to="/Home">Comenzar</NavLink>
         </div>

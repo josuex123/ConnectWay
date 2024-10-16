@@ -56,11 +56,24 @@
 }
 
 .nav-logo-landing {
-    flex: 1; 
+    font-size: 24px;
+    font-weight: bold;
+    color: #03314B; 
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.nav-link-landing, .nav-link-start-landing {
+    color: #03314B; 
+    text-decoration: none;
+    padding: 0.5rem 0.8rem;
 }
 
 .nav-menu-landing {
-    flex: 2; 
+    list-style: none; 
+    padding: 0;
+    margin: 0;
     display: flex;
     align-items: center;
 }
@@ -81,12 +94,7 @@
 }
 
 .titulo-landing {
-    font-size: 55px;
-    font-family: 'CeraPRO', sans-serif;
-    color: black;
-    margin-bottom: 20px;
-    font-weight: 600;
-    font-style: italic;
+    font-size: 36px;
 }
 
 .texto-landing {
@@ -108,7 +116,6 @@
     margin-left: 45%;
 }
 
-/* Botón Comenzar */
 .btn-start-landing {
     background-color: #2CE080;
     color: #03314B;
@@ -140,7 +147,12 @@
     }
 
     .nav-menu-landing {
-        display: none; 
+        list-style: none; 
+        padding: 0; 
+        margin: 0;
+        display: flex; 
+        align-items: center;
+        justify-content: flex-end;
     }
 
     .nav-icon-landing {
