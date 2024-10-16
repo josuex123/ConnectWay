@@ -7,10 +7,10 @@ import logo from '../images/logoejemplo.png';
 import portada from '../images/desktop.png';
 
 const LandingPage = () => {
-  const [menuOpen, setMenuOpen] = useState(false); // Estado para manejar el menú
+  const [menuOpen, setMenuOpen] = useState(false); 
 
   const toggleMenu = () => {
-    setMenuOpen(!menuOpen); // Alternar entre abrir/cerrar menú
+    setMenuOpen(!menuOpen); 
   };
 
   return (
@@ -23,7 +23,6 @@ const LandingPage = () => {
           </NavLink>
 
           <div className="nav-icon-landing" onClick={toggleMenu}>
-            {/* Alterna entre el ícono de hamburguesa y de cierre */}
             <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} className="menu-icon-landing" />
           </div>
 

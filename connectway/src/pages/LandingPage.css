@@ -150,14 +150,14 @@
 }
 
 .image-content {
-    display: flex; /* Cambia de block a flex */
-    justify-content: center; /* Centra la imagen horizontalmente */
-    align-items: center; /* Centra la imagen verticalmente si fuera necesario */
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
     margin-top: 30px;
     text-align: center;
 }
 
-/* Imagen del teléfono */
+
 .phone-image {
     width: 100%;
     max-width: 500px;
