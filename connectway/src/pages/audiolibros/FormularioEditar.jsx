@@ -16,26 +16,55 @@ const AudiobookEdit = () => {
     const [autor, setAutor] = useState('');
     const [categoria, setCategoria] = useState('');
     const [descripcion, setDescripcion] = useState('');
-    const [imagenUrl, setImagenUrl] = useState(''); // Campo para imagen
-    const [audioUrl, setAudioUrl] = useState('');   // Campo para el audio
+    const [imagenUrl, setImagenUrl] = useState('');
+    const [audioUrl, setAudioUrl] = useState('');
 
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
     const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
     const [notificationType, setNotificationType] = useState('success');
     const [notificationMessage, setNotificationMessage] = useState('');
-
     const storage = getStorage();
 
-    // Cargamos los valores del audiolibro cuando el componente se monta
+    const [isFormValid, setIsFormValid] = useState(false);
+    const [initialValues, setInitialValues] = useState({
+        titulo: '',
+        autor: '',
+        categoria: '',
+        descripcion: '',
+        imagenUrl: '',
+        audioUrl: '',
+    });
+
+    useEffect(() => {
+        const hasChanges = 
+            titulo !== initialValues.titulo || 
+            autor !== initialValues.autor || 
+            descripcion !== initialValues.descripcion ||
+            categoria !== initialValues.categoria ||
+            imagenUrl !== initialValues.imagenUrl ||
+            audioUrl !== initialValues.audioUrl;
+        setIsFormValid(hasChanges);
+    }, [titulo, autor, descripcion, categoria,imagenUrl,audioUrl, initialValues]);
+    
+
     useEffect(() => {
         if (audiobook) {
-            console.log(audiobook);
-            setTitulo(audiobook.titulo || '');
-            setAutor(audiobook.autor || '');
-            setCategoria(audiobook.categoria || '');
-            setDescripcion(audiobook.descripcion || '');
-            setImagenUrl(audiobook.imagenPortadaURL || ''); 
-            setAudioUrl(audiobook.archivoAudioURL || '');   
+            const { titulo, autor, categoria, descripcion, imagenPortadaURL, archivoAudioURL } = audiobook;
+            setInitialValues({
+                titulo: titulo || '',
+                autor: autor || '',
+                categoria: categoria || '',
+                descripcion: descripcion || '',
+                imagenUrl: imagenPortadaURL || '',
+                audioUrl: archivoAudioURL || '',
+            });
+
+            setTitulo(titulo || '');
+            setAutor(autor || '');
+            setCategoria(categoria || '');
+            setDescripcion(descripcion || '');
+            setImagenUrl(imagenPortadaURL || ''); 
+            setAudioUrl(archivoAudioURL || '');   
         }
     }, [audiobook]);
 
@@ -95,11 +124,86 @@ const AudiobookEdit = () => {
         });
     };
 
+    const validateTitle = (value) => {
+        const regex = /^[a-zA-ZÀ-ÿ0-9\s]*$/; // Permitir solo letras, números y espacios
+        if (value.length > 100) {
+            showModalNotificacion('error', 'El título no puede superar los 100 caracteres.');
+            return false;
+        }
+        if (!regex.test(value)) {
+            showModalNotificacion('error', 'El título no puede contener caracteres especiales, solo numeros, letras y letras con tíldes.');
+            return false;
+        }
+        return true;
+    };
+
+    const validateAutor = (value) => {
+        const regex = /^[a-zA-ZÀ-ÿ\s]*$/; // Permitir solo letras y espacios
+        if (value.length > 50) {
+            showModalNotificacion('error', 'El nombre del Autor no puede superar los 50 caracteres.');
+            return false;
+        }
+        if (!regex.test(value)) {
+            showModalNotificacion('error', 'El nombre del Autor solo admite letras, letras con tílde y numeros.');
+            return false;
+        }
+        return true;
+
+    };
+
+    const validateDescription= (value) => {
+        const regex = /^[a-zA-ZÀ-ÿ\s.,'"()\-ñáéíóú0-9:¿?¡!:;<>]*$/; // Permitir solo letras y espacios
+        if (value.length > 400) {
+            showModalNotificacion('error', 'La descripcion no puede superar los 400 caracteres.');
+            return false;
+        }
+        if (!regex.test(value)) {
+            showModalNotificacion('error', 'Los caracteres permitidos son: letras (a-z, A-Z, áéíóú, ÁÉÍÓÚ, ñ), números (0-9), espacios, y los siguientes caracteres especiales: . , ’ " ( ) - : ¿ ? ¡ ! ; < >');
+            return false;
+        }
+        return true;
+
+    };
+
+  
+    const handleTitleChange = (e) => {
+        const { value } = e.target;
+        if (validateTitle(value)) {
+            setTitulo(value);
+           
+        }
+    };
+
+    const handleAuthorChange = (e) => {
+        const { value } = e.target;
+        if (validateAutor(value)) {
+            setAutor(value);
+            
+        }
+    };
+
+    const handleDescriptionChange = (e) => {
+        const { value } = e.target;
+        if (validateDescription(value)) {
+            setDescripcion(value);
+           
+        }
+    };
+
+
     const handleSubmit = async () => {
+        if (!titulo || !autor || !descripcion) {
+            const emptyFields = [];
+            if (!titulo) emptyFields.push('Título');
+            if (!autor) emptyFields.push('Autor');
+            if (!descripcion) emptyFields.push('Descripción');
+    
+            showModalNotificacion('error', `Los siguientes campos están vacíos: ${emptyFields.join(', ')}`);
+            return; // No continuar si hay campos vacíos
+        }
         let imageUrlToSave = imagenUrl;
         let audioUrlToSave = audioUrl;
 
-        // Si es un archivo nuevo, lo subimos
         if (typeof imagenUrl === 'object') {
             imageUrlToSave = await uploadImageToStorage(imagenUrl);
         }
@@ -114,7 +218,7 @@ const AudiobookEdit = () => {
             categoria,
             descripcion,
             imagenPortadaURL: imageUrlToSave,
-            archivoAudioURL: audioUrlToSave, // Guardamos la nueva URL o la URL existente del audio
+            archivoAudioURL: audioUrlToSave,
         };
 
         try {
@@ -138,12 +242,33 @@ const AudiobookEdit = () => {
     };
 
     const openConfirmModal = () => {
+        if (!titulo || !autor || !descripcion) {
+            const emptyFields = [];
+            if (!titulo) emptyFields.push('Título');
+            if (!autor) emptyFields.push('Autor');
+            if (!descripcion) emptyFields.push('Descripción'); 
+            showModalNotificacion('error', `Los siguientes campos están vacíos: ${emptyFields.join(', ')}`);
+            return; // No continuar si hay campos vacíos
+        }
+        if(descripcion.length<50){
+            showModalNotificacion('error', `El campo Descripción no puede ser menor a 50 caracteres`);     
+            return;
+        }
+        if(autor.length<3){
+            showModalNotificacion('error', `El campo Autor no puede ser menor a 3 caracteres`);     
+            return;
+        }
+        if(titulo.length<3){
+            showModalNotificacion('error', `El campo Titulo no puede ser menor a 3 caracteres`);     
+            return;
+        }
         setIsConfirmModalOpen(true);
     };
 
     const closeConfirmModal = () => {
         setIsConfirmModalOpen(false);
     };
+    
 
     return (
         <>
@@ -158,7 +283,7 @@ const AudiobookEdit = () => {
                             id="titulo"
                             placeholder="Título"
                             value={titulo}
-                            onChange={(e) => setTitulo(e.target.value)}
+                            onChange={handleTitleChange}
                         />
                     </div>
                 </div>
@@ -172,7 +297,7 @@ const AudiobookEdit = () => {
                             id="autor"
                             placeholder="Autor"
                             value={autor}
-                            onChange={(e) => setAutor(e.target.value)}
+                            onChange={handleAuthorChange}
                         />
                     </div>
                 </div>
@@ -180,18 +305,18 @@ const AudiobookEdit = () => {
                 <div className="form-group-horizontal mb-3">
                     <label htmlFor="categoria">Categoría:</label>
                     <div className="tooltip-container">
-                        <select
-                            id="categoria"
-                            className='form-select'
-                            value={categoria}
-                            onChange={(e) => setCategoria(e.target.value)}
-                        >
-                            <option value="">Elegir categoría</option>
-                            <option value="meditacion">Meditación</option>
-                            <option value="inteligencia_emocional">Inteligencia Emocional</option>
-                            <option value="salud_mental">Salud Mental</option>
-                            <option value="psicologia_parejas">Psicología de Parejas</option>
-                        </select>
+                    <select
+                        id="categoria"
+                        className='form-select'
+                        value={categoria}
+                        onChange={(e) => setCategoria(e.target.value)}>
+                        <option value="" disabled>Elegir categoría</option>
+                        <option value="meditacion">Meditación</option>
+                        <option value="inteligencia_emocional">Inteligencia Emocional</option>
+                        <option value="salud_mental">Salud Mental</option>
+                        <option value="psicologia_parejas">Psicología de Parejas</option>
+                    </select>
+
                     </div>
                 </div>
 
@@ -205,23 +330,31 @@ const AudiobookEdit = () => {
                             value={descripcion}
                             rows="5"
                             maxLength="500"
-                            onChange={(e) => setDescripcion(e.target.value)}
+                            onChange={handleDescriptionChange}
                             style={{ resize: 'none' }}
                         />
                     </div>
                 </div>
 
                 <EditMediaDrop
-                    initialImageUrl={imagenUrl}   // Mostrar la imagen actual o subir una nueva
-                    initialAudioUrl={audioUrl}    // Mostrar el audio actual o subir uno nuevo
-                    onImageChange={setImagenUrl}  // Callback para cuando cambie la imagen
-                    onAudioChange={setAudioUrl}   // Callback para cuando cambie el audio
+                    initialImageUrl={imagenUrl}   
+                    initialAudioUrl={audioUrl}    
+                    onImageChange={setImagenUrl}  
+                    onAudioChange={setAudioUrl}   
                 />
 
                 <div className="form-buttons">
-                    
                     <button type="button" onClick={() => window.history.back()}>Cancelar</button>
-                    <button type="button" onClick={openConfirmModal}>Guardar</button>
+                    <button type="button" 
+                        onClick={openConfirmModal}
+                        disabled={!isFormValid}
+                        style={{
+                            backgroundColor: isFormValid ? '#2CE080' : '#d3d3d3', 
+                            color: isFormValid ? '#03314B' : '#666', 
+                            cursor: isFormValid ? 'pointer' : 'not-allowed', // Cursor de puntero si habilitado, no permitido si deshabilitado
+                        }}
+                    >Guardar
+                    </button>
                 </div>
             </form>
 
