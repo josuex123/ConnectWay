@@ -8,12 +8,11 @@ import person from '../../images/usuario.png';
 import home from '../../images/hogar.png';
 
 const Navbar = () => {
-  const [click, setClick] = useState(false);
   const [isAudiolibrosOpen, setAudiolibrosOpen] = useState(false);
-  const location = useLocation(); // Para obtener la ruta actual
+  const [isMenuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
   const navigate = useNavigate();
-
-  const handleClick = () => setClick(!click);
+  const isDisabled = true;
 
   const handleAudiolibrosClick = (e) => {
     e.preventDefault(); 
@@ -24,9 +23,12 @@ const Navbar = () => {
     }
   };
 
-  // Función para verificar si el botón de Audiolibros o los submenús están activos
   const isAudiolibrosActive = () => {
     return location.pathname.includes('/audiolibros');
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen(!isMenuOpen);
   };
 
   return (
@@ -37,9 +39,9 @@ const Navbar = () => {
           CONNECTWAY
         </NavLink>
 
-        <ul className={click ? "nav-menu active" : "nav-menu"}>
+        <ul className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
           <li className="nav-item">
-            <NavLink exact to="/Home" className="nav-linkss" onClick={handleClick}>
+            <NavLink exact to="/Home" className="nav-linkss" onClick={() => setMenuOpen(false)}>
               Inicio
               <img src={home} alt="IconHome" className="nav-logo-image1" />
             </NavLink>
@@ -57,14 +59,14 @@ const Navbar = () => {
                 <NavLink 
                   to="/audiolibros/añadir" 
                   className={`dropdown-link ${location.pathname === '/audiolibros/añadir' ? 'active' : ''}`}
-                  onClick={() => setAudiolibrosOpen(false)}
+                  onClick={() => setMenuOpen(false)}
                 >
                   Añadir audiolibro
                 </NavLink>
                 <NavLink 
                   to="/audiolibros/registrados" 
                   className={`dropdown-link ${location.pathname === '/audiolibros/registrados' ? 'active' : ''}`} 
-                  onClick={() => setAudiolibrosOpen(false)}
+                  onClick={() => setMenuOpen(false)}
                 >
                   Audiolibros registrados
                 </NavLink>
@@ -73,25 +75,42 @@ const Navbar = () => {
           </li>
 
           <li className="nav-item">
-            <NavLink to="/comunidad" className="nav-links" onClick={handleClick}>
+            <NavLink 
+              to="/comunidad" 
+              className={`nav-links ${isDisabled ? 'disabled' : ''}`} 
+              style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
+              onClick={() => setMenuOpen(false)}
+            >
               Comunidad
             </NavLink>
           </li>
+
           <li className="nav-item">
-            <NavLink to="/MiActividad" className="nav-links" onClick={handleClick}>
+            <NavLink 
+              to="/MiActividad" 
+              className={`nav-links ${isDisabled ? 'disabled' : ''}`} 
+              style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
+              onClick={() => setMenuOpen(false)}
+            >
               Mi actividad
             </NavLink>
           </li>
+
           <li className="nav-item">
-            <NavLink to="/Perfil" className="nav-links" onClick={handleClick}>
+            <NavLink 
+              to="/Perfil" 
+              className={`nav-links ${isDisabled ? 'disabled' : ''}`} 
+              style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
+              onClick={() => setMenuOpen(false)}
+            >
               Perfil
               <img src={person} alt="IconPerson" className="nav-logo-image1" />
             </NavLink>
           </li>
         </ul>
 
-        <div className="nav-icon" onClick={handleClick}>
-          <FontAwesomeIcon icon={click ? faTimes : faBars} className="menu-icon" />
+        <div className="nav-icon" onClick={toggleMenu}>
+          <FontAwesomeIcon icon={isMenuOpen ? faTimes : faBars} className="menu-icon" />
         </div>
       </div>
     </nav>

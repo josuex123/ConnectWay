@@ -1,36 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './LandingPage.css';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignInAlt, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faSignInAlt, faChevronDown, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import logo from '../images/logoejemplo.png';
-import portada from '../images/hero_desktop.webp';
+import portada from '../images/desktop.png';
+const isDisabled = true; 
 
 const LandingPage = () => {
+  const [menuOpen, setMenuOpen] = useState(false); 
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen); 
+  };
+
   return (
     <div className="landing-container">
       <nav className="nav-landing">
-        <div className='nav-container-lan'>
-          <NavLink exact to="/" className="nav-logo">
+        <div className='nav-container-landing'>
+          <NavLink exact to="/" className="nav-logo-landing">
             <img src={logo} alt="Logo" className="nav-logo-image" />
             CONNECTWAY
           </NavLink>
-          <ul className="nav-menu">
-            <li className='nav-items'>
-              <NavLink className="nav-lin">
+
+          <div className="nav-icon-landing" onClick={toggleMenu}>
+            <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} className="menu-icon-landing" />
+          </div>
+
+          <ul className={menuOpen ? "nav-menu-landing active" : "nav-menu-landing"}>
+            <li className='nav-items-landing'>
+              <NavLink className={`nav-link-landing ${isDisabled ? 'disabled' : ''}`} 
+              style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}>
                 Categorías 
                 <FontAwesomeIcon icon={faChevronDown} style={{ marginLeft: '5px' }} />
               </NavLink>
             </li>
-            <li className='nav-items'>
-              <NavLink className="nav-lin">
+            <li className='nav-items-landing'>
+              <NavLink className={`nav-link-landing ${isDisabled ? 'disabled' : ''}`} 
+              style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}>
                 Iniciar sesión
                 <FontAwesomeIcon icon={faSignInAlt} style={{ marginLeft: '5px' }} />
               </NavLink>
             </li>
-            {/*<li className='nav-items'>
-              <NavLink className="nav-lin-start" to="/Home"> Comenzar </NavLink>
-            </li>*/}
           </ul>
         </div>
       </nav>
@@ -40,13 +51,12 @@ const LandingPage = () => {
           <h1 className='titulo-landing'>“El alma que se cura a sí misma puede curar a otros” - Pitágoras</h1>
           
           <p className='texto-landing'>
-            Explora audiolibros sobre 
-            <span className="highlight">inteligencia emocional</span>, <span className="highlight">meditación</span>, 
-            <span className="highlight">salud mental</span> y <span className="highlight">psicología de parejas</span> 
-            en 15 minutos con la aplicación ConnectWay.<br/>
-            Conéctate con gente y diviértete en comunidades.
+          Descubre audiolibros sobre <span className="highlight">inteligencia emocional</span>, 
+          <span className="highlight">meditación</span>, <span className="highlight">salud mental</span> 
+          y <span className="highlight">psicología de parejas</span> con ConnectWay. Únete, aprende y 
+          conecta en comunidad.
           </p>
-          <NavLink className="btn-start" to="/Home">Comenzar</NavLink>
+          <NavLink className="btn-start-landing" to="/Home">Comenzar</NavLink>
         </div>
         <div className="image-content">
           <img src={portada} alt="Portada" className="phone-image" />

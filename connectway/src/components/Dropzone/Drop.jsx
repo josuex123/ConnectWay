@@ -97,9 +97,9 @@ function Drop() {
               <h4>Imagen Subida:</h4>
               {imageFiles.map((file) => (
                 <div key={file.path}>
-                  <img src={file.preview} alt={file.name} width="100px" />
+                  <img className="uploaded-portada" src={file.preview} alt={file.name} width="100px" />
                   <p>{file.name}</p>
-                  <button onClick={removeImageFile}>Eliminar</button>
+                  <button className="btn btn-outline-danger remove-btn" onClick={removeImageFile}>Eliminar</button>
                 </div>
               ))}
             </div>
@@ -129,7 +129,7 @@ function Drop() {
               {audioFiles.map((file) => (
                 <div key={file.path}>
                   <p>{file.name}</p>
-                  <button onClick={removeAudioFile}>Eliminar</button>
+                  <button className="btn btn-outline-danger" onClick={removeAudioFile}>Eliminar</button>
                 </div>
               ))}
             </div>
