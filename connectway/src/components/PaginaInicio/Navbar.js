@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import '../../estilos/PaginaInicio/Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,9 +9,10 @@ import home from '../../images/hogar.png';
 
 const Navbar = () => {
   const [isAudiolibrosOpen, setAudiolibrosOpen] = useState(false);
-  const location = useLocation(); // Para obtener la ruta actual
+  const [isMenuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
   const navigate = useNavigate();
-  const isDisabled = true; 
+  const isDisabled = true;
 
   const handleAudiolibrosClick = (e) => {
     e.preventDefault(); 
@@ -22,9 +23,12 @@ const Navbar = () => {
     }
   };
 
-  // Función para verificar si el botón de Audiolibros o los submenús están activos
   const isAudiolibrosActive = () => {
     return location.pathname.includes('/audiolibros');
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen(!isMenuOpen);
   };
 
   return (
@@ -35,9 +39,9 @@ const Navbar = () => {
           CONNECTWAY
         </NavLink>
 
-        <ul className="nav-menu">
+        <ul className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
           <li className="nav-item">
-            <NavLink exact to="/Home" className="nav-linkss">
+            <NavLink exact to="/Home" className="nav-linkss" onClick={() => setMenuOpen(false)}>
               Inicio
               <img src={home} alt="IconHome" className="nav-logo-image1" />
             </NavLink>
@@ -55,14 +59,14 @@ const Navbar = () => {
                 <NavLink 
                   to="/audiolibros/añadir" 
                   className={`dropdown-link ${location.pathname === '/audiolibros/añadir' ? 'active' : ''}`}
-                  onClick={() => setAudiolibrosOpen(false)}
+                  onClick={() => setMenuOpen(false)}
                 >
                   Añadir audiolibro
                 </NavLink>
                 <NavLink 
                   to="/audiolibros/registrados" 
                   className={`dropdown-link ${location.pathname === '/audiolibros/registrados' ? 'active' : ''}`} 
-                  onClick={() => setAudiolibrosOpen(false)}
+                  onClick={() => setMenuOpen(false)}
                 >
                   Audiolibros registrados
                 </NavLink>
@@ -75,24 +79,29 @@ const Navbar = () => {
               to="/comunidad" 
               className={`nav-links ${isDisabled ? 'disabled' : ''}`} 
               style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
+              onClick={() => setMenuOpen(false)}
             >
               Comunidad
             </NavLink>
           </li>
+
           <li className="nav-item">
             <NavLink 
               to="/MiActividad" 
               className={`nav-links ${isDisabled ? 'disabled' : ''}`} 
               style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
+              onClick={() => setMenuOpen(false)}
             >
               Mi actividad
             </NavLink>
           </li>
+
           <li className="nav-item">
             <NavLink 
               to="/Perfil" 
               className={`nav-links ${isDisabled ? 'disabled' : ''}`} 
               style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
+              onClick={() => setMenuOpen(false)}
             >
               Perfil
               <img src={person} alt="IconPerson" className="nav-logo-image1" />
@@ -100,8 +109,8 @@ const Navbar = () => {
           </li>
         </ul>
 
-        <div className="nav-icon" onClick={() => {}}>
-          <FontAwesomeIcon icon={faBars} className="menu-icon" />
+        <div className="nav-icon" onClick={toggleMenu}>
+          <FontAwesomeIcon icon={isMenuOpen ? faTimes : faBars} className="menu-icon" />
         </div>
       </div>
     </nav>
@@ -109,4 +118,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-  
