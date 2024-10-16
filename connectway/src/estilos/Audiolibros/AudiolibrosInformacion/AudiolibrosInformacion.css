@@ -1,0 +1,56 @@
+.audiolibro-container {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.audiolibro-detalles {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.contenido-audiolibro p {
+    margin-left: 120px; 
+    margin-top: 80px;
+}
+
+
+.audiolibro-portada img{
+    width: 500px;
+    height: 550px;
+    border: 5px solid black; /* Borrar */
+    margin-top: 100px; 
+    margin-right: 200px; 
+}
+
+.btn-reproducir {
+    background-color: #0A1045;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    margin-left: 120px; 
+    
+}
+
+.detalles-orden{
+    margin-left: 120px; 
+    margin-top: -200px;
+}
+
+.audiolibro-categoria {
+    margin-top: 20px;
+    margin-left: 120px;
+    padding-top: 10px;
+}
+
+.categoria-icono {
+    float: left; 
+    width: 22px;
+    margin-right: 5px; 
+}
+
+.audiolibro-categoria p {
+    display: inline-block; 
+}
