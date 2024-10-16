@@ -64,6 +64,7 @@
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  min-height: 2.4rem;
 }
 
 .duracion i {
@@ -87,7 +88,9 @@
   justify-content: center; 
   
 }
-
+.d-flex {
+  align-items: center; /* Alinea los elementos dentro del contenedor verticalmente */
+}
 .boton-editar i, .boton-eliminar i {
   margin-right: 7px;
   font-size: 1rem;

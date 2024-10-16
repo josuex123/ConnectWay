@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt, faChevronDown, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import logo from '../images/logoejemplo.png';
 import portada from '../images/desktop.png';
-
+const isDisabled = true; 
 
 const LandingPage = () => {
   const [menuOpen, setMenuOpen] = useState(false); 
@@ -13,8 +13,6 @@ const LandingPage = () => {
   const toggleMenu = () => {
     setMenuOpen(!menuOpen); 
   };
-
-  const isDisabled = true; 
 
   return (
     <div className="landing-container">
@@ -24,15 +22,22 @@ const LandingPage = () => {
             <img src={logo} alt="Logo" className="nav-logo-image" />
             CONNECTWAY
           </NavLink>
-          <ul className="nav-menu">
-            <li className='nav-items'>
-              <NavLink className="nav-lin">
+
+          <div className="nav-icon-landing" onClick={toggleMenu}>
+            <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} className="menu-icon-landing" />
+          </div>
+
+          <ul className={menuOpen ? "nav-menu-landing active" : "nav-menu-landing"}>
+            <li className='nav-items-landing'>
+              <NavLink className={`nav-link-landing ${isDisabled ? 'disabled' : ''}`} 
+              style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}>
                 Categorías 
                 <FontAwesomeIcon icon={faChevronDown} style={{ marginLeft: '5px' }} />
               </NavLink>
             </li>
-            <li className='nav-items'>
-              <NavLink className="nav-lin">
+            <li className='nav-items-landing'>
+              <NavLink className={`nav-link-landing ${isDisabled ? 'disabled' : ''}`} 
+              style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}>
                 Iniciar sesión
                 <FontAwesomeIcon icon={faSignInAlt} style={{ marginLeft: '5px' }} />
               </NavLink>
