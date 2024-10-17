@@ -47,24 +47,27 @@ const AudiolibrosInformacion = () => {
         <div className="pagina-inicio">
             <NavBar/>
             <div className="audiolibro-container">
-            
                 <div className="audiolibro-detalles">
-                    <div className="contenido-audiolibro p">
-                        <p><strong>Título:</strong> {audiolibro.titulo}</p>
+            
+                <div className="contenido-audiolibro p">
+             
+                    <p><strong>Título:</strong> {audiolibro.titulo}</p>
+                    <p><strong>Autor:</strong> {audiolibro.autor}</p>
+                 <p><strong>Descripción:</strong> {audiolibro.descripcion}</p>
+                </div>
 
-                        <p><strong>Autor:</strong> {audiolibro.autor}</p>
-                        <p><strong>Descripción:</strong> {audiolibro.descripcion}</p>
-                    </div> 
                     <div className="audiolibro-portada">
                         <img src={audiolibro.imagenPortadaURL}  alt="Portada del Audiolibro" />
                     </div>
                 </div>
 
                 <div className="detalles-orden" >  
+                <hr className="custom2-hr" />
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                             {/*<p style={{ marginRight: '20px' }}>
                                 <strong>Calificación:</strong> ★★★★☆
                             </p>*/}
+                            
                             <p>
                                 <img src={Hora} alt="Icono de hora" className="categoria-icono" />
                                 {audiolibro.duracion} minutos
@@ -74,12 +77,11 @@ const AudiolibrosInformacion = () => {
                             <p>
                             <img src={Audifono2} alt="Icono de hora" className="categoria-icono" />
                             Audio </p>
-                    </div>
-                    
+                    </div>   
                 </div>
 
-                <hr style={{ border: '2px solid black', width: '600px', marginBottom: '10px', marginLeft: '120px' }} />
-                
+                <hr className="custom-hr" />
+
                 <div>
                     <button className="btn-reproducir" 
                     style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
