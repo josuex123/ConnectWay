@@ -61,7 +61,7 @@ const Navbar = () => {
                   className={`dropdown-link ${location.pathname === '/audiolibros/añadir' ? 'active' : ''}`}
                   onClick={() => setMenuOpen(false)}
                 >
-                  Añadir audiolibro
+                  Registrar audiolibro
                 </NavLink>
                 <NavLink 
                   to="/audiolibros/registrados" 

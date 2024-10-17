@@ -199,7 +199,7 @@ function Formulario() {
     };
   }, []);
 
-  //const removeImageFile = () => setImageFiles([]);
+  const removeImageFile = () => setImageFiles([]);
   const removeAudioFile = () => setAudioFiles([]);
 
   const imageDropzone = useDropzone({
@@ -357,11 +357,12 @@ function Formulario() {
                             <img 
                                 src={file.preview} 
                                 alt={file.name} 
-                                width="100px" 
+                                width="73px" 
                                 onClick={imageDropzone.open} 
                                 style={{ cursor: 'pointer' }} 
                             />
                             <p>{file.name}</p>
+                            <button className="eliminar-botton" style={{ marginTop: '-10px' }}  onClick={removeImageFile}>Eliminar</button>
                             </div>
                         ))}
                         </div>
@@ -403,7 +404,7 @@ function Formulario() {
                         <div>
                             <audio controls src={URL.createObjectURL(audioFiles[0])}></audio>
                             <p>{audioFiles[0].name}</p>
-                            <button className="eliminar-botton"onClick={removeAudioFile}>Eliminar</button>
+                            <button className="eliminar-botton" style={{ marginTop: '25px' }} onClick={removeAudioFile}>Eliminar</button>
                         </div>
                         </div>
                     )}
@@ -416,7 +417,7 @@ function Formulario() {
                   onClick={handleCancel}> Cancelar
           </button>
           <button className="submit-bot" type="submit" 
-                > Subir 
+                > Registrar 
           </button>
         </div>
     </form>
