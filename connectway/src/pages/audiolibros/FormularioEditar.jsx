@@ -349,8 +349,8 @@ const AudiobookEdit = () => {
                         onClick={openConfirmModal}
                         disabled={!isFormValid}
                         style={{
-                            backgroundColor: isFormValid ? '#2CE080' : '#d3d3d3', 
-                            color: isFormValid ? '#03314B' : '#666', 
+                            backgroundColor: isFormValid ? '#03314B' : '#d3d3d3', 
+                            color: isFormValid ? 'white' : '#666', 
                             cursor: isFormValid ? 'pointer' : 'not-allowed', // Cursor de puntero si habilitado, no permitido si deshabilitado
                         }}
                        
