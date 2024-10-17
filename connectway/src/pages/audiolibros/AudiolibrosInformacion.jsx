@@ -1,20 +1,22 @@
-import React from 'react';
-import '../../estilos/Audiolibros/AudiolibrosInformacion/AudiolibrosInformacion.css'
+import React, { useEffect, useState, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useEffect,useState } from 'react';
-import { db } from '../../firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../../firebaseConfig';
 import NavBar from "../../components/PaginaInicio/Navbar";
 import Audifono2 from '../../images/auriculares-redondeados.png';
 import Audifono from '../../images/audifonos.png';
 import Cabeza from '../../images/cabeza.png';
 import Hora from '../../images/hora.png';
+import '../../estilos/Audiolibros/AudiolibrosInformacion/AudiolibrosInformacion.css';
 
 const AudiolibrosInformacion = () => {
     const isDisabled = true; 
     const location = useLocation();
     const { idLibro } = location.state || {};
     const [audiolibro, setAudiolibro] = useState(null);
+    const [isTruncated, setIsTruncated] = useState(true);
+    const [isOverflowing, setIsOverflowing] = useState(false);
+    const textRef = useRef(null);
 
     useEffect(() => {
         const fetchAudiolibro = async () => {
@@ -33,9 +35,17 @@ const AudiolibrosInformacion = () => {
         fetchAudiolibro();
     }, [idLibro]);
 
+    useEffect(() => {
+        // Comprobar si el texto está desbordando el contenedor
+        if (textRef.current) {
+            setIsOverflowing(textRef.current.scrollHeight > textRef.current.clientHeight);
+        }
+    }, [audiolibro]);
+
     if (!audiolibro) {
         return <div>Cargando...</div>; 
     }
+
     const formatearCategoria = (categoria) => {
         if (!categoria) return ''; 
         return categoria
@@ -43,60 +53,68 @@ const AudiolibrosInformacion = () => {
             .map(palabra => palabra.charAt(0).toUpperCase() + palabra.slice(1)) 
             .join(' '); 
     };
+
     return (
-        <div className="pagina-inicio">
+        <>
             <NavBar/>
-            <div className="audiolibro-container">
-                <div className="audiolibro-detalles">
-            
-                <div className="contenido-audiolibro p">
-             
-                    <p><strong>Título:</strong> {audiolibro.titulo}</p>
-                    <p><strong>Autor:</strong> {audiolibro.autor}</p>
-                 <p><strong>Descripción:</strong> {audiolibro.descripcion}</p>
-                </div>
-
-                    <div className="audiolibro-portada">
-                        <img src={audiolibro.imagenPortadaURL}  alt="Portada del Audiolibro" />
-                    </div>
-                </div>
-
-                <div className="detalles-orden" >  
-                <hr className="custom2-hr" />
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                            {/*<p style={{ marginRight: '20px' }}>
-                                <strong>Calificación:</strong> ★★★★☆
-                            </p>*/}
-                            
+            <div className="pagina-inicio">
+                <div className="audiolibro-container">
+                    <div className="audiolibro-detalles">
+                        <div className="contenido-audiolibro p">
+                            <p><strong>Título:</strong> {audiolibro.titulo}</p>
+                            <p><strong>Autor:</strong> {audiolibro.autor}</p>
                             <p>
-                                <img src={Hora} alt="Icono de hora" className="categoria-icono" />
-                                {audiolibro.duracion} minutos
+                                <strong>Descripción:</strong>
+                                <span ref={textRef} className={`text ${isTruncated ? "truncate" : ""}`}>
+                                    {audiolibro.descripcion}
+                                </span>
+                                {isOverflowing && (
+                                    <span 
+                                        onClick={() => setIsTruncated(!isTruncated)} 
+                                        style={{ color: 'blue', cursor: 'pointer' }}
+                                    >
+                                        {isTruncated ? '... Ver más' : ' Ver menos'}
+                                    </span>
+                                )}
                             </p>
+                            <div className="detalles-orden">  
+                                <hr className="custom2-hr" />
+                                <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+                                    <p style={{ marginRight: '20px' }}>
+                                        <strong style={{color:'gray'}}>Calificación: ★★★★☆</strong> 
+                                    </p>
+                                    <p>
+                                        <img src={Hora} alt="Icono de hora" className="categoria-icono" />
+                                        {audiolibro.duracion} minutos
+                                    </p>
+                                </div>
+                                <div style={{ marginTop: '10px' }}>
+                                    <p>
+                                        <img src={Audifono2} alt="Icono de audio" className="categoria-icono" /> Audio
+                                    </p>
+                                </div>   
+                                <hr className="custom-hr" />
+                                <div>
+                                    <button className="btn-reproducir" 
+                                        style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1, color: 'white', backgroundColor:'gray' }}
+                                        disabled={true}>
+                                        <img src={Audifono} alt="Audífono" style={{ width: '20px', marginRight: '10px' }} />
+                                        Reproducir
+                                    </button>
+                                </div>
+                                <div className="audiolibro-categoria">
+                                    <img src={Cabeza} alt="Audífono" className="categoria-icono" />
+                                    <p><strong>Categoría: </strong>{formatearCategoria(audiolibro.categoria)} </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="audiolibro-portada">
+                            <img src={audiolibro.imagenPortadaURL} alt="Portada del Audiolibro" />
+                        </div>
                     </div>
-                    <div>
-                            <p>
-                            <img src={Audifono2} alt="Icono de hora" className="categoria-icono" />
-                            Audio </p>
-                    </div>   
-                </div>
-
-                <hr className="custom-hr" />
-
-                <div>
-                    <button className="btn-reproducir" 
-                    style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
-                    disabled={true}>
-                        <img src={Audifono} alt="Audífono" style={{ width: '20px', marginRight: '10px' }} />
-                        Reproducir
-                    </button>
-                </div>
-        
-                <div className="audiolibro-categoria">
-                    <img src={Cabeza} alt="Audífono" className="categoria-icono" />
-                    <p><strong>Categoría: </strong>{formatearCategoria(audiolibro.categoria)} </p>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 
