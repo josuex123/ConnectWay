@@ -6,6 +6,9 @@ import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import logo from '../../images/logoejemplo.png';
 import person from '../../images/usuario.png';
 import home from '../../images/hogar.png';
+import cabeza from '../../images/cabeza.png';
+import audifonos from '../../images/auriculares-redondeados.png';
+import amigues from '../../images/amigues.png';
 
 const Navbar = () => {
   const [isAudiolibrosOpen, setAudiolibrosOpen] = useState(false);
@@ -53,6 +56,7 @@ const Navbar = () => {
               onClick={handleAudiolibrosClick}
             >
               Audiolibros
+              <img src={audifonos} alt="IconAudi" className="nav-logo-image1" />
             </span>
             {isAudiolibrosOpen && (
               <div className="dropdown-content">
@@ -82,6 +86,7 @@ const Navbar = () => {
               onClick={() => setMenuOpen(false)}
             >
               Comunidad
+              <img src={amigues} alt="IconComu" className="nav-logo-image1" />
             </NavLink>
           </li>
 
@@ -93,6 +98,7 @@ const Navbar = () => {
               onClick={() => setMenuOpen(false)}
             >
               Mi actividad
+              <img src={cabeza} alt="IconCabeza" className="nav-logo-image1" />
             </NavLink>
           </li>
 
