@@ -20,4 +20,14 @@
     justify-content: center; 
     padding: 20px; 
 }
-
+.titulo-1{
+    font-size: 1.7rem;
+    padding-left: 5rem;
+}
+.eliminar-accion .fa-trash-alt {
+    color: #DC3545;
+}
+.eliminar-accion .confirm-button{
+    background-color: #DC3545;
+    border-color: black;
+}

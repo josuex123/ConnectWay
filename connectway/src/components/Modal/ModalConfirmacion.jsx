@@ -9,12 +9,13 @@ const ModalConfirmacion = ({
     description, 
     confirmButtonText = 'Aceptar', 
     cancelButtonText = 'Cancelar', 
-    iconClass 
+    iconClass ,
+    className 
 }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="modal-overlay">
+        <div className={`modal-overlay ${className}`}>
             <div className="modal-content">
                 <div className="modal-header">
                     <h2 className='title-modal'>{title}</h2>

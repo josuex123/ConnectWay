@@ -1,0 +1,83 @@
+/* Contenedor que contiene la barra de búsqueda y el botón */
+.search-container {
+    position: relative; 
+    margin-top: 10px; 
+    max-width: 90%; /* Ajuste a 90% del ancho */
+    width: 400px; /* Ancho máximo */
+    margin-left: auto;  
+    margin-right: auto; 
+}
+
+/* Estilo de la barra de búsqueda */
+.search-bar {
+    display: flex;
+    align-items: center;
+    width: 100%; 
+    height: 40px; 
+    border: 2px solid #ccc; /* Borde inicial gris */
+    border-radius: 8px; 
+    overflow: hidden; 
+    background-color: #ffffff; 
+    transition: border 0.3s ease; /* Transición suave */
+}
+
+/* Cambia el borde a verde cuando la barra de búsqueda está activa (focus) */
+.search-bar:focus-within {
+    border: 2px solid #2CE080; /* Borde verde cuando está dentro o en foco */
+}
+
+/* Estilo del campo de entrada */
+.search-bar input {
+    width: 100%; 
+    height: 100%; 
+    padding: 10px 15px; 
+    border: none; 
+    outline: none; 
+    font-size: 16px; 
+    color: #03314B; 
+    background-color: transparent; 
+}
+
+/* Estilo del botón de búsqueda */
+.search-bar .search-button {
+    background-color: #2CE080; 
+    border: none; 
+    padding: 0 10px; 
+    height: 40px; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    border-radius: 0 8px 8px 0; 
+}
+
+/* Estilo del ícono de la lupa */
+.search-bar .search-button i {
+    color: #fff; 
+    font-size: 16px; 
+}
+
+.error-message {
+    color: red; 
+    margin-top: 10px; 
+    font-size: 14px; 
+}
+
+/* Media Queries para Responsividad */
+@media (max-width: 600px) {
+    .search-container {
+        width: 100%; /* Ocupa el 100% del ancho en pantallas pequeñas */
+    }
+
+    .search-bar input {
+        font-size: 14px; /* Tamaño del texto ajustado */
+    }
+
+    .search-bar .search-button {
+        padding: 0 8px; /* Ajuste del espaciado interno */
+    }
+
+    .error-message {
+        font-size: 12px; /* Tamaño del mensaje de error ajustado */
+    }
+}

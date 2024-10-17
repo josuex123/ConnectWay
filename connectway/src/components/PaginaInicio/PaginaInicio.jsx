@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from './Navbar';
 import Header from './Header';
 import Description from './Description';
+import NoContentPage from '../../pages/noContent/noContentPage';
 //import MainImage from './MainImage';
 
 const PaginaInicio = () => {
@@ -10,7 +11,7 @@ const PaginaInicio = () => {
             <Navbar />
             <Header />
             <div className="content">
-                <Description />
+                <Description/>
                 
             </div>
         </div>

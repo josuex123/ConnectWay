@@ -1,0 +1,135 @@
+.form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+}
+
+label {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+input[type="text"], textarea, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+}
+
+textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px; 
+    margin-bottom: 20px;
+}
+
+
+.col {
+    flex: 1; 
+}
+
+.col-image, .col-audio {
+    max-width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #0A1044; 
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0A1044;
+}
+
+.upload-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    height: 200px;
+    width: 100%;
+    cursor: pointer;
+    background-color: #fafafa;
+}
+
+/* Imagen dentro del  */
+.upload-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.upload-container .icon {
+    font-size: 50px;
+    color: #999;
+}
+
+.upload-container .upload-text {
+    font-size: 14px;
+    color: #0A1044;
+    text-align: center;
+}
+
+
+.form-buttons {
+    display: flex;
+    justify-content: center; 
+    gap: 20px; 
+    margin-top: 20px; 
+}
+.info-icon {
+    color: #0A1044;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.col-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.dropzone {
+  width: 100%; /* Ocupa todo el ancho disponible */
+  height: 250px; /* Altura fija */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border: 2px dashed #6c757d;
+  border-radius: 8px;
+  background-color: #e9ecef;
+  color: #6c757d;
+  text-align: center;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.dropzone:hover {
+  background-color: #f1f3f5;
+}
