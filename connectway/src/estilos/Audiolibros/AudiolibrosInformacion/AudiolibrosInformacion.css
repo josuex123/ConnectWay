@@ -7,21 +7,29 @@
 .audiolibro-detalles {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
 }
 
-.contenido-audiolibro p {
-    margin-left: 120px; 
-    margin-top: 80px;
+.contenido-audiolibro{
+    margin-left: 180px; 
+    margin-top: 85px;
+    padding: 10px;
+}
+
+.contenido-audiolibro p {    
+    margin-bottom: 60px;
+}
+
+.contenido-audiolibro1 p {
+    margin-left: -100px; 
 }
 
 
 .audiolibro-portada img{
-    width: 500px;
-    height: 550px;
-    border: 5px solid black; /* Borrar */
+    width: 400px;
+    height: 500px;
+    border: 3px solid black; /* Borrar */
     margin-top: 100px; 
-    margin-right: 200px; 
+    margin-right: 440px; 
 }
 
 .btn-reproducir {
@@ -30,18 +38,18 @@
     padding: 10px;
     border: none;
     cursor: pointer;
-    margin-left: 120px; 
+    margin-left: 190px; 
     
 }
 
 .detalles-orden{
-    margin-left: 120px; 
+    margin-left: 190px; 
     margin-top: -200px;
 }
 
 .audiolibro-categoria {
     margin-top: 20px;
-    margin-left: 120px;
+    margin-left: 190px; /* */
     padding-top: 10px;
 }
 
@@ -53,4 +61,18 @@
 
 .audiolibro-categoria p {
     display: inline-block; 
+}
+
+.custom-hr {
+    border: 1px solid #000000; 
+    max-width: 900px;  /* Limita el ancho máximo a 600px */
+    margin-bottom: 40px;
+    margin-left: 110px; /* */
+}
+
+.custom2-hr {
+    border: 1px solid #000000; 
+    max-width: 900px;  /* Limita el ancho máximo a 600px */
+    margin-bottom: 10px;
+    margin-left: -80px; /* */
 }
