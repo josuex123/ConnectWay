@@ -5,9 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt, faChevronDown, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import logo from '../images/logoejemplo.png';
 import portada from '../images/desktop.png';
-const isDisabled = true; 
+
 
 const LandingPage = () => {
+  const isDisabled = true; 
   const [menuOpen, setMenuOpen] = useState(false); 
 
   const toggleMenu = () => {
