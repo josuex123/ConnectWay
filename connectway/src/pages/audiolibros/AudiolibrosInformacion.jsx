@@ -62,9 +62,9 @@ const AudiolibrosInformacion = () => {
 
                 <div className="detalles-orden" >  
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <p style={{ marginRight: '20px' }}>
+                            {/*<p style={{ marginRight: '20px' }}>
                                 <strong>Calificación:</strong> ★★★★☆
-                            </p>
+                            </p>*/}
                             <p>
                                 <img src={Hora} alt="Icono de hora" className="categoria-icono" />
                                 {audiolibro.duracion} minutos
