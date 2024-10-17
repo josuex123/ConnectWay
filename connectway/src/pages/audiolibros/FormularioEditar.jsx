@@ -347,6 +347,12 @@ const AudiobookEdit = () => {
                     <button className="cancel-bot" type="button" onClick={() => window.history.back()}>Cancelar</button>
                     <button className="submit-bot" type="button" 
                         onClick={openConfirmModal}
+                        disabled={!isFormValid}
+                        style={{
+                            backgroundColor: isFormValid ? '#03314B' : '#d3d3d3', 
+                            color: isFormValid ? 'white' : '#666', 
+                            cursor: isFormValid ? 'pointer' : 'not-allowed', // Cursor de puntero si habilitado, no permitido si deshabilitado
+                        }}
                        
                     >Guardar
                     </button>
