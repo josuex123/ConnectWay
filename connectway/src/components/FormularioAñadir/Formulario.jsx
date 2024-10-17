@@ -412,6 +412,7 @@ function Formulario() {
             </div>
         </div>
 
+
         <div className='form-buttons'>
           <button className="cancel-bot" type="button" 
                   onClick={handleCancel}> Cancelar
