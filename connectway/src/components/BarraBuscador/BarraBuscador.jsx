@@ -11,7 +11,7 @@ const AudiobookSearch2 = ({ onResults, setSearchPerformed }) => {
 
     // useEffect para ejecutar la búsqueda cada vez que el usuario escribe
     useEffect(() => {
-        if (searchTerm.trim() !== '' && searchTerm.length > 2) {
+        if (searchTerm.trim() !== '' && searchTerm.length > 2 && searchTerm.length <= 100) {
             if (isValidTerm(searchTerm)) {
                 const fetchAudiobooks = async () => {
                     const resultados = await buscarAudiolibro(searchTerm);
@@ -23,8 +23,12 @@ const AudiobookSearch2 = ({ onResults, setSearchPerformed }) => {
             } else {
                 onResults([]);
                 setSearchPerformed(false);
-                setErrorMessage('Caracter no válido. Solo se permiten letras, números y espacios.'); // Mostrar mensaje de error
+                setErrorMessage('Caracter no válido. Solo se permiten letras, números y espacios.');
             }
+        } else if (searchTerm.length > 100) {
+            onResults([]);
+            setSearchPerformed(false);
+            setErrorMessage('Has alcanzado el límite máximo de 100 caracteres.');
         } else {
             onResults([]);
             setSearchPerformed(false);
@@ -34,7 +38,14 @@ const AudiobookSearch2 = ({ onResults, setSearchPerformed }) => {
 
     // Manejar el cambio en el input de búsqueda
     const handleSearch = (event) => {
-        setSearchTerm(event.target.value);
+        const newValue = event.target.value;
+
+        // Si supera los 100 caracteres, no permitir más escritura y mostrar error
+        if (newValue.length <= 100) {
+            setSearchTerm(newValue);
+        } else {
+            setErrorMessage('Has alcanzado el límite máximo de 100 caracteres.');
+        }
     };
 
     return (

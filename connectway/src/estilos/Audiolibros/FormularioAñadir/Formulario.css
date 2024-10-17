@@ -252,8 +252,11 @@
   font-size: 0.85rem;
   border-color: #03314B;
   background-color: #03314B;
+  border-radius: 4px;
   color:white;
   width: 90px;
+  border-style: solid;
+  border-width: 1px;
   
 }
 .eliminar-botton:hover{
