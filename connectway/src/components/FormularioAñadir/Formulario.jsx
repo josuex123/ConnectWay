@@ -403,7 +403,7 @@ function Formulario() {
                         <div>
                             <audio controls src={URL.createObjectURL(audioFiles[0])}></audio>
                             <p>{audioFiles[0].name}</p>
-                            <button className="eliminar-botton"onClick={removeAudioFile}>Eliminar</button>
+                            <button className="eliminar-botton"onClick={removeAudioFile}>Cambiar</button>
                         </div>
                         </div>
                     )}
