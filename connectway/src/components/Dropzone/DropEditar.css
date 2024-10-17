@@ -1,0 +1,74 @@
+/* Drop.css */
+
+/* Estilos generales del contenedor de dropzone */
+.dropzone-container {
+  margin: 20px;
+  padding: 20px;
+  border: 2px dashed #ccc; /* Borde discontínuo */
+  border-radius: 10px;
+  text-align: center; /* Centrar el texto */
+  background-color: #f9f9f9; /* Color de fondo */
+  transition: border-color 0.3s; /* Transición para el borde */
+}
+
+.dropzone-container:hover {
+  border-color: #007bff; /* Cambia el color del borde al pasar el ratón */
+}
+
+/* Estilos para el título de la dropzone */
+.dropzone-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+/* Estilos del contenedor de íconos */
+.icon-container {
+  margin-bottom: 10px;
+}
+
+/* Estilos para el ícono */
+.icon {
+  color: #007bff; /* Color del ícono */
+}
+
+/* Estilos para el archivo cargado */
+.uploaded-file {
+  display: flex;
+  flex-direction: column; /* Disposición vertical */
+  align-items: center; /* Centrar los elementos */
+  margin-top: 10px; /* Espaciado superior */
+}
+
+/* Estilos para la imagen de portada */
+.uploaded-portada img {
+  max-width: 100%; /* Limitar el ancho a 100% */
+  height: auto; /* Mantener la proporción de aspecto */
+  border-radius: 5px; /* Bordes redondeados */
+}
+
+/* Estilos del botón de eliminar */
+.btn {
+  margin-top: 10px; /* Espaciado superior */
+}
+
+/* Estilos del modal de error */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+  display: flex;
+  justify-content: center; /* Centrar el contenido */
+  align-items: center; /* Centrar el contenido */
+  z-index: 1000; /* Asegurarse de que esté por encima de otros elementos */
+}
+
+.modal-content {
+  background-color: #fff; /* Fondo blanco */
+  padding: 20px;
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+  text-align: center; /* Centrar el texto */
+}
