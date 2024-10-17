@@ -107,8 +107,6 @@
 .uploaded-file button:hover {
   background-color: #c82333;
 }
-
-/* Estilos para los botones del formulario */
 button[type="submit"] {
   background-color: #28a745;
   color: white;
