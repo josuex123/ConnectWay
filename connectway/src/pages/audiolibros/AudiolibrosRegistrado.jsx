@@ -206,7 +206,7 @@ const AudiolibroRegistrado = () => {
                 message={notificationMessage}
                 iconClass={notificationType === 'success' ? 'fa fa-check' : 'fa fa-exclamation'}
             />
-            <ModalConfirmacion
+            <ModalConfirmacion className="eliminar-accion"
                 isOpen={isConfirmModalOpen}
                 onClose={closeConfirmModal}
                 onConfirm={handleDelete}
@@ -214,7 +214,7 @@ const AudiolibroRegistrado = () => {
                 description={`¿Estás seguro de que deseas eliminar el audiolibro?\nEsta acción es irreversible`}
                 confirmButtonText="Eliminar"
                 cancelButtonText="Cancelar"
-                iconClass="fa fa-trash"
+                iconClass="fa fa-trash-alt"
             />
         </div>
     );
