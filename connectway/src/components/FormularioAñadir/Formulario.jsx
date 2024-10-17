@@ -147,19 +147,14 @@ function Formulario() {
         const maxWidth = 177;
         const maxHeight = 284;
   
-        console.log("width: "+ img.width);
-        console.log("heigth: "+ img.height);
-        if (img.width > maxWidth + 20 || img.height > maxHeight + 20 || img.width < maxWidth - 20 || img.height < maxHeight - 20) {
-          setError(`La imagen debe estar en tamaño de 1000x1600.`);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          return;
-        }
+        console.log("width: " + img.width);
+        console.log("heigth: " + img.height);
   
         const canvas = document.createElement('canvas');
         canvas.width = maxWidth;
         canvas.height = maxHeight;
         const ctx = canvas.getContext('2d');
-        
+  
         ctx.drawImage(img, 0, 0, maxWidth, maxHeight);
   
         canvas.toBlob((blob) => {
@@ -173,6 +168,7 @@ function Formulario() {
       img.src = URL.createObjectURL(file);
     }
   }, []);
+  
   
   
 
