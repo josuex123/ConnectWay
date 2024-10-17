@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
@@ -14,9 +14,6 @@ const AudiolibrosInformacion = () => {
     const location = useLocation();
     const { idLibro } = location.state || {};
     const [audiolibro, setAudiolibro] = useState(null);
-    const [isTruncated, setIsTruncated] = useState(true);
-    const [isOverflowing, setIsOverflowing] = useState(false);
-    const textRef = useRef(null);
 
     useEffect(() => {
         const fetchAudiolibro = async () => {
@@ -34,13 +31,6 @@ const AudiolibrosInformacion = () => {
 
         fetchAudiolibro();
     }, [idLibro]);
-
-    useEffect(() => {
-        // Comprobar si el texto está desbordando el contenedor
-        if (textRef.current) {
-            setIsOverflowing(textRef.current.scrollHeight > textRef.current.clientHeight);
-        }
-    }, [audiolibro]);
 
     if (!audiolibro) {
         return <div>Cargando...</div>; 
@@ -65,17 +55,9 @@ const AudiolibrosInformacion = () => {
                             <p><strong>Autor:</strong> {audiolibro.autor}</p>
                             <p>
                                 <strong>Descripción:</strong>
-                                <span ref={textRef} className={`text ${isTruncated ? "truncate" : ""}`}>
+                                <span className="text">
                                     {audiolibro.descripcion}
                                 </span>
-                                {isOverflowing && (
-                                    <span 
-                                        onClick={() => setIsTruncated(!isTruncated)} 
-                                        style={{ color: 'blue', cursor: 'pointer' }}
-                                    >
-                                        {isTruncated ? '... Ver más' : ' Ver menos'}
-                                    </span>
-                                )}
                             </p>
                             <div className="detalles-orden">  
                                 <hr className="custom2-hr" />
