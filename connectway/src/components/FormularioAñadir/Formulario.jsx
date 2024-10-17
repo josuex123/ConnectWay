@@ -199,7 +199,7 @@ function Formulario() {
     };
   }, []);
 
-  //const removeImageFile = () => setImageFiles([]);
+  const removeImageFile = () => setImageFiles([]);
   const removeAudioFile = () => setAudioFiles([]);
 
   const imageDropzone = useDropzone({
@@ -285,8 +285,8 @@ function Formulario() {
                 <option value="">Elegir categoría</option>
                 <option value="meditacion">Meditación</option>
                 <option value="inteligencia_emocional">Inteligencia Emocional</option>
-                <option value="salud_mental">Salud mental en la Universidad</option>
-                <option value="psicologia_parejas">Psicología de parejas</option>
+                <option value="salud_mental">Salud Mental</option>
+                <option value="psicologia_de_parejas">Psicología de parejas</option>
             </select>
         </div>
         
@@ -357,11 +357,12 @@ function Formulario() {
                             <img 
                                 src={file.preview} 
                                 alt={file.name} 
-                                width="100px" 
+                                width="73px" 
                                 onClick={imageDropzone.open} 
                                 style={{ cursor: 'pointer' }} 
                             />
                             <p>{file.name}</p>
+                            <button className="eliminar-botton" style={{ marginTop: '-10px' }}  onClick={removeImageFile}>Eliminar</button>
                             </div>
                         ))}
                         </div>
@@ -403,7 +404,7 @@ function Formulario() {
                         <div>
                             <audio controls src={URL.createObjectURL(audioFiles[0])}></audio>
                             <p>{audioFiles[0].name}</p>
-                            <button className="eliminar-botton"onClick={removeAudioFile}>Cambiar</button>
+                            <button className="eliminar-botton" style={{ marginTop: '25px' }} onClick={removeAudioFile}>Eliminar</button>
                         </div>
                         </div>
                     )}
@@ -411,12 +412,13 @@ function Formulario() {
             </div>
         </div>
 
+
         <div className='form-buttons'>
           <button className="cancel-bot" type="button" 
                   onClick={handleCancel}> Cancelar
           </button>
           <button className="submit-bot" type="submit" 
-                > Subir 
+                > Registrar 
           </button>
         </div>
     </form>
