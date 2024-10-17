@@ -206,7 +206,8 @@ const AudiolibroRegistrado = () => {
                 message={notificationMessage}
                 iconClass={notificationType === 'success' ? 'fa fa-check' : 'fa fa-exclamation'}
             />
-            <ModalConfirmacion className="eliminar-accion"
+            <ModalConfirmacion 
+                className="eliminar-accion"
                 isOpen={isConfirmModalOpen}
                 onClose={closeConfirmModal}
                 onConfirm={handleDelete}
