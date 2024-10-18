@@ -104,12 +104,12 @@ const AudiolibroRegistrado = () => {
         const selectedAudiobook = audiolibros.find(libro => libro.id === id);
         
         if (selectedAudiobook) {
-            navigate('/Audiolibros/editar', { state: { audiobook: selectedAudiobook } });
+            navigate('/Audiolibros/editar/1', { state: { audiobook: selectedAudiobook } });
         }
     };
 
     const handleContainerClick = (id) => {
-        navigate(`/Audiolibros/registrados/informacion`, { state: { idLibro: id } });
+        navigate(`/Audiolibros/registrados/informacion/1`, { state: { idLibro: id } });
     };
 
     // Función para manejar los resultados de la búsqueda
@@ -145,7 +145,7 @@ const AudiolibroRegistrado = () => {
                     >
                         &lt;
                     </button>
-                    <div className="d-flex justify-content-around flex-wrap" style={{ width: '80%' }}>
+                    <div className="d-flex justify-content-around flex-wrap" style={{ width: '80%', border: '2px solid #ccc',}}>
                         {/* Mostrar resultados de la búsqueda o los audiolibros por defecto */}
                         {searchPerformed ? (
                             searchResults.length === 0 ? (

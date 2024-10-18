@@ -58,7 +58,7 @@ const AudiolibroUsuario = () => {
     };
 
     const handleContainerClick = (id) => {
-        navigate(`/Audiolibros/registrados/informacion`, { state: { idLibro: id } });
+        navigate(`/Audiolibros/registrados/informacion/${rol}`, { state: { idLibro: id } });
     };
 
     // Función para manejar los resultados de la búsqueda
@@ -94,8 +94,7 @@ const AudiolibroUsuario = () => {
                     >
                         &lt;
                     </button>
-                    <div className="d-flex justify-content-around flex-wrap" style={{ width: '80%' }}>
-                        {/* Mostrar resultados de la búsqueda o los audiolibros por defecto */}
+                    <div className="d-flex justify-content-around flex-wrap" style={{ width: '80%',border: '2px solid #ccc', }}>
                         {searchPerformed ? (
                             searchResults.length === 0 ? (
                                 <p>No encontramos resultados que coincidan con tu búsqueda. Intenta con términos diferentes o revisa la ortografía.</p>
