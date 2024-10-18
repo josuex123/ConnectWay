@@ -228,7 +228,7 @@ const AudiobookEdit = () => {
             await updateAudiobook(audiobook.id, updatedData);
             showModalNotificacion('success', 'El audiolibro ha sido actualizado exitosamente.');
             setIsModalNotificacionOpen(false);
-            navigate('/Audiolibros/registrados');
+            navigate('/Audiolibros/registrados/${rol}');
         } catch (error) {
             console.error('Error al actualizar el audiolibro: ', error);
             showModalNotificacion('error', 'Hubo un error al actualizar el audiolibro.');

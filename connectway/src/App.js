@@ -34,16 +34,16 @@ function App() {
         <Route path="/Login" element={<LogIn />} />
         
         {/* Rutas para el admin */}
-        <Route path="/Audiolibros/añadir" element={<AudiolibrosAñadir />} />
-        <Route path="/Audiolibros/registrados" element={<AudiolibrosRegistrado />} />
-        <Route path="/Audiolibros/registrados/informacion" element={<AudiolibrosInformacion />} />
-        <Route path="/Audiolibros/registrados/reproducir" element={<AudiolibrosReproducir />} />
-        <Route path="/Audiolibros/editar" element={<AudiolibrosEditar />} />
+        <Route path="/Audiolibros/añadir/:role" element={<AudiolibrosAñadir />} />
+        <Route path="/Audiolibros/registrados/:role" element={<AudiolibrosRegistrado />} />
+        <Route path="/Audiolibros/registrados/informacion/:role" element={<AudiolibrosInformacion />} />
+        <Route path="/Audiolibros/registrados/reproducir/:role" element={<AudiolibrosReproducir />} />
+        <Route path="/Audiolibros/editar/:role" element={<AudiolibrosEditar />} />
         
         {/* Rutas adicionales */}
-        <Route path="/ListaAudioLibros" element={<AudiobookList/>} />
-        <Route path="/Formulario" element={<FormularioAñadir/>} /> 
-        <Route path="/FormularioEditar" element={<AudiobookEdit/>} /> 
+        <Route path="/ListaAudioLibros/:role" element={<AudiobookList/>} />
+        <Route path="/Formulario/:role" element={<FormularioAñadir/>} /> 
+        <Route path="/FormularioEditar/:role" element={<AudiobookEdit/>} /> 
       </Routes>
     </Router>
   );

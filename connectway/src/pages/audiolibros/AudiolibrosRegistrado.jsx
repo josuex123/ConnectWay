@@ -104,12 +104,12 @@ const AudiolibroRegistrado = () => {
         const selectedAudiobook = audiolibros.find(libro => libro.id === id);
         
         if (selectedAudiobook) {
-            navigate('/Audiolibros/editar', { state: { audiobook: selectedAudiobook } });
+            navigate('/Audiolibros/editar/${rol}', { state: { audiobook: selectedAudiobook } });
         }
     };
 
     const handleContainerClick = (id) => {
-        navigate(`/Audiolibros/registrados/informacion`, { state: { idLibro: id } });
+        navigate(`/Audiolibros/registrados/informacion/${rol}`, { state: { idLibro: id } });
     };
 
     // Función para manejar los resultados de la búsqueda
