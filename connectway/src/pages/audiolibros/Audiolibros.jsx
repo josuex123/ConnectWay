@@ -58,7 +58,7 @@ const AudiolibroUsuario = () => {
     };
 
     const handleContainerClick = (id) => {
-        navigate(`/Audiolibros/registrados/informacion`, { state: { idLibro: id } });
+        navigate(`/Audiolibros/registrados/informacion/${rol}`, { state: { idLibro: id } });
     };
 
     // Función para manejar los resultados de la búsqueda
