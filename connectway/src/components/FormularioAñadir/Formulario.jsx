@@ -27,7 +27,7 @@ function Formulario() {
   const [audioFiles, setAudioFiles] = useState([]);
   const [audioError, setAudioError] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  //const [isLoading, setIsLoading] = useState(false);
   const textTit = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s.,0123456789]+$/;
   const textAut = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s.,]+$/;
 
@@ -493,14 +493,7 @@ function Formulario() {
     />
   
     
- <div className="loading-icon" style={{
-    position: 'fixed', 
-    bottom: '20px', 
-    left: '20px', 
-    display: isLoading ? 'block' : 'none'  // Solo se muestra si isLoading es true
-  }}>
-    <FontAwesomeIcon icon={faSpinner} spin size="2x" />
-  </div>
+
 </>
   );
 }
