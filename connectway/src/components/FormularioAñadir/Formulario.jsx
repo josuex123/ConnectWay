@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faMusic, faExclamationCircle, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import ModalNotificacion from '../../components/Modal/ModalNotificacion';
+import ModalCargando from '../../components/Modal/ModalCargando'; 
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../estilos/Audiolibros/FormularioAñadir/Formulario.css';
@@ -24,6 +25,7 @@ function Formulario() {
   const [audioFiles, setAudioFiles] = useState([]);
   const [audioError, setAudioError] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const textTit = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s.,0123456789]+$/;
   const textAut = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s.,]+$/;
 
@@ -102,7 +104,7 @@ function Formulario() {
     }
   
     setError('');
-  
+    setIsLoading(true); 
     try {
       // Subir la imagen al Storage
       const imageFile = imageFiles[0];
@@ -140,7 +142,9 @@ function Formulario() {
     } catch (error) {
       setError('Error al subir el audiolibro, por favor intenta nuevamente.');
       showModalNotificacion('error', 'Hubo un problema al subir el audiolibro.');
-    }
+    }finally {
+        setIsLoading(false); // Ocultar el modal de cargando
+      }
   };
 
   const closeModal = () => setShowModal(false);
@@ -466,7 +470,13 @@ function Formulario() {
             </Button>
         </Modal.Footer>
     </Modal>
-
+    <ModalCargando
+      isOpen={isLoading} 
+      onClose={() => {}}
+      type="loading"
+      message="Cargando, por favor espera...\n "
+      iconClass="fa fa-spinner fa-spin" 
+    />
     <ModalNotificacion
         isOpen={isModalNotificacionOpen}
         onClose={closeModalNotificacion}

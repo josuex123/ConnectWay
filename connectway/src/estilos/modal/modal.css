@@ -111,3 +111,13 @@
     font-weight: bold;
 }
 
+.icon-container.loading {
+    font-size: 3em;
+    margin: 20px 0;
+}
+.fa-spinner {
+    color: #03314B; /* Cambia este color según tu preferencia */
+}
+.main-message {
+    font-size: 1.2em;
+}
