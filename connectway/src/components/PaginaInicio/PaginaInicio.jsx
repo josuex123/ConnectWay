@@ -9,10 +9,10 @@ import NoContentPage from '../../pages/noContent/noContentPage';
 const PaginaInicio = () => {
     return (
         <div className="pagina-inicio">
-            <div  className="container">
+            
             <Navbar />
             <Header />
-            </div>
+            
             
             <div className="content">
                 <Description/>
