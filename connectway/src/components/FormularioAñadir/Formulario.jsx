@@ -10,6 +10,8 @@ import '../../estilos/Audiolibros/FormularioAñadir/Formulario.css';
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { app } from '../../firebaseConfig';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+
 
 function Formulario() {
   const [titulo, setTitulo] = useState('');
@@ -33,6 +35,7 @@ function Formulario() {
   const [duracion, setDuracion] = useState(0);
   const storage = getStorage(app);
   const db = getFirestore(app);
+  const [isLoading, setIsLoading] = useState(false);  // Estado de carga
 
   const showModalNotificacion = (type, message) => { 
     setNotificationType(type);
@@ -50,7 +53,9 @@ function Formulario() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+    
+    setIsLoading(true);
+
     if (!titulo) {
       setError('Por favor, rellena el título en el formulario.');
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -128,7 +133,8 @@ function Formulario() {
       };
   
       await addDoc(collection(db, "Audiolibro"), audiolibroDoc);
-  
+
+      setIsLoading(false);  // Termina la animación
       showModalNotificacion('success', 'Audiolibro subido correctamente');
       setTitulo('');
       setAutor('');
@@ -138,6 +144,7 @@ function Formulario() {
       setAudioFiles([]);
       setDuracion(0);
     } catch (error) {
+        setIsLoading(false);  // Termina la animación si hay error
       setError('Error al subir el audiolibro, por favor intenta nuevamente.');
       showModalNotificacion('error', 'Hubo un problema al subir el audiolibro.');
     }
@@ -474,7 +481,17 @@ function Formulario() {
         message={notificationMessage}
         iconClass={notificationType === 'success' ? 'fa fa-check' : 'fa fa-exclamation'}
     />
-    </>
+  
+    
+ <div className="loading-icon" style={{
+    position: 'fixed', 
+    bottom: '20px', 
+    left: '20px', 
+    display: isLoading ? 'block' : 'none'  // Solo se muestra si isLoading es true
+  }}>
+    <FontAwesomeIcon icon={faSpinner} spin size="2x" />
+  </div>
+</>
   );
 }
 
