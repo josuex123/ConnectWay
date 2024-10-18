@@ -253,7 +253,6 @@
   font-size: 0.85rem;
   border-color: #03314B;
   background-color: #03314B;
-
   border-radius: 4px;
   color:white;
   width: 90px;
@@ -267,6 +266,30 @@
   border-color: #03314B;
   background-color: #03314B;
   color:white;
+}
+.eliminar-botn{
+  justify-content: flex-end;
+  padding: 7px 23px;
+  font-size: 0.85rem;
+  border-color: #03314B;
+  background-color: #03314B;
+  border-radius: 4px;
+  color:white;
+  width: 90px;
+  height: 40px;
+  border-style: solid;
+  border-width: 1px;
+}
+.eliminar-botn:hover{
+  border-color: #03314B;
+  background-color: #03314B;
+  color:white;
+}
+.eliminar-botn:disabled {
+  background-color: #d3d3d3;
+  color: #999;
+  border-color: #999;
+  cursor: not-allowed;
 }
 .cont-eliminar {
   display: flex;
