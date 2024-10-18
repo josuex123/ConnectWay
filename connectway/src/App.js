@@ -20,26 +20,30 @@ import AudiobookEdit from './pages/audiolibros/FormularioEditar';
 
 
 function App() {
-  
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Index />} />
-        <Route path="/Home" element={<Home />} />
-        <Route path="/Audiolibros" element={<Audiolibros />} />
-        <Route path="/Comunidad" element={<Comunidad />} />
-        <Route path="/MiActividad" element={<MiActividad />} />
-        <Route path="/Perfil" element={<Perfil />} />
+        
+        {/* Ruta dinámica con parámetro de rol */}
+        <Route path="/Home/:role" element={<Home />} />
+        <Route path="/Audiolibros/:role" element={<Audiolibros />} />
+        <Route path="/Comunidad/:role" element={<Comunidad />} />
+        <Route path="/MiActividad/:role" element={<MiActividad />} />
+        <Route path="/Perfil/:role" element={<Perfil />} />
         <Route path="/Login" element={<LogIn />} />
+        
+        {/* Rutas para el admin */}
         <Route path="/Audiolibros/añadir" element={<AudiolibrosAñadir />} />
         <Route path="/Audiolibros/registrados" element={<AudiolibrosRegistrado />} />
         <Route path="/Audiolibros/registrados/informacion" element={<AudiolibrosInformacion />} />
         <Route path="/Audiolibros/registrados/reproducir" element={<AudiolibrosReproducir />} />
         <Route path="/Audiolibros/editar" element={<AudiolibrosEditar />} />
+        
+        {/* Rutas adicionales */}
         <Route path="/ListaAudioLibros" element={<AudiobookList/>} />
         <Route path="/Formulario" element={<FormularioAñadir/>} /> 
         <Route path="/FormularioEditar" element={<AudiobookEdit/>} /> 
-
       </Routes>
     </Router>
   );

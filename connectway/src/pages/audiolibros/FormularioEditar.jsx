@@ -192,6 +192,9 @@ const AudiobookEdit = () => {
 
 
     const handleSubmit = async () => {
+        console.log('isModalNotificacionOpen antes de abrir:', isModalNotificacionOpen);
+        setIsModalNotificacionOpen(true);
+        console.log('isModalNotificacionOpen después de abrir:', isModalNotificacionOpen);
         if (!titulo || !autor || !descripcion) {
             const emptyFields = [];
             if (!titulo) emptyFields.push('Título');
@@ -224,21 +227,27 @@ const AudiobookEdit = () => {
         try {
             await updateAudiobook(audiobook.id, updatedData);
             showModalNotificacion('success', 'El audiolibro ha sido actualizado exitosamente.');
+            setIsModalNotificacionOpen(false);
             navigate('/Audiolibros/registrados');
         } catch (error) {
             console.error('Error al actualizar el audiolibro: ', error);
             showModalNotificacion('error', 'Hubo un error al actualizar el audiolibro.');
+
         }
     };
-
+    useEffect(() => {
+        console.log("isModalNotificacionOpen cambió:", isModalNotificacionOpen);
+    }, [isModalNotificacionOpen]);  
     const showModalNotificacion = (type, message) => {
+        console.log("Abriendo modal de notificación", { type, message }); 
         setNotificationType(type);
         setNotificationMessage(message);
-        setIsModalNotificacionOpen(true);
+       // setIsModalNotificacionOpen(true);
     };
 
+
     const closeModalNotificacion = () => {
-        setIsModalNotificacionOpen(false);
+       // setIsModalNotificacionOpen(false);
     };
 
     const openConfirmModal = () => {

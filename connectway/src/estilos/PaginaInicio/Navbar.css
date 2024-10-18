@@ -79,6 +79,7 @@
     display: block;
     text-decoration: none;
     background-color: #2CE080;
+    
     font-weight:600;
     color: #03314B;
     transition: background-color 0.3s, color 0.3s;
@@ -87,6 +88,8 @@
 .dropdown-link:hover {
     background-color: white;
     color: #03314B;
+    
+
 }
   
 .nav-icon {
@@ -212,6 +215,8 @@
     background-color: #2CE080; 
     color: #03314B; 
   }
-
+  .nav-links, .dropdown-link {
+    cursor: pointer; 
+  }
 
   

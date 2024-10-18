@@ -130,6 +130,13 @@ function Formulario() {
       await addDoc(collection(db, "Audiolibro"), audiolibroDoc);
   
       showModalNotificacion('success', 'Audiolibro subido correctamente');
+      setTitulo('');
+      setAutor('');
+      setCategoria('');
+      setDescripcion('');
+      setImageFiles([]);
+      setAudioFiles([]);
+      setDuracion(0);
     } catch (error) {
       setError('Error al subir el audiolibro, por favor intenta nuevamente.');
       showModalNotificacion('error', 'Hubo un problema al subir el audiolibro.');
@@ -144,33 +151,55 @@ function Formulario() {
       const img = new Image();
   
       img.onload = () => {
-        const maxWidth = 177;
-        const maxHeight = 284;
-  
-        console.log("width: "+ img.width);
-        console.log("heigth: "+ img.height);
-        if (img.width > maxWidth + 20 || img.height > maxHeight + 20 || img.width < maxWidth - 20 || img.height < maxHeight - 20) {
-          setError(`La imagen debe estar en tamaño de 1000x1600.`);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          return;
+        const minWidth = 1000;
+        const minHeight = 1600;
+    
+        console.log("width: " + img.width);
+        console.log("height: " + img.height);
+    
+        // Verificar si la imagen cumple con el tamaño mínimo de 1000x1600
+        if (img.width < minWidth || img.height < minHeight) {
+            setError(`La imagen debe tener un tamaño mínimo de ${minWidth}x${minHeight} píxeles.`);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
         }
-  
+    
+        // Si la imagen cumple con el tamaño mínimo o es mayor, se redimensiona a un máximo de 1000x1600
         const canvas = document.createElement('canvas');
-        canvas.width = maxWidth;
-        canvas.height = maxHeight;
+        let width = img.width;
+        let height = img.height;
+    
+        // Si la imagen es más grande que 1000x1600, redimensionarla
+        if (width > minWidth || height > minHeight) {
+            // Calcular la proporción para mantener la relación de aspecto
+            const aspectRatio = width / height;
+            if (aspectRatio > 1) { // Si la imagen es más ancha
+                width = minWidth;
+                height = minWidth / aspectRatio;
+            } else { // Si la imagen es más alta
+                height = minHeight;
+                width = minHeight * aspectRatio;
+            }
+        }
+    
+        canvas.width = width;
+        canvas.height = height;
         const ctx = canvas.getContext('2d');
-        
-        ctx.drawImage(img, 0, 0, maxWidth, maxHeight);
-  
+    
+        // Dibujar la imagen redimensionada en el canvas
+        ctx.drawImage(img, 0, 0, width, height);
+    
+        // Convertir el canvas en un archivo blob y crear un archivo nuevo
         canvas.toBlob((blob) => {
-          const resizedFile = new File([blob], file.name, { type: file.type });
-          setImageFiles([Object.assign(resizedFile, {
-            preview: URL.createObjectURL(resizedFile)
-          })]);
+            const resizedFile = new File([blob], file.name, { type: file.type });
+            setImageFiles([Object.assign(resizedFile, {
+                preview: URL.createObjectURL(resizedFile)
+            })]);
         }, file.type);
-      };
-  
-      img.src = URL.createObjectURL(file);
+    };
+    
+    // Asignar la fuente de la imagen
+    img.src = URL.createObjectURL(file);
     }
   }, []);
   
@@ -362,7 +391,7 @@ function Formulario() {
                                 style={{ cursor: 'pointer' }} 
                             />
                             <p>{file.name}</p>
-                            <button className="eliminar-botton" style={{ marginTop: '-10px' }}  onClick={removeImageFile}>Eliminar</button>
+                            <button className="eliminar-botton" style={{ marginTop: '-10px' }}  onClick={removeImageFile}>Cambiar</button>
                             </div>
                         ))}
                         </div>
@@ -404,7 +433,7 @@ function Formulario() {
                         <div>
                             <audio controls src={URL.createObjectURL(audioFiles[0])}></audio>
                             <p>{audioFiles[0].name}</p>
-                            <button className="eliminar-botton" style={{ marginTop: '25px' }} onClick={removeAudioFile}>Eliminar</button>
+                            <button className="eliminar-botton" style={{ marginTop: '25px' }} onClick={removeAudioFile}>Cambiar</button>
                         </div>
                         </div>
                     )}

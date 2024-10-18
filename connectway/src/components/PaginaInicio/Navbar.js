@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation, useParams } from 'react-router-dom';
 import '../../estilos/PaginaInicio/Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -15,19 +15,17 @@ const Navbar = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const isDisabled = true;
+  const { role } = useParams(); // Obtiene el rol de la URL (0 o 1)
+  const isAdmin = role === '1'; // Determina si es admin o usuario
+  const isDisabled = true; // No modificamos el estado de isDisabled, tal como solicitaste
 
   const handleAudiolibrosClick = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     if (isAudiolibrosOpen) {
-      navigate('/audiolibros');
+      navigate(`/audiolibros/${role}`);
     } else {
       setAudiolibrosOpen(true);
     }
-  };
-
-  const isAudiolibrosActive = () => {
-    return location.pathname.includes('/audiolibros');
   };
 
   const toggleMenu = () => {
@@ -37,14 +35,14 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="nav-container">
-        <NavLink exact to="/Home" className="nav-logo">
+        <NavLink exact to={`/home/${role}`} className="nav-logo">
           <img src={logo} alt="Logo" className="nav-logo-image" />
           CONNECTWAY
         </NavLink>
 
         <ul className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
           <li className="nav-item">
-            <NavLink exact to="/Home" className="nav-linkss" onClick={() => setMenuOpen(false)}>
+            <NavLink exact to={`/home/${role}`} className="nav-linkss" onClick={() => setMenuOpen(false)}>
               Inicio
               <img src={home} alt="IconHome" className="nav-logo-image1" />
             </NavLink>
@@ -52,7 +50,7 @@ const Navbar = () => {
 
           <li className="nav-item dropdown">
             <span
-              className={`nav-links dropbtn ${isAudiolibrosActive() ? 'active' : ''}`} 
+              className={`nav-links dropbtn ${location.pathname.includes('/audiolibros') ? 'active' : ''}`}
               onClick={handleAudiolibrosClick}
             >
               Audiolibros
@@ -60,28 +58,32 @@ const Navbar = () => {
             </span>
             {isAudiolibrosOpen && (
               <div className="dropdown-content">
-                <NavLink 
-                  to="/audiolibros/añadir" 
-                  className={`dropdown-link ${location.pathname === '/audiolibros/añadir' ? 'active' : ''}`}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  Registrar audiolibro
-                </NavLink>
-                <NavLink 
-                  to="/audiolibros/registrados" 
-                  className={`dropdown-link ${location.pathname === '/audiolibros/registrados' ? 'active' : ''}`} 
-                  onClick={() => setMenuOpen(false)}
-                >
-                  Audiolibros registrados
-                </NavLink>
+                {isAdmin && (
+                  <>
+                    <NavLink
+                      to={`/audiolibros/añadir/${role}`}
+                      className={`dropdown-link ${location.pathname === `/audiolibros/añadir/${role}` ? 'active' : ''}`}
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      Registrar audiolibro
+                    </NavLink>
+                    <NavLink
+                      to={`/audiolibros/registrados/${role}`}
+                      className={`dropdown-link ${location.pathname === `/audiolibros/registrados/${role}` ? 'active' : ''}`}
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      Audiolibros registrados
+                    </NavLink>
+                  </>
+                )}
               </div>
             )}
           </li>
 
           <li className="nav-item">
-            <NavLink 
-              to="/comunidad" 
-              className={`nav-links ${isDisabled ? 'disabled' : ''}`} 
+            <NavLink
+              to={`/comunidad/${role}`}
+              className={`nav-links ${isDisabled ? 'disabled' : ''}`} // Mantiene isDisabled
               style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
               onClick={() => setMenuOpen(false)}
             >
@@ -91,9 +93,9 @@ const Navbar = () => {
           </li>
 
           <li className="nav-item">
-            <NavLink 
-              to="/MiActividad" 
-              className={`nav-links ${isDisabled ? 'disabled' : ''}`} 
+            <NavLink
+              to={`/MiActividad/${role}`}
+              className={`nav-links ${isDisabled ? 'disabled' : ''}`} // Mantiene isDisabled
               style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
               onClick={() => setMenuOpen(false)}
             >
@@ -103,9 +105,9 @@ const Navbar = () => {
           </li>
 
           <li className="nav-item">
-            <NavLink 
-              to="/Perfil" 
-              className={`nav-links ${isDisabled ? 'disabled' : ''}`} 
+            <NavLink
+              to={`/Perfil/${role}`}
+              className={`nav-links ${isDisabled ? 'disabled' : ''}`} // Mantiene isDisabled
               style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
               onClick={() => setMenuOpen(false)}
             >
