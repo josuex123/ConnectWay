@@ -45,7 +45,7 @@ function Formulario() {
   };
 
   const handleCancel = () => {
-    window.location.href = "/Home/${rol}";
+    window.location.href = "/Home/1";
   };
 
   const handleSubmit = async (event) => {
