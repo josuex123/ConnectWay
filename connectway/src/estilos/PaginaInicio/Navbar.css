@@ -9,6 +9,7 @@
     top: 0;
     z-index: 20;
 }
+
 .nav-container {
     display: flex;
     justify-content: space-between;
@@ -17,10 +18,12 @@
     height: 80px;
     max-width: 1500px;
 }
+
 .disabled {
     cursor: not-allowed;
     opacity: 0.5;
-  }
+}
+
 .nav-logo {
     font-size: 24px;
     font-weight: bold;
@@ -28,83 +31,80 @@
     margin-left: 20px;
     text-decoration: none;
 }
-  
+
 .nav-menu {
     display: flex;
     list-style: none;
     text-align: center;
     margin-right: 2rem;
-    
 }
-  
+
 .nav-item {
     margin-right: 1rem;
 }
-  
+
 .nav-links {
     color: #03314B;
     text-decoration: none;
-
     padding: 0.5rem 1rem;
     border-radius: 5px;
     transition: background-color 0.3s, color 0.3s;
-    font-weight:600;
+    font-weight: 600;
 }
-  
+
 .nav-links:hover {
-    background-color: #2CE080;
-    color:#03314B;
+    background-color: #03314B;
+    color: white;
     border-radius: 5px;
 }
 
 .nav-links.active {
-    /*background-color: #20B1A68;*/
-    background-color: #2CE080; 
-    color: #03314B; 
+    background-color: #03314B;
+    color: white;
 }
-  
+
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #9EE493;
-    /*box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);*/
+    background-color: white;
+    z-index: 1000; 
+    width: auto;
+    top: 100%; 
+    margin-top: 5px; 
 }
-  
+
 .dropdown:hover .dropdown-content {
     display: block;
 }
-  
+
 .dropdown-link {
     padding: 10px;
     display: block;
     text-decoration: none;
-    background-color: #2CE080;
-    
-    font-weight:600;
+    background-color: white;
+    font-weight: 600;
     color: #03314B;
     transition: background-color 0.3s, color 0.3s;
 }
-  
-.dropdown-link:hover {
-    background-color: white;
-    color: #03314B;
-    
 
+.dropdown-link:hover {
+    background-color: #03314B;
+    color: white;
 }
-  
+
 .nav-icon {
     display: none;
     cursor: pointer;
 }
-  
+
 .hamburger-open,
 .hamburger-close {
     display: inline-block;
-    width: 3rem; 
-    height: 3rem; 
+    width: 3rem;
+    height: 3rem;
     background-color: #03314B;
 }
-  
+
 @media screen and (max-width: 960px) {
     .nav-menu {
         display: flex;
@@ -115,7 +115,8 @@
         left: -110%;
         opacity: 1;
         transition: all 0.5s ease;
-        background: #ffffff;  
+        background: #ffffff;
+        z-index: 999;
     }
 
     .nav-menu.active {
@@ -127,6 +128,7 @@
         padding: 1.5rem;
         width: 100%;
         text-align: center;
+        display: block;
     }
 
     .nav-linkss {
@@ -140,15 +142,27 @@
     }
 
     .dropdown-content {
-        position: relative;
+        position: relative; /* Ajuste para pantallas pequeñas */
         top: 0;
         left: 0;
         width: 100%;
         text-align: center;
+        background: #ffffff;
+        padding: 0;
+        z-index: 998;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: white;
     }
 
     .dropdown-link {
         padding: 1rem 0;
+        width: 100%;
+        background-color: transparent;
     }
 
     .nav-icon {
@@ -159,7 +173,6 @@
         transform: translate(-100%, -50%);
     }
 
-    
     .hamburger-open,
     .hamburger-close {
         width: 3rem;
@@ -171,6 +184,7 @@
         color: #03314B;
     }
 }
+
 
 .nav-logo-image {
     width: 110px;
@@ -193,30 +207,26 @@
     filter: brightness(0) invert(1);
 }
 
-
-
 .nav-linkss {
     color: #03314B;
     text-decoration: none;
     padding: 0.5rem 1rem;
     border-radius: 5px;
     transition: background-color 0.3s, color 0.3s;
-    font-weight:600;
+    font-weight: 600;
 }
-  
+
 .nav-linkss:hover {
-    background-color: #2CE080;
-    color: #03314B;
+    background-color: #03314B;
+    color: white;
     border-radius: 5px;
-    
 }
 
 .nav-linkss.active {
-    background-color: #2CE080; 
-    color: #03314B; 
-  }
-  .nav-links, .dropdown-link {
-    cursor: pointer; 
-  }
+    background-color: #03314B;
+    color: white;
+}
 
-  
+.nav-links, .dropdown-link {
+    cursor: pointer;
+}

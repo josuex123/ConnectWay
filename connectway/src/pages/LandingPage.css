@@ -123,8 +123,8 @@
 }
 
 .btn-start-landing {
-    background-color: #2CE080;
-    color: #03314B;
+    background-color: #03314B;
+    color: white;
     padding: 0.5rem 10rem; 
     border-radius: 5px;
     text-decoration: none;
@@ -132,8 +132,8 @@
     display: inline-block;
 }
 .btn-start-landing:hover {
-    background-color:#20BA68;
-    color: #03314B;
+    background-color:#021f36;
+    color: white;
     border-radius: 5px;
 }
 
