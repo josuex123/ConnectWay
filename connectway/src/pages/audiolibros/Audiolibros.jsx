@@ -94,7 +94,7 @@ const AudiolibroUsuario = () => {
                     >
                         &lt;
                     </button>
-                    <div className="d-flex justify-content-around flex-wrap" style={{ width: '80%',border: '2px solid #ccc', }}>
+                    <div className="d-flex justify-content-around flex-wrap" style={{ width: '80%', }}>
                         {searchPerformed ? (
                             searchResults.length === 0 ? (
                                 <p>No encontramos resultados que coincidan con tu búsqueda. Intenta con términos diferentes o revisa la ortografía.</p>
