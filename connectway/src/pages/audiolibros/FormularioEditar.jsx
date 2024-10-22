@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { updateAudiobook } from '../../Services/AudiolibrosServicios/UpdateAudiobook';
-//import '../../estilos/Audiolibros/FormularioAñadir/Formulario.css';
+import '../../estilos/Audiolibros/FormularioAñadir/Formulario.css';
 import EditMediaDrop from '../../components/Dropzone/EditMediaDrop'; 
 import ModalNotificacion from '../../components/Modal/ModalNotificacion';
 import ModalConfirmacion from '../../components/Modal/ModalConfirmacion';
@@ -273,7 +273,7 @@ const AudiobookEdit = () => {
     return (
         <>
             <h1 className="title">Editar Audiolibro</h1>
-            <form className="form-containeredit">
+            <form className="form-container">
                 <div className="form-group-horizontal mb-3">
                     <label htmlFor="titulo">Título:</label>
                     <div className="tooltip-container">
@@ -288,7 +288,7 @@ const AudiobookEdit = () => {
                     </div>
                 </div>
 
-                <div className="form-group-horizontal mb-3 edit">
+                <div className="form-group-horizontal mb-3">
                     <label htmlFor="autor">Autor:</label>
                     <div className="tooltip-container">
                         <input
@@ -347,6 +347,12 @@ const AudiobookEdit = () => {
                     <button className="cancel-bot" type="button" onClick={() => window.history.back()}>Cancelar</button>
                     <button className="submit-bot" type="button" 
                         onClick={openConfirmModal}
+                        disabled={!isFormValid}
+                        style={{
+                            backgroundColor: isFormValid ? '#03314B' : '#d3d3d3', 
+                            color: isFormValid ? 'white' : '#666', 
+                            cursor: isFormValid ? 'pointer' : 'not-allowed', // Cursor de puntero si habilitado, no permitido si deshabilitado
+                        }}
                        
                     >Guardar
                     </button>
