@@ -46,7 +46,6 @@ const AudiobookEdit = () => {
         setIsFormValid(hasChanges);
     }, [titulo, autor, descripcion, categoria,imagenUrl,audioUrl, initialValues]);
     
-
     useEffect(() => {
         if (audiobook) {
             const { titulo, autor, categoria, descripcion, imagenPortadaURL, archivoAudioURL } = audiobook;
@@ -148,7 +147,6 @@ const AudiobookEdit = () => {
             return false;
         }
         return true;
-
     };
 
     const validateDescription= (value) => {
@@ -162,7 +160,6 @@ const AudiobookEdit = () => {
             return false;
         }
         return true;
-
     };
 
   
@@ -170,7 +167,6 @@ const AudiobookEdit = () => {
         const { value } = e.target;
         if (validateTitle(value)) {
             setTitulo(value);
-           
         }
     };
 
@@ -186,10 +182,8 @@ const AudiobookEdit = () => {
         const { value } = e.target;
         if (validateDescription(value)) {
             setDescripcion(value);
-           
         }
     };
-
 
     const handleSubmit = async () => {
 
@@ -230,7 +224,6 @@ const AudiobookEdit = () => {
         } catch (error) {
             console.error('Error al actualizar el audiolibro: ', error);
             showModalNotificacion('error', 'Hubo un error al actualizar el audiolibro.');
-
         }
     };
   
@@ -240,7 +233,6 @@ const AudiobookEdit = () => {
         setNotificationMessage(message);
         setIsModalNotificacionOpen(true); 
     };
-
 
     const closeModalNotificacion = () => {
        setIsModalNotificacionOpen(false);
@@ -273,7 +265,6 @@ const AudiobookEdit = () => {
     const closeConfirmModal = () => {
         setIsConfirmModalOpen(false);
     };
-    
 
     return (
         <>
