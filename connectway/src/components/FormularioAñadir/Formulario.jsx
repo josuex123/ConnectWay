@@ -56,7 +56,7 @@ function Formulario() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     
-    setIsLoading(true);
+    
 
     if (!titulo) {
       setError('Por favor, rellena el título en el formulario.');
