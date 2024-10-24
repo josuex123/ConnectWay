@@ -1,7 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import Header from '../../components/Header/Header'; // Importa el componente Header
-import '../../components/Header/Header.css'; // Importa el CSS del Header
-
+import Navbar from '../../components/PaginaInicio/Navbar';
 import { useDropzone } from 'react-dropzone';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
@@ -20,6 +18,13 @@ function FormularioCrearComunidad() {
   const [imageFiles, setImageFiles] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const db = getFirestore(app);
+  const maxChars = 400;
+
+  const handleDescripcionChange = (e) => {
+    if (e.target.value.length <= maxChars) {
+      setDescripcion(e.target.value);
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -68,7 +73,8 @@ function FormularioCrearComunidad() {
 
   return (
     <>
-      <Header /> {/* Agrega el encabezado aquí */}
+      <Navbar />
+        
       <div className="form-container">
         <h1>Crear Comunidad</h1>
         <form onSubmit={handleSubmit}>
@@ -94,22 +100,28 @@ function FormularioCrearComunidad() {
               value={categoria}
               onChange={(e) => setCategoria(e.target.value)}
             >
-              <option value="">Elegir categoría</option>
-              <option value="educacion">Educación</option>
-              <option value="salud">Salud</option>
-              <option value="tecnologia">Tecnología</option>
+                <option value="">Elegir categoría</option>
+                <option value="meditacion">Meditación</option>
+                <option value="inteligencia_emocional">Inteligencia Emocional</option>
+                <option value="salud_mental">Salud Mental</option>
+                <option value="psicologia_de_parejas">Psicología de parejas</option>
             </select>
           </div>
 
-          <div className="form-group">
+          <div className="form-group" style={{ position: 'relative' }}>
             <label htmlFor="descripcion">Descripción:</label>
+            <span style={{ position: 'absolute', top: '0', right: '0', fontSize: '12px', color: '#888' }}>
+              {descripcion.length}/{maxChars}
+            </span>
             <textarea
               id="descripcion"
               className="form-control"
               placeholder="Escribe una breve descripción de la comunidad"
               value={descripcion}
-              onChange={(e) => setDescripcion(e.target.value)}
+              onChange={handleDescripcionChange}
               rows="4"
+              maxLength={maxChars}
+              style={{ resize: 'none' }}
             />
           </div>
 
