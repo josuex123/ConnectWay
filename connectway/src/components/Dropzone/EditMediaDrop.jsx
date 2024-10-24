@@ -103,7 +103,10 @@ function EditMediaDrop({ initialImageUrl, initialAudioUrl, onImageChange, onAudi
                             <div className="uploaded-portada" >
                             <img src={imageUrl} alt="Portada" width="100px" />
                             </div>
-                            <button className="btn btn-outline-danger eliminar-botton"  onClick={removeImageFile}>Cambiar</button>
+                            <button 
+                            className="btn btn-outline-danger eliminar-botn"  
+                            disabled={true}
+                            onClick={removeImageFile}>Cambiar</button>
                         </div>
                     )}
                 </div>
@@ -126,7 +129,9 @@ function EditMediaDrop({ initialImageUrl, initialAudioUrl, onImageChange, onAudi
                         <div className="uploaded-file">
                             <audio controls src={audioUrl}></audio>
                             <div className="cont-eliminar">  
-                                <button  className="btn btn-outline-danger eliminar-botton" onClick={removeAudioFile}>Cambiar</button>
+                                <button  className="btn btn-outline-danger eliminar-botn"
+                                 onClick={removeAudioFile}
+                                 disabled={true}>Cambiar</button>
                             </div>
                         </div>
                     )}
