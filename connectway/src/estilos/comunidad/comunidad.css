@@ -1,0 +1,103 @@
+/* Estilos generales para el contenedor del formulario */
+.form-container {
+  width: 50%;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo del título del formulario */
+.form-container h1 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Estilos para los campos de entrada del formulario */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Estilos para el área de texto */
+textarea.form-control {
+  resize: none;
+}
+
+/* Estilos para la sección de subida de imagen */
+.dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border: 2px dashed #aaa;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 15px;
+  background-color: #fff;
+}
+
+.dropzone p {
+  font-size: 14px;
+  color: #666;
+}
+
+.uploaded-file img {
+  margin-top: 10px;
+  max-width: 100px;
+  border-radius: 4px;
+}
+
+/* Estilos para los botones */
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Estilos de alerta para mostrar errores */
+.alert {
+  padding: 10px;
+  margin-bottom: 15px;
+  color: white;
+  background-color: #dc3545;
+  border-radius: 4px;
+  text-align: center;
+}

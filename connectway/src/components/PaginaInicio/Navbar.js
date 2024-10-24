@@ -12,19 +12,31 @@ import amigues from '../../images/amigues.png';
 
 const Navbar = () => {
   const [isAudiolibrosOpen, setAudiolibrosOpen] = useState(false);
+  const [isComunidadOpen, setComunidadOpen] = useState(false); // Estado para controlar el dropdown de Comunidad
   const [isMenuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { role } = useParams(); // Obtiene el rol de la URL (0 o 1)
-  const isAdmin = role === '1'; // Determina si es admin o usuario
-  const isDisabled = true; // No modificamos el estado de isDisabled, tal como solicitaste
+  const { role } = useParams();
+  const isAdmin = role === '1'; 
+  const isDisabled = false;
 
+  // Manejo del botón de Audiolibros
   const handleAudiolibrosClick = (e) => {
     e.preventDefault();
     if (isAudiolibrosOpen) {
       navigate(`/audiolibros/${role}`);
     } else {
       setAudiolibrosOpen(true);
+    }
+  };
+
+  // Manejo del botón de Comunidad
+  const handleComunidadClick = (e) => {
+    e.preventDefault();
+    if (isComunidadOpen) {
+      setComunidadOpen(false);  
+    } else {
+      setComunidadOpen(true);  
     }
   };
 
@@ -48,6 +60,7 @@ const Navbar = () => {
             </NavLink>
           </li>
 
+          
           <li className="nav-item dropdown">
             <span
               className={`nav-links dropbtn ${location.pathname.includes('/audiolibros') ? 'active' : ''}`}
@@ -80,22 +93,46 @@ const Navbar = () => {
             )}
           </li>
 
-          <li className="nav-item">
-            <NavLink
-              to={`/comunidad/${role}`}
-              className={`nav-links ${isDisabled ? 'disabled' : ''}`} // Mantiene isDisabled
-              style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
-              onClick={() => setMenuOpen(false)}
+
+          <li className="nav-item dropdown">
+            <span
+              className={`nav-links dropbtn ${location.pathname.includes('/comunidad') ? 'active' : ''}`}
+              onClick={handleComunidadClick}
             >
               Comunidad
               <img src={amigues} alt="IconComu" className="nav-logo-image1" />
-            </NavLink>
+            </span>
+            {isComunidadOpen && (
+              <div className="dropdown-content">
+                <NavLink
+                  to={`/comunidad/crear/${role}`}
+                  className={`dropdown-link ${location.pathname === `/comunidad/crear/${role}` ? 'active' : ''}`}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Crear Comunidad
+                </NavLink>
+                <NavLink
+                  to={`/comunidad/unirse/${role}`}
+                  className={`dropdown-link ${location.pathname === `/comunidad/unirse/${role}` ? 'active' : ''}`}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Unirse a Comunidad
+                </NavLink>
+                <NavLink
+                  to={`/comunidad/mis-comunidades/${role}`}
+                  className={`dropdown-link ${location.pathname === `/comunidad/mis-comunidades/${role}` ? 'active' : ''}`}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Mis Comunidades
+                </NavLink>
+              </div>
+            )}
           </li>
 
           <li className="nav-item">
             <NavLink
               to={`/MiActividad/${role}`}
-              className={`nav-links ${isDisabled ? 'disabled' : ''}`} // Mantiene isDisabled
+              className={`nav-links ${isDisabled ? 'disabled' : ''}`}
               style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
               onClick={() => setMenuOpen(false)}
             >
@@ -107,7 +144,7 @@ const Navbar = () => {
           <li className="nav-item">
             <NavLink
               to={`/Perfil/${role}`}
-              className={`nav-links ${isDisabled ? 'disabled' : ''}`} // Mantiene isDisabled
+              className={`nav-links ${isDisabled ? 'disabled' : ''}`}
               style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
               onClick={() => setMenuOpen(false)}
             >

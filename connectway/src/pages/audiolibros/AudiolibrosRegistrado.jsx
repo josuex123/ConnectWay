@@ -8,6 +8,7 @@ import ModalNotificacion from '../../components/Modal/ModalNotificacion';
 import ModalConfirmacion from '../../components/Modal/ModalConfirmacion';
 import { useNavigate } from 'react-router-dom';
 import AudiobookSearch2 from '../../components/BarraBuscador/BarraBuscador'; // Importar la barra de búsqueda
+import AudiolibrosReproducir from '../../pages/audiolibros/AudiolibrosReproducir';
 
 const AudiolibroRegistrado = () => {
     const [audiolibros, setAudiolibros] = useState([]);
@@ -217,7 +218,10 @@ const AudiolibroRegistrado = () => {
                 cancelButtonText="Cancelar"
                 iconClass="fa fa-trash-alt"
             />
+            {/* ojoooooooo */}
+            <AudiolibrosReproducir/> 
         </div>
+        
     );
 };
 

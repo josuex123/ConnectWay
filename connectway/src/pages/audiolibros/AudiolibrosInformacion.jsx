@@ -8,12 +8,14 @@ import Audifono from '../../images/audifonos.png';
 import Cabeza from '../../images/cabeza.png';
 import Hora from '../../images/hora.png';
 import '../../estilos/Audiolibros/AudiolibrosInformacion/AudiolibrosInformacion.css';
+import AudiolibrosReproducir from '../../pages/audiolibros/AudiolibrosReproducir';
 
 const AudiolibrosInformacion = () => {
     const isDisabled = true; 
     const location = useLocation();
     const { idLibro } = location.state || {};
     const [audiolibro, setAudiolibro] = useState(null);
+    const [showAudiolibros, setShowAudiolibros] = useState(false); 
 
     useEffect(() => {
         const fetchAudiolibro = async () => {
@@ -42,6 +44,10 @@ const AudiolibrosInformacion = () => {
             .split('_') 
             .map(palabra => palabra.charAt(0).toUpperCase() + palabra.slice(1)) 
             .join(' '); 
+    };
+
+    const handleReproducirClick = () => {
+        setShowAudiolibros(true); 
     };
 
     return (
@@ -96,6 +102,8 @@ const AudiolibrosInformacion = () => {
                     </div>
                 </div>
             </div>
+            {/* ojoooooooo ESTO QUE APAREZCA CUANDO SE DA CLIC EN REPRODUCIR*/}
+            <AudiolibrosReproducir/> 
         </>
     );
 };
