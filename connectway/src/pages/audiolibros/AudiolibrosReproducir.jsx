@@ -1,16 +1,94 @@
-import React from 'react';
-import '../../estilos/Audiolibros/AudiolibrosReproducir/AudiolibrosReproducir.css'
+import React, { useState, useRef } from 'react';
+import '../../estilos/Audiolibros/AudiolibrosReproducir/AudiolibrosReproducir.css';
 import NoContentPage from '../noContent/noContentPage'
+import AumentarMin from '../../images/aumentDiezMin.png';
+import RetricederMin from '../../images/retroCincoMin.png';
+import Play from '../../images/play2.png';
+import Pausa from '../../images/pausa.png';
 
 const AudiolibrosReproducir = () => {
+    const audioRef = useRef(null);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [currentTime, setCurrentTime] = useState(0);
+    const [duration, setDuration] = useState(0);
+    const [volume, setVolume] = useState(1);
+  
+    const togglePlayPause = () => {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    };
+  
+    const handleTimeUpdate = () => {
+      setCurrentTime(audioRef.current.currentTime);
+    };
+  
+    const handleLoadedMetadata = () => {
+      setDuration(audioRef.current.duration);
+    };
+  
+    const handleVolumeChange = (e) => {
+      const volumeValue = e.target.value;
+      setVolume(volumeValue);
+      audioRef.current.volume = volumeValue;
+    };
+  
     return (
-        <div className="pagina-inicio">
-            
-            <div className="content">
-            <NoContentPage/>
-            </div>
-        </div>
-    );
-};
+      <div className="audio-player">
 
-export default AudiolibrosReproducir;
+        {/* PONER LA IMAGEN AQUI DE LA BASE DE DATOS */}
+        <img src="---" alt="imagenAudiolibro" className="audio-image" />
+  
+        <div className="audio-details">
+          <p className="audio-author">Nombre del Autor</p>
+          <p className="audio-title">Título</p>
+          <audio
+            ref={audioRef}
+            onTimeUpdate={handleTimeUpdate}
+            onLoadedMetadata={handleLoadedMetadata}
+            src="your-audio-source"
+          />
+          <div className="audio-controls">
+            <button onClick={() => (audioRef.current.currentTime -= 10)}>
+            <img src={RetricederMin} alt="Retrocede rapido" style={{ width: '25px', height: '25px' }} />
+            </button>
+
+            <button onClick={togglePlayPause}>
+              {isPlaying ?  <img src={Play} alt="play" style={{ width: '30px', height: '30px' }} /> : <img src={Pausa} alt="pausa" style={{ width: '30px', height: '30px' }} />}
+            </button>
+
+            <button onClick={() => (audioRef.current.currentTime += 10)}>
+            <img src={AumentarMin} alt="Avance rapido" style={{ width: '25px', height: '25px' }} />
+            </button>
+          </div>
+  
+          <div className="audio-timeline">
+            <span>{new Date(currentTime * 1000).toISOString().substring(14, 19)}</span>
+            <input
+              type="range"
+              value={currentTime}
+              max={duration}
+              onChange={(e) => (audioRef.current.currentTime = e.target.value)}
+            />
+            <span>{new Date(duration * 1000).toISOString().substring(14, 19)}</span>
+          </div>
+        </div>
+  
+        <div className="audio-volume">
+          <input
+            type="range"
+            value={volume}
+            min="0"
+            max="1"
+            step="0.1"
+            onChange={handleVolumeChange}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  export default AudiolibrosReproducir;
