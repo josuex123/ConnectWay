@@ -1,51 +1,47 @@
 .pagina-inicio {
-    padding: 20px; /* Cambia el padding a un valor más pequeño para pantallas pequeñas */
+    padding: 20px;
 }
 
 .audiolibro-container {
     display: flex;
-    flex-direction: column; /* Cambiar a columna para que el contenido ocupe todo el ancho */
+    flex-direction: column;
     justify-content: center;
-    margin: 0; /* Elimina márgenes laterales */
+    margin: 0;
 }
 
 .audiolibro-detalles {
     display: flex;
-    flex-direction: row; /* Alinea los elementos horizontalmente */
-    justify-content: center; /* Centra el contenido en el contenedor */
+    flex-direction: row;
+    justify-content: center;
     align-items: flex-start;
-    width: 100%; /* Asegura que ocupe todo el ancho del contenedor */
-    flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
+    width: 100%;
+    flex-wrap: wrap;
 }
 
 .contenido-audiolibro {
-    flex: 1; /* Ocupa el espacio disponible */
-    margin: 20px 10px; /* Espacio en el margen solo vertical y lateral */
+    flex: 1;
+    margin: 20px 10px;
     padding: 10px;
-    max-width: calc(100% - 370px); /* Asegúrate de que el max-width se ajuste al espacio disponible */
-    overflow: hidden; /* Evitar que el texto sobresalga */
-    text-overflow: ellipsis; /* Mostrar puntos suspensivos cuando el texto es demasiado largo */
+    max-width: calc(100% - 370px);
 }
 
 .contenido-audiolibro p {
-    margin-bottom: 20px; /* Reduce el margen entre párrafos para un diseño más ajustado */
-    white-space: nowrap; /* Evitar que el texto se divida en múltiples líneas */
-    overflow: hidden; /* Evitar que el texto sobresalga */
-    text-overflow: ellipsis; /* Mostrar puntos suspensivos cuando el texto es demasiado largo */
+    margin-bottom: 20px;
+    white-space: normal;
 }
 
 .audiolibro-portada {
-    flex: 0 0 350px; /* La portada tendrá un ancho fijo de 350px */
-    max-width: 350px; /* Limita el ancho máximo */
-    min-width: 150px; /* Establece un ancho mínimo */
-    height: auto; /* Mantiene la proporción de la imagen */
-    margin: 20px; /* Añadir márgenes para separar de los otros elementos */
+    flex: 0 0 350px; 
+    max-width: 350px;
+    min-width: 150px;
+    height: auto;
+    margin: 30px;
+    margin-right: 60px;
 }
 
-
 .audiolibro-portada img {
-    width: 100%; /* Imagen será responsiva dentro de su contenedor */
-    height: auto; /* Mantiene la proporción de la imagen */
+    width: 100%;
+    height: auto;
 }
 
 .btn-reproducir {
@@ -56,7 +52,7 @@
     cursor: pointer;
     margin-top: 20px;
     margin-bottom: 20px;
-    opacity: 0.5; /* Mantiene el botón deshabilitado visualmente */
+    opacity: 0.5;
 }
 
 .detalles-orden {
@@ -75,28 +71,28 @@
 .detalles-orden > div > div {
     display: flex;
     align-items: center;
-    width: 50%; /* Dos elementos por fila */
+    width: 50%;
 }
 
 .audiolibro-categoria {
     margin-top: 20px;
     display: flex;
     align-items: center;
-    gap: 10px; /* Espacio entre el icono y el texto */
+    gap: 10px;
 }
 
 .categoria-icono {
     width: 22px;
-    height: 22px; /* Asegura que los iconos tengan un tamaño consistente */
+    height: 22px;
 }
 
 .audiolibro-categoria p {
-    margin: 0; /* Elimina el margen extra en el párrafo */
+    margin: 0;
 }
 
 .custom-hr {
     border: 1px solid #000000;
-    max-width: 100%; /* Asegura que el hr se ajuste al contenedor */
+    max-width: 100%;
     margin-top: 20px;
     margin-bottom: 20px;
 }
@@ -107,45 +103,25 @@
     margin-bottom: 10px;
 }
 
-/* Estilos adicionales para pantallas pequeñas (responsive) */
 @media (max-width: 768px) {
     .audiolibro-container {
-        margin: 0; /* Elimina márgenes en pantallas pequeñas */
-        padding: 10px; /* Agrega un padding reducido */
+        margin: 0;
+        padding: 10px;
     }
 
     .audiolibro-detalles {
-        flex-direction: column; /* Cambia a diseño vertical en pantallas pequeñas */
+        flex-direction: column;
         align-items: center;
     }
 
     .contenido-audiolibro {
-        max-width: 100%; /* Asegúrate de que ocupe el 100% del ancho disponible */
-        text-align: center; /* Centra el texto */
-        margin: 10px 0; /* Reduce los márgenes laterales */
+        max-width: 100%;
+        text-align: center;
+        margin: 10px 0;
     }
 
     .audiolibro-portada {
-        margin: 20px auto; /* Centra la imagen en pantallas pequeñas */
-    }
-
-    .btn-reproducir {
-        margin-left: 0;
-        margin-top: 20px;
-    }
-
-    .detalles-orden {
-        justify-content: center;
-        margin-top: 20px;
-    }
-
-    .audiolibro-categoria {
-        justify-content: center;
-        margin-top: 10px;
-    }
-
-    .custom-hr,
-    .custom2-hr {
-        margin-left: 0;
+        max-width: 80%;
+        margin: 20px 0;
     }
 }

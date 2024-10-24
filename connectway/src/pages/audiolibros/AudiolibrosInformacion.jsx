@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
@@ -8,15 +8,14 @@ import Audifono from '../../images/audifonos.png';
 import Cabeza from '../../images/cabeza.png';
 import Hora from '../../images/hora.png';
 import '../../estilos/Audiolibros/AudiolibrosInformacion/AudiolibrosInformacion.css';
+import AudiolibrosReproducir from '../../pages/audiolibros/AudiolibrosReproducir';
 
 const AudiolibrosInformacion = () => {
     const isDisabled = true; 
     const location = useLocation();
     const { idLibro } = location.state || {};
     const [audiolibro, setAudiolibro] = useState(null);
-    const [isTruncated, setIsTruncated] = useState(true);
-    const [isOverflowing, setIsOverflowing] = useState(false);
-    const textRef = useRef(null);
+    const [showAudiolibros, setShowAudiolibros] = useState(false); 
 
     useEffect(() => {
         const fetchAudiolibro = async () => {
@@ -35,13 +34,6 @@ const AudiolibrosInformacion = () => {
         fetchAudiolibro();
     }, [idLibro]);
 
-    useEffect(() => {
-        // Comprobar si el texto está desbordando el contenedor
-        if (textRef.current) {
-            setIsOverflowing(textRef.current.scrollHeight > textRef.current.clientHeight);
-        }
-    }, [audiolibro]);
-
     if (!audiolibro) {
         return <div>Cargando...</div>; 
     }
@@ -52,6 +44,10 @@ const AudiolibrosInformacion = () => {
             .split('_') 
             .map(palabra => palabra.charAt(0).toUpperCase() + palabra.slice(1)) 
             .join(' '); 
+    };
+
+    const handleReproducirClick = () => {
+        setShowAudiolibros(true); 
     };
 
     return (
@@ -65,17 +61,9 @@ const AudiolibrosInformacion = () => {
                             <p><strong>Autor:</strong> {audiolibro.autor}</p>
                             <p>
                                 <strong>Descripción:</strong>
-                                <span ref={textRef} className={`text ${isTruncated ? "truncate" : ""}`}>
+                                <span className="text">
                                     {audiolibro.descripcion}
                                 </span>
-                                {isOverflowing && (
-                                    <span 
-                                        onClick={() => setIsTruncated(!isTruncated)} 
-                                        style={{ color: 'blue', cursor: 'pointer' }}
-                                    >
-                                        {isTruncated ? '... Ver más' : ' Ver menos'}
-                                    </span>
-                                )}
                             </p>
                             <div className="detalles-orden">  
                                 <hr className="custom2-hr" />
@@ -114,6 +102,8 @@ const AudiolibrosInformacion = () => {
                     </div>
                 </div>
             </div>
+            {/* ojoooooooo ESTO QUE APAREZCA CUANDO SE DA CLIC EN REPRODUCIR*/}
+            <AudiolibrosReproducir/> 
         </>
     );
 };

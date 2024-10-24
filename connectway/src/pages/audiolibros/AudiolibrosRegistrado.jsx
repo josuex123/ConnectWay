@@ -8,6 +8,7 @@ import ModalNotificacion from '../../components/Modal/ModalNotificacion';
 import ModalConfirmacion from '../../components/Modal/ModalConfirmacion';
 import { useNavigate } from 'react-router-dom';
 import AudiobookSearch2 from '../../components/BarraBuscador/BarraBuscador'; // Importar la barra de búsqueda
+import AudiolibrosReproducir from '../../pages/audiolibros/AudiolibrosReproducir';
 
 const AudiolibroRegistrado = () => {
     const [audiolibros, setAudiolibros] = useState([]);
@@ -104,12 +105,12 @@ const AudiolibroRegistrado = () => {
         const selectedAudiobook = audiolibros.find(libro => libro.id === id);
         
         if (selectedAudiobook) {
-            navigate('/Audiolibros/editar', { state: { audiobook: selectedAudiobook } });
+            navigate('/Audiolibros/editar/1', { state: { audiobook: selectedAudiobook } });
         }
     };
 
     const handleContainerClick = (id) => {
-        navigate(`/Audiolibros/registrados/informacion`, { state: { idLibro: id } });
+        navigate(`/Audiolibros/registrados/informacion/1`, { state: { idLibro: id } });
     };
 
     // Función para manejar los resultados de la búsqueda
@@ -145,7 +146,7 @@ const AudiolibroRegistrado = () => {
                     >
                         &lt;
                     </button>
-                    <div className="d-flex justify-content-around flex-wrap" style={{ width: '80%' }}>
+                    <div className="d-flex justify-content-around flex-wrap" style={{ width: '80%'}}>
                         {/* Mostrar resultados de la búsqueda o los audiolibros por defecto */}
                         {searchPerformed ? (
                             searchResults.length === 0 ? (
@@ -217,7 +218,10 @@ const AudiolibroRegistrado = () => {
                 cancelButtonText="Cancelar"
                 iconClass="fa fa-trash-alt"
             />
+            {/* ojoooooooo */}
+            <AudiolibrosReproducir/> 
         </div>
+        
     );
 };
 

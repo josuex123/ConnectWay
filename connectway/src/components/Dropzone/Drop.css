@@ -18,17 +18,14 @@
   margin-top: 10px;
   padding: 8px 16px;
   border-color: #03314B;
-  color: #03314B;
+  background-color: #03314B;
+  color:white;
   border-style: solid;
   border-width: 1px;
   border-radius: 4px;
   cursor: pointer;
 }
 
-.select-button:hover {
-  background-color: #03314B;
-  color:white;
-}
 
 
 

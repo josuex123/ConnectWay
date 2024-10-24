@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faMusic, faExclamationCircle, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import ModalNotificacion from '../../components/Modal/ModalNotificacion';
+import ModalCargando from '../../components/Modal/ModalCargando'; 
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../estilos/Audiolibros/FormularioAñadir/Formulario.css';
@@ -16,6 +17,7 @@ function Formulario() {
   const [autor, setAutor] = useState('');
   const [categoria, setCategoria] = useState('');
   const [descripcion, setDescripcion] = useState('');
+  const maxChars = 400;
   const [error, setError] = useState('');
   const [showTooltip, setShowTooltip] = useState(false);
   const [showTooltipIcon1, setShowTooltipIcon1] = useState(false);
@@ -33,6 +35,7 @@ function Formulario() {
   const [duracion, setDuracion] = useState(0);
   const storage = getStorage(app);
   const db = getFirestore(app);
+  const [isLoading, setIsLoading] = useState(false);  // Estado de carga
 
   const showModalNotificacion = (type, message) => { 
     setNotificationType(type);
@@ -44,13 +47,19 @@ function Formulario() {
       setIsModalNotificacionOpen(false);
   };
 
+  const handleDescripcionChange = (e) => {
+    setDescripcion(e.target.value);
+  };
+
   const handleCancel = () => {
-    window.location.href = "/Home";
+    window.location.href = "/Home/1";
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+    
+    
+
     if (!titulo) {
       setError('Por favor, rellena el título en el formulario.');
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -102,7 +111,7 @@ function Formulario() {
     }
   
     setError('');
-  
+    setIsLoading(true); 
     try {
       // Subir la imagen al Storage
       const imageFile = imageFiles[0];
@@ -128,12 +137,23 @@ function Formulario() {
       };
   
       await addDoc(collection(db, "Audiolibro"), audiolibroDoc);
-  
+
+      setIsLoading(false);  // Termina la animación
       showModalNotificacion('success', 'Audiolibro subido correctamente');
+      setTitulo('');
+      setAutor('');
+      setCategoria('');
+      setDescripcion('');
+      setImageFiles([]);
+      setAudioFiles([]);
+      setDuracion(0);
     } catch (error) {
+        setIsLoading(false);  // Termina la animación si hay error
       setError('Error al subir el audiolibro, por favor intenta nuevamente.');
       showModalNotificacion('error', 'Hubo un problema al subir el audiolibro.');
-    }
+    }finally {
+        setIsLoading(false); // Ocultar el modal de cargando
+      }
   };
 
   const closeModal = () => setShowModal(false);
@@ -144,35 +164,58 @@ function Formulario() {
       const img = new Image();
   
       img.onload = () => {
-        const maxWidth = 177;
-        const maxHeight = 284;
-  
-        console.log("width: "+ img.width);
-        console.log("heigth: "+ img.height);
-        if (img.width > maxWidth + 20 || img.height > maxHeight + 20 || img.width < maxWidth - 20 || img.height < maxHeight - 20) {
-          setError(`La imagen debe estar en tamaño de 1000x1600.`);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          return;
+        const minWidth = 1000;
+        const minHeight = 1600;
+    
+        console.log("width: " + img.width);
+        console.log("height: " + img.height);
+    
+        // Verificar si la imagen cumple con el tamaño mínimo de 1000x1600
+        if (img.width < minWidth || img.height < minHeight) {
+            setError(`La imagen debe tener un tamaño mínimo de ${minWidth}x${minHeight} píxeles.`);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
         }
-  
+    
+        // Si la imagen cumple con el tamaño mínimo o es mayor, se redimensiona a un máximo de 1000x1600
         const canvas = document.createElement('canvas');
-        canvas.width = maxWidth;
-        canvas.height = maxHeight;
+        let width = img.width;
+        let height = img.height;
+    
+        // Si la imagen es más grande que 1000x1600, redimensionarla
+        if (width > minWidth || height > minHeight) {
+            // Calcular la proporción para mantener la relación de aspecto
+            const aspectRatio = width / height;
+            if (aspectRatio > 1) { // Si la imagen es más ancha
+                width = minWidth;
+                height = minWidth / aspectRatio;
+            } else { // Si la imagen es más alta
+                height = minHeight;
+                width = minHeight * aspectRatio;
+            }
+        }
+    
+        canvas.width = width;
+        canvas.height = height;
         const ctx = canvas.getContext('2d');
-        
-        ctx.drawImage(img, 0, 0, maxWidth, maxHeight);
-  
+    
+        // Dibujar la imagen redimensionada en el canvas
+        ctx.drawImage(img, 0, 0, width, height);
+    
+        // Convertir el canvas en un archivo blob y crear un archivo nuevo
         canvas.toBlob((blob) => {
-          const resizedFile = new File([blob], file.name, { type: file.type });
-          setImageFiles([Object.assign(resizedFile, {
-            preview: URL.createObjectURL(resizedFile)
-          })]);
+            const resizedFile = new File([blob], file.name, { type: file.type });
+            setImageFiles([Object.assign(resizedFile, {
+                preview: URL.createObjectURL(resizedFile)
+            })]);
         }, file.type);
-      };
-  
-      img.src = URL.createObjectURL(file);
+    };
+    
+    // Asignar la fuente de la imagen
+    img.src = URL.createObjectURL(file);
     }
   }, []);
+  
   
   
 
@@ -291,8 +334,11 @@ function Formulario() {
         </div>
         
 
-        <div className="form-group mb-3">
+        <div className="form-group mb-3" style={{position:'relative'}}>
             <label htmlFor="descripcion">Descripción:</label>
+                <span style={{ position: 'absolute', top: '0', right: '0', fontSize: '12px', color: '#888' }}>
+                    {descripcion.length}/{maxChars}
+                </span>
             <div
                 className="tooltip-container"
                 onMouseEnter={() => setShowTooltip(descripcion === "")}
@@ -303,9 +349,9 @@ function Formulario() {
                     className="form-control"
                     placeholder="Escribe una breve descripción del libro"
                     value={descripcion}
-                    onChange={(e) => setDescripcion(e.target.value)}
+                    onChange={handleDescripcionChange}
                     rows="5"
-                    maxLength="400"
+                    maxLength={maxChars}
                     style={{ resize: 'none' }}
                 />
                 {showTooltip && (
@@ -362,7 +408,7 @@ function Formulario() {
                                 style={{ cursor: 'pointer' }} 
                             />
                             <p>{file.name}</p>
-                            <button className="eliminar-botton" style={{ marginTop: '-10px' }}  onClick={removeImageFile}>Eliminar</button>
+                            <button className="eliminar-botton" style={{ marginTop: '-10px' }}  onClick={removeImageFile}>Cambiar</button>
                             </div>
                         ))}
                         </div>
@@ -404,7 +450,7 @@ function Formulario() {
                         <div>
                             <audio controls src={URL.createObjectURL(audioFiles[0])}></audio>
                             <p>{audioFiles[0].name}</p>
-                            <button className="eliminar-botton" style={{ marginTop: '25px' }} onClick={removeAudioFile}>Eliminar</button>
+                            <button className="eliminar-botton" style={{ marginTop: '25px' }} onClick={removeAudioFile}>Cambiar</button>
                         </div>
                         </div>
                     )}
@@ -437,7 +483,13 @@ function Formulario() {
             </Button>
         </Modal.Footer>
     </Modal>
-
+    <ModalCargando
+      isOpen={isLoading} 
+      onClose={() => {}}
+      type="loading"
+      message="Cargando, por favor espera...\n "
+      iconClass="fa fa-spinner fa-spin" 
+    />
     <ModalNotificacion
         isOpen={isModalNotificacionOpen}
         onClose={closeModalNotificacion}
@@ -445,7 +497,10 @@ function Formulario() {
         message={notificationMessage}
         iconClass={notificationType === 'success' ? 'fa fa-check' : 'fa fa-exclamation'}
     />
-    </>
+  
+    
+
+</>
   );
 }
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation, useParams } from 'react-router-dom';
 import '../../estilos/PaginaInicio/Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -12,22 +12,32 @@ import amigues from '../../images/amigues.png';
 
 const Navbar = () => {
   const [isAudiolibrosOpen, setAudiolibrosOpen] = useState(false);
+  const [isComunidadOpen, setComunidadOpen] = useState(false); // Estado para controlar el dropdown de Comunidad
   const [isMenuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const isDisabled = true;
+  const { role } = useParams();
+  const isAdmin = role === '1'; 
+  const isDisabled = false;
 
+  // Manejo del botón de Audiolibros
   const handleAudiolibrosClick = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     if (isAudiolibrosOpen) {
-      navigate('/audiolibros');
+      navigate(`/audiolibros/${role}`);
     } else {
       setAudiolibrosOpen(true);
     }
   };
 
-  const isAudiolibrosActive = () => {
-    return location.pathname.includes('/audiolibros');
+  // Manejo del botón de Comunidad
+  const handleComunidadClick = (e) => {
+    e.preventDefault();
+    if (isComunidadOpen) {
+      setComunidadOpen(false);  
+    } else {
+      setComunidadOpen(true);  
+    }
   };
 
   const toggleMenu = () => {
@@ -37,22 +47,23 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="nav-container">
-        <NavLink exact to="/Home" className="nav-logo">
+        <NavLink exact to={`/home/${role}`} className="nav-logo">
           <img src={logo} alt="Logo" className="nav-logo-image" />
           CONNECTWAY
         </NavLink>
 
         <ul className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
           <li className="nav-item">
-            <NavLink exact to="/Home" className="nav-linkss" onClick={() => setMenuOpen(false)}>
+            <NavLink exact to={`/home/${role}`} className="nav-linkss" onClick={() => setMenuOpen(false)}>
               Inicio
               <img src={home} alt="IconHome" className="nav-logo-image1" />
             </NavLink>
           </li>
 
+          
           <li className="nav-item dropdown">
             <span
-              className={`nav-links dropbtn ${isAudiolibrosActive() ? 'active' : ''}`} 
+              className={`nav-links dropbtn ${location.pathname.includes('/audiolibros') ? 'active' : ''}`}
               onClick={handleAudiolibrosClick}
             >
               Audiolibros
@@ -60,40 +71,68 @@ const Navbar = () => {
             </span>
             {isAudiolibrosOpen && (
               <div className="dropdown-content">
-                <NavLink 
-                  to="/audiolibros/añadir" 
-                  className={`dropdown-link ${location.pathname === '/audiolibros/añadir' ? 'active' : ''}`}
+                {isAdmin && (
+                  <>
+                    <NavLink
+                      to={`/audiolibros/añadir/${role}`}
+                      className={`dropdown-link ${location.pathname === `/audiolibros/añadir/${role}` ? 'active' : ''}`}
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      Registrar audiolibro
+                    </NavLink>
+                    <NavLink
+                      to={`/audiolibros/registrados/${role}`}
+                      className={`dropdown-link ${location.pathname === `/audiolibros/registrados/${role}` ? 'active' : ''}`}
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      Audiolibros registrados
+                    </NavLink>
+                  </>
+                )}
+              </div>
+            )}
+          </li>
+
+
+          <li className="nav-item dropdown">
+            <span
+              className={`nav-links dropbtn ${location.pathname.includes('/comunidad') ? 'active' : ''}`}
+              onClick={handleComunidadClick}
+            >
+              Comunidad
+              <img src={amigues} alt="IconComu" className="nav-logo-image1" />
+            </span>
+            {isComunidadOpen && (
+              <div className="dropdown-content">
+                <NavLink
+                  to={`/comunidad/crear/${role}`}
+                  className={`dropdown-link ${location.pathname === `/comunidad/crear/${role}` ? 'active' : ''}`}
                   onClick={() => setMenuOpen(false)}
                 >
-                  Registrar audiolibro
+                  Crear Comunidad
                 </NavLink>
-                <NavLink 
-                  to="/audiolibros/registrados" 
-                  className={`dropdown-link ${location.pathname === '/audiolibros/registrados' ? 'active' : ''}`} 
+                <NavLink
+                  to={`/comunidad/unirse/${role}`}
+                  className={`dropdown-link ${location.pathname === `/comunidad/unirse/${role}` ? 'active' : ''}`}
                   onClick={() => setMenuOpen(false)}
                 >
-                  Audiolibros registrados
+                  Unirse a Comunidad
+                </NavLink>
+                <NavLink
+                  to={`/comunidad/mis-comunidades/${role}`}
+                  className={`dropdown-link ${location.pathname === `/comunidad/mis-comunidades/${role}` ? 'active' : ''}`}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Mis Comunidades
                 </NavLink>
               </div>
             )}
           </li>
 
           <li className="nav-item">
-            <NavLink 
-              to="/comunidad" 
-              className={`nav-links ${isDisabled ? 'disabled' : ''}`} 
-              style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
-              onClick={() => setMenuOpen(false)}
-            >
-              Comunidad
-              <img src={amigues} alt="IconComu" className="nav-logo-image1" />
-            </NavLink>
-          </li>
-
-          <li className="nav-item">
-            <NavLink 
-              to="/MiActividad" 
-              className={`nav-links ${isDisabled ? 'disabled' : ''}`} 
+            <NavLink
+              to={`/MiActividad/${role}`}
+              className={`nav-links ${isDisabled ? 'disabled' : ''}`}
               style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
               onClick={() => setMenuOpen(false)}
             >
@@ -103,9 +142,9 @@ const Navbar = () => {
           </li>
 
           <li className="nav-item">
-            <NavLink 
-              to="/Perfil" 
-              className={`nav-links ${isDisabled ? 'disabled' : ''}`} 
+            <NavLink
+              to={`/Perfil/${role}`}
+              className={`nav-links ${isDisabled ? 'disabled' : ''}`}
               style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
               onClick={() => setMenuOpen(false)}
             >
