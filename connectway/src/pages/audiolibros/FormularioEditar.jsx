@@ -4,6 +4,7 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/
 import { updateAudiobook } from '../../Services/AudiolibrosServicios/UpdateAudiobook';
 import '../../estilos/Audiolibros/FormularioAñadir/Formulario.css';
 import EditMediaDrop from '../../components/Dropzone/EditMediaDrop'; 
+import ModalAdvertencia from '../../components/Modal/ModalNotificacion';
 import ModalNotificacion from '../../components/Modal/ModalNotificacion';
 import ModalConfirmacion from '../../components/Modal/ModalConfirmacion';
 
@@ -20,9 +21,15 @@ const AudiobookEdit = () => {
     const [audioUrl, setAudioUrl] = useState('');
 
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+
     const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
     const [notificationType, setNotificationType] = useState('success');
     const [notificationMessage, setNotificationMessage] = useState('');
+
+    const [isModalAdvertenciaOpen, setIsModalAdvertenciaOpen] = useState(false);
+    const [notificationTypeAdver, setNotificationTypeAdver] = useState('success');
+    const [notificationMessageAdver, setNotificationMessageAdver] = useState('');
+
     const storage = getStorage();
 
     const [isFormValid, setIsFormValid] = useState(false);
@@ -127,11 +134,11 @@ const AudiobookEdit = () => {
     const validateTitle = (value) => {
         const regex = /^[a-zA-ZÀ-ÿ0-9\s]*$/; // Permitir solo letras, números y espacios
         if (value.length > 100) {
-            showModalNotificacion('error', 'El título no puede superar los 100 caracteres.');
+          showModalAdvertencia('error', 'El título no puede superar los 100 caracteres.');
             return false;
         }
         if (!regex.test(value)) {
-            showModalNotificacion('error', 'El título no puede contener caracteres especiales, solo numeros, letras y letras con tíldes.');
+            showModalAdvertencia('error', 'El título no puede contener caracteres especiales, solo numeros, letras y letras con tíldes.');
             return false;
         }
         return true;
@@ -140,11 +147,11 @@ const AudiobookEdit = () => {
     const validateAutor = (value) => {
         const regex = /^[a-zA-ZÀ-ÿ\s]*$/; // Permitir solo letras y espacios
         if (value.length > 50) {
-            showModalNotificacion('error', 'El nombre del Autor no puede superar los 50 caracteres.');
+           showModalAdvertencia('error', 'El nombre del Autor no puede superar los 50 caracteres.');
             return false;
         }
         if (!regex.test(value)) {
-            showModalNotificacion('error', 'El nombre del Autor solo admite letras, letras con tílde y numeros.');
+            showModalAdvertencia('error', 'El nombre del Autor solo admite letras, letras con tílde y numeros.');
             return false;
         }
         return true;
@@ -154,11 +161,11 @@ const AudiobookEdit = () => {
     const validateDescription= (value) => {
         const regex = /^[a-zA-ZÀ-ÿ\s.,'"()\-ñáéíóú0-9:¿?¡!:;<>]*$/; // Permitir solo letras y espacios
         if (value.length > 400) {
-            showModalNotificacion('error', 'La descripcion no puede superar los 400 caracteres.');
+           showModalAdvertencia('error', 'La descripcion no puede superar los 400 caracteres.');
             return false;
         }
         if (!regex.test(value)) {
-            showModalNotificacion('error', 'Los caracteres permitidos son: letras (a-z, A-Z, áéíóú, ÁÉÍÓÚ, ñ), números (0-9), espacios, y los siguientes caracteres especiales: . , ’ " ( ) - : ¿ ? ¡ ! ; < >');
+           showModalAdvertencia('error', 'Los caracteres permitidos son: letras (a-z, A-Z, áéíóú, ÁÉÍÓÚ, ñ), números (0-9), espacios, y los siguientes caracteres especiales: . , ’ " ( ) - : ¿ ? ¡ ! ; < >');
             return false;
         }
         return true;
@@ -192,14 +199,14 @@ const AudiobookEdit = () => {
 
 
     const handleSubmit = async () => {
-
+        
         if (!titulo || !autor || !descripcion) {
             const emptyFields = [];
             if (!titulo) emptyFields.push('Título');
             if (!autor) emptyFields.push('Autor');
             if (!descripcion) emptyFields.push('Descripción');
     
-            showModalNotificacion('error', `Los siguientes campos están vacíos: ${emptyFields.join(', ')}`);
+           showModalAdvertencia('error', `Los siguientes campos están vacíos: ${emptyFields.join(', ')}`);
             return; // No continuar si hay campos vacíos
         }
         let imageUrlToSave = imagenUrl;
@@ -224,9 +231,9 @@ const AudiobookEdit = () => {
 
         try {
             await updateAudiobook(audiobook.id, updatedData);
+            closeConfirmModal();
             showModalNotificacion('success', 'El audiolibro ha sido actualizado exitosamente.');
-            setIsModalNotificacionOpen(false);
-            navigate(`/Audiolibros/registrados/1`);
+            
         } catch (error) {
             console.error('Error al actualizar el audiolibro: ', error);
             showModalNotificacion('error', 'Hubo un error al actualizar el audiolibro.');
@@ -235,16 +242,28 @@ const AudiobookEdit = () => {
     };
   
     const showModalNotificacion = (type, message) => {
-        console.log("Abriendo modal de notificación", { type, message }); 
+        console.log('Abriendo modal de notificación');
         setNotificationType(type);
         setNotificationMessage(message);
         setIsModalNotificacionOpen(true); 
+        
+        
     };
-
+    
+    const showModalAdvertencia = (type, message) => {
+        setNotificationTypeAdver(type);
+        setNotificationMessageAdver(message);
+        setIsModalAdvertenciaOpen(true); 
+    };
 
     const closeModalNotificacion = () => {
+       
        setIsModalNotificacionOpen(false);
+       navigate(`/Audiolibros/registrados/1`); 
     };
+    const closeModalAdvertencia = () => {
+        setIsModalAdvertenciaOpen(false);
+     };
 
     const openConfirmModal = () => {
         if (!titulo || !autor || !descripcion) {
@@ -252,19 +271,19 @@ const AudiobookEdit = () => {
             if (!titulo) emptyFields.push('Título');
             if (!autor) emptyFields.push('Autor');
             if (!descripcion) emptyFields.push('Descripción'); 
-            showModalNotificacion('error', `Los siguientes campos están vacíos: ${emptyFields.join(', ')}`);
+            showModalAdvertencia('error', `Los siguientes campos están vacíos: ${emptyFields.join(', ')}`);
             return; // No continuar si hay campos vacíos
         }
         if(descripcion.length<50){
-            showModalNotificacion('error', `El campo Descripción no puede ser menor a 50 caracteres`);     
+           showModalAdvertencia('error', `El campo Descripción no puede ser menor a 50 caracteres`);     
             return;
         }
         if(autor.length<3){
-            showModalNotificacion('error', `El campo Autor no puede ser menor a 3 caracteres`);     
+           showModalAdvertencia('error', `El campo Autor no puede ser menor a 3 caracteres`);     
             return;
         }
         if(titulo.length<3){
-            showModalNotificacion('error', `El campo Titulo no puede ser menor a 3 caracteres`);     
+           showModalAdvertencia('error', `El campo Titulo no puede ser menor a 3 caracteres`);     
             return;
         }
         setIsConfirmModalOpen(true);
@@ -273,6 +292,7 @@ const AudiobookEdit = () => {
     const closeConfirmModal = () => {
         setIsConfirmModalOpen(false);
     };
+   
     
 
     return (
@@ -356,7 +376,7 @@ const AudiobookEdit = () => {
                         style={{
                             backgroundColor: isFormValid ? '#03314B' : '#d3d3d3', 
                             color: isFormValid ? 'white' : '#666', 
-                            cursor: isFormValid ? 'pointer' : 'not-allowed', // Cursor de puntero si habilitado, no permitido si deshabilitado
+                            cursor: isFormValid ? 'pointer' : 'not-allowed', 
                         }}
                        
                     >Guardar
@@ -370,6 +390,13 @@ const AudiobookEdit = () => {
                 type={notificationType}
                 message={notificationMessage}
                 iconClass={notificationType === 'success' ? 'fa fa-check' : 'fa fa-exclamation'}
+            />
+             <ModalAdvertencia
+                isOpen={isModalAdvertenciaOpen}
+                onClose={closeModalAdvertencia}
+                type={notificationTypeAdver}
+                message={notificationMessageAdver}
+                iconClass={notificationTypeAdver === 'success' ? 'fa fa-check' : 'fa fa-exclamation'}
             />
 
             <ModalConfirmacion
