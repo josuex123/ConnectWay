@@ -7,8 +7,9 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../estilos/comunidad/comunidad.css';
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getFirestore, doc, addDoc, collection } from "firebase/firestore";
 import { app } from '../../firebaseConfig';
+import { subirImagenYObtenerUrl } from '../../Services/ComunidadesServicios/SubirImgYobtenerUrl';
 
 function FormularioCrearComunidad() {
   const [nombre, setNombre] = useState('');
@@ -36,14 +37,19 @@ function FormularioCrearComunidad() {
 
     setError('');
     try {
+     
+      const imagenUrl = await subirImagenYObtenerUrl(imageFiles[0]);
+
       const comunidadDoc = {
         nombre,
-        categoria,
         descripcion,
-        imagenURL: imageFiles[0].preview,
+        imagenURL: imagenUrl,
       };
 
-      await addDoc(collection(db, "Comunidad"), comunidadDoc);
+      // Agregar la comunidad en la subcolección correspondiente a la categoría
+      const categoriaRef = doc(db, "Comunidades", categoria); // Ref a la categoría
+      await addDoc(collection(categoriaRef, "comunidades"), comunidadDoc);
+
       setNombre('');
       setCategoria('');
       setDescripcion('');
