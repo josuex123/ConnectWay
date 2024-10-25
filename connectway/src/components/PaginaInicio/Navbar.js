@@ -93,10 +93,9 @@ const Navbar = () => {
             )}
           </li>
 
-
           <li className="nav-item dropdown">
             <span
-              className={`nav-links dropbtn ${location.pathname.includes('/comunidad') ? 'active' : ''}`}
+              className={`nav-linkss2 ${location.pathname.includes('/comunidad') ? 'active' : ''}`}
               onClick={handleComunidadClick}
             >
               Comunidad
@@ -132,7 +131,7 @@ const Navbar = () => {
           <li className="nav-item">
             <NavLink
               to={`/MiActividad/${role}`}
-              className={`nav-links ${isDisabled ? 'disabled' : ''}`}
+              className={`nav-linkss3 ${isDisabled ? 'disabled' : ''}`}
               style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
               onClick={() => setMenuOpen(false)}
             >
@@ -144,7 +143,7 @@ const Navbar = () => {
           <li className="nav-item">
             <NavLink
               to={`/Perfil/${role}`}
-              className={`nav-links ${isDisabled ? 'disabled' : ''}`}
+              className={`nav-linkss4 ${isDisabled ? 'disabled' : ''}`}
               style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
               onClick={() => setMenuOpen(false)}
             >
