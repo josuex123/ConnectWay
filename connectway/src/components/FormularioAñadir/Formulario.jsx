@@ -459,7 +459,7 @@ function Formulario() {
         </div>
 
 
-        <div className='form-buttons'>
+        <div className='form-buttons-audiobook '>
           <button className="cancel-bot" type="button" 
                   onClick={handleCancel}> Cancelar
           </button>

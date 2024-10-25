@@ -4,10 +4,10 @@ import '../../estilos/PaginaInicio/Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import logo from '../../images/logoejemplo.png';
-import person from '../../images/usuario.png';
-import home from '../../images/hogar.png';
+import person from '../../images/usuario1.png';
+import home from '../../images/hogar1.png';
 import cabeza from '../../images/cabeza.png';
-import audifonos from '../../images/auriculares-redondeados.png';
+import audifonos from '../../images/auriculares-redondeados1.png';
 import amigues from '../../images/amigues.png';
 
 const Navbar = () => {
@@ -63,7 +63,7 @@ const Navbar = () => {
           
           <li className="nav-item dropdown">
             <span
-              className={`nav-links dropbtn ${location.pathname.includes('/audiolibros') ? 'active' : ''}`}
+              className={`nav-linkss1 ${location.pathname.includes('/audiolibros') ? 'active' : ''}`}
               onClick={handleAudiolibrosClick}
             >
               Audiolibros

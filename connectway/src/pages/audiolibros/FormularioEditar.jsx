@@ -368,7 +368,7 @@ const AudiobookEdit = () => {
                     onAudioChange={setAudioUrl}   
                 />
 
-                <div className="form-buttons">
+                <div className="form-buttons-audiobook ">
                     <button className="cancel-bot" type="button" onClick={() => window.history.back()}>Cancelar</button>
                     <button className="submit-bot" type="button" 
                         onClick={openConfirmModal}

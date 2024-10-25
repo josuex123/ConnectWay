@@ -240,7 +240,7 @@
 .dropzone:hover {
   background-color: #f1f3f5;
 }
-.form-buttons {
+.form-buttons-audiobook {
   display: flex;
   justify-content: right; 
   margin-top: 20px;
