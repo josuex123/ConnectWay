@@ -57,7 +57,7 @@ function EditMediaDrop({ initialImageUrl, initialAudioUrl, onImageChange, onAudi
             console.log("Metadatos del audio cargados.");
             console.log("Duración del audio (en segundos):", audio.duration);
             const duration = audio.duration/60; 
-            if (duration < 0 || duration > 30  ) { 
+            if (duration < 5 || duration > 30  ) { 
                 console.log("Error: La duración del audio debe estar entre 15 y 30 minutos.");
                 setAudioError('La duración del audio debe estar entre 15 y 30 minutos.');
                 setShowModal(true);
