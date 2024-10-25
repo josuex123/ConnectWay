@@ -146,7 +146,7 @@ const AudiolibroRegistrado = () => {
                     >
                         &lt;
                     </button>
-                    <div className="d-flex justify-content-around flex-wrap" style={{ width: '80%', border: '2px solid #ccc',}}>
+                    <div className="d-flex justify-content-around flex-wrap" style={{ width: '80%'}}>
                         {/* Mostrar resultados de la búsqueda o los audiolibros por defecto */}
                         {searchPerformed ? (
                             searchResults.length === 0 ? (
