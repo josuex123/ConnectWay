@@ -80,9 +80,16 @@ function FormularioCrearComunidad() {
   return (
     <>
       <Navbar />
+
+
+      {/* Mover el título fuera del contenedor del formulario */}
+      <h1 className="title">Crear Comunidad</h1>
         
+
+
+
       <div className="form-container">
-        <h1>Crear Comunidad</h1>
+        {/*<h1>Crear Comunidad</h1>*/}
         <form onSubmit={handleSubmit}>
           {error && <div className="alert alert-danger">{error}</div>}
           
