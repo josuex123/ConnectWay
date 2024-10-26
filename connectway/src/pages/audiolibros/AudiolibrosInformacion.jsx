@@ -103,7 +103,12 @@ const AudiolibrosInformacion = () => {
                 </div>
             </div>
             {/* ojoooooooo ESTO QUE APAREZCA CUANDO SE DA CLIC EN REPRODUCIR*/}
-            <AudiolibrosReproducir/> 
+            <AudiolibrosReproducir
+            portadaUrl={audiolibro.imagenPortadaURL}
+            titulo={audiolibro.titulo}
+            autor={audiolibro.autor}
+            
+            /> 
         </>
     );
 };

@@ -7,7 +7,7 @@ import RetricederMin from '../../images/retroCincoMin.png';
 import Play from '../../images/play2.png';
 import Pausa from '../../images/pausa.png';
 
-const AudiolibrosReproducir = () => {
+const AudiolibrosReproducir = ({ portadaUrl,titulo,autor}) => {//Añadi este  parametro para recibir la url de la imagen
     const { role } = useParams(); // Obtenemos el valor del rol desde la URL
     const audioRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -45,12 +45,12 @@ const AudiolibrosReproducir = () => {
 
     return (
         <div className="audio-player">
-            {/* PONER LA IMAGEN AQUI DE LA BASE DE DATOS */}
-            <img src="---" alt="imagenAudiolibro" className="audio-image" />
+            {/* PONER LA IMAGEN AQUI DE LA BASE DE DATOS, USAMOS EL VALOR DEL PARAMETRO PARA PODER MOSTRAR LA IMAGEN */}
+            <img src={ portadaUrl } alt="imagenAudiolibro" className="audio-image" />
   
             <div className="audio-details">
-                <p className="audio-author">Nombre del Autor</p>
-                <p className="audio-title">Título</p>
+                <p className="audio-author"> {autor}</p>
+                <p className="audio-title">{titulo}</p>
                 <audio
                     ref={audioRef}
                     onTimeUpdate={handleTimeUpdate}
