@@ -166,11 +166,22 @@ function FormularioCrearComunidad() {
             </div>
           </div>
 
-          <div className="form-buttons">
+          {/*<div className="form-buttons">
             <button type="button" className="btn btn-secondary" onClick={() => window.history.back()}>Cancelar</button>
             <button type="submit" className="btn btn-primary">Crear</button>
           </div>
-        </form>
+              </form>*/}
+
+            
+          <div className="form-buttons" style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+            <button type="button" className="btn btn-secondary" style={{ backgroundColor: '#6c757d', color: 'white' }} onClick={() => window.history.back()}>
+              Cancelar
+            </button>
+            <button type="submit" className="btn btn-primary" style={{ backgroundColor: '#007bff', color: 'white' }}>
+              Crear
+            </button>
+          </div>
+        </form>  
 
         <Modal show={showModal} onHide={() => setShowModal(false)} centered>
           <Modal.Header closeButton>
