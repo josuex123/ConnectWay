@@ -6,6 +6,8 @@ import AumentarMin from '../../images/aumentDiezMin.png';
 import RetricederMin from '../../images/retroCincoMin.png';
 import Play from '../../images/play2.png';
 import Pausa from '../../images/pausa.png';
+import Silencio from '../../images/volumenSil.png';
+import Volumen from '../../images/volumenVol.png';
 
 const AudiolibrosReproducir = ({ portadaUrl,titulo,autor, audioUrl}) => {//Añadi este  parametro para recibir la url de la imagen
     const { role } = useParams(); // Obtenemos el valor del rol desde la URL
@@ -84,6 +86,12 @@ const AudiolibrosReproducir = ({ portadaUrl,titulo,autor, audioUrl}) => {//Añad
             </div>
   
             <div className="audio-volume">
+                <img
+                    src={volume <= 0.00 ? Silencio : Volumen}
+                    alt={volume <= 0.00 ? "Volumen silencio" : "Volumen activo"}
+                    className="volume-icon"
+                />
+
                 <input
                     type="range"
                     value={volume}
