@@ -7,7 +7,7 @@ import RetricederMin from '../../images/retroCincoMin.png';
 import Play from '../../images/play2.png';
 import Pausa from '../../images/pausa.png';
 
-const AudiolibrosReproducir = ({ portadaUrl,titulo,autor}) => {//Añadi este  parametro para recibir la url de la imagen
+const AudiolibrosReproducir = ({ portadaUrl,titulo,autor, audioUrl}) => {//Añadi este  parametro para recibir la url de la imagen
     const { role } = useParams(); // Obtenemos el valor del rol desde la URL
     const audioRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -55,7 +55,7 @@ const AudiolibrosReproducir = ({ portadaUrl,titulo,autor}) => {//Añadi este  pa
                     ref={audioRef}
                     onTimeUpdate={handleTimeUpdate}
                     onLoadedMetadata={handleLoadedMetadata}
-                    src="your-audio-source"
+                    src ={ audioUrl }
                 />
                 <div className="audio-controls">
                     <button onClick={() => (audioRef.current.currentTime -= 10)}>

@@ -107,6 +107,7 @@ const AudiolibrosInformacion = () => {
             portadaUrl={audiolibro.imagenPortadaURL}
             titulo={audiolibro.titulo}
             autor={audiolibro.autor}
+            audioUrl={audiolibro.archivoAudioURL}
             
             /> 
         </>
