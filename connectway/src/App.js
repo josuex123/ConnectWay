@@ -3,6 +3,8 @@ import Home from './pages/Home';
 import Index from './pages/LandingPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import { AudioProvider, useAudioContext } from './pages/Context/AudioContext';
+
 import AudiobookList from "./Services/AudiolibrosServicios/AudiobooksList";
 import FormularioAñadir from './components/FormularioAñadir/Formulario';
 import Audiolibros from './pages/audiolibros/Audiolibros';
@@ -21,6 +23,7 @@ import AudiobookEdit from './pages/audiolibros/FormularioEditar';
 
 
 function App() {
+  const { reproductorRef } = useAudioContext();
   return (
     <Router>
       <Routes>
@@ -48,6 +51,7 @@ function App() {
         <Route path="/comunidad/unirse/:role" element={<UnirseComunidad />} />
         <Route path="/comunidad/mis-comunidades/:role" element={<MisComunidades />} />
       </Routes>
+      <AudiolibrosReproducir ref = {reproductorRef}/>
     </Router>
   );
 }
