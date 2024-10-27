@@ -10,6 +10,8 @@ import Hora from '../../images/hora.png';
 import '../../estilos/Audiolibros/AudiolibrosInformacion/AudiolibrosInformacion.css';
 import AudiolibrosReproducir from '../../pages/audiolibros/AudiolibrosReproducir';
 
+import {VerificarEstadoReporduccion}  from '../../Services/EstadoReproduccion/VerificarEstadoReproduccion';
+
 const AudiolibrosInformacion = () => {
     const isDisabled = true; 
     const location = useLocation();
@@ -17,22 +19,36 @@ const AudiolibrosInformacion = () => {
     const [audiolibro, setAudiolibro] = useState(null);
     const [showAudiolibros, setShowAudiolibros] = useState(false); 
 
+    const [estadoBoton, setEstadoBoton] = useState('');
+    const [reproduccion, setReproducion] = useState(0);
+
     useEffect(() => {
         const fetchAudiolibro = async () => {
             if (idLibro) {
-                const docRef = doc(db, 'Audiolibro', idLibro); 
-                const docSnap = await getDoc(docRef); 
-
+                const docRef = doc(db, 'Audiolibro', idLibro);
+                const docSnap = await getDoc(docRef);
+    
                 if (docSnap.exists()) {
-                    setAudiolibro(docSnap.data()); 
+                    setAudiolibro(docSnap.data());
                 } else {
-                    console.log("Documento no encontrado!");
+                    console.log("Documento no encontrado info!");
                 }
             }
+    
+            // Espera a que se verifique el estado de reproducción
+            const progreso = await VerificarEstadoReporduccion(idLibro, 0); 
+            // Comprobar el estado de reproducción
+            if (progreso !== null && progreso > 0) { // Cambié el operador a '>'
+                setEstadoBoton('Reanudar');
+                setReproducion(progreso);
+            } else {
+                setEstadoBoton('Reproducir'); // Restablecer el botón si progreso es 0 o null
+            }
         };
-
+    
         fetchAudiolibro();
     }, [idLibro]);
+    
 
     if (!audiolibro) {
         return <div>Cargando...</div>; 
@@ -87,7 +103,7 @@ const AudiolibrosInformacion = () => {
                                         style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1, color: 'white', backgroundColor:'gray' }}
                                         disabled={true}>
                                         <img src={Audifono} alt="Audífono" style={{ width: '20px', marginRight: '10px' }} />
-                                        Reproducir
+                                        {estadoBoton}  {/* Cambie por el texto de Reproducir, por la variable estadoBoton*/}
                                     </button>
                                 </div>
                                 <div className="audiolibro-categoria">
