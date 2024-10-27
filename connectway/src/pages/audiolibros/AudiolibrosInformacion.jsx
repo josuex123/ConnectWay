@@ -9,13 +9,16 @@ import Cabeza from '../../images/cabeza.png';
 import Hora from '../../images/hora.png';
 import '../../estilos/Audiolibros/AudiolibrosInformacion/AudiolibrosInformacion.css';
 import AudiolibrosReproducir from '../../pages/audiolibros/AudiolibrosReproducir';
+import { useAudioContext } from '../Context/AudioContext';
 
 const AudiolibrosInformacion = () => {
-    const isDisabled = true; 
+    const isDisabled = false; 
     const location = useLocation();
     const { idLibro } = location.state || {};
     const [audiolibro, setAudiolibro] = useState(null);
     const [showAudiolibros, setShowAudiolibros] = useState(false); 
+    const { setAudiolibroData, iniciarReproductor, detenerReproductor } = useAudioContext();
+
 
     useEffect(() => {
         const fetchAudiolibro = async () => {
@@ -47,7 +50,15 @@ const AudiolibrosInformacion = () => {
     };
 
     const handleReproducirClick = () => {
-        setShowAudiolibros(true); 
+        const audiolibroData = {
+            portadaUrl: audiolibro.imagenPortadaURL,
+            titulo: audiolibro.titulo,
+            autor: audiolibro.autor,
+            audioUrl: audiolibro.archivoAudioURL, // Asegúrate de tener este campo en tu objeto audiolibro
+          };
+          
+        iniciarReproductor(audiolibroData);
+        console.log(audiolibroData);
     };
 
     return (
@@ -84,8 +95,9 @@ const AudiolibrosInformacion = () => {
                                 <hr className="custom-hr" />
                                 <div>
                                     <button className="btn-reproducir" 
-                                        style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1, color: 'white', backgroundColor:'gray' }}
-                                        disabled={true}>
+                                        style={{ pointerEvents: 'auto', opacity: 1, color: 'white' }}
+                                        type='button'
+                                        onClick={handleReproducirClick}>
                                         <img src={Audifono} alt="Audífono" style={{ width: '20px', marginRight: '10px' }} />
                                         Reproducir
                                     </button>
@@ -103,13 +115,6 @@ const AudiolibrosInformacion = () => {
                 </div>
             </div>
             {/* ojoooooooo ESTO QUE APAREZCA CUANDO SE DA CLIC EN REPRODUCIR*/}
-            <AudiolibrosReproducir
-            portadaUrl={audiolibro.imagenPortadaURL}
-            titulo={audiolibro.titulo}
-            autor={audiolibro.autor}
-            audioUrl={audiolibro.archivoAudioURL}
-            
-            /> 
         </>
     );
 };
