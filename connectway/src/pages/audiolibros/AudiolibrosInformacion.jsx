@@ -5,6 +5,7 @@ import { db } from '../../firebaseConfig';
 import NavBar from "../../components/PaginaInicio/Navbar";
 import Audifono2 from '../../images/auriculares-redondeados.png';
 import Audifono from '../../images/audifonos.png';
+import Detener from '../../images/audifonos.png';//utilizar el icono de detener
 import Cabeza from '../../images/cabeza.png';
 import Hora from '../../images/hora.png';
 import '../../estilos/Audiolibros/AudiolibrosInformacion/AudiolibrosInformacion.css';
@@ -17,8 +18,8 @@ const AudiolibrosInformacion = () => {
     const { idLibro } = location.state || {};
     const [audiolibro, setAudiolibro] = useState(null);
     const [showAudiolibros, setShowAudiolibros] = useState(false); 
-    const { setAudiolibroData, iniciarReproductor, detenerReproductor } = useAudioContext();
-
+    const { setAudiolibroData, audiolibroData, iniciarReproductor, detenerReproductor } = useAudioContext();
+    const [ reproducir, setReproducir ] = useState(true);
 
     useEffect(() => {
         const fetchAudiolibro = async () => {
@@ -27,7 +28,7 @@ const AudiolibrosInformacion = () => {
                 const docSnap = await getDoc(docRef); 
 
                 if (docSnap.exists()) {
-                    setAudiolibro(docSnap.data()); 
+                    setAudiolibro(docSnap.data());
                 } else {
                     console.log("Documento no encontrado!");
                 }
@@ -50,15 +51,19 @@ const AudiolibrosInformacion = () => {
     };
 
     const handleReproducirClick = () => {
-        const audiolibroData = {
-            portadaUrl: audiolibro.imagenPortadaURL,
-            titulo: audiolibro.titulo,
-            autor: audiolibro.autor,
-            audioUrl: audiolibro.archivoAudioURL, // Asegúrate de tener este campo en tu objeto audiolibro
-          };
-          
-        iniciarReproductor(audiolibroData);
-        console.log(audiolibroData);
+        if(reproducir){
+            const audiolibroData = {
+                portadaUrl: audiolibro.imagenPortadaURL,
+                titulo: audiolibro.titulo,
+                autor: audiolibro.autor,
+                audioUrl: audiolibro.archivoAudioURL, // Asegúrate de tener este campo en tu objeto audiolibro
+            };
+            iniciarReproductor(audiolibroData);
+            window.scrollTo({ top: document.body.window, behavior: 'smooth' });
+        }else{
+            detenerReproductor();
+        }
+        setReproducir(!reproducir);
     };
 
     return (
@@ -98,8 +103,11 @@ const AudiolibrosInformacion = () => {
                                         style={{ pointerEvents: 'auto', opacity: 1, color: 'white' }}
                                         type='button'
                                         onClick={handleReproducirClick}>
-                                        <img src={Audifono} alt="Audífono" style={{ width: '20px', marginRight: '10px' }} />
-                                        Reproducir
+                                            <img 
+                                            src= {reproducir? Audifono : Detener} 
+                                            alt= {reproducir? "Reproducir":"Detener"} 
+                                            style={{ width: '20px', marginRight: '10px' }} />
+                                            {reproducir? 'Reproducir':'Detener'}
                                     </button>
                                 </div>
                                 <div className="audiolibro-categoria">

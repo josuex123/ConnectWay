@@ -53,6 +53,11 @@
     margin-top: 20px;
     margin-bottom: 20px;
     opacity: 0.5;
+    border-radius: 5px;
+    width: 128px;
+}
+.btn-reproducir:hover {
+    background-color: #07115d;
 }
 
 .detalles-orden {
