@@ -1,20 +1,32 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, forwardRef, useImperativeHandle } from 'react';
 import { useParams } from 'react-router-dom';
+import { useAudioContext } from '../Context/AudioContext'; // Importar el contexto
 import '../../estilos/Audiolibros/AudiolibrosReproducir/AudiolibrosReproducir.css';
 import NoContentPage from '../noContent/noContentPage';
 import AumentarMin from '../../images/aumentDiezMin.png';
 import RetricederMin from '../../images/retroCincoMin.png';
 import Play from '../../images/play2.png';
 import Pausa from '../../images/pausa.png';
+import Silencio from '../../images/volumenSil.png';
+import Volumen from '../../images/volumenVol.png';
 
-const AudiolibrosReproducir = ({ portadaUrl,titulo,autor}) => {//Añadi este  parametro para recibir la url de la imagen
+const AudiolibrosReproducir = forwardRef((props, ref) => {
     const { role } = useParams(); // Obtenemos el valor del rol desde la URL
     const audioRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
     const [volume, setVolume] = useState(1);
-  
+    const { audiolibroData } = useAudioContext(); // Obtener datos del audiolibro desde el contexto
+
+
+    const [activo, setActivo] = useState(false);
+    const [portadaUrl, setPortadaUrl] = useState(null);
+    const [titulo, setTitulo] = useState(null);
+    const [autor, setAutor] = useState(null); 
+    const [audioUrl, setAudioUrl] = useState(null); 
+
+
     const togglePlayPause = () => {
         if (isPlaying) {
             audioRef.current.pause();
@@ -23,15 +35,34 @@ const AudiolibrosReproducir = ({ portadaUrl,titulo,autor}) => {//Añadi este  pa
         }
         setIsPlaying(!isPlaying);
     };
-  
+
+
+    useImperativeHandle(ref, () => ({
+        iniciarReproductor({ portadaUrl, titulo, autor, audioUrl }){
+            setPortadaUrl(portadaUrl);
+            setTitulo(titulo);
+            setAutor(autor);
+            setAudioUrl(audioUrl);
+            setActivo(true);
+        },
+    
+        detenerReproductor(){
+            setPortadaUrl(null);
+            setTitulo(null);
+            setAutor(null);
+            setAudioUrl(null);
+            setActivo(false);
+        },
+    }));
+
     const handleTimeUpdate = () => {
         setCurrentTime(audioRef.current.currentTime);
     };
-  
+
     const handleLoadedMetadata = () => {
         setDuration(audioRef.current.duration);
     };
-  
+
     const handleVolumeChange = (e) => {
         const volumeValue = e.target.value;
         setVolume(volumeValue);
@@ -43,23 +74,27 @@ const AudiolibrosReproducir = ({ portadaUrl,titulo,autor}) => {//Añadi este  pa
         return null;
     }
 
+    // Solo mostrar el reproductor si activo es true
+    if (!activo) {
+        return null; // No se muestra nada si no está activo
+    }
+
     return (
         <div className="audio-player">
-            {/* PONER LA IMAGEN AQUI DE LA BASE DE DATOS, USAMOS EL VALOR DEL PARAMETRO PARA PODER MOSTRAR LA IMAGEN */}
-            <img src={ portadaUrl } alt="imagenAudiolibro" className="audio-image" />
-  
+            <img src={portadaUrl} alt="imagenAudiolibro" className="audio-image" />
+
             <div className="audio-details">
-                <p className="audio-author"> {autor}</p>
+                <p className="audio-author">{autor}</p>
                 <p className="audio-title">{titulo}</p>
                 <audio
                     ref={audioRef}
                     onTimeUpdate={handleTimeUpdate}
                     onLoadedMetadata={handleLoadedMetadata}
-                    src="your-audio-source"
+                    src={audioUrl}
                 />
                 <div className="audio-controls">
                     <button onClick={() => (audioRef.current.currentTime -= 10)}>
-                        <img src={RetricederMin} alt="Retrocede rapido" style={{ width: '25px', height: '25px' }} />
+                        <img src={RetricederMin} alt="Retrocede rápido" style={{ width: '25px', height: '25px' }} />
                     </button>
 
                     <button onClick={togglePlayPause}>
@@ -67,10 +102,10 @@ const AudiolibrosReproducir = ({ portadaUrl,titulo,autor}) => {//Añadi este  pa
                     </button>
 
                     <button onClick={() => (audioRef.current.currentTime += 10)}>
-                        <img src={AumentarMin} alt="Avance rapido" style={{ width: '25px', height: '25px' }} />
+                        <img src={AumentarMin} alt="Avance rápido" style={{ width: '25px', height: '25px' }} />
                     </button>
                 </div>
-  
+
                 <div className="audio-timeline">
                     <span>{new Date(currentTime * 1000).toISOString().substring(14, 19)}</span>
                     <input
@@ -82,8 +117,14 @@ const AudiolibrosReproducir = ({ portadaUrl,titulo,autor}) => {//Añadi este  pa
                     <span>{new Date(duration * 1000).toISOString().substring(14, 19)}</span>
                 </div>
             </div>
-  
+
             <div className="audio-volume">
+                <img
+                    src={volume <= 0.00 ? Silencio : Volumen}
+                    alt={volume <= 0.00 ? "Volumen silencio" : "Volumen activo"}
+                    className="volume-icon"
+                />
+
                 <input
                     type="range"
                     value={volume}
@@ -95,6 +136,6 @@ const AudiolibrosReproducir = ({ portadaUrl,titulo,autor}) => {//Añadi este  pa
             </div>
         </div>
     );
-};
+});
 
 export default AudiolibrosReproducir;
