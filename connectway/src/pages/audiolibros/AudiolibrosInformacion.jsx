@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
-import NavBar from "../../components/PaginaInicio/Navbar";
-import Audifono2 from '../../images/auriculares-redondeados.png';
-import Audifono from '../../images/audifonos.png';
+import NavBar from "../../components/PaginaInicio/Navbar";import Audifono2 from '../../images/auriculares-redondeados.png';
 import Cabeza from '../../images/cabeza.png';
 import Hora from '../../images/hora.png';
 import '../../estilos/Audiolibros/AudiolibrosInformacion/AudiolibrosInformacion.css';
@@ -12,6 +10,8 @@ import AudiolibrosReproducir from '../../pages/audiolibros/AudiolibrosReproducir
 import { useAudioContext } from '../Context/AudioContext';
 import { VerificarEstadoReporduccion } from '../../Services/EstadoReproduccion/VerificarEstadoReproduccion';
 import { guardarEstadoReproduccion } from '../../Services/EstadoReproduccion/GuardarEstadoReproduccion';
+import Reproducir from '../../images/boton-de-play.png';                        // Para el boton 
+import Detener from '../../images/boton-detener.png';                           // Para el boton
 
 const AudiolibrosInformacion = () => {
     const isDisabled = false; 
@@ -92,7 +92,8 @@ const AudiolibrosInformacion = () => {
             guardarEstado();
         } else if (estadoBoton === 'Detener') {
             detenerReproductor();
-            console.log("Se detuvo el reproductor");
+            setEstadoBoton('Reproducir');
+            console.log("Se detuvo el reproductor");                             
         }
     };
     
@@ -134,7 +135,11 @@ const AudiolibrosInformacion = () => {
                                         style={{ pointerEvents: 'auto', opacity: 1, color: 'white' }}
                                         type='button'
                                         onClick={handleReproducirClick}>
-                                        <img src={Audifono} alt="Audífono" style={{ width: '20px', marginRight: '10px' }} />
+                                        <img
+                                            src={estadoBoton === 'Reproducir' ? Reproducir : Detener}
+                                            alt={estadoBoton === 'Reproducir' ? "Reproducir" : "Detener"}
+                                            style={{ width: '25px', marginRight: '15px' }}
+                                        />
                                         {estadoBoton}
                                     </button>
                                 </div>
