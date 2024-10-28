@@ -30,6 +30,7 @@ function EditMediaDrop({ initialImageUrl, initialAudioUrl, onImageChange, onAudi
         const file = acceptedFiles[0];
         const imagePreviewUrl = URL.createObjectURL(file);
         console.log("Ruta imagen local:", imagePreviewUrl);
+
         setImageFiles([file]);
         setImageUrl(imagePreviewUrl);
         if (onImageChange) onImageChange(file);
@@ -39,61 +40,59 @@ function EditMediaDrop({ initialImageUrl, initialAudioUrl, onImageChange, onAudi
         const file = acceptedFiles[0];
         const maxFileSize = 200 * 1024 * 1024; // 200 MB
         console.log("Archivo de audio seleccionado:", file);
-    
+
         if (file.size > maxFileSize) {
-            console.log("Error El archivo supera el tamaño máximo de 200MB.");
+            console.log("Error: El archivo supera el tamaño máximo de 200MB.");
             setAudioError('El archivo supera el tamaño máximo de 200MB.');
             setShowModal(true);
             return;
         }
-    
+
         const audioPreviewUrl = URL.createObjectURL(file);
         console.log("Ruta de audio local:", audioPreviewUrl);
-    
+
         const audio = new Audio(audioPreviewUrl);
         console.log("Creando objeto Audio.");
-    
+
         audio.onloadedmetadata = () => {
             console.log("Metadatos del audio cargados.");
             console.log("Duración del audio (en segundos):", audio.duration);
-            const duration = audio.duration/60; 
-            if (duration < 5 || duration > 30  ) { 
+            const duration = audio.duration / 60;
+            if (duration < 5 || duration > 30) {
                 console.log("Error: La duración del audio debe estar entre 15 y 30 minutos.");
                 setAudioError('La duración del audio debe estar entre 15 y 30 minutos.');
                 setShowModal(true);
             } else {
                 console.log("Audio válido, actualizando estado.");
                 setAudioFiles([file]);
-                setAudioUrl(audioPreviewUrl); // Actualiza audioUrl
+                setAudioUrl(audioPreviewUrl);
                 setAudioError(null);
                 if (onAudioChange) onAudioChange(file);
             }
         };
-    
-       audio.onerror = (e) => {
+
+        audio.onerror = (e) => {
             console.error("Error al cargar el audio:", e);
             setAudioError('Error al cargar el archivo de audio.');
             setShowModal(true);
         };
-    
+
         audio.oncanplaythrough = () => {
             console.log("Audio listo para reproducirse.");
         };
-    
+
         // Asigna la URL directamente al elemento de audio si es posible
         setTimeout(() => {
             const audioElement = document.querySelector('audio');
             if (audioElement) {
                 audioElement.src = audioPreviewUrl;
                 console.log("Asignando URL al reproductor:", audioPreviewUrl);
-                console.log(" URL al reproductor:", audioElement.src );
             }
         }, 200);
-    
+
         audio.load(); // Asegúrate de cargar el audio
         console.log("Cargando audio...");
     }, [onAudioChange]);
-    
 
     const removeImageFile = () => {
         setImageFiles([]);
