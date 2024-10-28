@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useDropzone } from 'react-dropzone';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { updateAudiobook } from '../../Services/AudiolibrosServicios/UpdateAudiobook';
 import '../../estilos/Audiolibros/FormularioAñadir/Formulario.css';
-import EditMediaDrop from '../../components/Dropzone/EditMediaDrop'; 
 import ModalAdvertencia from '../../components/Modal/ModalNotificacion';
 import ModalNotificacion from '../../components/Modal/ModalNotificacion';
 import ModalConfirmacion from '../../components/Modal/ModalConfirmacion';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faImage, faMusic } from '@fortawesome/free-solid-svg-icons';
+
 
 const AudiobookEdit = () => {
     const location = useLocation();
@@ -17,19 +20,22 @@ const AudiobookEdit = () => {
     const [autor, setAutor] = useState('');
     const [categoria, setCategoria] = useState('');
     const [descripcion, setDescripcion] = useState('');
+    const [duracion, setDuracion] = useState('');
     const [imagenUrl, setImagenUrl] = useState('');
     const [audioUrl, setAudioUrl] = useState('');
-
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-
     const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
     const [notificationType, setNotificationType] = useState('success');
     const [notificationMessage, setNotificationMessage] = useState('');
-
     const [isModalAdvertenciaOpen, setIsModalAdvertenciaOpen] = useState(false);
     const [notificationTypeAdver, setNotificationTypeAdver] = useState('success');
     const [notificationMessageAdver, setNotificationMessageAdver] = useState('');
-
+    const [imageFiles, setImageFiles] = useState([]);
+    const [audioFiles, setAudioFiles] = useState([]);
+    const [audioError, setAudioError] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [newImage, setNewImage] = useState(null); 
+    const closeModal = () => setShowModal(false);
     const storage = getStorage();
 
     const [isFormValid, setIsFormValid] = useState(false);
@@ -38,6 +44,7 @@ const AudiobookEdit = () => {
         autor: '',
         categoria: '',
         descripcion: '',
+        duracion: '',
         imagenUrl: '',
         audioUrl: '',
     });
@@ -48,20 +55,22 @@ const AudiobookEdit = () => {
             autor !== initialValues.autor || 
             descripcion !== initialValues.descripcion ||
             categoria !== initialValues.categoria ||
+            duracion !== initialValues.duracion ||
             imagenUrl !== initialValues.imagenUrl ||
             audioUrl !== initialValues.audioUrl;
         setIsFormValid(hasChanges);
-    }, [titulo, autor, descripcion, categoria,imagenUrl,audioUrl, initialValues]);
+    }, [titulo, autor, descripcion, categoria,duracion,imagenUrl,audioUrl, initialValues]);
     
 
     useEffect(() => {
         if (audiobook) {
-            const { titulo, autor, categoria, descripcion, imagenPortadaURL, archivoAudioURL } = audiobook;
+            const { titulo, autor, categoria, descripcion,duracion, imagenPortadaURL, archivoAudioURL } = audiobook;
             setInitialValues({
                 titulo: titulo || '',
                 autor: autor || '',
                 categoria: categoria || '',
                 descripcion: descripcion || '',
+                duracion: duracion || '',
                 imagenUrl: imagenPortadaURL || '',
                 audioUrl: archivoAudioURL || '',
             });
@@ -70,12 +79,11 @@ const AudiobookEdit = () => {
             setAutor(autor || '');
             setCategoria(categoria || '');
             setDescripcion(descripcion || '');
+            setDuracion(duracion || '');
             setImagenUrl(imagenPortadaURL || ''); 
             setAudioUrl(archivoAudioURL || '');   
         }
     }, [audiobook]);
-
-    // Función para subir la imagen a Firebase Storage
     const uploadImageToStorage = async (file) => {
         if (!file) return null;
         const storageRef = ref(storage, `Portadas/${file.name}`);
@@ -102,8 +110,6 @@ const AudiobookEdit = () => {
             );
         });
     };
-
-    // Función para subir el archivo de audio a Firebase Storage
     const uploadAudioToStorage = async (file) => {
         if (!file) return null;
         const storageRef = ref(storage, `Audios/${file.name}`);
@@ -145,7 +151,7 @@ const AudiobookEdit = () => {
     };
 
     const validateAutor = (value) => {
-        const regex = /^[a-zA-ZÀ-ÿ\s]*$/; // Permitir solo letras y espacios
+        const regex = /^[a-zA-ZÀ-ÿ\s]*$/; 
         if (value.length > 50) {
            showModalAdvertencia('error', 'El nombre del Autor no puede superar los 50 caracteres.');
             return false;
@@ -157,9 +163,8 @@ const AudiobookEdit = () => {
         return true;
 
     };
-
     const validateDescription= (value) => {
-        const regex = /^[a-zA-ZÀ-ÿ\s.,'"()\-ñáéíóú0-9:¿?¡!:;<>]*$/; // Permitir solo letras y espacios
+        const regex = /^[a-zA-ZÀ-ÿ\s.,'"()\-ñáéíóú0-9:¿?¡!:;<>]*$/; 
         if (value.length > 400) {
            showModalAdvertencia('error', 'La descripcion no puede superar los 400 caracteres.');
             return false;
@@ -171,8 +176,6 @@ const AudiobookEdit = () => {
         return true;
 
     };
-
-  
     const handleTitleChange = (e) => {
         const { value } = e.target;
         if (validateTitle(value)) {
@@ -196,8 +199,6 @@ const AudiobookEdit = () => {
            
         }
     };
-
-
     const handleSubmit = async () => {
         
         if (!titulo || !autor || !descripcion) {
@@ -219,12 +220,12 @@ const AudiobookEdit = () => {
         if (typeof audioUrl === 'object') {
             audioUrlToSave = await uploadAudioToStorage(audioUrl);
         }
-
         const updatedData = {
             titulo,
             autor,
             categoria,
             descripcion,
+            duracion,
             imagenPortadaURL: imageUrlToSave,
             archivoAudioURL: audioUrlToSave,
         };
@@ -249,7 +250,6 @@ const AudiobookEdit = () => {
         
         
     };
-    
     const showModalAdvertencia = (type, message) => {
         setNotificationTypeAdver(type);
         setNotificationMessageAdver(message);
@@ -292,9 +292,99 @@ const AudiobookEdit = () => {
     const closeConfirmModal = () => {
         setIsConfirmModalOpen(false);
     };
-   
+    /* Funciones dropzone */
+    useEffect(() => {
+        return () => {
+            if (newImage && newImage !== imagenUrl) {
+                URL.revokeObjectURL(newImage);
+            }
+        };
+    }, [newImage, imagenUrl]);
+
+    const handleImageUpload = useCallback((acceptedFiles) => {
+        const file = acceptedFiles[0];
+        const imagePreviewUrl = URL.createObjectURL(file);
+        console.log("Ruta imagen local:", imagePreviewUrl);
+        setImageFiles([file]);
+        setNewImage(imagePreviewUrl);
+        setImagenUrl(file);
+        
+    }, []);
+
+    const onDropAudio = useCallback((acceptedFiles) => {
+        const file = acceptedFiles[0];
+        const maxFileSize = 200 * 1024 * 1024; // 200 MB
+    
+        if (file.size > maxFileSize) {
+            setAudioError('El archivo supera el tamaño máximo de 200MB.');
+            setShowModal(true);
+            return;
+        }
+    
+        const audioPreviewUrl = URL.createObjectURL(file);
+        const audio = new Audio(audioPreviewUrl);
+        audio.onloadedmetadata = () => {
+            const duration = Math.round(audio.duration / 60); 
+            setDuracion(duration);
+            if (duration < 5 || duration > 30  ) { 
+                
+                setAudioError('La duración del audio debe estar entre 15 y 30 minutos.');
+                setShowModal(true);
+            } else {
+                setAudioFiles([file]);
+                setAudioUrl(file); // Actualiza audioUrl
+                setAudioError(null);
+            }
+        };
+    
+       audio.onerror = (e) => {
+            console.error("Error al cargar el audio:", e);
+            setAudioError('Error al cargar el archivo de audio.');
+            setShowModal(true);
+        };
+    
+        audio.oncanplaythrough = () => {
+            console.log("Audio listo para reproducirse.");
+        };
+    
+        // Asigna la URL directamente al elemento de audio si es posible
+        setTimeout(() => {
+            const audioElement = document.querySelector('audio');
+            if (audioElement) {
+                audioElement.src = audioPreviewUrl;
+                console.log("Asignando URL al reproductor:", audioPreviewUrl);
+                console.log(" URL al reproductor:", audioElement.src );
+            }
+        }, 200);
+    
+        audio.load(); // Asegúrate de cargar el audio
+        console.log("Cargando audio...");
+    }, []);
     
 
+    const removeImageFile = () => {
+        setImageFiles([]);
+        if (imagenUrl) URL.revokeObjectURL(imagenUrl);
+        setImagenUrl('');
+
+    };
+
+    const removeAudioFile = () => {
+        setAudioFiles([]);
+        if (audioUrl) URL.revokeObjectURL(audioUrl);
+        setAudioUrl('');
+    };
+    const imageDropzone = useDropzone({
+        onDrop: handleImageUpload,
+        accept: { 'image/png': [], 'image/jpeg': [] },
+    });
+
+    const audioDropzone = useDropzone({
+        onDrop: onDropAudio,
+        accept: { 'audio/wav': [], 'audio/mpeg': [] },
+    });
+
+    
     return (
         <>
             <h1 className="title">Editar Audiolibro</h1>
@@ -360,13 +450,74 @@ const AudiobookEdit = () => {
                         />
                     </div>
                 </div>
-
-                <EditMediaDrop
-                    initialImageUrl={imagenUrl}   
-                    initialAudioUrl={audioUrl}    
-                    onImageChange={setImagenUrl}  
-                    onAudioChange={setAudioUrl}   
-                />
+                <div>
+                <form  style={{ display: 'flex', justifyContent: 'space-between' }}>
+            {showModal && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <h3>Error</h3>
+                        <p>{audioError}</p>
+                        <button onClick={closeModal}>Cerrar</button>
+                    </div>
+                </div>
+            )}
+            <div className="dropzone-container">
+                <h3 className="dropzone-title">Imagen de la portada:</h3>
+                <div {...imageDropzone.getRootProps()} className="dropzone">
+                    <input {...imageDropzone.getInputProps()} style={{ display: 'none' }} />
+                    {!newImage && !imagenUrl && imageFiles.length === 0 && (
+                        <>
+                            <div className="icon-container">
+                                <FontAwesomeIcon icon={faImage} size="2x" className="icon" />
+                            </div>
+                            <p>Haz clic o arrastra un archivo aquí</p>
+                        </>
+                    )}
+                    {(newImage || imagenUrl) && (
+                        <div className="uploaded-file">
+                            <div className="uploaded-portada">
+                                <img
+                                    src={newImage || imagenUrl || ''}
+                                    alt="Portada"
+                                    width="100px"
+                                    className="image-preview"
+                                />
+                            </div>
+                            <button
+                                className="btn btn-outline-danger eliminar-botn"
+                                onClick={removeImageFile}
+                            >
+                                Cambiar
+                            </button>
+                        </div>
+                    )}
+                </div>
+            </div>
+            <div className="dropzone-container">
+                <h3 className="dropzone-title">Audiolibro:</h3>
+                <div {...audioDropzone.getRootProps()} className="dropzone">
+                    <input {...audioDropzone.getInputProps()} style={{ display: 'none' }} />
+                    {!audioUrl && audioFiles.length === 0 && (
+                        <>
+                            <div className="icon-container">
+                                <FontAwesomeIcon icon={faMusic} size="2x" className="icon" />
+                            </div>
+                            <p>Haz clic o arrastra un archivo aquí</p>
+                        </>
+                    )}
+                    {(audioUrl || audioFiles.length > 0) && (
+                        <div className="uploaded-file">
+                            <audio controls src={audioUrl}></audio>
+                            <button className="btn btn-outline-danger eliminar-botn" onClick={removeAudioFile}>
+                                Cambiar
+                            </button>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </form>
+                </div>
+               
 
                 <div className="form-buttons-audiobook ">
                     <button className="cancel-bot" type="button" onClick={() => window.history.back()}>Cancelar</button>
@@ -398,7 +549,6 @@ const AudiobookEdit = () => {
                 message={notificationMessageAdver}
                 iconClass={notificationTypeAdver === 'success' ? 'fa fa-check' : 'fa fa-exclamation'}
             />
-
             <ModalConfirmacion
                 isOpen={isConfirmModalOpen}
                 onClose={closeConfirmModal}
@@ -410,5 +560,4 @@ const AudiobookEdit = () => {
         </>
     );
 };
-
 export default AudiobookEdit;
