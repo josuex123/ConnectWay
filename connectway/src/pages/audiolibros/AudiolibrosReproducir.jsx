@@ -9,6 +9,7 @@ import Play from '../../images/play2.png';
 import Pausa from '../../images/pausa.png';
 import Silencio from '../../images/volumenSil.png';
 import Volumen from '../../images/volumenVol.png';
+import Reproducir from '../../images/boton-de-play.png';
 
 const AudiolibrosReproducir = forwardRef((props, ref) => {
     const { role } = useParams(); // Obtenemos el valor del rol desde la URL
