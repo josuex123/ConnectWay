@@ -136,11 +136,12 @@ const AudiolibrosInformacion = () => {
                                         type='button'
                                         onClick={handleReproducirClick}>
                                         <img
+                                            className="icono"
                                             src={estadoBoton === 'Reproducir' ? Reproducir : Detener}
                                             alt={estadoBoton === 'Reproducir' ? "Reproducir" : "Detener"}
                                             style={{ width: '25px', marginRight: '15px' }}
                                         />
-                                        {estadoBoton}
+                                         <span className="texto">{estadoBoton}</span>
                                     </button>
                                 </div>
                                 <div className="audiolibro-categoria">

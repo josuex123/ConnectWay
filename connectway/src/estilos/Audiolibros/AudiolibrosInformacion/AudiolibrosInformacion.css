@@ -47,12 +47,33 @@
 .btn-reproducir {
     background-color: #03314B;
     color: #fff;
-    padding: 10px;
+    width: 150px; 
+    height: 50px; 
     border: none;
     cursor: pointer;
     margin-top: 20px;
     margin-bottom: 20px;
     opacity: 0.5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    position: relative;
+}
+
+.btn-reproducir img {
+    position: absolute;
+    left: 10px; 
+}
+
+.icono {
+    width: 25px; 
+}
+
+.texto {
+    width: 80px; 
+    text-align: left;
+    padding-left: 10px;
 }
 
 .detalles-orden {
