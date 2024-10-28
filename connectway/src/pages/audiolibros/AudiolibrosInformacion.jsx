@@ -10,8 +10,8 @@ import Hora from '../../images/hora.png';
 import '../../estilos/Audiolibros/AudiolibrosInformacion/AudiolibrosInformacion.css';
 import AudiolibrosReproducir from '../../pages/audiolibros/AudiolibrosReproducir';
 import { useAudioContext } from '../Context/AudioContext';
-
-import {VerificarEstadoReporduccion}  from '../../Services/EstadoReproduccion/VerificarEstadoReproduccion';
+import { VerificarEstadoReporduccion } from '../../Services/EstadoReproduccion/VerificarEstadoReproduccion';
+import { guardarEstadoReproduccion } from '../../Services/EstadoReproduccion/GuardarEstadoReproduccion';
 
 const AudiolibrosInformacion = () => {
     const isDisabled = false; 
@@ -20,38 +20,40 @@ const AudiolibrosInformacion = () => {
     const [audiolibro, setAudiolibro] = useState(null);
     const [showAudiolibros, setShowAudiolibros] = useState(false); 
     const { setAudiolibroData, iniciarReproductor, detenerReproductor } = useAudioContext();
+    const [estadoBoton, setEstadoBoton]= useState('')
+    const [estadoReproduccion, setEstadoReproduccion] = useState(null);
 
-
-    const [estadoBoton, setEstadoBoton] = useState('');
-    const [reproduccion, setReproducion] = useState(0);
 
     useEffect(() => {
         const fetchAudiolibro = async () => {
             if (idLibro) {
-                const docRef = doc(db, 'Audiolibro', idLibro);
-                const docSnap = await getDoc(docRef);
-    
+                const docRef = doc(db, 'Audiolibro', idLibro); 
+                const docSnap = await getDoc(docRef); 
+
                 if (docSnap.exists()) {
-                    setAudiolibro(docSnap.data());
+                    setAudiolibro(docSnap.data()); 
                 } else {
-                    console.log("Documento no encontrado info!");
+                    console.log("Documento no encontrado!");
                 }
             }
-    
-            // Espera a que se verifique el estado de reproducción
-            const progreso = await VerificarEstadoReporduccion(idLibro, 0); 
-            // Comprobar el estado de reproducción
-            if (progreso !== null && progreso > 0) { // Cambié el operador a '>'
+        };
+
+        const verificar = async() =>{
+            const existeDocumento =  await VerificarEstadoReporduccion(idLibro,0);
+            console.log(existeDocumento)
+            if(existeDocumento !== null){
                 setEstadoBoton('Reanudar');
-                setReproducion(progreso);
-            } else {
-                setEstadoBoton('Reproducir'); // Restablecer el botón si progreso es 0 o null
+                setEstadoReproduccion(existeDocumento);
+                console.log("Existe un estado de "+ existeDocumento)
+            }else{
+                setEstadoBoton('Reproducir');
+                setEstadoReproduccion(null);
             }
         };
-    
+
         fetchAudiolibro();
-    }, [idLibro]);
-    
+        verificar();
+    }, [idLibro, estadoReproduccion]);
 
     if (!audiolibro) {
         return <div>Cargando...</div>; 
@@ -66,16 +68,34 @@ const AudiolibrosInformacion = () => {
     };
 
     const handleReproducirClick = () => {
+        console.log("estado desde boton"+estadoReproduccion)
         const audiolibroData = {
             portadaUrl: audiolibro.imagenPortadaURL,
             titulo: audiolibro.titulo,
             autor: audiolibro.autor,
-            audioUrl: audiolibro.archivoAudioURL, // Asegúrate de tener este campo en tu objeto audiolibro
-          };
-          
+            audioUrl: audiolibro.archivoAudioURL,
+        };
+    
         iniciarReproductor(audiolibroData);
         console.log(audiolibroData);
+        setEstadoBoton('Detener');
+    
+        if (estadoBoton === 'Reproducir' && estadoReproduccion === null) {
+            const guardarEstado = async () => {
+                try {
+                    const nuevoDoc = await guardarEstadoReproduccion(0, idLibro);
+                    console.log("Documento guardado:", nuevoDoc);
+                } catch (error) {
+                    console.error("Error al guardar el estado:", error);
+                }
+            };
+            guardarEstado();
+        } else if (estadoBoton === 'Detener') {
+            detenerReproductor();
+            console.log("Se detuvo el reproductor");
+        }
     };
+    
 
     return (
         <>
@@ -115,7 +135,7 @@ const AudiolibrosInformacion = () => {
                                         type='button'
                                         onClick={handleReproducirClick}>
                                         <img src={Audifono} alt="Audífono" style={{ width: '20px', marginRight: '10px' }} />
-                                        {estadoBoton}  {/* Cambie por el texto de Reproducir, por la variable estadoBoton*/}
+                                        {estadoBoton}
                                     </button>
                                 </div>
                                 <div className="audiolibro-categoria">

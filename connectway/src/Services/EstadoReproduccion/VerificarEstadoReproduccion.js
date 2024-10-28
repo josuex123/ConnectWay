@@ -21,6 +21,7 @@ export const VerificarEstadoReporduccion = async (idAudiolibro, idUsuario) => {
         // Si se encuentra un documento
         if (!querySnapshot.empty) {
             const doc = querySnapshot.docs[0]; 
+            console.log("Existe el documento solicitado")
             return doc.data().estadoReproduccion;
         } else {
             console.log("No existe el documento de la información");
