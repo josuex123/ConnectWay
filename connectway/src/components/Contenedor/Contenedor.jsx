@@ -11,7 +11,7 @@ const Contenedor = ({ imgPortada, titulo, autor, descripcion, duracion, id, rol,
         if (onEdit) {
             onEdit(id);
         } else {
-            navigate('/Audiolibros/editar');
+            navigate('/Audiolibros/editar/1');
         }
     };
 
@@ -33,7 +33,7 @@ const Contenedor = ({ imgPortada, titulo, autor, descripcion, duracion, id, rol,
                         </div>
                         <div className="d-flex justify-content-center gap-2 text-start">
                             <i className="fas fa-trash-alt icono-eliminar"></i>
-                            <button className="btn btn-outline-danger elim" onClick={(e) => { e.stopPropagation(); onDelete(); }}>
+                            <button disabled={true} className="btn btn-outline-danger elim" onClick={(e) => { e.stopPropagation(); onDelete(); }}>
                                 Eliminar
                             </button>
                         </div>

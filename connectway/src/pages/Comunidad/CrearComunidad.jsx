@@ -2,14 +2,15 @@ import React, { useCallback, useState } from 'react';
 import Navbar from '../../components/PaginaInicio/Navbar';
 import { useDropzone } from 'react-dropzone';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faImage, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
-import Button from 'react-bootstrap/Button';
+import { faImage,faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate, useParams } from 'react-router-dom'; // Importa useNavigate para la redirección
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../estilos/comunidad/comunidad.css';
 import { getFirestore, doc, addDoc, collection } from "firebase/firestore";
 import { app } from '../../firebaseConfig';
 import { subirImagenYObtenerUrl } from '../../Services/ComunidadesServicios/SubirImgYobtenerUrl';
 import ModalNotificacion from '../../components/Modal/ModalNotificacion';
+import ModalCargando from '../../components/Modal/ModalCargando'; 
 
 function FormularioCrearComunidad() {
   const [nombre, setNombre] = useState('');
@@ -20,12 +21,24 @@ function FormularioCrearComunidad() {
   const [modalType, setModalType] = useState('');
   const [modalMessage, setModalMessage] = useState('');
   const db = getFirestore(app);
+  const navigate = useNavigate(); 
   const maxCharsDescripcion = 400;
   const maxCharsTitulo = 100;
+  const [titulo, setTitulo] = useState('');
+  const [showTooltip, setShowTooltip] = useState(false);
+  const { role } = useParams();
+  const [showTooltipIcon1, setShowTooltipIcon1] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); 
 
-  const handleNombreChange = (e) => {
+  //Validar desde dónde se accedió a formulario y redirigir a Home/1 o /0
+  const handleCancelar = () =>{
+    const redirectionPath = role === '1' ? '/Home/1' : '/Home/0';
+    navigate(redirectionPath);
+  }
+
+  const handleTituloChange = (e) => {
     if (e.target.value.length <= maxCharsTitulo) {
-      setNombre(e.target.value);
+      setTitulo(e.target.value);
     }
   };
 
@@ -37,31 +50,25 @@ function FormularioCrearComunidad() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    if (!nombre || !categoria || !descripcion || imageFiles.length === 0) {
+    if (!titulo || !categoria || !descripcion || imageFiles.length === 0) {
       setModalType('error');
       setModalMessage('Por favor, completa todos los campos y sube una imagen.');
       setShowModal(true);
       return;
     }
+    setIsLoading(true);
 
     try {
       const imagenUrl = await subirImagenYObtenerUrl(imageFiles[0]);
-
-      const comunidadDoc = {
-        nombre,
-        descripcion,
-        imagenURL: imagenUrl,
-      };
-
+      const comunidadDoc = { titulo, descripcion, imagenURL: imagenUrl };
       const categoriaRef = doc(db, "Comunidades", categoria);
       await addDoc(collection(categoriaRef, "comunidades"), comunidadDoc);
 
-      setNombre('');
+      setTitulo('');
       setCategoria('');
       setDescripcion('');
       setImageFiles([]);
-      
+
       setModalType('success');
       setModalMessage('Comunidad creada correctamente.');
       setShowModal(true);
@@ -69,12 +76,22 @@ function FormularioCrearComunidad() {
       setModalType('error');
       setModalMessage('Error al crear la comunidad. Intenta de nuevo.');
       setShowModal(true);
+    }finally{
+      setIsLoading(false);
     }
   };
 
   const onDropImage = useCallback((acceptedFiles) => {
     if (acceptedFiles.length > 0) {
       const file = acceptedFiles[0];
+      
+      if (file.size > 5 * 1024 * 1024) { 
+        setModalType('error');
+        setModalMessage('La imagen no debe pesar más de 5MB.');
+        setShowModal(true);
+        return;
+      }
+      
       setImageFiles([Object.assign(file, {
         preview: URL.createObjectURL(file)
       })]);
@@ -91,26 +108,46 @@ function FormularioCrearComunidad() {
 
   return (
     <>
+  <div className="pagina-inicio">
       <Navbar />
 
       <h1 className="title">Crear Comunidad</h1>
-
+      
       <div className="form-container">
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
+          <div className="form-group-horizontal mb-3">
             <label htmlFor="nombre">Título:</label>
-            <span style={{ fontSize: '12px', color: '#888', float: 'right' }}>{nombre.length}/{maxCharsTitulo}</span>
-            <input
-              type="text"
-              className="form-control"
-              id="nombre"
-              placeholder="Ej: Inteligencia Emocional"
-              value={nombre}
-              onChange={handleNombreChange}
-            />
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div
+                className="tooltip-container"
+                onMouseEnter={() => setShowTooltip(titulo === "")}
+                onMouseLeave={() => setShowTooltip(false)}
+            >
+                <div className="tooltip-container">
+                <input
+                  type="text"
+                  className="form-control"
+                  id="titulo"
+                  placeholder="Ej: La Ventaja De Ser Introvertido"
+                  value={titulo} 
+                  maxLength="100"
+                  onChange={handleTituloChange} 
+                />
+                    {showTooltip && (
+                        <div className="tooltip-box">
+                            El título no debe superar los 100 caracteres.
+                        </div>
+                    )}
+                </div>
+                <span style={{ fontSize: '12px', color: '#888', marginLeft: '10px' }}>
+                {titulo.length}/{maxCharsTitulo}
+              </span>
+            </div>
+            </div>
+            
           </div>
 
-          <div className="form-group">
+          <div className="form-group-horizontal mb-3">
             <label htmlFor="categoria">Categoría:</label>
             <select
               id="categoria"
@@ -126,11 +163,16 @@ function FormularioCrearComunidad() {
             </select>
           </div>
 
-          <div className="form-group" style={{ position: 'relative' }}>
+          <div className="form-group mb-3" style={{ position: 'relative' }}>
             <label htmlFor="descripcion">Descripción:</label>
             <span style={{ position: 'absolute', top: '0', right: '0', fontSize: '12px', color: '#888' }}>
               {descripcion.length}/{maxCharsDescripcion}
             </span>
+            <div
+                className="tooltip-container"
+                onMouseEnter={() => setShowTooltip(descripcion === "")}
+                onMouseLeave={() => setShowTooltip(false)}
+            >
             <textarea
               id="descripcion"
               className="form-control"
@@ -140,10 +182,30 @@ function FormularioCrearComunidad() {
               rows="4"
               style={{ resize: 'none' }}
             />
+                            {showTooltip && (
+                    <div className="tooltip-box">
+                        La descipción debe tener 400 caracteres como máximo
+                        
+                    </div>
+                )}
+            </div>
           </div>
 
           <div className="form-group">
             <label>Subir imagen:</label>
+            <span   
+                        className="info-icon" 
+                        onMouseEnter={() => setShowTooltipIcon1(true)}
+                        onMouseLeave={() => setShowTooltipIcon1(false)}
+                    >
+                        <FontAwesomeIcon icon={faInfoCircle}/>
+                        {showTooltipIcon1 && (
+                            <div className="tooltip-box-icon">
+                                Elija una imagen representativa en formato JPG o PNG.
+                                La imagen no debe pesar más de 5MB.<br/>
+                            </div>
+                        )}
+                    </span>
             <div {...imageDropzone.getRootProps()} className="dropzone">
               {imageFiles.length === 0 && (
                 <>
@@ -157,26 +219,24 @@ function FormularioCrearComunidad() {
               <input {...imageDropzone.getInputProps()} style={{ display: 'none' }} />
               {imageFiles.length > 0 && (
                 <div className="uploaded-file">
-                  <img 
-                    src={imageFiles[0].preview} 
-                    alt={imageFiles[0].name} 
-                    width="100px" 
-                    style={{ cursor: 'pointer' }}
-                  />
+                  <img src={imageFiles[0].preview} alt={imageFiles[0].name} width="100px" style={{ cursor: 'pointer' }} />
                   <p>{imageFiles[0].name}</p>
-                  <button type="button" className="btn btn-danger" onClick={removeImageFile}>Eliminar</button>
+                  <button type="button" className="eliminar-botton" onClick={removeImageFile}>Eliminar</button>
                 </div>
               )}
             </div>
           </div>
 
-          <div className="form-buttons">
-            <button type="button" className="btn btn-secondary" onClick={() => window.history.back()}>Cancelar</button>
-            <button type="submit" className="btn btn-primary">Crear</button>
+          <div className="form-buttons-audiobook" style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+            <button type="button" className="cancel-bot" onClick={handleCancelar}>
+              Cancelar
+            </button>
+            <button type="submit" className="submit-bot">
+              Crear
+            </button>
           </div>
         </form>
 
-        {/* Modal de Notificación */}
         <ModalNotificacion
           isOpen={showModal}
           onClose={() => setShowModal(false)}
@@ -185,6 +245,8 @@ function FormularioCrearComunidad() {
           iconClass={modalType === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}
         />
       </div>
+  </div>
+  <ModalCargando isOpen={isLoading} message="Creando comunidad, espera un momento..."/>
     </>
   );
 }

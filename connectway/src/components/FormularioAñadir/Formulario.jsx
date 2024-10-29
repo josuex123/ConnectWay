@@ -389,7 +389,7 @@ function Formulario() {
                         <div className="icon-container">
                             <FontAwesomeIcon icon={faImage} size="2x" className="icon" />
                         </div>
-                        <button type="button" onClick={imageDropzone.open} className="select-button">
+                        <button type="button" onClick={imageDropzone.open} className="eliminar-botn">
                             Sube un archivo
                         </button>
                         <p>ó deslizalo aquí</p>
@@ -438,7 +438,7 @@ function Formulario() {
                         <div className="icon-container">
                             <FontAwesomeIcon icon={faMusic} size="2x" className="icon" />
                         </div>
-                        <button type="button" onClick={audioDropzone.open} className="select-button">
+                        <button type="button" onClick={audioDropzone.open} className="eliminar-botn">
                             Sube un archivo
                         </button>
                         <p>ó deslizalo aquí</p>

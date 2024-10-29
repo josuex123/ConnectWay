@@ -6,7 +6,7 @@ const db = getFirestore(app);
 export const editarEstadoReproduccion = async (idUsuario, idAudiolibro, estadoReproduccion, audioUrl) => {
     try {
         // Crear una referencia a la colección
-        const collectionRef = collection(db, 'Usuario_EstadoReproducion');
+        const collectionRef = collection(db, 'Usuario_EstadoReproduccion');
         
         // Consulta con 'where' para traer el documento que coincide con idUsuario e idAudiolibro
         const q = query(
@@ -25,12 +25,12 @@ export const editarEstadoReproduccion = async (idUsuario, idAudiolibro, estadoRe
             const idDocumentoEncontrado = documento.id; // Guardar el id del documento encontrado
             
             // Referencia al documento
-            const docRef = doc(db, 'Usuario_EstadoReproducion', idDocumentoEncontrado);
+            const docRef = doc(db, 'Usuario_EstadoReproduccion', idDocumentoEncontrado);
             
             // Actualizar el documento con los nuevos datos
             await updateDoc(docRef, {
                 estadoReproduccion: estadoReproduccion,
-                audioUrl: audioUrl
+                urlAudiolibro: audioUrl
             });
             
             console.log('Documento actualizado correctamente');
