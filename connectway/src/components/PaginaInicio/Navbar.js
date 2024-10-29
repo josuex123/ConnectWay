@@ -18,7 +18,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { role } = useParams();
   const isAdmin = role === '1'; 
-  const isDisabled = false;
+  const isDisabled = true;
 
   // Manejo del botón de Audiolibros
   const handleAudiolibrosClick = (e) => {
@@ -112,14 +112,16 @@ const Navbar = () => {
                 </NavLink>
                 <NavLink
                   to={`/comunidad/unirse/${role}`}
-                  className={`dropdown-link ${location.pathname === `/comunidad/unirse/${role}` ? 'active' : ''}`}
+                  className={`dropdown-link  disabled ${location.pathname === `/comunidad/unirse/${role}` ? 'active' : ''}`}
+                  style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
                   onClick={() => setMenuOpen(false)}
                 >
                   Unirse a Comunidad
                 </NavLink>
                 <NavLink
                   to={`/comunidad/mis-comunidades/${role}`}
-                  className={`dropdown-link ${location.pathname === `/comunidad/mis-comunidades/${role}` ? 'active' : ''}`}
+                  className={`dropdown-link  disabled ${location.pathname === `/comunidad/mis-comunidades/${role}` ? 'active' : ''}`}
+                  style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
                   onClick={() => setMenuOpen(false)}
                 >
                   Mis Comunidades
@@ -131,7 +133,7 @@ const Navbar = () => {
           <li className="nav-item">
             <NavLink
               to={`/MiActividad/${role}`}
-              className={`nav-linkss3 ${isDisabled ? 'disabled' : ''}`}
+              className={`nav-linkss3 disabled`}
               style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
               onClick={() => setMenuOpen(false)}
             >
@@ -143,7 +145,7 @@ const Navbar = () => {
           <li className="nav-item">
             <NavLink
               to={`/Perfil/${role}`}
-              className={`nav-linkss4 ${isDisabled ? 'disabled' : ''}`}
+              className={`nav-linkss4 disabled`}
               style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
               onClick={() => setMenuOpen(false)}
             >
