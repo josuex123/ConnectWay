@@ -1,29 +1,36 @@
-/* TarjetaCategoria.css */
-
 .contenedor-cats {
-    flex-basis: 18%; /* Ajuste para que quepan cinco tarjetas en una fila */
+    flex-basis: 18%;
     margin: 0.5rem;
     background-color: #f8f9fa;
     border-color: black;
     border-radius: 0.5rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
-    align-items: center;
-    justify-content: center;
+    display: flex;
+    align-items: center; /* Centrar contenido verticalmente */
+    justify-content: center; /* Centrar contenido horizontalmente */
 }
 
 .contenedor-cats:hover {
     background-color: #03314B;
-    color:white;
-    
+    color: white;
 }
+
 .contenedor-cats.seleccionado {
     background-color: #03314B;
     color: white;
 }
 
+.card-body-cats {
+    display: flex;
+    align-items: center; /* Centrar verticalmente */
+    justify-content: center; /* Centrar horizontalmente */
+}
+
 .nombre-categoria {
-    font-size: 0.85rem; /* Texto más pequeño */
-    margin-top: 0.3rem;
-    
+    font-size: 0.85rem;
+    margin-top: 0.8rem; /* Remover margen superior */
+    display: flex;
+    align-items: center; /* Alineación vertical del icono y texto */
+    gap: 0.5rem; /* Espacio entre el icono y el texto */
 }
