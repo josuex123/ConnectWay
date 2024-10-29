@@ -123,7 +123,7 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
                     src={audioUrl}
                 />
                 <div className="audio-controls">
-                    <button onClick={() => (audioRef.current.currentTime -= 10)}>
+                    <button onClick={() => (audioRef.current.currentTime -= 5)}>
                         <img src={RetricederMin} alt="Retrocede rápido" style={{ width: '25px', height: '25px' }} />
                     </button>
 
@@ -160,7 +160,7 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
                     value={volume}
                     min="0"
                     max="1"
-                    step="0.1"
+                    step="0.01"
                     onChange={handleVolumeChange}
                 />
             </div>
