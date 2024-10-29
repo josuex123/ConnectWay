@@ -53,7 +53,7 @@ const AudiolibrosInformacion = () => {
 
         fetchAudiolibro();
         verificar();
-    }, [idLibro, estadoReproduccion]);
+    }, [idLibro]);
 
     if (!audiolibro) {
         return <div>Cargando...</div>; 
@@ -67,34 +67,53 @@ const AudiolibrosInformacion = () => {
             .join(' '); 
     };
 
-    const handleReproducirClick = () => {
-        console.log("estado desde boton"+estadoReproduccion)
+    const handleReproducirClick = async () => {
+        console.log("estado desde boton repro "+estadoReproduccion)
         const audiolibroData = {
             portadaUrl: audiolibro.imagenPortadaURL,
             titulo: audiolibro.titulo,
             autor: audiolibro.autor,
             audioUrl: audiolibro.archivoAudioURL,
+            idAudiolibro:idLibro,
+            estadoActualReproduccion:estadoReproduccion
         };
     
-        iniciarReproductor(audiolibroData);
+        
         console.log(audiolibroData);
         setEstadoBoton('Detener');
     
-        if (estadoBoton === 'Reproducir' && estadoReproduccion === null) {
-            const guardarEstado = async () => {
+        if (estadoBoton === 'Reproducir' && estadoReproduccion === null) {//en este caso no hay registro de escucha
                 try {
                     const nuevoDoc = await guardarEstadoReproduccion(0, idLibro);
                     console.log("Documento guardado:", nuevoDoc);
+                    iniciarReproductor(audiolibroData);
+                    setEstadoBoton('Detener');
                 } catch (error) {
-                    console.error("Error al guardar el estado:", error);
+                    console.error("Error al guardar el documento de 1ra escucha:", error);
                 }
-            };
-            guardarEstado();
+
         } else if (estadoBoton === 'Detener') {
-            detenerReproductor();
-            setEstadoBoton('Reproducir');
-            console.log("Se detuvo el reproductor");                             
-        }
+            try {
+                await detenerReproductor();
+                //Actualizar el estado de la variable de este componente para pasar al repro
+                const existeDocumento =  await VerificarEstadoReporduccion(idLibro,0);
+                setEstadoReproduccion(existeDocumento);
+                setEstadoBoton('Reanudar')
+            } catch (error) {
+                
+            }
+            }else if(estadoBoton === 'Reanudar'){
+               try {
+                 //Actualizar el estado de reproduccion para pasarle al reproductor por si acaso una vez mas antes de reanudar
+                 const existeDocumento =  await VerificarEstadoReporduccion(idLibro,0);
+                 setEstadoReproduccion(existeDocumento);
+                 console.log("Nuevo estado de reproduccion antes reanudar "+existeDocumento);
+                 iniciarReproductor(audiolibroData);
+                 setEstadoBoton('Detener');
+               } catch (error) {
+                
+               }
+            }   
     };
     
 
