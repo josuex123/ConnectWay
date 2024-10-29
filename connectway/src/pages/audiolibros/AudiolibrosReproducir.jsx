@@ -9,6 +9,8 @@ import Play from '../../images/play2.png';
 import Pausa from '../../images/pausa.png';
 import Silencio from '../../images/volumenSil.png';
 import Volumen from '../../images/volumenVol.png';
+import Reproducir from '../../images/boton-de-play.png';
+import {editarEstadoReproduccion} from '../../Services/EstadoReproduccion/EditarEstadoReproduccion';
 
 const AudiolibrosReproducir = forwardRef((props, ref) => {
     const { role } = useParams(); // Obtenemos el valor del rol desde la URL
@@ -25,6 +27,8 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
     const [titulo, setTitulo] = useState(null);
     const [autor, setAutor] = useState(null); 
     const [audioUrl, setAudioUrl] = useState(null); 
+    const [idAudiolibro, setIdAudiolibro] = useState(null); 
+    const [estadoReproduccion, setEstadoReproduccion] = useState(0);// verificar esto por si da erroes o algo
 
 
     const togglePlayPause = () => {
@@ -38,15 +42,33 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
 
 
     useImperativeHandle(ref, () => ({
-        iniciarReproductor({ portadaUrl, titulo, autor, audioUrl }){
+        iniciarReproductor({ portadaUrl, titulo, autor, audioUrl,idAudiolibro,estadoActualReproduccion}){
+
+            console.log("Id desde reproductor"+idAudiolibro)
+            console.log("estado inicial desde reproductor sin recibir "+estadoReproduccion)
+            console.log("estado  recibido desde info "+estadoActualReproduccion)
+
             setPortadaUrl(portadaUrl);
             setTitulo(titulo);
             setAutor(autor);
             setAudioUrl(audioUrl);
             setActivo(true);
+            setIdAudiolibro(idAudiolibro);
+            setEstadoReproduccion(estadoActualReproduccion);
+
+            console.log("estado  desde reproductor despues de recibir "+estadoReproduccion)
+
         },
     
-        detenerReproductor(){
+        detenerReproductor: async () =>{
+            try {
+                const estadoEscuchado = audioRef.current.currentTime;
+                console.log("datos antes de ser editados: "+estadoEscuchado +" "+ idAudiolibro)
+                await editarEstadoReproduccion(0,idAudiolibro, estadoEscuchado, audioUrl);
+                setIsPlaying(false); 
+            } catch (error) {
+                
+            }
             setPortadaUrl(null);
             setTitulo(null);
             setAutor(null);

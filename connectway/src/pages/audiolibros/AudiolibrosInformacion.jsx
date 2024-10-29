@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
-import NavBar from "../../components/PaginaInicio/Navbar";
-import Audifono2 from '../../images/auriculares-redondeados.png';
-import Audifono from '../../images/audifonos.png';
+import NavBar from "../../components/PaginaInicio/Navbar";import Audifono2 from '../../images/auriculares-redondeados.png';
 import Cabeza from '../../images/cabeza.png';
 import Hora from '../../images/hora.png';
 import '../../estilos/Audiolibros/AudiolibrosInformacion/AudiolibrosInformacion.css';
@@ -12,6 +10,8 @@ import AudiolibrosReproducir from '../../pages/audiolibros/AudiolibrosReproducir
 import { useAudioContext } from '../Context/AudioContext';
 import { VerificarEstadoReporduccion } from '../../Services/EstadoReproduccion/VerificarEstadoReproduccion';
 import { guardarEstadoReproduccion } from '../../Services/EstadoReproduccion/GuardarEstadoReproduccion';
+import Reproducir from '../../images/boton-de-play.png';                        // Para el boton 
+import Detener from '../../images/boton-detener.png';                           // Para el boton
 
 const AudiolibrosInformacion = () => {
     const isDisabled = false; 
@@ -53,7 +53,7 @@ const AudiolibrosInformacion = () => {
 
         fetchAudiolibro();
         verificar();
-    }, [idLibro, estadoReproduccion]);
+    }, [idLibro]);
 
     if (!audiolibro) {
         return <div>Cargando...</div>; 
@@ -67,33 +67,53 @@ const AudiolibrosInformacion = () => {
             .join(' '); 
     };
 
-    const handleReproducirClick = () => {
-        console.log("estado desde boton"+estadoReproduccion)
+    const handleReproducirClick = async () => {
+        console.log("estado desde boton repro "+estadoReproduccion)
         const audiolibroData = {
             portadaUrl: audiolibro.imagenPortadaURL,
             titulo: audiolibro.titulo,
             autor: audiolibro.autor,
             audioUrl: audiolibro.archivoAudioURL,
+            idAudiolibro:idLibro,
+            estadoActualReproduccion:estadoReproduccion
         };
     
-        iniciarReproductor(audiolibroData);
+        
         console.log(audiolibroData);
         setEstadoBoton('Detener');
     
-        if (estadoBoton === 'Reproducir' && estadoReproduccion === null) {
-            const guardarEstado = async () => {
+        if (estadoBoton === 'Reproducir' && estadoReproduccion === null) {//en este caso no hay registro de escucha
                 try {
                     const nuevoDoc = await guardarEstadoReproduccion(0, idLibro);
                     console.log("Documento guardado:", nuevoDoc);
+                    iniciarReproductor(audiolibroData);
+                    setEstadoBoton('Detener');
                 } catch (error) {
-                    console.error("Error al guardar el estado:", error);
+                    console.error("Error al guardar el documento de 1ra escucha:", error);
                 }
-            };
-            guardarEstado();
+
         } else if (estadoBoton === 'Detener') {
-            detenerReproductor();
-            console.log("Se detuvo el reproductor");
-        }
+            try {
+                await detenerReproductor();
+                //Actualizar el estado de la variable de este componente para pasar al repro
+                const existeDocumento =  await VerificarEstadoReporduccion(idLibro,0);
+                setEstadoReproduccion(existeDocumento);
+                setEstadoBoton('Reanudar')
+            } catch (error) {
+                
+            }
+            }else if(estadoBoton === 'Reanudar'){
+               try {
+                 //Actualizar el estado de reproduccion para pasarle al reproductor por si acaso una vez mas antes de reanudar
+                 const existeDocumento =  await VerificarEstadoReporduccion(idLibro,0);
+                 setEstadoReproduccion(existeDocumento);
+                 console.log("Nuevo estado de reproduccion antes reanudar "+existeDocumento);
+                 iniciarReproductor(audiolibroData);
+                 setEstadoBoton('Detener');
+               } catch (error) {
+                
+               }
+            }   
     };
     
 
@@ -134,8 +154,13 @@ const AudiolibrosInformacion = () => {
                                         style={{ pointerEvents: 'auto', opacity: 1, color: 'white' }}
                                         type='button'
                                         onClick={handleReproducirClick}>
-                                        <img src={Audifono} alt="Audífono" style={{ width: '20px', marginRight: '10px' }} />
-                                        {estadoBoton}
+                                        <img
+                                            className="icono"
+                                            src={estadoBoton === 'Reproducir' ? Reproducir : Detener}
+                                            alt={estadoBoton === 'Reproducir' ? "Reproducir" : "Detener"}
+                                            style={{ width: '25px', marginRight: '15px' }}
+                                        />
+                                         <span className="texto">{estadoBoton}</span>
                                     </button>
                                 </div>
                                 <div className="audiolibro-categoria">
