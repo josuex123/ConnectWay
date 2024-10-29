@@ -2,20 +2,27 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
-import NavBar from "../../components/PaginaInicio/Navbar";
-import Audifono2 from '../../images/auriculares-redondeados.png';
-import Audifono from '../../images/audifonos.png';
+import NavBar from "../../components/PaginaInicio/Navbar";import Audifono2 from '../../images/auriculares-redondeados.png';
 import Cabeza from '../../images/cabeza.png';
 import Hora from '../../images/hora.png';
 import '../../estilos/Audiolibros/AudiolibrosInformacion/AudiolibrosInformacion.css';
 import AudiolibrosReproducir from '../../pages/audiolibros/AudiolibrosReproducir';
+import { useAudioContext } from '../Context/AudioContext';
+import { VerificarEstadoReporduccion } from '../../Services/EstadoReproduccion/VerificarEstadoReproduccion';
+import { guardarEstadoReproduccion } from '../../Services/EstadoReproduccion/GuardarEstadoReproduccion';
+import Reproducir from '../../images/boton-de-play.png';                        // Para el boton 
+import Detener from '../../images/boton-detener.png';                           // Para el boton
 
 const AudiolibrosInformacion = () => {
-    const isDisabled = true; 
+    const isDisabled = false; 
     const location = useLocation();
     const { idLibro } = location.state || {};
     const [audiolibro, setAudiolibro] = useState(null);
     const [showAudiolibros, setShowAudiolibros] = useState(false); 
+    const { setAudiolibroData, iniciarReproductor, detenerReproductor } = useAudioContext();
+    const [estadoBoton, setEstadoBoton]= useState('')
+    const [estadoReproduccion, setEstadoReproduccion] = useState(null);
+
 
     useEffect(() => {
         const fetchAudiolibro = async () => {
@@ -31,8 +38,22 @@ const AudiolibrosInformacion = () => {
             }
         };
 
+        const verificar = async() =>{
+            const existeDocumento =  await VerificarEstadoReporduccion(idLibro,0);
+            console.log(existeDocumento)
+            if(existeDocumento !== null){
+                setEstadoBoton('Reanudar');
+                setEstadoReproduccion(existeDocumento);
+                console.log("Existe un estado de "+ existeDocumento)
+            }else{
+                setEstadoBoton('Reproducir');
+                setEstadoReproduccion(null);
+            }
+        };
+
         fetchAudiolibro();
-    }, [idLibro]);
+        verificar();
+    }, [idLibro, estadoReproduccion]);
 
     if (!audiolibro) {
         return <div>Cargando...</div>; 
@@ -47,8 +68,35 @@ const AudiolibrosInformacion = () => {
     };
 
     const handleReproducirClick = () => {
-        setShowAudiolibros(true); 
+        console.log("estado desde boton"+estadoReproduccion)
+        const audiolibroData = {
+            portadaUrl: audiolibro.imagenPortadaURL,
+            titulo: audiolibro.titulo,
+            autor: audiolibro.autor,
+            audioUrl: audiolibro.archivoAudioURL,
+        };
+    
+        iniciarReproductor(audiolibroData);
+        console.log(audiolibroData);
+        setEstadoBoton('Detener');
+    
+        if (estadoBoton === 'Reproducir' && estadoReproduccion === null) {
+            const guardarEstado = async () => {
+                try {
+                    const nuevoDoc = await guardarEstadoReproduccion(0, idLibro);
+                    console.log("Documento guardado:", nuevoDoc);
+                } catch (error) {
+                    console.error("Error al guardar el estado:", error);
+                }
+            };
+            guardarEstado();
+        } else if (estadoBoton === 'Detener') {
+            detenerReproductor();
+            setEstadoBoton('Reproducir');
+            console.log("Se detuvo el reproductor");                             
+        }
     };
+    
 
     return (
         <>
@@ -84,10 +132,16 @@ const AudiolibrosInformacion = () => {
                                 <hr className="custom-hr" />
                                 <div>
                                     <button className="btn-reproducir" 
-                                        style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1, color: 'white', backgroundColor:'gray' }}
-                                        disabled={true}>
-                                        <img src={Audifono} alt="Audífono" style={{ width: '20px', marginRight: '10px' }} />
-                                        Reproducir
+                                        style={{ pointerEvents: 'auto', opacity: 1, color: 'white' }}
+                                        type='button'
+                                        onClick={handleReproducirClick}>
+                                        <img
+                                            className="icono"
+                                            src={estadoBoton === 'Reproducir' ? Reproducir : Detener}
+                                            alt={estadoBoton === 'Reproducir' ? "Reproducir" : "Detener"}
+                                            style={{ width: '25px', marginRight: '15px' }}
+                                        />
+                                         <span className="texto">{estadoBoton}</span>
                                     </button>
                                 </div>
                                 <div className="audiolibro-categoria">
@@ -103,13 +157,6 @@ const AudiolibrosInformacion = () => {
                 </div>
             </div>
             {/* ojoooooooo ESTO QUE APAREZCA CUANDO SE DA CLIC EN REPRODUCIR*/}
-            <AudiolibrosReproducir
-            portadaUrl={audiolibro.imagenPortadaURL}
-            titulo={audiolibro.titulo}
-            autor={audiolibro.autor}
-            audioUrl={audiolibro.archivoAudioURL}
-            
-            /> 
         </>
     );
 };
