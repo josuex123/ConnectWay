@@ -16,7 +16,11 @@ const ModalNotificacion = ({ isOpen, onClose, type, message, iconClass }) => {
                     <div className={`icon-container ${type}`}>
                         <i className={`fa ${iconClass}`}></i>
                     </div>
+<<<<<<< HEAD
                     <p className="main-message">{type === 'success' ? '!ÉXITO!' : '!ERROR!'}</p> 
+=======
+                    <p className="main-message">{type === 'success' ? '¡ÉXITO!' : '¡ERROR!'}</p> 
+>>>>>>> dev
                     <p>{message}</p> 
                 </div>
                 <div className="modal-footer-noti">

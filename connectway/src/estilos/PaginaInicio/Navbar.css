@@ -22,13 +22,18 @@
 .disabled {
     cursor: not-allowed;
     opacity: 0.5;
-  }
+}
+
+.nav-logo, .nav-links, .dropdown-link {
+    color: #03314B;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s, color 0.3s;
+}
+
 .nav-logo {
     font-size: 24px;
-    font-weight: bold;
-    color: #03314B;
     margin-left: 20px;
-    text-decoration: none;
 }
   
 .nav-menu {
@@ -44,32 +49,24 @@
 }
   
 .nav-links {
-    color: #03314B;
-    text-decoration: none;
-
     padding: 0.5rem 1rem;
     border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
-    font-weight:600;
 }
-  
-.nav-links:hover {
-    background-color: #2CE080;
-    color:#03314B;
+
+.nav-links:hover, .nav-links.active {
+    background-color: #03314B;
+    color: white;
     border-radius: 5px;
 }
 
-.nav-links.active {
-    /*background-color: #20B1A68;*/
-    background-color: #2CE080; 
-    color: #03314B; 
-}
-  
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #9EE493;
-    /*box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);*/
+    background-color: white;
+    z-index: 1000; 
+    width: auto;
+    top: 100%; 
+    margin-top: 5px;
 }
   
 .dropdown:hover .dropdown-content {
@@ -79,12 +76,7 @@
 .dropdown-link {
     padding: 10px;
     display: block;
-    text-decoration: none;
-    background-color: #2CE080;
-    
-    font-weight:600;
-    color: #03314B;
-    transition: background-color 0.3s, color 0.3s;
+    background-color: white;
 }
   
 .dropdown-link:hover {
@@ -101,15 +93,14 @@
   
 .hamburger-open,
 .hamburger-close {
-    display: inline-block;
-    width: 3rem; 
-    height: 3rem; 
+    width: 3rem;
+    height: 3rem;
     background-color: #03314B;
+    display: inline-block;
 }
   
 @media screen and (max-width: 960px) {
     .nav-menu {
-        display: flex;
         flex-direction: column;
         width: 100%;
         position: absolute;
@@ -125,20 +116,14 @@
         opacity: 1;
     }
 
-    .nav-links {
-        padding: 1.5rem;
-        width: 100%;
-        text-align: center;
-    }
-
-    .nav-linkss {
-        padding: 1.5rem;
-        width: 100%;
-        text-align: center;
+    .nav-linkss, .nav-linkss1, .nav-linkss2, .nav-linkss3, .nav-linkss4 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .nav-item {
-        margin-bottom: 1rem;
+        margin-bottom: 0.3rem;
     }
 
     .dropdown-content {
@@ -147,10 +132,19 @@
         left: 0;
         width: 100%;
         text-align: center;
+        background: #ffffff;
+        z-index: 998;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .dropdown-link {
-        padding: 1rem 0;
+        width: 100%;
+        background-color: transparent;
     }
 
     .nav-icon {
@@ -159,13 +153,6 @@
         top: 50%;
         right: -15px;
         transform: translate(-100%, -50%);
-    }
-
-    
-    .hamburger-open,
-    .hamburger-close {
-        width: 3rem;
-        height: 3rem;
     }
 
     .menu-icon {
@@ -187,38 +174,64 @@
     filter: none;
 }
 
-.nav-logo-image2 {
-    width: 24px;
-    height: auto;
-    margin: 5px;
-    margin-top: -1px;
-    filter: brightness(0) invert(1);
-}
-
-
-
-.nav-linkss {
+/* Inicio, Audiolibros, Comunidad, Mi actividad, Perfil */
+.nav-linkss, .nav-linkss1, .nav-linkss2, .nav-linkss3, .nav-linkss4 {
     color: #03314B;
     text-decoration: none;
     padding: 0.5rem 1rem;
     border-radius: 5px;
+    font-weight: 600;
     transition: background-color 0.3s, color 0.3s;
-    font-weight:600;
-}
-  
-.nav-linkss:hover {
-    background-color: #2CE080;
-    color: #03314B;
-    border-radius: 5px;
-    
 }
 
-.nav-linkss.active {
-    background-color: #2CE080; 
-    color: #03314B; 
-  }
-  .nav-links, .dropdown-link {
-    cursor: pointer; 
-  }
+.nav-linkss:hover, .nav-linkss1:hover, .nav-linkss2:hover, .nav-linkss3:hover, .nav-linkss4:hover,
+.nav-linkss.active, .nav-linkss1.active, .nav-linkss2.active, .nav-linkss3.active, .nav-linkss4.active {
+    background-color: #03314B;
+    color: white;
+}
 
-  
+.nav-linkss img, .nav-linkss1 img, .nav-linkss2 img, .nav-linkss3 img, .nav-linkss4 img {
+    width: 20px;
+    height: auto;
+    transition: opacity 0.3s ease;
+}
+
+.nav-linkss.active img, .nav-linkss:hover img {
+    content: url('../../images/hogar1.png');
+}
+
+.nav-linkss:not(.active):not(:hover) img {
+    content: url('../../images/hogar.png');
+}
+
+.nav-linkss1.active img, .nav-linkss1:hover img {
+    content: url('../../images/auriculares-redondeados1.png');
+}
+
+.nav-linkss1:not(.active):not(:hover) img {
+    content: url('../../images/auriculares-redondeados.png');
+}
+
+.nav-linkss2.active img, .nav-linkss2:hover img {
+    content: url('../../images/grupo1.png');
+}
+
+.nav-linkss2:not(.active):not(:hover) img {
+    content: url('../../images/grupo.png');
+}
+
+.nav-linkss3.active img, .nav-linkss3:hover img {
+    content: url('../../images/cabeza1.png');
+}
+
+.nav-linkss3:not(.active):not(:hover) img {
+    content: url('../../images/cabeza.png');
+}
+
+.nav-linkss4.active img, .nav-linkss4:hover img {
+    content: url('../../images/usuario1.png');
+}
+
+.nav-linkss4:not(.active):not(:hover) img {
+    content: url('../../images/usuario.png');
+}
