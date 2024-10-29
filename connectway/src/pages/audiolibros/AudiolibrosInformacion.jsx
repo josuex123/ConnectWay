@@ -108,7 +108,12 @@ const AudiolibrosInformacion = () => {
                  const existeDocumento =  await VerificarEstadoReporduccion(idLibro,0);
                  setEstadoReproduccion(existeDocumento);
                  console.log("Nuevo estado de reproduccion antes reanudar "+existeDocumento);
-                 iniciarReproductor(audiolibroData);
+                 console.log("Nuevo estado de reproduccion antes reanudar info "+estadoReproduccion);
+                 const audiolibroDataActualizado = {
+                    ...audiolibroData,
+                    estadoActualReproduccion: existeDocumento
+                };
+                 iniciarReproductor(audiolibroDataActualizado);
                  setEstadoBoton('Detener');
                } catch (error) {
                 

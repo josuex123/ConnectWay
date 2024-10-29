@@ -57,6 +57,9 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
             setEstadoReproduccion(estadoActualReproduccion);
 
             console.log("estado  desde reproductor despues de recibir "+estadoReproduccion)
+            if (audioRef.current) {
+                audioRef.current.currentTime = estadoActualReproduccion;
+            }
 
         },
     
@@ -83,6 +86,11 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
 
     const handleLoadedMetadata = () => {
         setDuration(audioRef.current.duration);
+    
+        // Una vez que el audio se carga completamente, establecer el tiempo de reproducción
+        if (estadoReproduccion > 0) {
+            audioRef.current.currentTime = estadoReproduccion;
+        }
     };
 
     const handleVolumeChange = (e) => {
