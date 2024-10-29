@@ -15,7 +15,7 @@ const AudiobookEdit = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const { audiobook } = location.state || {};
-
+    const maxChars = 400;
     const [titulo, setTitulo] = useState('');
     const [autor, setAutor] = useState('');
     const [categoria, setCategoria] = useState('');
@@ -435,8 +435,11 @@ const AudiobookEdit = () => {
                     </div>
                 </div>
 
-                <div className="form-group mb-3">
+                <div className="form-group mb-3" style={{position:'relative'}}>
                     <label htmlFor="descripcion">Descripción:</label>
+                    <span style={{ position: 'absolute', top: '0', right: '0', fontSize: '12px', color: '#888' }}>
+                    {descripcion.length}/{maxChars}
+                </span>
                     <div className="tooltip-container">
                         <textarea
                             id="descripcion"
@@ -444,10 +447,11 @@ const AudiobookEdit = () => {
                             placeholder="Descripción"
                             value={descripcion}
                             rows="5"
-                            maxLength="500"
+                            maxLength={maxChars}
                             onChange={handleDescriptionChange}
                             style={{ resize: 'none' }}
                         />
+                        
                     </div>
                 </div>
                 <div>
@@ -523,12 +527,12 @@ const AudiobookEdit = () => {
                     <button className="cancel-bot" type="button" onClick={() => window.history.back()}>Cancelar</button>
                     <button className="submit-bot" type="button" 
                         onClick={openConfirmModal}
-                        disabled={!isFormValid}
-                        style={{
+                        //disabled={!isFormValid}
+                        /*style={{
                             backgroundColor: isFormValid ? '#03314B' : '#d3d3d3', 
                             color: isFormValid ? 'white' : '#666', 
                             cursor: isFormValid ? 'pointer' : 'not-allowed', 
-                        }}
+                        }}*/
                        
                     >Guardar
                     </button>
