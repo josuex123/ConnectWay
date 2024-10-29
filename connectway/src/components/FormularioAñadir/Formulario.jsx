@@ -11,14 +11,13 @@ import '../../estilos/Audiolibros/FormularioAñadir/Formulario.css';
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { app } from '../../firebaseConfig';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-
 
 function Formulario() {
   const [titulo, setTitulo] = useState('');
   const [autor, setAutor] = useState('');
   const [categoria, setCategoria] = useState('');
   const [descripcion, setDescripcion] = useState('');
+  const maxChars = 400;
   const [error, setError] = useState('');
   const [showTooltip, setShowTooltip] = useState(false);
   const [showTooltipIcon1, setShowTooltipIcon1] = useState(false);
@@ -27,7 +26,6 @@ function Formulario() {
   const [audioFiles, setAudioFiles] = useState([]);
   const [audioError, setAudioError] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  //const [isLoading, setIsLoading] = useState(false);
   const textTit = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s.,0123456789]+$/;
   const textAut = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s.,]+$/;
 
@@ -47,6 +45,10 @@ function Formulario() {
 
   const closeModalNotificacion = async () => {
       setIsModalNotificacionOpen(false);
+  };
+
+  const handleDescripcionChange = (e) => {
+    setDescripcion(e.target.value);
   };
 
   const handleCancel = () => {
@@ -332,8 +334,11 @@ function Formulario() {
         </div>
         
 
-        <div className="form-group mb-3">
+        <div className="form-group mb-3" style={{position:'relative'}}>
             <label htmlFor="descripcion">Descripción:</label>
+                <span style={{ position: 'absolute', top: '0', right: '0', fontSize: '12px', color: '#888' }}>
+                    {descripcion.length}/{maxChars}
+                </span>
             <div
                 className="tooltip-container"
                 onMouseEnter={() => setShowTooltip(descripcion === "")}
@@ -344,9 +349,9 @@ function Formulario() {
                     className="form-control"
                     placeholder="Escribe una breve descripción del libro"
                     value={descripcion}
-                    onChange={(e) => setDescripcion(e.target.value)}
+                    onChange={handleDescripcionChange}
                     rows="5"
-                    maxLength="400"
+                    maxLength={maxChars}
                     style={{ resize: 'none' }}
                 />
                 {showTooltip && (
@@ -454,7 +459,7 @@ function Formulario() {
         </div>
 
 
-        <div className='form-buttons'>
+        <div className='form-buttons-audiobook '>
           <button className="cancel-bot" type="button" 
                   onClick={handleCancel}> Cancelar
           </button>

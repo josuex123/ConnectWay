@@ -1,0 +1,88 @@
+.audio-player {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+  
+.audio-image {
+    width: 100px;
+    height: 140px;
+    object-fit: cover;
+    margin-right: 10px;
+    border: 2px solid #000; /* Borrar */
+}
+  
+.audio-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+  
+.audio-author {
+    font-size: 0.9em;
+    color: #666;
+  
+}
+  
+.audio-author, .audio-title{
+    margin: 0 10px; 
+}
+  
+.audio-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.audio-controls button {
+    border: none; 
+    background: transparent; 
+    padding: 0; 
+    cursor: pointer; 
+    color: #000;
+    transition: color 0.3s; 
+}
+  
+.audio-timeline {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.audio-timeline input[type="range"] {
+    max-width: 1400px;
+    width: 100%; 
+}
+
+.audio-timeline span {
+    width: 250px; 
+    text-align: center; 
+}
+
+.audio-timeline span:first-child {
+    margin-right: -55px; 
+}
+
+.audio-timeline span:last-child {
+    margin-left: -55px; 
+}
+
+.audio-volume {
+    margin-left: 20px;
+    margin-top: 15px;
+}
+
+.volume-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    margin-bottom: 7px;
+} 
