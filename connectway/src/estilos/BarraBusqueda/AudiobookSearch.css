@@ -23,7 +23,7 @@
 
 /* Cambia el borde a verde cuando la barra de búsqueda está activa (focus) */
 .search-bar:focus-within {
-    border: 2px solid #03314B; /* Borde verde cuando está dentro o en foco */
+    border: 2px solid #2CE080; /* Borde verde cuando está dentro o en foco */
 }
 
 /* Estilo del campo de entrada */
@@ -40,7 +40,7 @@
 
 /* Estilo del botón de búsqueda */
 .search-bar .search-button {
-    background-color: #03314B; 
+    background-color: #2CE080; 
     border: none; 
     padding: 0 10px; 
     height: 40px; 
