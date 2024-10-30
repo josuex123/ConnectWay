@@ -22,7 +22,7 @@
 }
 
 .nav-link-landing {
-    color: #03314B;
+    color: white;
     text-decoration: none;
     padding: 0.5rem 0.8rem;
     border-radius: 5px;
@@ -33,7 +33,7 @@
 }
 
 .nav-link-start-landing {
-    color: #03314B;
+    color: white;
     text-decoration: none;
     background-color: #03314B;
     padding: 0.5rem 1rem;
@@ -43,12 +43,12 @@
 
 .nav-link-landing:hover {
     background-color: #03314B;
-    color: #03314B;
+    color: white;
     border-radius: 5px;
 }
 .nav-link-start-landing:hover {
-    background-color:#20BA68;
-    color: #03314B;
+    background-color:#03314B;
+    color: white;
     border-radius: 5px;
 }
 .nav-items-landing {
@@ -58,14 +58,14 @@
 .nav-logo-landing {
     font-size: 24px;
     font-weight: bold;
-    color: #03314B; 
+    color: white; 
     display: flex;
     align-items: center;
     text-decoration: none;
 }
 
 .nav-link-landing, .nav-link-start-landing {
-    color: #03314B; 
+    color: white; 
     text-decoration: none;
     padding: 0.5rem 0.8rem;
 }
@@ -85,7 +85,7 @@
 
 .menu-icon-landing {
     font-size: 2rem;
-    color: #03314B;
+    color: white;
 }
 
 .main-content {
@@ -124,7 +124,7 @@
 
 .btn-start-landing {
     background-color: #03314B;
-    color: #03314B;
+    color: white;
     padding: 0.5rem 10rem; 
     border-radius: 5px;
     text-decoration: none;
@@ -132,8 +132,8 @@
     display: inline-block;
 }
 .btn-start-landing:hover {
-    background-color:#20BA68;
-    color: #03314B;
+    background-color:#03314B;
+    color: white;
     border-radius: 5px;
 }
 
@@ -146,7 +146,7 @@
 
 .menu-icon-landing {
     font-size: 2rem;
-    color: #03314B;
+    color: white;
 }
 
 .image-content {
