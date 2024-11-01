@@ -44,7 +44,7 @@ const AudiolibrosInformacion = () => {
             console.log(existeDocumento)
             if(existeDocumento !== null){
                 setEstadoBoton('Reanudar');
-                setEstadoReproduccion(existeDocumento);              
+                setEstadoReproduccion(existeDocumento);
             }else if(existeDocumento === 0){
                 setEstadoBoton('Reproducir');
                 setEstadoReproduccion(0);
@@ -98,18 +98,18 @@ const AudiolibrosInformacion = () => {
                 iniciarReproductor(audiolibroData);
                 setEstadoBoton('Detener');
         }else if (estadoBoton === 'Detener') {
-                try {
-                    await detenerReproductor();
-                    //Actualizar el estado de la variable de este componente para pasar al repro
+            try {
+                await detenerReproductor();
+                //Actualizar el estado de la variable de este componente para pasar al repro
                     await new Promise(resolve => setTimeout(resolve, 500));
                     
-                    const existeDocumento =  await VerificarEstadoReporduccion(idLibro,0);
+                const existeDocumento =  await VerificarEstadoReporduccion(idLibro,0);
                     console.log("estado deteer " + existeDocumento)
-                    setEstadoReproduccion(existeDocumento);
+                setEstadoReproduccion(existeDocumento);
                     if(existeDocumento===0){
                         setEstadoBoton('Reproducir');
                     }else{
-                        setEstadoBoton('Reanudar')
+                setEstadoBoton('Reanudar')
                     }
                 
             } catch (error) {
@@ -119,7 +119,7 @@ const AudiolibrosInformacion = () => {
                try {
                  //Actualizar el estado de reproduccion para pasarle al reproductor por si acaso una vez mas antes de reanudar
                  const existeDocumento =  await VerificarEstadoReporduccion(idLibro,0);
-                 setEstadoReproduccion(existeDocumento);
+                 setEstadoReproduccion(existeDocumento);                
                  const audiolibroDataActualizado = {
                     ...audiolibroData,
                     estadoActualReproduccion: existeDocumento
