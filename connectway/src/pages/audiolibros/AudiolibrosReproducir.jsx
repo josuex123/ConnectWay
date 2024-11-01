@@ -1,26 +1,23 @@
-import React, { useState, useRef, forwardRef, useImperativeHandle } from 'react';
+import React, { useState, useRef, forwardRef, useImperativeHandle, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useAudioContext } from '../Context/AudioContext'; // Importar el contexto
+import { useAudioContext } from '../Context/AudioContext';
 import '../../estilos/Audiolibros/AudiolibrosReproducir/AudiolibrosReproducir.css';
-import NoContentPage from '../noContent/noContentPage';
 import AumentarMin from '../../images/aumentDiezMin.png';
 import RetricederMin from '../../images/retroCincoMin.png';
 import Play from '../../images/play2.png';
 import Pausa from '../../images/pausa.png';
 import Silencio from '../../images/volumenSil.png';
 import Volumen from '../../images/volumenVol.png';
-import Reproducir from '../../images/boton-de-play.png';
-import {editarEstadoReproduccion} from '../../Services/EstadoReproduccion/EditarEstadoReproduccion';
+import { editarEstadoReproduccion } from '../../Services/EstadoReproduccion/EditarEstadoReproduccion';
 
 const AudiolibrosReproducir = forwardRef((props, ref) => {
-    const { role } = useParams(); // Obtenemos el valor del rol desde la URL
+    const { role } = useParams();
     const audioRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
     const [volume, setVolume] = useState(1);
-    const { audiolibroData } = useAudioContext(); // Obtener datos del audiolibro desde el contexto
-
+    const { audiolibroData } = useAudioContext();
 
     const [activo, setActivo] = useState(false);
     const [portadaUrl, setPortadaUrl] = useState(null);
@@ -28,8 +25,7 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
     const [autor, setAutor] = useState(null); 
     const [audioUrl, setAudioUrl] = useState(null); 
     const [idAudiolibro, setIdAudiolibro] = useState(null); 
-    const [estadoReproduccion, setEstadoReproduccion] = useState(0);// verificar esto por si da erroes o algo
-
+    const [estadoReproduccion, setEstadoReproduccion] = useState(0);
 
     const togglePlayPause = () => {
         if (isPlaying) {
@@ -40,14 +36,8 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
         setIsPlaying(!isPlaying);
     };
 
-
     useImperativeHandle(ref, () => ({
-        iniciarReproductor({ portadaUrl, titulo, autor, audioUrl,idAudiolibro,estadoActualReproduccion}){
-
-            console.log("Id desde reproductor"+idAudiolibro)
-            console.log("estado inicial desde reproductor sin recibir "+estadoReproduccion)
-            console.log("estado  recibido desde info "+estadoActualReproduccion)
-
+        iniciarReproductor({ portadaUrl, titulo, autor, audioUrl, idAudiolibro, estadoActualReproduccion }) {
             setPortadaUrl(portadaUrl);
             setTitulo(titulo);
             setAutor(autor);
@@ -55,22 +45,15 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
             setActivo(true);
             setIdAudiolibro(idAudiolibro);
             setEstadoReproduccion(estadoActualReproduccion);
-
-            console.log("estado  desde reproductor despues de recibir "+estadoReproduccion)
-            if (audioRef.current) {
-                audioRef.current.currentTime = estadoActualReproduccion;
-            }
-
         },
     
-        detenerReproductor: async () =>{
+        detenerReproductor: async () => {
             try {
                 const estadoEscuchado = audioRef.current.currentTime;
-                console.log("datos antes de ser editados: "+estadoEscuchado +" "+ idAudiolibro)
-                await editarEstadoReproduccion(0,idAudiolibro, estadoEscuchado, audioUrl);
+                await editarEstadoReproduccion(0, idAudiolibro, estadoEscuchado, audioUrl);
                 setIsPlaying(false); 
             } catch (error) {
-                
+                console.error("Error al detener el reproductor", error);
             }
             setPortadaUrl(null);
             setTitulo(null);
@@ -80,14 +63,18 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
         },
     }));
 
+    useEffect(() => {
+        if (audioRef.current && estadoReproduccion > 0) {
+            audioRef.current.currentTime = estadoReproduccion;
+        }
+    }, [estadoReproduccion]);
+
     const handleTimeUpdate = () => {
         setCurrentTime(audioRef.current.currentTime);
     };
 
     const handleLoadedMetadata = () => {
         setDuration(audioRef.current.duration);
-    
-        // Una vez que el audio se carga completamente, establecer el tiempo de reproducción
         if (estadoReproduccion > 0) {
             audioRef.current.currentTime = estadoReproduccion;
         }
@@ -99,20 +86,17 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
         audioRef.current.volume = volumeValue;
     };
 
-    // Si el rol es 1, no mostrar nada
     if (role === "1") {
         return null;
     }
 
-    // Solo mostrar el reproductor si activo es true
     if (!activo) {
-        return null; // No se muestra nada si no está activo
+        return null;
     }
 
     return (
         <div className="audio-player">
             <img src={portadaUrl} alt="imagenAudiolibro" className="audio-image" />
-
             <div className="audio-details">
                 <p className="audio-author">{autor}</p>
                 <p className="audio-title">{titulo}</p>
@@ -154,7 +138,6 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
                     alt={volume <= 0.00 ? "Volumen silencio" : "Volumen activo"}
                     className="volume-icon"
                 />
-
                 <input
                     type="range"
                     value={volume}
