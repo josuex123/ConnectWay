@@ -11,7 +11,7 @@ const Contenedor = ({ imgPortada, titulo, autor, descripcion, duracion, id, rol,
         if (onEdit) {
             onEdit(id);
         } else {
-            navigate('/Audiolibros/editar');
+            navigate('/Audiolibros/editar/1');
         }
     };
 

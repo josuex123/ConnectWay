@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
-import NavBar from "../../components/PaginaInicio/Navbar";import Audifono2 from '../../images/auriculares-redondeados.png';
+import NavBar from "../../components/PaginaInicio/Navbar";
+import Audifono2 from '../../images/auriculares-redondeados.png';
 import Cabeza from '../../images/cabeza.png';
 import Hora from '../../images/hora.png';
 import '../../estilos/Audiolibros/AudiolibrosInformacion/AudiolibrosInformacion.css';
@@ -31,7 +32,7 @@ const AudiolibrosInformacion = () => {
                 const docSnap = await getDoc(docRef); 
 
                 if (docSnap.exists()) {
-                    setAudiolibro(docSnap.data()); 
+                    setAudiolibro(docSnap.data());
                 } else {
                     console.log("Documento no encontrado!");
                 }
@@ -44,7 +45,9 @@ const AudiolibrosInformacion = () => {
             if(existeDocumento !== null){
                 setEstadoBoton('Reanudar');
                 setEstadoReproduccion(existeDocumento);
-                console.log("Existe un estado de "+ existeDocumento)
+            }else if(existeDocumento === 0){
+                setEstadoBoton('Reproducir');
+                setEstadoReproduccion(0);
             }else{
                 setEstadoBoton('Reproducir');
                 setEstadoReproduccion(null);
@@ -80,25 +83,35 @@ const AudiolibrosInformacion = () => {
     
         
         console.log(audiolibroData);
-        setEstadoBoton('Detener');
+        //setEstadoBoton('Detener');
     
         if (estadoBoton === 'Reproducir' && estadoReproduccion === null) {//en este caso no hay registro de escucha
                 try {
                     const nuevoDoc = await guardarEstadoReproduccion(0, idLibro);
-                    console.log("Documento guardado:", nuevoDoc);
                     iniciarReproductor(audiolibroData);
                     setEstadoBoton('Detener');
                 } catch (error) {
                     console.error("Error al guardar el documento de 1ra escucha:", error);
                 }
 
-        } else if (estadoBoton === 'Detener') {
+        } else if(estadoBoton === 'Reproducir' && estadoReproduccion === 0){
+                iniciarReproductor(audiolibroData);
+                setEstadoBoton('Detener');
+        }else if (estadoBoton === 'Detener') {
             try {
                 await detenerReproductor();
                 //Actualizar el estado de la variable de este componente para pasar al repro
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    
                 const existeDocumento =  await VerificarEstadoReporduccion(idLibro,0);
+                    console.log("estado deteer " + existeDocumento)
                 setEstadoReproduccion(existeDocumento);
+                    if(existeDocumento===0){
+                        setEstadoBoton('Reproducir');
+                    }else{
                 setEstadoBoton('Reanudar')
+                    }
+                
             } catch (error) {
                 
             }
@@ -106,9 +119,12 @@ const AudiolibrosInformacion = () => {
                try {
                  //Actualizar el estado de reproduccion para pasarle al reproductor por si acaso una vez mas antes de reanudar
                  const existeDocumento =  await VerificarEstadoReporduccion(idLibro,0);
-                 setEstadoReproduccion(existeDocumento);
-                 console.log("Nuevo estado de reproduccion antes reanudar "+existeDocumento);
-                 iniciarReproductor(audiolibroData);
+                 setEstadoReproduccion(existeDocumento);                
+                 const audiolibroDataActualizado = {
+                    ...audiolibroData,
+                    estadoActualReproduccion: existeDocumento
+                };
+                 iniciarReproductor(audiolibroDataActualizado);
                  setEstadoBoton('Detener');
                } catch (error) {
                 
