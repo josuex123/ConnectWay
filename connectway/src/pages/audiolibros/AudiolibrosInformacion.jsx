@@ -79,13 +79,10 @@ const AudiolibrosInformacion = () => {
             audioUrl: audiolibro.archivoAudioURL,
             idAudiolibro:idLibro,
             estadoActualReproduccion:estadoReproduccion
-        };
-    
-        
-        console.log(audiolibroData);
+        };  
+        //console.log(audiolibroData);
         //setEstadoBoton('Detener');
-    
-        if (estadoBoton === 'Reproducir' && estadoReproduccion === null) {//en este caso no hay registro de escucha
+            if (estadoBoton === 'Reproducir' && estadoReproduccion === null) {//en este caso no hay registro de escucha
                 try {
                     const nuevoDoc = await guardarEstadoReproduccion(0, idLibro);
                     iniciarReproductor(audiolibroData);
@@ -101,10 +98,8 @@ const AudiolibrosInformacion = () => {
             try {
                 await detenerReproductor();
                 //Actualizar el estado de la variable de este componente para pasar al repro
-                    await new Promise(resolve => setTimeout(resolve, 500));
-                    
+                await new Promise(resolve => setTimeout(resolve, 500));                  
                 const existeDocumento =  await VerificarEstadoReporduccion(idLibro,0);
-                    console.log("estado deteer " + existeDocumento)
                 setEstadoReproduccion(existeDocumento);
                     if(existeDocumento===0){
                         setEstadoBoton('Reproducir');
