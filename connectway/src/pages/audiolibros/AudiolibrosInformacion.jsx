@@ -79,13 +79,10 @@ const AudiolibrosInformacion = () => {
             audioUrl: audiolibro.archivoAudioURL,
             idAudiolibro:idLibro,
             estadoActualReproduccion:estadoReproduccion
-        };
-    
-        
-        console.log(audiolibroData);
+        };  
+        //console.log(audiolibroData);
         //setEstadoBoton('Detener');
-    
-        if (estadoBoton === 'Reproducir' && estadoReproduccion === null) {//en este caso no hay registro de escucha
+            if (estadoBoton === 'Reproducir' && estadoReproduccion === null) {//en este caso no hay registro de escucha
                 try {
                     const nuevoDoc = await guardarEstadoReproduccion(0, idLibro);
                     iniciarReproductor(audiolibroData);
@@ -101,10 +98,8 @@ const AudiolibrosInformacion = () => {
             try {
                 await detenerReproductor();
                 //Actualizar el estado de la variable de este componente para pasar al repro
-                    await new Promise(resolve => setTimeout(resolve, 500));
-                    
+                await new Promise(resolve => setTimeout(resolve, 500));                  
                 const existeDocumento =  await VerificarEstadoReporduccion(idLibro,0);
-                    console.log("estado deteer " + existeDocumento)
                 setEstadoReproduccion(existeDocumento);
                     if(existeDocumento===0){
                         setEstadoBoton('Reproducir');
@@ -140,28 +135,25 @@ const AudiolibrosInformacion = () => {
                 <div className="audiolibro-container">
                     <div className="audiolibro-detalles">
                         <div className="contenido-audiolibro p">
-                            <p><strong>Título:</strong> {audiolibro.titulo}</p>
-                            <p><strong>Autor:</strong> {audiolibro.autor}</p>
-                            <p>
-                                <strong>Descripción:</strong>
-                                <span className="text">
-                                    {audiolibro.descripcion}
-                                </span>
+                        <h1 className="titulo-audiolibro">{audiolibro.titulo}</h1>
+                        <h2 className="autor-audiolibro">{audiolibro.autor}</h2>
+                            <p className="text">                                
+                                {audiolibro.descripcion}                               
                             </p>
                             <div className="detalles-orden">  
                                 <hr className="custom2-hr" />
-                                <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+                                <div className="detalles-info" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
                                     <p style={{ marginRight: '20px' }}>
                                         <strong style={{color:'gray'}}>Calificación: ★★★★☆</strong> 
                                     </p>
                                     <p>
-                                        <img src={Hora} alt="Icono de hora" className="categoria-icono" />
+                                        <img src={Hora} alt="Icono de hora" className="icono-detalle"/>
                                         {audiolibro.duracion} minutos
                                     </p>
                                 </div>
                                 <div style={{ marginTop: '10px' }}>
                                     <p>
-                                        <img src={Audifono2} alt="Icono de audio" className="categoria-icono" /> Audio
+                                        <img src={Audifono2} alt="Icono de audio" className="icono-detalle" /> Audio
                                     </p>
                                 </div>   
                                 <hr className="custom-hr" />
@@ -174,14 +166,14 @@ const AudiolibrosInformacion = () => {
                                             className="icono"
                                             src={estadoBoton === 'Reproducir' ? Reproducir : Detener}
                                             alt={estadoBoton === 'Reproducir' ? "Reproducir" : "Detener"}
-                                            style={{ width: '25px', marginRight: '15px' }}
+                                            style={{ width: '25px', marginRight: '4px' }}
                                         />
                                          <span className="texto">{estadoBoton}</span>
                                     </button>
                                 </div>
                                 <div className="audiolibro-categoria">
                                     <img src={Cabeza} alt="Audífono" className="categoria-icono" />
-                                    <p><strong>Categoría: </strong>{formatearCategoria(audiolibro.categoria)} </p>
+                                    <p>{formatearCategoria(audiolibro.categoria)} </p>
                                 </div>
                             </div>
                         </div>
