@@ -13,6 +13,7 @@ export const AudioProvider = ({ children }) => {
   };
   const detenerReproductor = (data) => {
     reproductorRef.current.detenerReproductor(data); // Suponiendo que 'detenerReproductor' es la función en AudiolibrosReproducir
+    setAudiolibroData(null);
   };
 
   return (

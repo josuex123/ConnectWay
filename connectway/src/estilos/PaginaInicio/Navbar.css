@@ -1,6 +1,7 @@
 .navbar {
     background-color: #ffffff;
     height: 80px;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -56,6 +57,7 @@
     background-color: #03314B;
     color: white;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .dropdown-content {
@@ -96,7 +98,7 @@
     display: inline-block;
 }
 
-@media screen and (max-width: 960px) {
+@media screen and (max-width: 1200px) {
     .nav-menu {
         flex-direction: column;
         width: 100%;
@@ -161,15 +163,19 @@
 
 .nav-logo-image {
     width: 110px;
-    height: auto;
+    height: 80px;
 }
 
 .nav-logo-image1 {
     width: 20px;
-    height: auto;
+    height: 80px;
     margin: 5px;
     margin-top: -1px;
     filter: none;
+}
+
+.main-content {
+    padding-top: 80px; /* Espacio suficiente para evitar que el contenido se superponga con el navbar */
 }
 
 /* Inicio, Audiolibros, Comunidad, Mi actividad, Perfil */
@@ -186,6 +192,7 @@
 .nav-linkss.active, .nav-linkss1.active, .nav-linkss2.active, .nav-linkss3.active, .nav-linkss4.active {
     background-color: #03314B;
     color: white;
+    cursor: pointer;
 }
 
 .nav-linkss img, .nav-linkss1 img, .nav-linkss2 img, .nav-linkss3 img, .nav-linkss4 img {
