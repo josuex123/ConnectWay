@@ -86,6 +86,9 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
         if (estadoReproduccion > 0) {
             audioRef.current.currentTime = estadoReproduccion;
         }
+        audioRef.current.play();
+        setIsPlaying(true);
+
     };
 
     const handleVolumeChange = (e) => {
