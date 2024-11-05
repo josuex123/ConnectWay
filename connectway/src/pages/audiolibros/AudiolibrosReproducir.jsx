@@ -2,12 +2,12 @@ import React, { useState, useRef, forwardRef, useImperativeHandle, useEffect } f
 import { useParams } from 'react-router-dom';
 import { useAudioContext } from '../Context/AudioContext';
 import '../../estilos/Audiolibros/AudiolibrosReproducir/AudiolibrosReproducir.css';
-import AumentarMin from '../../images/aumentDiezMin.png';
-import RetricederMin from '../../images/retroCincoMin.png';
-import Play from '../../images/play2.png';
-import Pausa from '../../images/pausa.png';
-import Silencio from '../../images/volumenSil.png';
-import Volumen from '../../images/volumenVol.png';
+import AumentarMin from '../../images/aumentDiezMin1.png';
+import RetricederMin from '../../images/retroCincoMin1.png';
+import Play from '../../images/play3.png';
+import Pausa from '../../images/pausa1.png';
+import Silencio from '../../images/volumenSilOfi.png';
+import Volumen from '../../images/volumenVolOfi.png';
 import { editarEstadoReproduccion } from '../../Services/EstadoReproduccion/EditarEstadoReproduccion';
 
 const AudiolibrosReproducir = forwardRef((props, ref) => {
