@@ -11,8 +11,8 @@ import AudiolibrosReproducir from '../../pages/audiolibros/AudiolibrosReproducir
 import { useAudioContext } from '../Context/AudioContext';
 import { VerificarEstadoReporduccion } from '../../Services/EstadoReproduccion/VerificarEstadoReproduccion';
 import { guardarEstadoReproduccion } from '../../Services/EstadoReproduccion/GuardarEstadoReproduccion';
-import Reproducir from '../../images/boton-de-play.png';                        // Para el boton 
-import Detener from '../../images/boton-detener.png';                           // Para el boton
+import Reproducir from '../../images/boton-de-play.png';                
+import Detener from '../../images/boton-detener.png';                        
 
 const AudiolibrosInformacion = () => {
     const isDisabled = false; 
