@@ -1,58 +1,82 @@
-
 .pagina-inicio {
-    position: relative;
-    background: #f0f4f8; /* Color de fondo suave */
-    overflow: hidden;
-  }
-  
-  /* Para que las figuras no afecten el navbar */
-  .navbar {
-    z-index: 3;
-    position: relative;
-  }
-  
-  /* Contenido principal debajo del Navbar */
+  position: relative;
+  background: linear-gradient(135deg, #f0f4f8, #d9e2ec); 
+  overflow: hidden;
+}
+
+
+.navbar {
+  z-index: 3;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+
+.content {
+  padding: 40px 20px;
+  z-index: 2;
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 10px; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+
+@media (max-width: 768px) {
   .content {
-    padding: 40px 20px;
-    z-index: 2;
-    position: relative;
+      padding: 20px 10px;
   }
-  
-  /* Figuras decorativas - Añade estas figuras solo en la sección debajo del Navbar */
-  .pagina-inicio::before,
-  .pagina-inicio::after {
-    content: "";
-    position: absolute;
-    background: rgba(3, 49, 75, 0.1);
-    border-radius: 50%;
-    z-index: 1;
-    transition: all 0.3s ease-in-out;
-  }
-  
-  /* Figura en la esquina superior izquierda */
-  .pagina-inicio::before {
-    width: 300px;
-    height: 300px;
-    top: 150px; /*según latura navbar*/
-    left: -150px;
-    background: linear-gradient(135deg, #7FB3D5, #03314b);
-  }
-  
-  /* Figura en la esquina inferior derecha */
-  .pagina-inicio::after {
-    width: 400px;
-    height: 400px;
-    bottom: -200px;
-    right: -200px;
-    background: linear-gradient(135deg, #03314b, #85C1E9);
-  }
-  
-  /* Efectos de animación para las figuras */
-  .pagina-inicio:hover::before {
-    transform: translate(-10px, 10px);
-  }
-  
-  .pagina-inicio:hover::after {
-    transform: translate(10px, -10px);
-  }
-  
+}
+
+.header-section {
+  text-align: center;
+  padding: 50px 20px;
+  background: linear-gradient(135deg, #03314b, #85C1E9);
+  color: white;
+  border-radius: 10px;
+  margin-bottom: 40px;
+}
+
+.header-section h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.header-section p {
+  font-size: 1.2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.features-section {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 40px;
+}
+
+.feature-item {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  width: 30%;
+}
+
+.feature-item img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+}
+
+.feature-item h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.feature-item p {
+  font-size: 1rem;
+  color: #555;
+}
