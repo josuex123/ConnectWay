@@ -86,6 +86,7 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
         if (estadoReproduccion > 0) {
             audioRef.current.currentTime = estadoReproduccion;
         }
+        //Reproducimos el audio automaticamente despues de las acciones de reproducir y reanudar
         audioRef.current.play();
         setIsPlaying(true);
 
