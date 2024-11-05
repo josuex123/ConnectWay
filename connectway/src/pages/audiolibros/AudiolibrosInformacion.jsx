@@ -183,7 +183,6 @@ const AudiolibrosInformacion = () => {
                     </div>
                 </div>
             </div>
-            {/* ojoooooooo ESTO QUE APAREZCA CUANDO SE DA CLIC EN REPRODUCIR*/}
         </>
     );
 };
