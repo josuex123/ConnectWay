@@ -37,14 +37,26 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
     };
 
     useImperativeHandle(ref, () => ({
-        iniciarReproductor({ portadaUrl, titulo, autor, audioUrl, idAudiolibro, estadoActualReproduccion }) {
-            setPortadaUrl(portadaUrl);
-            setTitulo(titulo);
-            setAutor(autor);
-            setAudioUrl(audioUrl);
-            setActivo(true);
-            setIdAudiolibro(idAudiolibro);
-            setEstadoReproduccion(estadoActualReproduccion);
+        audioRef,
+        iniciarReproductor({ portadaUrl, titulo, autor, audioUrl, idAudiolib, estadoActualReproduccion }) {
+            try{
+                if(idAudiolib && idAudiolibro === idAudiolib){
+                    const estadoEscuchado = audioRef.current.currentTime;
+                    editarEstadoReproduccion(0, idAudiolibro, estadoEscuchado, audioUrl).catch(error => {
+                        console.error("MURIO al actualizar el estado de reproduccion", error);
+                    })
+                }
+                setPortadaUrl(portadaUrl);
+                setTitulo(titulo);
+                setAutor(autor);
+                setAudioUrl(audioUrl);
+                setActivo(true);
+                setIdAudiolibro(idAudiolib);
+                setEstadoReproduccion(estadoActualReproduccion);
+                setIsPlaying(true);
+            }catch(error){
+                console.log(error);
+            }
         },
     
         detenerReproductor: async () => {
@@ -62,7 +74,7 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
         
                 // Actualizar el estado de reproducción en segundo plano
                 editarEstadoReproduccion(0, idAudiolibro, estadoEscuchado, audioUrl).catch(error => {
-                    console.error("Error al actualizar el estado de reproducción", error);
+                    console.error("AQUI al actualizar el estado de reproducción", error);
                 });
             } catch (error) {
                 console.error("Error al detener el reproductor", error);
@@ -76,6 +88,16 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
             audioRef.current.currentTime = estadoReproduccion;
         }
     }, [estadoReproduccion]);
+
+    useEffect(() => {
+        if (audioRef.current && isPlaying) {
+            try {
+                audioRef.current.play();
+            } catch (error) {
+                console.log("WAAAAAAAAA", error);
+            }
+        }
+    }, [audioUrl, isPlaying]);
 
     const handleTimeUpdate = () => {
         setCurrentTime(audioRef.current.currentTime);
