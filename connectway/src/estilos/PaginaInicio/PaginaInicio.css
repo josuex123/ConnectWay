@@ -1,0 +1,82 @@
+.pagina-inicio {
+  position: relative;
+  background: linear-gradient(135deg, #f0f4f8, #d9e2ec); 
+  overflow: hidden;
+}
+
+
+.navbar {
+  z-index: 3;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+
+.content {
+  padding: 40px 20px;
+  z-index: 2;
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 10px; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+
+@media (max-width: 768px) {
+  .content {
+      padding: 20px 10px;
+  }
+}
+
+.header-section {
+  text-align: center;
+  padding: 50px 20px;
+  background: linear-gradient(135deg, #03314b, #85C1E9);
+  color: white;
+  border-radius: 10px;
+  margin-bottom: 40px;
+}
+
+.header-section h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.header-section p {
+  font-size: 1.2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.features-section {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 40px;
+}
+
+.feature-item {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  width: 30%;
+}
+
+.feature-item img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+}
+
+.feature-item h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.feature-item p {
+  font-size: 1rem;
+  color: #555;
+}

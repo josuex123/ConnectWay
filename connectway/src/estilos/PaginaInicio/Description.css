@@ -3,6 +3,7 @@
   margin: 0 auto;
 }
 
+
 .slick-slider {
   width: 100%;
   margin: 0 auto;
@@ -19,13 +20,16 @@
   justify-content: center;
 }
 
-.description-box {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+
+.contenedor {
+  margin: 0 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contenedor:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  margin-left: -10px;
 }
 
 .description-box img {
@@ -35,8 +39,13 @@
   max-height: 300px;
   margin: 0 auto;
   display: block;
-  object-fit: contain;
-  border-radius: 10px;
+  object-fit: cover;
+  border-radius: 15px;
+  transition: transform 0.3s ease;
+}
+
+.description-box img:hover {
+  transform: scale(1.1);
 }
 
 .audiolibro-info {
@@ -48,6 +57,11 @@
   font-size: 1.2em;
   margin: 0;
   color: #03314b;
+  transition: color 0.3s ease;
+}
+
+.audiolibro-info h3:hover {
+  color: #0468b2;
 }
 
 .audiolibro-info p {
@@ -56,24 +70,26 @@
   margin: 5px 0 0 0;
 }
 
+/* Botones de Navegación del Carrusel */
 .slick-prev,
 .slick-next {
   width: 40px;
   height: 40px;
   z-index: 1;
-  background-color: #03314b;
+  background-color: rgba(3, 49, 75, 0.8);
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   opacity: 0.75;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .slick-prev:hover,
 .slick-next:hover {
   opacity: 1;
+  transform: scale(1.1);
 }
 
 .slick-prev:before,
@@ -91,6 +107,7 @@
   right: -50px;
 }
 
+/* Estilo Responsivo */
 @media (max-width: 768px) {
   .slick-prev,
   .slick-next {
@@ -104,5 +121,12 @@
 
   .slick-next {
     right: -30px;
+  }
+
+  .description-box img {
+    min-width: 200px;
+    min-height: 200px;
+    max-width: 200px;
+    max-height: 200px;
   }
 }

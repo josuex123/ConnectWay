@@ -9,10 +9,10 @@ export const AudioProvider = ({ children }) => {
   const iniciarReproductor = (data) => {
     setAudiolibroData(data);
     console.log("iniciando rep",data);
-    reproductorRef.current.iniciarReproductor(data); // Suponiendo que 'iniciarReproductor' es la función en AudiolibrosReproducir
+    reproductorRef.current.iniciarReproductor(data);
   };
   const detenerReproductor = (data) => {
-    reproductorRef.current.detenerReproductor(data); // Suponiendo que 'detenerReproductor' es la función en AudiolibrosReproducir
+    reproductorRef.current.detenerReproductor(data);
     setAudiolibroData(null);
   };
 
