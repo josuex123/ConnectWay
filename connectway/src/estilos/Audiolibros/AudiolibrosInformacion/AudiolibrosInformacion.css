@@ -63,16 +63,16 @@
 .audiolibro-portada {
     width: 400px;  
     height: 570px; 
-    margin: 40px;  /* Margen superior e inferior */
-    margin-right: 180px; /* Ajuste del margen derecho */
-    overflow: hidden;  /* Mantiene los bordes redondeados */
-    border-radius: 15px; /* Redondeo de bordes del contenedor */
+    margin: 40px;  
+    margin-right: 180px; 
+    overflow: hidden; 
+    border-radius: 15px; 
 }
 
 .audiolibro-portada img {
-    width: 100%;        /* La imagen ocupará todo el ancho del contenedor */
-    height: auto;       /* Mantiene la proporción de la imagen */
-    object-fit: cover;  /* Mantiene la proporción de la imagen sin distorsión */
+    width: 100%;       
+    height: auto;       
+    object-fit: cover;  
 }
 
 .btn-reproducir {
