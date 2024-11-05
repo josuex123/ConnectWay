@@ -61,8 +61,8 @@
 }
 
 .audiolibro-portada {
-    width: 400px;  /* Ancho del contenedor */
-    height: 570px; /* Alto del contenedor */
+    width: 400px;  
+    height: 570px; 
     margin: 40px;  /* Margen superior e inferior */
     margin-right: 180px; /* Ajuste del margen derecho */
     overflow: hidden;  /* Mantiene los bordes redondeados */
@@ -93,16 +93,16 @@
     border-radius: 5px;
     font-family: var(--bs-font-sans-serif);
     gap: 4px;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Añadido de transición */
+    transition: background-color 0.3s ease, transform 0.2s ease; 
 }
 
 .btn-reproducir:hover {
-    background-color: #025173; /* Color más claro para el efecto hover */
-    transform: scale(1.05); /* Aumenta un poco el tamaño al hacer hover */
+    background-color: #025173; 
+    transform: scale(1.05); 
 }
 
 .btn-reproducir:active {
-    transform: scale(0.95); /* Disminuye el tamaño al hacer clic */
+    transform: scale(0.95); 
 }
 
 
@@ -141,9 +141,9 @@
     align-items: center;
     flex-wrap: wrap;
     width: 100%;
-    gap: 40px; /* Ajusta el espacio entre los elementos */
+    gap: 40px; 
     font-size: 16px;
-    justify-content: flex-start; /* Alinea los elementos hacia la izquierda */
+    justify-content: flex-start; 
 }
 
 .icono-detalle {
@@ -191,7 +191,7 @@
 /* Ajustes para pantallas más pequeñas */
 @media (max-width: 768px) {
     .audiolibro-detalles {
-        flex-direction: column; /* Cambia a columna en pantallas más pequeñas */
+        flex-direction: column;
         align-items: center;
     }
 
@@ -204,6 +204,6 @@
     .audiolibro-portada {
         max-width: 100%;
         margin: 20px 0;
-        height: auto; /* Mantiene la proporción */
+        height: auto;
     }
 }
