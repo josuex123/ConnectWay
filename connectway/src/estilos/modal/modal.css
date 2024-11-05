@@ -62,7 +62,7 @@
 
 .modal-footer {
     display: flex;
-    justify-content: flex-end; /* Alinea los botones hacia la derecha */
+    justify-content: flex-end; 
     align-items: center;
     margin-top: 20px;
 }
@@ -116,7 +116,7 @@
     margin: 20px 0;
 }
 .fa-spinner {
-    color: #03314B; /* Cambia este color según tu preferencia */
+    color: #03314B; 
 }
 .main-message {
     font-size: 1.2em;
