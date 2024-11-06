@@ -20,6 +20,10 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
     const [volume, setVolume] = useState(1);
     const { audiolibroData } = useAudioContext();
 
+    const [isVolumeOpen, setIsVolumeOpen] = useState(false);
+    const [isMuted, setIsMuted] = useState(false);
+    const [previousVolume, setPreviousVolume] = useState(volume);
+
     const [activo, setActivo] = useState(false);
     const [portadaUrl, setPortadaUrl] = useState(null);
     const [titulo, setTitulo] = useState(null);
@@ -32,9 +36,36 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
         if (isPlaying) {
             audioRef.current.pause();
         } else {
+            if (audioRef.current.currentTime === audioRef.current.duration) {
+                audioRef.current.currentTime = 0;
+            }
             audioRef.current.play();
         }
         setIsPlaying(!isPlaying);
+    };
+
+    const toggleVolumeDisplay = () => {
+        setIsVolumeOpen(!isVolumeOpen);
+    };
+
+    const toggleMute = () => {
+        if (isMuted) {
+            setVolume(previousVolume);
+            audioRef.current.volume = previousVolume;
+        } else {
+            setPreviousVolume(volume);
+            setVolume(0);
+            audioRef.current.volume = 0;
+        }
+        setIsMuted(!isMuted);
+    };
+
+    const handleVolumeIconClick = () => {
+        if (window.innerWidth <= 700) {
+            toggleVolumeDisplay();
+        } else {
+            toggleMute();
+        }
     };
 
     useImperativeHandle(ref, () => ({
@@ -88,7 +119,7 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
             try {
                 audioRef.current.play();
             } catch (error) {
-                console.log("WAAAAAAAAA", error);
+                console.log("Error al reproducir el audiolibro", error);
             }
         }
     }, [audioUrl, isPlaying]);
@@ -105,14 +136,19 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
     };
 
     const handleVolumeChange = (e) => {
-        const volumeValue = e.target.value;
+        const volumeValue = parseFloat(e.target.value);
         setVolume(volumeValue);
         audioRef.current.volume = volumeValue;
+        setIsMuted(volumeValue === 0);
+
+        if (volumeValue > 0 && isMuted) {
+            setIsMuted(false);
+        }
     };
 
-    // Función para redirigir a la página de información del audiolibro
-    const handleRedirectToInfo = () => {
-        navigate(`/Audiolibros/registrados/informacion/${role}`, { state: { idLibro: idAudiolib} });
+    const handleAudioEnded = () => {
+        setIsPlaying(false); // Cambiar el estado de isPlaying a false cuando termine
+        audioRef.current.currentTime = 0; // Reiniciar el audio al principio
     };
 
     if (role === "1") {
@@ -133,6 +169,7 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
                     ref={audioRef}
                     onTimeUpdate={handleTimeUpdate}
                     onLoadedMetadata={handleLoadedMetadata}
+                    onEnded={handleAudioEnded}
                     src={audioUrl}
                 />
                 <div className="audio-controls">
@@ -161,23 +198,25 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
                 </div>
             </div>
 
-            <div className="audio-volume">
+            <div className="audio-volume-container">
                 <img
-                    src={volume <= 0.00 ? Silencio : Volumen}
-                    alt={volume <= 0.00 ? "Volumen silencio" : "Volumen activo"}
+                    src={isMuted || volume === 0 ? Silencio : Volumen}
+                    alt={isMuted || volume === 0 ? "Volumen silencio" : "Volumen activo"}
                     className="volume-icon"
+                    onClick={handleVolumeIconClick}
                 />
-                <input
-                    type="range"
-                    value={volume}
-                    min="0"
-                    max="1"
-                    step="0.01"
-                    onChange={handleVolumeChange}
-                />
+                <div className={`audio-volume ${isVolumeOpen ? 'open' : ''}`}>
+                    <input
+                        type="range"
+                        value={volume}
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        onChange={handleVolumeChange}
+                    />
+                </div>
             </div>
         </div>
     );
 });
-
 export default AudiolibrosReproducir;
