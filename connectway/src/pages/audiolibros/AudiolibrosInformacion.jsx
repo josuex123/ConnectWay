@@ -41,7 +41,7 @@ const AudiolibrosInformacion = () => {
 
         const verificar = async() =>{
             const existeDocumento =  await VerificarEstadoReporduccion(idLibro,0);
-            console.log("estado al iniciar "+existeDocumento)
+            console.log(existeDocumento)
             if(existeDocumento !== null && existeDocumento>0){
                 setEstadoBoton('Reanudar');
                 setEstadoReproduccion(existeDocumento);
@@ -101,7 +101,6 @@ const AudiolibrosInformacion = () => {
                 await new Promise(resolve => setTimeout(resolve, 500));                  
                 const existeDocumento =  await VerificarEstadoReporduccion(idLibro,0);
                 setEstadoReproduccion(existeDocumento);
-                console.log("Estado despues de detener"+existeDocumento);
                     if(existeDocumento===0){
                         setEstadoBoton('Reproducir');
                     }else{
