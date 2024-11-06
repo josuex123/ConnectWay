@@ -3,7 +3,6 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    border-top: 1px solid #ccc;
     padding: 10px;
     background-color: #03314B;
     position: fixed;
@@ -49,6 +48,7 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 10px;
+    margin-top: 15px;
 }
 
 .audio-controls button {
@@ -65,11 +65,13 @@
     align-items: center;
     margin-top: 10px;
     color: #ffffff;
+    font-size: 0.8rem;
 }
 
 .audio-timeline input[type="range"] {
-    max-width: 1400px;
-    width: 100%; 
+    max-width: 1300px;
+    width: 100%;
+    z-index: 2000;
 }
 
 .audio-timeline span {
@@ -85,14 +87,75 @@
     margin-left: -55px; 
 }
 
+.audio-volume-container {
+    top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    position: relative;
+}
+
 .audio-volume {
-    margin-left: 20px;
-    margin-top: 15px;
+    bottom: 20px; /* Distancia desde el borde inferior */
+    right: 15px; /* Ajusta la posición horizontal */
+}
+
+.audio-volume.open {
+    display: flex;
+    transform: translateY(0); /* Despliega la barra hacia arriba */
+    transition: transform 0.3s ease-in-out; /* Animación suave */
 }
 
 .volume-icon {
     width: 20px;
     height: 20px;
-    margin-right: 8px;
-    margin-bottom: 7px;
+    cursor: pointer;
 } 
+
+/*mejorar esto*/
+@media (max-width: 700px) {
+    .audio-player {
+        flex-direction: column;
+        align-items: normal;
+        height: 175px;
+    }
+
+    .audio-image {
+        display: none;
+    }
+
+    .audio-volume {
+        display: none;
+    }
+
+    .audio-volume-container {
+        top: 0px;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .audio-volume {
+        display: none;
+        position: absolute;
+        bottom: 90px; /* Ajusta según el espacio necesario */
+        right: -30px; /* Ajusta si prefieres alinearlo más al borde */
+        transform-origin: bottom center;
+    }
+    
+    .audio-volume input[type="range"] {
+        transform: rotate(-90deg); /* Gira el control de volumen */
+        width: 100px; /* Controla la longitud de la barra de volumen desplegable */
+        height: 5px; /* Ajusta el grosor de la barra */
+    }
+
+    .volume-toggle {
+        display: block;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    .volume-icon {
+        margin-right: 8px;
+        margin-bottom: 7px;
+    } 
+}
