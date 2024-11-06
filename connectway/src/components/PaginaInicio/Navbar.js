@@ -8,7 +8,7 @@ import person from '../../images/usuario1.png';
 import home from '../../images/hogar1.png';
 import cabeza from '../../images/cabeza.png';
 import audifonos from '../../images/auriculares-redondeados1.png';
-import amigues from '../../images/amigues.png';
+import amigues from '../../images/grupo.png';
 
 const Navbar = () => {
   const [isAudiolibrosOpen, setAudiolibrosOpen] = useState(false);
