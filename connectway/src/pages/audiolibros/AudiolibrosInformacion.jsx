@@ -23,7 +23,6 @@ const AudiolibrosInformacion = () => {
     const { setAudiolibroData, iniciarReproductor, detenerReproductor } = useAudioContext();
     const [estadoBoton, setEstadoBoton]= useState('')
     const [estadoReproduccion, setEstadoReproduccion] = useState(null);
-    const [mensajeVisible, setMensajeVisible] = useState(false);
 
 
     useEffect(() => {
@@ -42,8 +41,8 @@ const AudiolibrosInformacion = () => {
 
         const verificar = async() =>{
             const existeDocumento =  await VerificarEstadoReporduccion(idLibro,0);
-            console.log(existeDocumento)
-            if(existeDocumento !== null){
+            console.log("estado al iniciar "+existeDocumento)
+            if(existeDocumento !== null && existeDocumento>0){
                 setEstadoBoton('Reanudar');
                 setEstadoReproduccion(existeDocumento);
             }else if(existeDocumento === 0){
@@ -98,21 +97,17 @@ const AudiolibrosInformacion = () => {
         }else if (estadoBoton === 'Detener') {
             try {
                 await detenerReproductor();
-
-                setMensajeVisible(true);
-                setTimeout(() => {
-                setMensajeVisible(false);
-                }, 3000);
-
                 //Actualizar el estado de la variable de este componente para pasar al repro
                 await new Promise(resolve => setTimeout(resolve, 500));                  
                 const existeDocumento =  await VerificarEstadoReporduccion(idLibro,0);
                 setEstadoReproduccion(existeDocumento);
+                console.log("Estado despues de detener"+existeDocumento);
                     if(existeDocumento===0){
                         setEstadoBoton('Reproducir');
                     }else{
-                        setEstadoBoton('Reanudar')
-                    }               
+                setEstadoBoton('Reanudar')
+                    }
+                
             } catch (error) {
                 
             }
@@ -190,13 +185,6 @@ const AudiolibrosInformacion = () => {
                 </div>
             </div>
             {/* ojoooooooo ESTO QUE APAREZCA CUANDO SE DA CLIC EN REPRODUCIR*/}
-
-            {mensajeVisible && (
-            <div className="mensaje-confirmacion">
-            El progreso de escucha se registró exitosamente
-            </div>
-            )}
-
         </>
     );
 };
