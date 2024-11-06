@@ -170,8 +170,8 @@ const AudiolibroUsuario = () => {
                     </button>
                 </div>
                 <div className="contenedor-categoria"> 
-                     <h4 className="titulo-cageoria">Categorias</h4>
-                     <p className="texto-cageoria"> Explora nuestras categorias</p>
+                     <h4 className="titulo-cageoria">Categorías</h4>
+                     <p className="texto-cageoria"> Explora nuestras categorías</p>
                     <div className="tarjetas-cat d-flex justify-content-between flex-wrap">
                         {categoriasTar.map((categoria) => (
                             <Categorias
