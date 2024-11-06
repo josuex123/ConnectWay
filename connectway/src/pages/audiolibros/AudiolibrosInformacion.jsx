@@ -43,13 +43,13 @@ const AudiolibrosInformacion = () => {
         const verificar = async() =>{
             const existeDocumento =  await VerificarEstadoReporduccion(idLibro,0);
             console.log(existeDocumento)
-            if(existeDocumento !== null){
+            if(existeDocumento !== null && existeDocumento > 0){//hay un estado y es mayor  0
                 setEstadoBoton('Reanudar');
                 setEstadoReproduccion(existeDocumento);
             }else if(existeDocumento === 0){
                 setEstadoBoton('Reproducir');
                 setEstadoReproduccion(0);
-            }else{
+            }else{// hay un estado igual a 0
                 setEstadoBoton('Reproducir');
                 setEstadoReproduccion(null);
             }
