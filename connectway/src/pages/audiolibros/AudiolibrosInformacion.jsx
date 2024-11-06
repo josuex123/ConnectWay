@@ -11,7 +11,7 @@ import AudiolibrosReproducir from '../../pages/audiolibros/AudiolibrosReproducir
 import { useAudioContext } from '../Context/AudioContext';
 import { VerificarEstadoReporduccion } from '../../Services/EstadoReproduccion/VerificarEstadoReproduccion';
 import { guardarEstadoReproduccion } from '../../Services/EstadoReproduccion/GuardarEstadoReproduccion';
-import Reproducir from '../../images/boton-de-play.png';                
+import Reproducir from '../../images/boton-de-play.png';             
 import Detener from '../../images/boton-detener.png';                        
 
 const AudiolibrosInformacion = () => {
@@ -20,7 +20,7 @@ const AudiolibrosInformacion = () => {
     const { idLibro } = location.state || {};
     const [audiolibro, setAudiolibro] = useState(null);
     const [showAudiolibros, setShowAudiolibros] = useState(false); 
-    const { setAudiolibroData, iniciarReproductor, detenerReproductor } = useAudioContext();
+    const {setAudiolibroData, iniciarReproductor, detenerReproductor } = useAudioContext();
     const [estadoBoton, setEstadoBoton]= useState('')
     const [estadoReproduccion, setEstadoReproduccion] = useState(null);
 
@@ -29,7 +29,7 @@ const AudiolibrosInformacion = () => {
         const fetchAudiolibro = async () => {
             if (idLibro) {
                 const docRef = doc(db, 'Audiolibro', idLibro); 
-                const docSnap = await getDoc(docRef); 
+                const docSnap = await getDoc(docRef);
 
                 if (docSnap.exists()) {
                     setAudiolibro(docSnap.data());
@@ -71,7 +71,7 @@ const AudiolibrosInformacion = () => {
     };
 
     const handleReproducirClick = async () => {
-        console.log("estado desde boton repro "+estadoReproduccion)
+        console.log("estado desde boton repro " + estadoReproduccion)
         const audiolibroData = {
             portadaUrl: audiolibro.imagenPortadaURL,
             titulo: audiolibro.titulo,
@@ -83,11 +83,11 @@ const AudiolibrosInformacion = () => {
         //console.log(audiolibroData);
         //setEstadoBoton('Detener');
             if (estadoBoton === 'Reproducir' && estadoReproduccion === null) {//en este caso no hay registro de escucha
-                try {
+                try{
                     const nuevoDoc = await guardarEstadoReproduccion(0, idLibro);
                     iniciarReproductor(audiolibroData);
                     setEstadoBoton('Detener');
-                } catch (error) {
+                }catch(error){
                     console.error("Error al guardar el documento de 1ra escucha:", error);
                 }
 
@@ -97,7 +97,7 @@ const AudiolibrosInformacion = () => {
         }else if (estadoBoton === 'Detener') {
             try {
                 await detenerReproductor();
-                //Actualizar el estado de la variable de este componente para pasar al repro
+                //Actualizar el estado de la variable de este componente para pasar al repro               
                 await new Promise(resolve => setTimeout(resolve, 500));                  
                 const existeDocumento =  await VerificarEstadoReporduccion(idLibro,0);
                 setEstadoReproduccion(existeDocumento);
@@ -111,7 +111,7 @@ const AudiolibrosInformacion = () => {
                 
             }
             }else if(estadoBoton === 'Reanudar'){
-               try {
+               try{
                  //Actualizar el estado de reproduccion para pasarle al reproductor por si acaso una vez mas antes de reanudar
                  const existeDocumento =  await VerificarEstadoReporduccion(idLibro,0);
                  setEstadoReproduccion(existeDocumento);                
@@ -121,12 +121,10 @@ const AudiolibrosInformacion = () => {
                 };
                  iniciarReproductor(audiolibroDataActualizado);
                  setEstadoBoton('Detener');
-               } catch (error) {
-                
+               }catch(error){
                }
             }   
-    };
-    
+    }; 
 
     return (
         <>
@@ -151,7 +149,7 @@ const AudiolibrosInformacion = () => {
                                         {audiolibro.duracion} minutos
                                     </p>
                                 </div>
-                                <div style={{ marginTop: '10px' }}>
+                                <div style={{marginTop: '10px' }}>
                                     <p>
                                         <img src={Audifono2} alt="Icono de audio" className="icono-detalle" /> Audio
                                     </p>
@@ -164,8 +162,8 @@ const AudiolibrosInformacion = () => {
                                         onClick={handleReproducirClick}>
                                         <img
                                             className="icono"
-                                            src={estadoBoton === 'Reproducir' ? Reproducir : Detener}
-                                            alt={estadoBoton === 'Reproducir' ? "Reproducir" : "Detener"}
+                                            src={estadoBoton === 'Reproducir' || estadoBoton === 'Reanudar' ? Reproducir : Detener}
+                                            alt={estadoBoton === 'Reproducir' || estadoBoton === 'Reanudar' ? "Reproducir" : "Detener"}
                                             style={{ width: '25px', marginRight: '4px' }}
                                         />
                                          <span className="texto">{estadoBoton}</span>
