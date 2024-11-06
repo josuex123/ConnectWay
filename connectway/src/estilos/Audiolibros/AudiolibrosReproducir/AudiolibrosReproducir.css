@@ -3,7 +3,6 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    border-top: 1px solid #ccc;
     padding: 10px;
     background-color: #03314B;
     position: fixed;
@@ -96,3 +95,27 @@
     margin-right: 8px;
     margin-bottom: 7px;
 } 
+
+/*mejorar esto*/
+@media (max-width: 600px) {
+    .audio-player {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .audio-volume {
+        display: none; /* Oculta inicialmente el control de volumen */
+        transition: max-height 0.3s ease; /* Suaviza la transición */
+    }
+
+    .audio-volume.open {
+        display: flex;
+        max-height: 50px; /* Altura ajustada para desplegar */
+    }
+    
+    .volume-toggle {
+        display: block;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+}

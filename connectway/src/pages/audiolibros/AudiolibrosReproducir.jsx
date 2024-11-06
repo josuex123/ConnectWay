@@ -18,6 +18,7 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
     const [duration, setDuration] = useState(0);
     const [volume, setVolume] = useState(1);
     const { audiolibroData } = useAudioContext();
+    const [isVolumeOpen, setIsVolumeOpen] = useState(false);
 
     const [activo, setActivo] = useState(false);
     const [portadaUrl, setPortadaUrl] = useState(null);
@@ -34,6 +35,10 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
             audioRef.current.play();
         }
         setIsPlaying(!isPlaying);
+    };
+
+    const toggleVolume = () => {
+        setIsVolumeOpen(!isVolumeOpen);
     };
 
     useImperativeHandle(ref, () => ({
@@ -87,7 +92,7 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
             try {
                 audioRef.current.play();
             } catch (error) {
-                console.log("WAAAAAAAAA", error);
+                console.log("Error al reproducir el audiolibro", error);
             }
         }
     }, [audioUrl, isPlaying]);
@@ -155,7 +160,8 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
                 </div>
             </div>
 
-            <div className="audio-volume">
+            {/*<button className="volume-toggle" onClick={toggleVolume}>🔊 Volumen</button>*/}
+            <div className={`audio-volume ${isVolumeOpen ? 'open' : ''}`}>
                 <img
                     src={volume <= 0.00 ? Silencio : Volumen}
                     alt={volume <= 0.00 ? "Volumen silencio" : "Volumen activo"}
