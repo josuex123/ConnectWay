@@ -13,7 +13,6 @@ const noContentPage = () => {
         
         </div>
         
-        
     </div>
   );
 };
