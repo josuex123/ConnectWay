@@ -58,10 +58,8 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
 
     const handleVolumeIconClick = () => {
         if (window.innerWidth <= 600) {
-            // Si la pantalla es pequeña, mostrar/ocultar la barra
             toggleVolumeDisplay();
         } else {
-            // Si no está en pantalla pequeña, hacer mute/unmute
             toggleMute();
         }
     };
@@ -137,10 +135,8 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
         const volumeValue = parseFloat(e.target.value);
         setVolume(volumeValue);
         audioRef.current.volume = volumeValue;
-
-        // Si el volumen es 0, activar el estado de mute
         setIsMuted(volumeValue === 0);
-        // Si el volumen es mayor a 0 y estaba en mute, desactivarlo
+
         if (volumeValue > 0 && isMuted) {
             setIsMuted(false);
         }
@@ -192,7 +188,6 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
                 </div>
             </div>
 
-            {/*<button className="volume-toggle" onClick={toggleVolume}>🔊 Volumen</button>*/}
             <div className="audio-volume-container">
                 <img
                     src={isMuted || volume === 0 ? Silencio : Volumen}
