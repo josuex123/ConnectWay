@@ -71,6 +71,7 @@
 .audio-timeline input[type="range"] {
     max-width: 1300px;
     width: 100%;
+    z-index: 2000;
 }
 
 .audio-timeline span {

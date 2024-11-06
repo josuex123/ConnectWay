@@ -35,6 +35,9 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
         if (isPlaying) {
             audioRef.current.pause();
         } else {
+            if (audioRef.current.currentTime === audioRef.current.duration) {
+                audioRef.current.currentTime = 0;
+            }
             audioRef.current.play();
         }
         setIsPlaying(!isPlaying);
@@ -142,6 +145,11 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
         }
     };
 
+    const handleAudioEnded = () => {
+        setIsPlaying(false); // Cambiar el estado de isPlaying a false cuando termine
+        audioRef.current.currentTime = 0; // Reiniciar el audio al principio
+    };
+
     if (role === "1") {
         return null;
     }
@@ -160,6 +168,7 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
                     ref={audioRef}
                     onTimeUpdate={handleTimeUpdate}
                     onLoadedMetadata={handleLoadedMetadata}
+                    onEnded={handleAudioEnded}
                     src={audioUrl}
                 />
                 <div className="audio-controls">
