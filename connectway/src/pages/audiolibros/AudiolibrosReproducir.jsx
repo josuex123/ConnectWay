@@ -18,7 +18,10 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
     const [duration, setDuration] = useState(0);
     const [volume, setVolume] = useState(1);
     const { audiolibroData } = useAudioContext();
+
     const [isVolumeOpen, setIsVolumeOpen] = useState(false);
+    const [isMuted, setIsMuted] = useState(false);
+    const [previousVolume, setPreviousVolume] = useState(volume);
 
     const [activo, setActivo] = useState(false);
     const [portadaUrl, setPortadaUrl] = useState(null);
@@ -37,8 +40,30 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
         setIsPlaying(!isPlaying);
     };
 
-    const toggleVolume = () => {
+    const toggleVolumeDisplay = () => {
         setIsVolumeOpen(!isVolumeOpen);
+    };
+
+    const toggleMute = () => {
+        if (isMuted) {
+            setVolume(previousVolume);
+            audioRef.current.volume = previousVolume;
+        } else {
+            setPreviousVolume(volume);
+            setVolume(0);
+            audioRef.current.volume = 0;
+        }
+        setIsMuted(!isMuted);
+    };
+
+    const handleVolumeIconClick = () => {
+        if (window.innerWidth <= 600) {
+            // Si la pantalla es pequeña, mostrar/ocultar la barra
+            toggleVolumeDisplay();
+        } else {
+            // Si no está en pantalla pequeña, hacer mute/unmute
+            toggleMute();
+        }
     };
 
     useImperativeHandle(ref, () => ({
@@ -109,9 +134,16 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
     };
 
     const handleVolumeChange = (e) => {
-        const volumeValue = e.target.value;
+        const volumeValue = parseFloat(e.target.value);
         setVolume(volumeValue);
         audioRef.current.volume = volumeValue;
+
+        // Si el volumen es 0, activar el estado de mute
+        setIsMuted(volumeValue === 0);
+        // Si el volumen es mayor a 0 y estaba en mute, desactivarlo
+        if (volumeValue > 0 && isMuted) {
+            setIsMuted(false);
+        }
     };
 
     if (role === "1") {
@@ -161,20 +193,23 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
             </div>
 
             {/*<button className="volume-toggle" onClick={toggleVolume}>🔊 Volumen</button>*/}
-            <div className={`audio-volume ${isVolumeOpen ? 'open' : ''}`}>
+            <div className="audio-volume-container">
                 <img
-                    src={volume <= 0.00 ? Silencio : Volumen}
-                    alt={volume <= 0.00 ? "Volumen silencio" : "Volumen activo"}
+                    src={isMuted || volume === 0 ? Silencio : Volumen}
+                    alt={isMuted || volume === 0 ? "Volumen silencio" : "Volumen activo"}
                     className="volume-icon"
+                    onClick={handleVolumeIconClick}
                 />
-                <input
-                    type="range"
-                    value={volume}
-                    min="0"
-                    max="1"
-                    step="0.01"
-                    onChange={handleVolumeChange}
-                />
+                <div className={`audio-volume ${isVolumeOpen ? 'open' : ''}`}>
+                    <input
+                        type="range"
+                        value={volume}
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        onChange={handleVolumeChange}
+                    />
+                </div>
             </div>
         </div>
     );

@@ -67,8 +67,8 @@
 }
 
 .audio-timeline input[type="range"] {
-    max-width: 1400px;
-    width: 100%; 
+    max-width: 1300px;
+    width: 100%;
 }
 
 .audio-timeline span {
@@ -84,9 +84,11 @@
     margin-left: -55px; 
 }
 
-.audio-volume {
-    margin-left: 20px;
-    margin-top: 15px;
+.audio-volume-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .volume-icon {
@@ -94,23 +96,24 @@
     height: 20px;
     margin-right: 8px;
     margin-bottom: 7px;
+    cursor: pointer;
 } 
 
 /*mejorar esto*/
-@media (max-width: 600px) {
+@media (max-width: 700px) {
     .audio-player {
         flex-direction: column;
-        align-items: center;
+        align-items: normal;
+        height: 300px;
     }
 
     .audio-volume {
-        display: none; /* Oculta inicialmente el control de volumen */
-        transition: max-height 0.3s ease; /* Suaviza la transición */
+        display: none;
     }
 
     .audio-volume.open {
         display: flex;
-        max-height: 50px; /* Altura ajustada para desplegar */
+        max-height: 50px;
     }
     
     .volume-toggle {
