@@ -57,7 +57,7 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
     };
 
     const handleVolumeIconClick = () => {
-        if (window.innerWidth <= 600) {
+        if (window.innerWidth <= 700) {
             toggleVolumeDisplay();
         } else {
             toggleMute();
@@ -209,5 +209,5 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
         </div>
     );
 });
-
+//<div className={isVolumeOpen? 'audio-volume open' : 'audio-volume'}>
 export default AudiolibrosReproducir;
