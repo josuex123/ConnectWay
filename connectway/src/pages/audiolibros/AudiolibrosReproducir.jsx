@@ -9,6 +9,8 @@ import Pausa from '../../images/pausa1.png';
 import Silencio from '../../images/volumenSilOfi.png';
 import Volumen from '../../images/volumenVolOfi.png';
 import { editarEstadoReproduccion } from '../../Services/EstadoReproduccion/EditarEstadoReproduccion';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const AudiolibrosReproducir = forwardRef((props, ref) => {
     const { role } = useParams();
@@ -147,14 +149,36 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
     };
 
     const handleAudioEnded = () => {
-        setIsPlaying(false); // Cambiar el estado de isPlaying a false cuando termine
-        audioRef.current.currentTime = 0; // Reiniciar el audio al principio
+        setIsPlaying(false);
+        audioRef.current.currentTime = 0;
     };
 
         // Función para redirigir a la página de información del audiolibro
-        const handleRedirectToInfo = () => {
-            navigate(`/Audiolibros/registrados/informacion/${role}`, { state: { idLibro: idAudiolib } });
-        };
+    const handleRedirectToInfo = () => {
+        navigate(`/Audiolibros/registrados/informacion/${role}`, { state: { idLibro: idAudiolib } });
+    };
+
+    const detenerReproductor = () => {
+        try {
+            const estadoEscuchado = audioRef.current.currentTime;
+    
+            // Detener audio y actualizar el estado localmente primero para una respuesta rápida
+            audioRef.current.pause();
+            setIsPlaying(false);
+            setPortadaUrl(null);
+            setTitulo(null);
+            setAutor(null);
+            setAudioUrl(null);
+            setActivo(false);
+    
+            // Actualizar el estado de reproducción en segundo plano
+            editarEstadoReproduccion(0, idAudiolib, estadoEscuchado, audioUrl).catch(error => {
+                console.error("AQUI al actualizar el estado de reproducción", error);
+            });
+        } catch (error) {
+            console.error("Error al detener el reproductor", error);
+        }
+    }
 
     if (role === "1") {
         return null;
@@ -166,6 +190,9 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
 
     return (
         <div className="audio-player">
+            <button className="close-button" onClick={detenerReproductor}>
+                <FontAwesomeIcon icon={faXmark} alt="Cerrar" className='close-icon'/>
+            </button>
             <img src={portadaUrl} alt="imagenAudiolibro" className="audio-image" onClick={handleRedirectToInfo}/>
             <div className="audio-details">
                 <p className="audio-author">{autor}</p>
@@ -179,15 +206,15 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
                 />
                 <div className="audio-controls">
                     <button onClick={() => (audioRef.current.currentTime -= 5)}>
-                        <img src={RetricederMin} alt="Retrocede rápido" style={{ width: '25px', height: '25px' }} />
+                        <img src={RetricederMin} alt="Retrocede rápido" style={{ width: '35px', height: '35px' }} />
                     </button>
 
                     <button onClick={togglePlayPause}>
-                        {isPlaying ? <img src={Pausa} alt="pausa" style={{ width: '30px', height: '30px' }} /> : <img src={Play} alt="play" style={{ width: '30px', height: '30px' }} />}
+                        {isPlaying ? <img src={Pausa} alt="pausa" style={{ width: '40px', height: '40px' }} /> : <img src={Play} alt="play" style={{ width: '40px', height: '40px' }} />}
                     </button>
 
                     <button onClick={() => (audioRef.current.currentTime += 10)}>
-                        <img src={AumentarMin} alt="Avance rápido" style={{ width: '25px', height: '25px' }} />
+                        <img src={AumentarMin} alt="Avance rápido" style={{ width: '35px', height: '35px' }} />
                     </button>
                 </div>
 
