@@ -3,7 +3,7 @@ import { useDropzone } from 'react-dropzone';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { updateAudiobook } from '../../Services/AudiolibrosServicios/UpdateAudiobook';
-import '../../estilos/Audiolibros/FormularioAñadir/Formulario.css';
+import '../../estilos/Audiolibros/FormularioEditar/Formulario.css';
 import ModalAdvertencia from '../../components/Modal/ModalNotificacion';
 import ModalNotificacion from '../../components/Modal/ModalNotificacion';
 import ModalConfirmacion from '../../components/Modal/ModalConfirmacion';
@@ -29,6 +29,8 @@ const AudiobookEdit = () => {
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
     const [isConfirmModal2Open, setIsConfirmModal2Open] = useState(false);
     const [isConfirmModal3Open, setIsConfirmModal3Open] = useState(false);
+    const [isImageChangeConfirmed, setIsImageChangeConfirmed] = useState(false);
+    const [isAudioChangeConfirmed, setIsAudioChangeConfirmed] = useState(false);
     const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
     const [notificationType, setNotificationType] = useState('success');
     const [notificationMessage, setNotificationMessage] = useState('');
@@ -399,12 +401,31 @@ const AudiobookEdit = () => {
         accept: { 'audio/wav': [], 'audio/mpeg': [] },
     });
     
-    const changeImage = () => {
-        setIsConfirmModal2Open(true);
+    const handleImageChangeConfirm = () => {
+        setIsImageChangeConfirmed(true);
+        closeConfirmModal2(); 
     };
-    const changeAudio = () => {
-        setIsConfirmModal3Open(true);
+    
+    // Similar para el audio:
+    const handleAudioChangeConfirm = () => {
+        setIsAudioChangeConfirmed(true);
+        closeConfirmModal3(); 
     };
+
+    useEffect(() => {
+        if (isImageChangeConfirmed) {
+            imageDropzone.open();  
+            setIsImageChangeConfirmed(false); 
+        }
+    }, [isImageChangeConfirmed]);
+    
+    useEffect(() => {
+        if (isAudioChangeConfirmed) {
+            audioDropzone.open(); 
+            setIsAudioChangeConfirmed(false); 
+        }
+    }, [isAudioChangeConfirmed]);
+
     return (
         <>
             <h1 className="title">Editar Audiolibro</h1>
@@ -485,9 +506,10 @@ const AudiobookEdit = () => {
                     </div>
                 </div>
             )}
-            <div className="dropzone-container">
+            <div className="oka">
+             <div className="dropzone-container1">
                 <h3 className="dropzone-title">Imagen de la portada:</h3>
-                <div {...imageDropzone.getRootProps()} className="dropzone">
+                <div {...imageDropzone.getRootProps()} className="dropzone1">
                     <input {...imageDropzone.getInputProps()} style={{ display: 'none' }} />
                     {!newImage && !imagenUrl && imageFiles.length === 0 && (
                         <>
@@ -509,17 +531,20 @@ const AudiobookEdit = () => {
                             </div>
                             <button
                                 className="btn btn-outline-danger eliminar-botn"
-                                onClick={changeImage} 
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    isConfirmModal2Open();
+                                }}
                             >
                                 Cambiar
                             </button>
                         </div>
                     )}
                 </div>
-            </div>
-            <div className="dropzone-container">
+             </div>
+             <div className="dropzone-container1">
                 <h3 className="dropzone-title">Audiolibro:</h3>
-                <div {...audioDropzone.getRootProps()} className="dropzone">
+                <div {...audioDropzone.getRootProps()} className="dropzone1">
                     <input {...audioDropzone.getInputProps()} style={{ display: 'none' }} />
                     {!audioUrl && audioFiles.length === 0 && (
                         <>
@@ -530,14 +555,21 @@ const AudiobookEdit = () => {
                         </>
                     )}
                     {(audioUrl || audioFiles.length > 0) && (
-                        <div className="uploaded-file">
+                        <div className="uploaded-file1">
                             <audio controls src={audioUrl}></audio>
-                            <button className="btn btn-outline-danger eliminar-botn" onClick={changeAudio}>
+                            <button
+                                className="btn btn-outline-danger eliminar-botn"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    isConfirmModal3Open();
+                                }}
+                            >
                                 Cambiar
                             </button>
                         </div>
                     )}
                 </div>
+             </div>
             </div>
         </form>
                 </div>
@@ -584,7 +616,7 @@ const AudiobookEdit = () => {
             <ModalConfirmacion2
                 isOpen={isConfirmModal2Open}
                 onClose={closeConfirmModal2}
-                onConfirm={removeImageFile}
+                onConfirm={handleImageChangeConfirm}
                 title="Confirmar"
                 description="¿Estás seguro de que deseas cambiar la portada?"
                 iconClass="fa fa-exclamation"
@@ -592,7 +624,7 @@ const AudiobookEdit = () => {
             <ModalConfirmacion3
                 isOpen={isConfirmModal3Open}
                 onClose={closeConfirmModal3}
-                onConfirm={removeAudioFile}
+                onConfirm={handleAudioChangeConfirm}
                 title="Confirmar"
                 description="¿Estás seguro de que deseas cambiar el audio?"
                 iconClass="fa fa-exclamation"

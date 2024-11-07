@@ -10,8 +10,7 @@ const PaginaInicio = () => {
         <div className="pagina-inicio">
             
             <Navbar />
-            <Header />
-            
+            <Header /> 
             
             <div className="content">
                 <Description/>
