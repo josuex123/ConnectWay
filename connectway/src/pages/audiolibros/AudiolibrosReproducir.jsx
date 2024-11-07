@@ -9,6 +9,8 @@ import Pausa from '../../images/pausa1.png';
 import Silencio from '../../images/volumenSilOfi.png';
 import Volumen from '../../images/volumenVolOfi.png';
 import { editarEstadoReproduccion } from '../../Services/EstadoReproduccion/EditarEstadoReproduccion';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const AudiolibrosReproducir = forwardRef((props, ref) => {
     const { role } = useParams();
@@ -18,7 +20,11 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
     const [volume, setVolume] = useState(1);
-    const { audiolibroData } = useAudioContext();
+    const { audiolibroData, setAudiolibroData } = useAudioContext();
+
+    const [isVolumeOpen, setIsVolumeOpen] = useState(false);
+    const [isMuted, setIsMuted] = useState(false);
+    const [previousVolume, setPreviousVolume] = useState(volume);
 
     const [activo, setActivo] = useState(false);
     const [portadaUrl, setPortadaUrl] = useState(null);
@@ -32,9 +38,36 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
         if (isPlaying) {
             audioRef.current.pause();
         } else {
+            if (audioRef.current.currentTime === audioRef.current.duration) {
+                audioRef.current.currentTime = 0;
+            }
             audioRef.current.play();
         }
         setIsPlaying(!isPlaying);
+    };
+
+    const toggleVolumeDisplay = () => {
+        setIsVolumeOpen(!isVolumeOpen);
+    };
+
+    const toggleMute = () => {
+        if (isMuted) {
+            setVolume(previousVolume);
+            audioRef.current.volume = previousVolume;
+        } else {
+            setPreviousVolume(volume);
+            setVolume(0);
+            audioRef.current.volume = 0;
+        }
+        setIsMuted(!isMuted);
+    };
+
+    const handleVolumeIconClick = () => {
+        if (window.innerWidth <= 700) {
+            toggleVolumeDisplay();
+        } else {
+            toggleMute();
+        }
     };
 
     useImperativeHandle(ref, () => ({
@@ -65,7 +98,7 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
                 setAutor(null);
                 setAudioUrl(null);
                 setActivo(false);
-        
+                setAudiolibroData(null);
                 // Actualizar el estado de reproducción en segundo plano
                 editarEstadoReproduccion(0, idAudiolib, estadoEscuchado, audioUrl).catch(error => {
                     console.error("AQUI al actualizar el estado de reproducción", error);
@@ -88,7 +121,7 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
             try {
                 audioRef.current.play();
             } catch (error) {
-                console.log("WAAAAAAAAA", error);
+                console.log("Error al reproducir el audiolibro", error);
             }
         }
     }, [audioUrl, isPlaying]);
@@ -105,14 +138,24 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
     };
 
     const handleVolumeChange = (e) => {
-        const volumeValue = e.target.value;
+        const volumeValue = parseFloat(e.target.value);
         setVolume(volumeValue);
         audioRef.current.volume = volumeValue;
+        setIsMuted(volumeValue === 0);
+
+        if (volumeValue > 0 && isMuted) {
+            setIsMuted(false);
+        }
     };
 
-    // Función para redirigir a la página de información del audiolibro
+    const handleAudioEnded = () => {
+        setIsPlaying(false);
+        audioRef.current.currentTime = 0;
+    };
+
+        // Función para redirigir a la página de información del audiolibro
     const handleRedirectToInfo = () => {
-        navigate(`/Audiolibros/registrados/informacion/${role}`, { state: { idLibro: idAudiolib} });
+        navigate(`/Audiolibros/registrados/informacion/${role}`, { state: { idLibro: idAudiolib } });
     };
 
     if(role === "1"){
@@ -125,7 +168,10 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
 
     return (
         <div className="audio-player">
-            <img src={portadaUrl} alt="imagenAudiolibro" className="audio-image" onClick={handleRedirectToInfo} />
+            <button className="close-button" onClick={ref.current?.detenerReproductor}>
+                <FontAwesomeIcon icon={faXmark} alt="Cerrar" className='close-icon'/>
+            </button>
+            <img src={portadaUrl} alt="imagenAudiolibro" className="audio-image" onClick={handleRedirectToInfo}/>
             <div className="audio-details">
                 <p className="audio-author">{autor}</p>
                 <p className="audio-title" onClick={handleRedirectToInfo}>{titulo}</p>
@@ -133,19 +179,20 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
                     ref={audioRef}
                     onTimeUpdate={handleTimeUpdate}
                     onLoadedMetadata={handleLoadedMetadata}
+                    onEnded={handleAudioEnded}
                     src={audioUrl}
                 />
                 <div className="audio-controls">
                     <button onClick={() => (audioRef.current.currentTime -= 5)}>
-                        <img src={RetricederMin} alt="Retrocede rápido" style={{ width: '25px', height: '25px' }} />
+                        <img src={RetricederMin} alt="Retrocede rápido" style={{ width: '35px', height: '35px' }} />
                     </button>
 
                     <button onClick={togglePlayPause}>
-                        {isPlaying ? <img src={Pausa} alt="pausa" style={{ width: '30px', height: '30px' }} /> : <img src={Play} alt="play" style={{ width: '30px', height: '30px' }} />}
+                        {isPlaying ? <img src={Pausa} alt="pausa" style={{ width: '40px', height: '40px' }} /> : <img src={Play} alt="play" style={{ width: '40px', height: '40px' }} />}
                     </button>
 
                     <button onClick={() => (audioRef.current.currentTime += 10)}>
-                        <img src={AumentarMin} alt="Avance rápido" style={{ width: '25px', height: '25px' }} />
+                        <img src={AumentarMin} alt="Avance rápido" style={{ width: '35px', height: '35px' }} />
                     </button>
                 </div>
 
@@ -161,23 +208,25 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
                 </div>
             </div>
 
-            <div className="audio-volume">
+            <div className="audio-volume-container">
                 <img
-                    src={volume <= 0.00 ? Silencio : Volumen}
-                    alt={volume <= 0.00 ? "Volumen silencio" : "Volumen activo"}
+                    src={isMuted || volume === 0 ? Silencio : Volumen}
+                    alt={isMuted || volume === 0 ? "Volumen silencio" : "Volumen activo"}
                     className="volume-icon"
+                    onClick={handleVolumeIconClick}
                 />
-                <input
-                    type="range"
-                    value={volume}
-                    min="0"
-                    max="1"
-                    step="0.01"
-                    onChange={handleVolumeChange}
-                />
+                <div className={`audio-volume ${isVolumeOpen ? 'open' : ''}`}>
+                    <input
+                        type="range"
+                        value={volume}
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        onChange={handleVolumeChange}
+                    />
+                </div>
             </div>
         </div>
     );
 });
-
 export default AudiolibrosReproducir;

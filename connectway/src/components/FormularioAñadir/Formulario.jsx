@@ -326,7 +326,7 @@ function Formulario() {
                 onChange={(e) => setCategoria(e.target.value)}
             >
                 <option value="">Elegir categoría</option>
-                <option value="meditacion">Meditación</option>
+                <option value="meditación">Meditación</option>
                 <option value="inteligencia_emocional">Inteligencia Emocional</option>
                 <option value="salud_mental">Salud Mental</option>
                 <option value="psicologia_de_parejas">Psicología de parejas</option>

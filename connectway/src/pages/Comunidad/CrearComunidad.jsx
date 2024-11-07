@@ -29,6 +29,9 @@ function FormularioCrearComunidad() {
   const { role } = useParams();
   const [showTooltipIcon1, setShowTooltipIcon1] = useState(false);
   const [isLoading, setIsLoading] = useState(false); 
+  
+  const validateAlphanumeric = (value) => /^[a-zA-Z0-9\s]*$/.test(value);
+
 
   //Validar desde dónde se accedió a formulario y redirigir a Home/1 o /0
   const handleCancelar = () =>{
@@ -37,20 +40,22 @@ function FormularioCrearComunidad() {
   }
 
   const handleTituloChange = (e) => {
-    if (e.target.value.length <= maxCharsTitulo) {
-      setTitulo(e.target.value);
+    const value = e.target.value;
+    if (value.length <= maxCharsTitulo && validateAlphanumeric(value)) {
+      setTitulo(value);
     }
   };
-
+  
   const handleDescripcionChange = (e) => {
-    if (e.target.value.length <= maxCharsDescripcion) {
-      setDescripcion(e.target.value);
+    const value = e.target.value;
+    if (value.length <= maxCharsDescripcion && validateAlphanumeric(value)) {
+      setDescripcion(value);
     }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!titulo || !categoria || !descripcion || imageFiles.length === 0) {
+    if (!titulo || !categoria || !descripcion || imageFiles.length === 0 || !validateAlphanumeric(titulo) || !validateAlphanumeric(descripcion)) {
       setModalType('error');
       setModalMessage('Por favor, completa todos los campos y sube una imagen.');
       setShowModal(true);
@@ -135,7 +140,8 @@ function FormularioCrearComunidad() {
                 />
                     {showTooltip && (
                         <div className="tooltip-box">
-                            El título no debe superar los 100 caracteres.
+                            El título no debe superar los 100 caracteres y solo se acepta números y caracteres
+                            alfabéticos.
                         </div>
                     )}
                 </div>
@@ -184,8 +190,8 @@ function FormularioCrearComunidad() {
             />
                             {showTooltip && (
                     <div className="tooltip-box">
-                        La descipción debe tener 400 caracteres como máximo
-                        
+                       La descripción no debe superar los 400 caracteres y sólo se acepta números y
+                       caracteres alfabéticos
                     </div>
                 )}
             </div>
