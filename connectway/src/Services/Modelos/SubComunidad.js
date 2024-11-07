@@ -24,7 +24,7 @@ export class Comunidad{
     }
 
     get portadaUrl(){
-        return this.portadaUrl
+        return this._portadaUrl
     }
 
 

@@ -326,7 +326,7 @@ function Formulario() {
                 onChange={(e) => setCategoria(e.target.value)}
             >
                 <option value="">Elegir categoría</option>
-                <option value="meditacion">Meditación</option>
+                <option value="meditación">Meditación</option>
                 <option value="inteligencia_emocional">Inteligencia Emocional</option>
                 <option value="salud_mental">Salud Mental</option>
                 <option value="psicologia_de_parejas">Psicología de parejas</option>
@@ -389,7 +389,7 @@ function Formulario() {
                         <div className="icon-container">
                             <FontAwesomeIcon icon={faImage} size="2x" className="icon" />
                         </div>
-                        <button type="button" onClick={imageDropzone.open} className="select-button">
+                        <button type="button" onClick={imageDropzone.open} className="eliminar-botn">
                             Sube un archivo
                         </button>
                         <p>ó deslizalo aquí</p>
@@ -438,7 +438,7 @@ function Formulario() {
                         <div className="icon-container">
                             <FontAwesomeIcon icon={faMusic} size="2x" className="icon" />
                         </div>
-                        <button type="button" onClick={audioDropzone.open} className="select-button">
+                        <button type="button" onClick={audioDropzone.open} className="eliminar-botn">
                             Sube un archivo
                         </button>
                         <p>ó deslizalo aquí</p>
@@ -459,7 +459,7 @@ function Formulario() {
         </div>
 
 
-        <div className='form-buttons'>
+        <div className='form-buttons-audiobook '>
           <button className="cancel-bot" type="button" 
                   onClick={handleCancel}> Cancelar
           </button>

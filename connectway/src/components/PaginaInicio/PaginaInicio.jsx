@@ -3,8 +3,7 @@ import Navbar from './Navbar';
 import Header from './Header';
 import Description from './Description';
 import '../../estilos/PaginaInicio/inicio.css'
-import NoContentPage from '../../pages/noContent/noContentPage';
-//import MainImage from './MainImage';
+import '../../estilos/PaginaInicio/PaginaInicio.css'
 
 const PaginaInicio = () => {
     return (

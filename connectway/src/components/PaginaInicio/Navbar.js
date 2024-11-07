@@ -4,11 +4,11 @@ import '../../estilos/PaginaInicio/Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import logo from '../../images/logoejemplo.png';
-import person from '../../images/usuario.png';
-import home from '../../images/hogar.png';
+import person from '../../images/usuario1.png';
+import home from '../../images/hogar1.png';
 import cabeza from '../../images/cabeza.png';
-import audifonos from '../../images/auriculares-redondeados.png';
-import amigues from '../../images/amigues.png';
+import audifonos from '../../images/auriculares-redondeados1.png';
+import amigues from '../../images/grupo.png';
 
 const Navbar = () => {
   const [isAudiolibrosOpen, setAudiolibrosOpen] = useState(false);
@@ -18,7 +18,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { role } = useParams();
   const isAdmin = role === '1'; 
-  const isDisabled = false;
+  const isDisabled = true;
 
   // Manejo del botón de Audiolibros
   const handleAudiolibrosClick = (e) => {
@@ -63,7 +63,7 @@ const Navbar = () => {
           
           <li className="nav-item dropdown">
             <span
-              className={`nav-links dropbtn ${location.pathname.includes('/audiolibros') ? 'active' : ''}`}
+              className={`nav-linkss1 ${location.pathname.includes('/audiolibros') ? 'active' : ''}`}
               onClick={handleAudiolibrosClick}
             >
               Audiolibros
@@ -93,10 +93,9 @@ const Navbar = () => {
             )}
           </li>
 
-
           <li className="nav-item dropdown">
             <span
-              className={`nav-links dropbtn ${location.pathname.includes('/comunidad') ? 'active' : ''}`}
+              className={`nav-linkss2 ${location.pathname.includes('/comunidad') ? 'active' : ''}`}
               onClick={handleComunidadClick}
             >
               Comunidad
@@ -113,14 +112,16 @@ const Navbar = () => {
                 </NavLink>
                 <NavLink
                   to={`/comunidad/unirse/${role}`}
-                  className={`dropdown-link ${location.pathname === `/comunidad/unirse/${role}` ? 'active' : ''}`}
+                  className={`dropdown-link  disabled ${location.pathname === `/comunidad/unirse/${role}` ? 'active' : ''}`}
+                  style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
                   onClick={() => setMenuOpen(false)}
                 >
                   Unirse a Comunidad
                 </NavLink>
                 <NavLink
                   to={`/comunidad/mis-comunidades/${role}`}
-                  className={`dropdown-link ${location.pathname === `/comunidad/mis-comunidades/${role}` ? 'active' : ''}`}
+                  className={`dropdown-link  disabled ${location.pathname === `/comunidad/mis-comunidades/${role}` ? 'active' : ''}`}
+                  style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
                   onClick={() => setMenuOpen(false)}
                 >
                   Mis Comunidades
@@ -132,7 +133,7 @@ const Navbar = () => {
           <li className="nav-item">
             <NavLink
               to={`/MiActividad/${role}`}
-              className={`nav-links ${isDisabled ? 'disabled' : ''}`}
+              className={`nav-linkss3 disabled`}
               style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
               onClick={() => setMenuOpen(false)}
             >
@@ -144,7 +145,7 @@ const Navbar = () => {
           <li className="nav-item">
             <NavLink
               to={`/Perfil/${role}`}
-              className={`nav-links ${isDisabled ? 'disabled' : ''}`}
+              className={`nav-linkss4 disabled`}
               style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
               onClick={() => setMenuOpen(false)}
             >

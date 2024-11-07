@@ -1,5 +1,5 @@
 /* Estilos generales para el contenedor del formulario */
-.form-container {
+.form-container-CrearComu {
   width: 50%;
   margin: 0 auto;
   padding: 20px;
@@ -10,24 +10,24 @@
 }
 
 /* Estilo del título del formulario */
-.form-container h1 {
+.form-container-CrearComu  h1 {
   text-align: center;
   font-size: 24px;
   margin-bottom: 20px;
 }
 
 /* Estilos para los campos de entrada del formulario */
-.form-group {
+.form-group-CrearComu  {
   margin-bottom: 15px;
 }
 
-.form-group label {
+.form-group-CrearComu  label {
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
 }
 
-.form-control {
+.form-control-CrearComu {
   width: 100%;
   padding: 8px;
   margin-bottom: 5px;
@@ -36,12 +36,12 @@
 }
 
 /* Estilos para el área de texto */
-textarea.form-control {
+textarea.form-control-CrearComu {
   resize: none;
 }
 
 /* Estilos para la sección de subida de imagen */
-.dropzone {
+.dropzone-CrearComu {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -53,47 +53,54 @@ textarea.form-control {
   background-color: #fff;
 }
 
-.dropzone p {
+.dropzone-CrearComu p {
   font-size: 14px;
   color: #666;
 }
 
-.uploaded-file img {
+.uploaded-file-CrearComu img {
   margin-top: 10px;
   max-width: 100px;
   border-radius: 4px;
 }
 
 /* Estilos para los botones */
-.form-buttons {
+.form-buttons-CrearComu {
   display: flex;
   justify-content: space-between;
 }
+/*cambio color del boton*/
 
-.btn {
+
+.btn-CrearComu {
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
-.btn-primary {
+.btn-primary-CrearComu {
   background-color: #007bff;
   color: white;
 }
+.btn-primary:hover {
+  background-color: #03314B;
+  color: white;
+}
 
-.btn-secondary {
+
+.btn-secondary-CrearComu {
   background-color: #6c757d;
   color: white;
 }
 
-.btn-danger {
+.btn-danger-CrearComu {
   background-color: #dc3545;
   color: white;
 }
 
 /* Estilos de alerta para mostrar errores */
-.alert {
+.alert-CrearComu {
   padding: 10px;
   margin-bottom: 15px;
   color: white;

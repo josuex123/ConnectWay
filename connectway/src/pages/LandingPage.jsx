@@ -57,7 +57,7 @@ const LandingPage = () => {
           y <span className="highlight">psicología de parejas</span> con ConnectWay. Únete, aprende y 
           conecta en comunidad.
           </p>
-          <NavLink className="btn-start-landing" to="/Home/1">Comenzar</NavLink>
+          <NavLink className="btn-start-landing" to="/Home/0">Comenzar</NavLink>
         </div>
         <div className="image-content">
           <img src={portada} alt="Portada" className="phone-image" />

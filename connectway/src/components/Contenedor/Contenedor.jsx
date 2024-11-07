@@ -4,14 +4,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-const Contenedor = ({ imgPortada, titulo, autor, descripcion, duracion, id, rol, onEdit, onDelete, onClick }) => { // Agregamos el prop rol
+const Contenedor = ({ imgPortada, titulo, autor, descripcion, duracion, id, rol, onEdit, onDelete, onClick, categoria }) => {
     const navigate = useNavigate();
 
     const handleEdit = () => {
         if (onEdit) {
             onEdit(id);
         } else {
-            navigate('/Audiolibros/editar');
+            navigate('/Audiolibros/editar/1');
         }
     };
 
@@ -21,8 +21,11 @@ const Contenedor = ({ imgPortada, titulo, autor, descripcion, duracion, id, rol,
             <div className="card-body">
                 <h5 className="card-title titulo text-start"><strong>{titulo}</strong></h5>
                 <p className="autor text-start">{autor}</p>
+                {/* Aplica la función de formateo antes de mostrar la categoría */}
+                <p className="categoria text-start">{categoria}</p>
                 <p className="descripcion text-start">{descripcion}</p>
                 <p className="duracion text-start"><i className="fas fa-clock"></i> {duracion} minutos</p>
+                
                 {rol === 1 && (
                     <>
                         <div className="d-flex justify-content-center gap-2 text-start mb-2">
@@ -33,7 +36,7 @@ const Contenedor = ({ imgPortada, titulo, autor, descripcion, duracion, id, rol,
                         </div>
                         <div className="d-flex justify-content-center gap-2 text-start">
                             <i className="fas fa-trash-alt icono-eliminar"></i>
-                            <button className="btn btn-outline-danger elim" onClick={(e) => { e.stopPropagation(); onDelete(); }}>
+                            <button disabled={true} className="btn btn-outline-danger elim" onClick={(e) => { e.stopPropagation(); onDelete(); }}>
                                 Eliminar
                             </button>
                         </div>
