@@ -126,6 +126,16 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
         }
     }, [audioUrl, isPlaying]);
 
+    useEffect(() => {
+        if (!audiolibroData) {
+          if (estadoReproduccion > 0) {
+            setEstadoBoton("Reanudar");
+          } else {
+            setEstadoBoton("Reproducir");
+          }
+        }
+      }, [audiolibroData, estadoReproduccion]);
+
     const handleTimeUpdate = () => {
         setCurrentTime(audioRef.current.currentTime);
     };
