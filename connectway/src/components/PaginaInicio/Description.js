@@ -4,14 +4,17 @@ import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import { db } from '../../firebaseConfig';
 import { collection, getDocs } from 'firebase/firestore';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Contenedor from '../../components/Contenedor/Contenedor'; 
 import '../../estilos/PaginaInicio/Description.css';
 
 const Description = () => {
     const [audiolibros, setAudiolibros] = useState([]);
     const navigate = useNavigate();
-    const rol = 0;
+    const location = useLocation();
+
+    // Obtener el valor de rol (último dígito de la URL actual)
+    const rol = location.pathname.endsWith('1') ? 1 : 0;
 
     useEffect(() => {
         const fetchAudiolibros = async () => {
@@ -34,14 +37,16 @@ const Description = () => {
     }, []);
 
     const handleContainerClick = (id) => {
+        // Redirigir con el rol obtenido
         navigate(`/Audiolibros/registrados/informacion/${rol}`, { state: { idLibro: id } });
     };
+
     const formatearCategoriaParaMostrar = (categoria) => {
-        if (!categoria) return "Sin Categoría"; // Manejar valores indefinidos
+        if (!categoria) return "Sin Categoría";
         return categoria
-            .replace(/_/g, ' ') 
-            .toLowerCase() 
-            .replace(/(^|\s)\S/g, (letra) => letra.toUpperCase()); 
+            .replace(/_/g, ' ')
+            .toLowerCase()
+            .replace(/(^|\s)\S/g, (letra) => letra.toUpperCase());
     };
 
     const settings = {
