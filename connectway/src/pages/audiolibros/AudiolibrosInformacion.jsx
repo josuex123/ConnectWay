@@ -21,7 +21,7 @@ const AudiolibrosInformacion = () => {
     const { idLibro } = location.state || {};
     const [audiolibro, setAudiolibro] = useState(null);
     const [showAudiolibros, setShowAudiolibros] = useState(false); 
-    const { setAudiolibroData, iniciarReproductor, detenerReproductor } = useAudioContext();
+    const { setAudiolibroData, iniciarReproductor, detenerReproductor, audiolibroData } = useAudioContext();
     const [estadoBoton, setEstadoBoton]= useState('')
     const [estadoReproduccion, setEstadoReproduccion] = useState(null);
     const [mensajeVisible, setMensajeVisible] = useState(false);
@@ -64,6 +64,17 @@ const AudiolibrosInformacion = () => {
         fetchAudiolibro();
         verificar();
     }, [idLibro]);
+
+    useEffect(() => {
+        if (!audiolibroData) {
+          // Actualiza el estado del botón cuando el reproductor se cierra
+          if (estadoReproduccion > 0) {
+            setEstadoBoton("Reanudar");
+          } else {
+            setEstadoBoton("Reproducir");
+          }
+        }
+      }, [audiolibroData, estadoReproduccion]);
 
     if (!audiolibro) {
         return <div>Cargando...</div>; 
@@ -204,7 +215,7 @@ const AudiolibrosInformacion = () => {
 
             {mensajeVisible && (
             <div className="mensaje-confirmacion">
-            El progreso de escucha se registró exitosamente
+                El progreso de escucha se registró exitosamente
             </div>
             )}
 

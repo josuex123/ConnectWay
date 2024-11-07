@@ -20,7 +20,7 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
     const [volume, setVolume] = useState(1);
-    const { audiolibroData } = useAudioContext();
+    const { audiolibroData, setAudiolibroData } = useAudioContext();
 
     const [isVolumeOpen, setIsVolumeOpen] = useState(false);
     const [isMuted, setIsMuted] = useState(false);
@@ -98,7 +98,7 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
                 setAutor(null);
                 setAudioUrl(null);
                 setActivo(false);
-        
+                setAudiolibroData(null);
                 // Actualizar el estado de reproducción en segundo plano
                 editarEstadoReproduccion(0, idAudiolib, estadoEscuchado, audioUrl).catch(error => {
                     console.error("AQUI al actualizar el estado de reproducción", error);
@@ -158,28 +158,6 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
         navigate(`/Audiolibros/registrados/informacion/${role}`, { state: { idLibro: idAudiolib } });
     };
 
-    const detenerReproductor = () => {
-        try {
-            const estadoEscuchado = audioRef.current.currentTime;
-    
-            // Detener audio y actualizar el estado localmente primero para una respuesta rápida
-            audioRef.current.pause();
-            setIsPlaying(false);
-            setPortadaUrl(null);
-            setTitulo(null);
-            setAutor(null);
-            setAudioUrl(null);
-            setActivo(false);
-    
-            // Actualizar el estado de reproducción en segundo plano
-            editarEstadoReproduccion(0, idAudiolib, estadoEscuchado, audioUrl).catch(error => {
-                console.error("AQUI al actualizar el estado de reproducción", error);
-            });
-        } catch (error) {
-            console.error("Error al detener el reproductor", error);
-        }
-    }
-
     if (role === "1") {
         return null;
     }
@@ -190,7 +168,7 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
 
     return (
         <div className="audio-player">
-            <button className="close-button" onClick={detenerReproductor}>
+            <button className="close-button" onClick={ref.current?.detenerReproductor}>
                 <FontAwesomeIcon icon={faXmark} alt="Cerrar" className='close-icon'/>
             </button>
             <img src={portadaUrl} alt="imagenAudiolibro" className="audio-image" onClick={handleRedirectToInfo}/>

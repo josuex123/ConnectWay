@@ -12,8 +12,8 @@ export const AudioProvider = ({ children }) => {
     reproductorRef.current.iniciarReproductor(data);
   };
   const detenerReproductor = (data) => {
-    reproductorRef.current.detenerReproductor(data);
     setAudiolibroData(null);
+    reproductorRef.current.detenerReproductor(data);
   };
 
   return (

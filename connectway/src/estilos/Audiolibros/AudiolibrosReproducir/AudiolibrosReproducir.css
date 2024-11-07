@@ -72,7 +72,7 @@
 .audio-controls button {
     border: none; 
     background: transparent; 
-    padding: 0; 
+    padding: 1px; 
     cursor: pointer; 
     color: #000;
     transition: color 0.3s; 
