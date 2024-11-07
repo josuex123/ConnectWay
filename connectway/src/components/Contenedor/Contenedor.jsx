@@ -7,6 +7,14 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 const Contenedor = ({ imgPortada, titulo, autor, descripcion, duracion, id, rol, onEdit, onDelete, onClick, categoria }) => {
     const navigate = useNavigate();
 
+    // Función para formatear la categoría
+    const formatearCategoriaParaMostrar = (categoria) => {
+        return categoria
+            .replace(/_/g, ' ') // Reemplaza los guiones bajos con espacios
+            .toLowerCase() // Convierte todo a minúsculas
+            .replace(/(^|\s)\S/g, (letra) => letra.toUpperCase()); // Capitaliza la primera letra de cada palabra
+    };
+
     const handleEdit = () => {
         if (onEdit) {
             onEdit(id);
@@ -21,11 +29,10 @@ const Contenedor = ({ imgPortada, titulo, autor, descripcion, duracion, id, rol,
             <div className="card-body">
                 <h5 className="card-title titulo text-start"><strong>{titulo}</strong></h5>
                 <p className="autor text-start">{autor}</p>
-                <p className="categoria text-start"> {categoria}</p>
+                {/* Aplica la función de formateo antes de mostrar la categoría */}
+                <p className="categoria text-start">{formatearCategoriaParaMostrar(categoria)}</p>
                 <p className="descripcion text-start">{descripcion}</p>
                 <p className="duracion text-start"><i className="fas fa-clock"></i> {duracion} minutos</p>
-                {/* Aquí mostramos la categoría */}
-                
                 
                 {rol === 1 && (
                     <>
