@@ -21,7 +21,7 @@ const LandingPage = () => {
         <div className='nav-container-landing'>
           <NavLink exact to="/" className="nav-logo-landing">
             <img src={logo} alt="Logo" className="nav-logo-image0" />
-            CONNECTWAY
+            <span className="nav-logo-text">CONNECTWAY</span>
           </NavLink>
 
           <div className="nav-icon-landing" onClick={toggleMenu}>
