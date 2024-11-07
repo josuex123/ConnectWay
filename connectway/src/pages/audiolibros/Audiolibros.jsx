@@ -39,7 +39,7 @@ const AudiolibroUsuario = () => {
     };
 
     const reloadAudiolibros = async () => {
-        console.log("Recargando audiolibros con categoría: ", categoriaSeleccionada); // Verificar si recarga
+        console.log("Recargando audiolibros con categoría: ", categoriaSeleccionada); 
         const audiolibrosCollection = collection(db, 'Audiolibro');
         
         // Aplica la conversión de categoría solo si no es "Todos"

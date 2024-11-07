@@ -21,10 +21,11 @@ const Contenedor = ({ imgPortada, titulo, autor, descripcion, duracion, id, rol,
             <div className="card-body">
                 <h5 className="card-title titulo text-start"><strong>{titulo}</strong></h5>
                 <p className="autor text-start">{autor}</p>
+                <p className="categoria text-start"> {categoria}</p>
                 <p className="descripcion text-start">{descripcion}</p>
                 <p className="duracion text-start"><i className="fas fa-clock"></i> {duracion} minutos</p>
                 {/* Aquí mostramos la categoría */}
-                <p className="categoria text-start"><strong> {categoria}</strong></p>
+                
                 
                 {rol === 1 && (
                     <>

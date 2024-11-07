@@ -80,16 +80,16 @@
 
 
 .categoria {
+  font-size: 0.85rem;
   font-family: sans-serif;
-  font-size: 1rem;
-  line-height: 1.2rem;
-  color: #0A1044;
+  color: #6D7891;
+  text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
-  min-height: 2.4rem; /* Espacio para 2 líneas */
+  min-height: 1.2rem; /* Espacio para 1 línea */
 }
 
 .boton-editar {
