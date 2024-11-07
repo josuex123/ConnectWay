@@ -132,7 +132,9 @@
 }
 
 .extra{
-    color: #F6BC5F;
+    color: #FED00C; 
+    -webkit-text-stroke: 1px rgb(230, 196, 49);
+    letter-spacing: 1px; 
 }
 
 .texto-landing {
@@ -143,10 +145,12 @@
 }
 
 .highlight {
-    color: #F6BC5F;
+    color: #FED00C;
     padding: 3px 5px;
     border-radius: 3px;
-    font-weight: 700;
+    font-weight: 500;
+    -webkit-text-stroke: 1px rgb(230, 196, 49);
+    letter-spacing: 1px; 
 }
 
 .phone-image {
@@ -187,7 +191,7 @@
     justify-content: center; 
     align-items: center; 
     margin-top: 20px;
-    text-align: center;
+    text-align: center
 }
 
 @media screen and (max-width: 768px) {
