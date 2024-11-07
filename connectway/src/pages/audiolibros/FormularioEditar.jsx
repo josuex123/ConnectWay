@@ -61,7 +61,6 @@ const AudiobookEdit = () => {
         setIsFormValid(hasChanges);
     }, [titulo, autor, descripcion, categoria,duracion,imagenUrl,audioUrl, initialValues]);
     
-
     useEffect(() => {
         if (audiobook) {
             const { titulo, autor, categoria, descripcion,duracion, imagenPortadaURL, archivoAudioURL } = audiobook;
@@ -161,7 +160,6 @@ const AudiobookEdit = () => {
             return false;
         }
         return true;
-
     };
     const validateDescription= (value) => {
         const regex = /^[a-zA-ZÀ-ÿ\s.,'"()\-ñáéíóú0-9:¿?¡!:;<>]*$/; 
@@ -174,13 +172,11 @@ const AudiobookEdit = () => {
             return false;
         }
         return true;
-
     };
     const handleTitleChange = (e) => {
         const { value } = e.target;
         if (validateTitle(value)) {
             setTitulo(value);
-           
         }
     };
 
@@ -196,7 +192,6 @@ const AudiobookEdit = () => {
         const { value } = e.target;
         if (validateDescription(value)) {
             setDescripcion(value);
-           
         }
     };
     const handleSubmit = async () => {
@@ -238,7 +233,6 @@ const AudiobookEdit = () => {
         } catch (error) {
             console.error('Error al actualizar el audiolibro: ', error);
             showModalNotificacion('error', 'Hubo un error al actualizar el audiolibro.');
-
         }
     };
   
@@ -426,7 +420,7 @@ const AudiobookEdit = () => {
                         value={categoria}
                         onChange={(e) => setCategoria(e.target.value)}>
                         <option value="" disabled>Elegir categoría</option>
-                        <option value="meditacion">Meditación</option>
+                        <option value="meditación">Meditación</option>
                         <option value="inteligencia_emocional">Inteligencia Emocional</option>
                         <option value="salud_mental">Salud Mental</option>
                         <option value="psicologia_de_parejas">Psicología de Parejas</option>
