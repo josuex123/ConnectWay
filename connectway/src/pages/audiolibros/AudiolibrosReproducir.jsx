@@ -1,5 +1,5 @@
 import React, { useState, useRef, forwardRef, useImperativeHandle, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useAudioContext } from '../Context/AudioContext';
 import '../../estilos/Audiolibros/AudiolibrosReproducir/AudiolibrosReproducir.css';
 import AumentarMin from '../../images/aumentDiezMin1.png';
@@ -12,6 +12,7 @@ import { editarEstadoReproduccion } from '../../Services/EstadoReproduccion/Edit
 
 const AudiolibrosReproducir = forwardRef((props, ref) => {
     const { role } = useParams();
+    const navigate = useNavigate();
     const audioRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
@@ -150,6 +151,11 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
         audioRef.current.currentTime = 0; // Reiniciar el audio al principio
     };
 
+        // Función para redirigir a la página de información del audiolibro
+        const handleRedirectToInfo = () => {
+            navigate(`/Audiolibros/registrados/informacion/${role}`, { state: { idLibro: idAudiolib } });
+        };
+
     if (role === "1") {
         return null;
     }
@@ -160,10 +166,10 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
 
     return (
         <div className="audio-player">
-            <img src={portadaUrl} alt="imagenAudiolibro" className="audio-image" />
+            <img src={portadaUrl} alt="imagenAudiolibro" className="audio-image" onClick={handleRedirectToInfo}/>
             <div className="audio-details">
                 <p className="audio-author">{autor}</p>
-                <p className="audio-title">{titulo}</p>
+                <p className="audio-title" onClick={handleRedirectToInfo}>{titulo}</p>
                 <audio
                     ref={audioRef}
                     onTimeUpdate={handleTimeUpdate}
