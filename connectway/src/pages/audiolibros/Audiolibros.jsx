@@ -15,6 +15,8 @@ const AudiolibroUsuario = () => {
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("Todos");
     const [searchPerformed, setSearchPerformed] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
+    const [contadorPorCategoria, setContadorPorCategoria] = useState({});
+
 
     const maxItems = 3;
     const rol = 0;
@@ -36,6 +38,12 @@ const AudiolibroUsuario = () => {
 
     const formatearCategoria = (categoria) => {
         return categoria.toLowerCase().replace(/ /g, "_");
+    };
+    const formatearCategoriaParaMostrar = (categoria) => {
+        return categoria
+            .replace(/_/g, ' ') 
+            .toLowerCase() 
+            .replace(/(^|\s)\S/g, (letra) => letra.toUpperCase()); 
     };
     
 
@@ -64,6 +72,21 @@ const AudiolibroUsuario = () => {
         audiolibrosList.sort((a, b) => a.titulo.localeCompare(b.titulo));
     
         setAudiolibros(audiolibrosList);
+        const contador = audiolibrosList.reduce((acc, libro) => {
+            const categoria = libro.categoria;
+            acc[categoria] = (acc[categoria] || 0) + 1;
+            return acc;
+        }, {});
+    
+        // Asegurarse de contar "Todos" correctamente si es necesario
+        if (categoriaSeleccionada === "Todos") {
+            contador["Todos"] = audiolibrosList.length;
+        }
+    
+        setContadorPorCategoria(prevContador => ({
+            ...prevContador, // Mantén el contador previo para las demás categorías
+            ...contador      // Actualiza solo las categorías necesarias
+        }));
     };
     
 
@@ -143,7 +166,7 @@ const AudiolibroUsuario = () => {
                                             autor={libro.autor}
                                             descripcion={libro.descripcion}
                                             duracion={libro.duracion}
-                                            categoria={libro.categoria} 
+                                            categoria={formatearCategoriaParaMostrar(libro.categoria)}
                                             rol={rol}
                                             onEdit={null}
                                             onDelete={null}
@@ -162,7 +185,7 @@ const AudiolibroUsuario = () => {
                                         autor={libro.autor}
                                         descripcion={libro.descripcion}
                                         duracion={libro.duracion}
-                                        categoria={libro.categoria}
+                                        categoria={formatearCategoriaParaMostrar(libro.categoria)}
                                         rol={rol}
                                         onEdit={null}
                                         onDelete={null}
@@ -190,12 +213,12 @@ const AudiolibroUsuario = () => {
                 <div className="contenedor-categoria"> 
                      <h4 className="titulo-categoria">Categorías</h4>
                      <p className="texto-categoria">Explora nuestras categorías</p>
-                    <div className="tarjetas-cat d-flex justify-content-between flex-wrap">
+                     <div className="tarjetas-cat d-flex justify-content-between flex-wrap">
                         {categoriasTar.map((categoria) => (
                             <Categorias
                                 key={categoria.id}
                                 icono={categoria.icono}
-                                nombreCategoria={categoria.nombre}
+                                nombreCategoria={`${categoria.nombre} (${contadorPorCategoria[categoria.nombre] || 0})`}
                                 onClick={() => handleCategoriasClick(categoria.nombre)}
                                 seleccionado={categoriaSeleccionada === categoria.nombre}
                             />
