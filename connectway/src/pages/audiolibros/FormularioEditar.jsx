@@ -3,7 +3,7 @@ import { useDropzone } from 'react-dropzone';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { updateAudiobook } from '../../Services/AudiolibrosServicios/UpdateAudiobook';
-import '../../estilos/Audiolibros/FormularioAñadir/Formulario.css';
+import '../../estilos/Audiolibros/FormularioEditar/Formulario.css';
 import ModalAdvertencia from '../../components/Modal/ModalNotificacion';
 import ModalNotificacion from '../../components/Modal/ModalNotificacion';
 import ModalConfirmacion from '../../components/Modal/ModalConfirmacion';
@@ -459,9 +459,10 @@ const AudiobookEdit = () => {
                     </div>
                 </div>
             )}
-            <div className="dropzone-container">
+            <div className="oka">
+             <div className="dropzone-container1">
                 <h3 className="dropzone-title">Imagen de la portada:</h3>
-                <div {...imageDropzone.getRootProps()} className="dropzone">
+                <div {...imageDropzone.getRootProps()} className="dropzone1">
                     <input {...imageDropzone.getInputProps()} style={{ display: 'none' }} />
                     {!newImage && !imagenUrl && imageFiles.length === 0 && (
                         <>
@@ -490,10 +491,10 @@ const AudiobookEdit = () => {
                         </div>
                     )}
                 </div>
-            </div>
-            <div className="dropzone-container">
+             </div>
+             <div className="dropzone-container1">
                 <h3 className="dropzone-title">Audiolibro:</h3>
-                <div {...audioDropzone.getRootProps()} className="dropzone">
+                <div {...audioDropzone.getRootProps()} className="dropzone1">
                     <input {...audioDropzone.getInputProps()} style={{ display: 'none' }} />
                     {!audioUrl && audioFiles.length === 0 && (
                         <>
@@ -504,14 +505,15 @@ const AudiobookEdit = () => {
                         </>
                     )}
                     {(audioUrl || audioFiles.length > 0) && (
-                        <div className="uploaded-file">
+                        <div className="uploaded-file1">
                             <audio controls src={audioUrl}></audio>
-                            <button className="btn btn-outline-danger eliminar-botn" onClick={removeAudioFile}>
+                            <button className="btn btn-outline-danger eliminar-botn1" onClick={removeAudioFile}>
                                 Cambiar
                             </button>
                         </div>
                     )}
                 </div>
+             </div>
             </div>
         </form>
                 </div>
