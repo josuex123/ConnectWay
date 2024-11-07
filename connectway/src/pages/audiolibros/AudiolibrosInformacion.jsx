@@ -47,6 +47,11 @@ const AudiolibrosInformacion = () => {
         };
 
         const verificar = async() =>{
+            const datos = obtenerReproductor();
+            if(idLibro===datos.idLibro && datos.estadoReproductor === true){
+                setEstadoBoton('Detener');
+
+            }else{
             const existeDocumento =  await VerificarEstadoReporduccion(idLibro,0);
             console.log(existeDocumento)
             if(existeDocumento !== null && existeDocumento > 0){//hay un estado y es mayor  0
@@ -59,6 +64,7 @@ const AudiolibrosInformacion = () => {
                 setEstadoBoton('Reproducir');
                 setEstadoReproduccion(null);
             }
+        }
         };
 
         fetchAudiolibro();
@@ -88,6 +94,20 @@ const AudiolibrosInformacion = () => {
             .join(' '); 
     };
 
+    // Guardar datos en localStorage
+function guardarReproductor(idLibro, estadoReproductor) {
+    localStorage.setItem('reproductor', JSON.stringify({ idLibro, estadoReproductor }));
+}
+
+// Recuperar datos del reproductor
+function obtenerReproductor() {
+    const reproductor = JSON.parse(localStorage.getItem('reproductor'));
+    return reproductor ? reproductor : null;
+}
+
+
+
+
     const handleReproducirClick = async () => {
         if(audiolibro.archivoAudioURL === ""){
             setIsModalOpen(true);
@@ -109,6 +129,8 @@ const AudiolibrosInformacion = () => {
                     const nuevoDoc = await guardarEstadoReproduccion(0, idLibro);
                     iniciarReproductor(audiolibroData);
                     setEstadoBoton('Detener');
+                    guardarReproductor(idLibro, true);
+
                 } catch (error) {
                     console.error("Error al guardar el documento de 1ra escucha:", error);
                 }
@@ -116,6 +138,7 @@ const AudiolibrosInformacion = () => {
         } else if(estadoBoton === 'Reproducir' && estadoReproduccion === 0){
                 iniciarReproductor(audiolibroData);
                 setEstadoBoton('Detener');
+                guardarReproductor(idLibro, true);
         }else if (estadoBoton === 'Detener') {
             try {
                 await detenerReproductor();
@@ -133,7 +156,8 @@ const AudiolibrosInformacion = () => {
                         setEstadoBoton('Reproducir');
                     }else{
                         setEstadoBoton('Reanudar')
-                    }               
+                    } 
+                    guardarReproductor(idLibro, false);              
             } catch (error) {
                 
             }
@@ -148,6 +172,7 @@ const AudiolibrosInformacion = () => {
                 };
                  iniciarReproductor(audiolibroDataActualizado);
                  setEstadoBoton('Detener');
+                 guardarReproductor(idLibro, true);
                } catch (error) {
                 
                }
