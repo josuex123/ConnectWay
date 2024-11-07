@@ -17,7 +17,6 @@ const AudiolibroUsuario = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [contadorPorCategoria, setContadorPorCategoria] = useState({});
 
-
     const maxItems = 3;
     const rol = 0;
     
@@ -32,26 +31,20 @@ const AudiolibroUsuario = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log("Categoria seleccionada: ", categoriaSeleccionada); // Log categoría
         reloadAudiolibros();
     }, [categoriaSeleccionada]);
 
-    const formatearCategoria = (categoria) => {
-        return categoria.toLowerCase().replace(/ /g, "_");
-    };
+    const formatearCategoria = (categoria) => categoria.toLowerCase().replace(/ /g, "_");
+
     const formatearCategoriaParaMostrar = (categoria) => {
+        if (!categoria) return "Sin Categoría"; 
         return categoria
             .replace(/_/g, ' ') 
             .toLowerCase() 
             .replace(/(^|\s)\S/g, (letra) => letra.toUpperCase()); 
     };
-    
-
     const reloadAudiolibros = async () => {
-        console.log("Recargando audiolibros con categoría: ", categoriaSeleccionada); 
         const audiolibrosCollection = collection(db, 'Audiolibro');
-        
-        // Aplica la conversión de categoría solo si no es "Todos"
         const audiolibrosQuery = categoriaSeleccionada === "Todos"
             ? audiolibrosCollection
             : query(audiolibrosCollection, where("categoria", "==", formatearCategoria(categoriaSeleccionada)));
@@ -66,51 +59,34 @@ const AudiolibroUsuario = () => {
             descripcion: doc.data().descripcion,
             duracion: doc.data().duracion,
             archivoAudioURL: doc.data().archivoAudioURL
-
         }));
     
         audiolibrosList.sort((a, b) => a.titulo.localeCompare(b.titulo));
-    
         setAudiolibros(audiolibrosList);
+
+        // Contar audiolibros por categoría
         const contador = audiolibrosList.reduce((acc, libro) => {
-            const categoria = libro.categoria;
-            acc[categoria] = (acc[categoria] || 0) + 1;
+            const categoriaFormateada = formatearCategoriaParaMostrar(libro.categoria);
+            acc[categoriaFormateada] = (acc[categoriaFormateada] || 0) + 1;
+            acc["Todos"] = (acc["Todos"] || 0) + 1;
             return acc;
         }, {});
-    
-        // Asegurarse de contar "Todos" correctamente si es necesario
-        if (categoriaSeleccionada === "Todos") {
-            contador["Todos"] = audiolibrosList.length;
-        }
-    
-        setContadorPorCategoria(prevContador => ({
-            ...prevContador, // Mantén el contador previo para las demás categorías
-            ...contador      // Actualiza solo las categorías necesarias
-        }));
+        
+        setContadorPorCategoria(contador);
     };
-    
 
+   
     const next = () => {
-        if (currentIndex < getMaxIndex()) {
-            setCurrentIndex(currentIndex + 1);
-        }
+        if (currentIndex < getMaxIndex()) setCurrentIndex(currentIndex + 1);
     };
 
     const prev = () => {
-        if (currentIndex > 0) {
-            setCurrentIndex(currentIndex - 1);
-        }
+        if (currentIndex > 0) setCurrentIndex(currentIndex - 1);
     };
 
-    const getMaxIndex = () => {
-        return searchPerformed
-            ? Math.max(searchResults.length - maxItems, 0)
-            : Math.max(audiolibros.length - maxItems, 0);
-    };
+    const getMaxIndex = () => searchPerformed ? Math.max(searchResults.length - maxItems, 0) : Math.max(audiolibros.length - maxItems, 0);
 
-    const handleContainerClick = (id) => {
-        navigate(`/Audiolibros/registrados/informacion/${rol}`, { state: { idLibro: id } });
-    };
+    const handleContainerClick = (id) => navigate(`/Audiolibros/registrados/informacion/${rol}`, { state: { idLibro: id } });
 
     const handleSearchResults = useCallback((resultados) => {
         setSearchResults(resultados);
@@ -119,17 +95,14 @@ const AudiolibroUsuario = () => {
     }, []);
 
     const handleCategoriasClick = (nombre) => {
-        console.log("Categoria seleccionada: ", nombre); // Log categoría seleccionada
         setCategoriaSeleccionada(nombre);
-        setSearchPerformed(false); // Restablece la búsqueda al cambiar de categoría
+        setSearchPerformed(false);
     };
 
     return (
         <div className="pagina-inicio">
             <Navbar />
             <div className="content"> 
-
-                {/* Barra de búsqueda */}
                 <AudiobookSearch2 onResults={handleSearchResults} setSearchPerformed={setSearchPerformed} />
                 <div>
                     <p className='titulo-1'>
@@ -137,7 +110,7 @@ const AudiolibroUsuario = () => {
                     </p>
                 </div>
                 <div className="d-flex justify-content-between align-items-center">
-                    <button
+                <button
                         className="btn"
                         onClick={prev}
                         disabled={currentIndex === 0}
@@ -151,48 +124,42 @@ const AudiolibroUsuario = () => {
                     >
                         &lt;
                     </button>
-                    <div className="d-flex justify-content-around flex-wrap" style={{ width: '80%' }}>
+                    <div className="d-flex justify-content-around flex-wrap" style={{ width: '80%'}}>
+                        {/* Mostrar resultados de la búsqueda o los audiolibros por defecto */}
                         {searchPerformed ? (
                             searchResults.length === 0 ? (
                                 <p>No encontramos resultados que coincidan con tu búsqueda. Intenta con términos diferentes o revisa la ortografía.</p>
                             ) : (
-                                searchResults.slice(currentIndex, currentIndex + maxItems).map((libro) => {
-                                    console.log("Libro desde searchResults: ", libro); // Log de los libros
-                                    return (
-                                        <Contenedor
-                                            key={libro.id}
-                                            imgPortada={libro.imagenPortadaURL}
-                                            titulo={libro.titulo}
-                                            autor={libro.autor}
-                                            descripcion={libro.descripcion}
-                                            duracion={libro.duracion}
-                                            categoria={formatearCategoriaParaMostrar(libro.categoria)}
-                                            rol={rol}
-                                            onEdit={null}
-                                            onDelete={null}
-                                            onClick={() => handleContainerClick(libro.id)}
-                                        />
-                                    );
-                                })
-                            )
-                        ) : (
-                            audiolibros.slice(currentIndex, currentIndex + maxItems).map((libro) => {
-                                return (
+                                searchResults.slice(currentIndex, currentIndex + maxItems).map((libro, index) => (
                                     <Contenedor
-                                        key={libro.id}
-                                        imgPortada={libro.imagenPortadaURL}
-                                        titulo={libro.titulo}
-                                        autor={libro.autor}
-                                        descripcion={libro.descripcion}
-                                        duracion={libro.duracion}
-                                        categoria={formatearCategoriaParaMostrar(libro.categoria)}
+                                        key={libro.id}//cambié id por index
+                                        imgPortada={libro.imagenPortadaUrl}
+                                        titulo={libro.title}
+                                        autor={libro.author}
+                                        descripcion={libro.description}
+                                        categoria={formatearCategoriaParaMostrar(libro.category)}
+                                        duracion={libro.duration}
                                         rol={rol}
-                                        onEdit={null}
-                                        onDelete={null}
+
                                         onClick={() => handleContainerClick(libro.id)}
                                     />
-                                );
-                            })
+                                ))
+                            )
+                        ) : (
+                            audiolibros.slice(currentIndex, currentIndex + maxItems).map((libro, index) => (
+                                <Contenedor
+                                    key={libro.id}//cambié id por index
+                                    imgPortada={libro.imagenPortadaURL}
+                                    titulo={libro.titulo}
+                                    autor={libro.autor}
+                                    categoria={formatearCategoriaParaMostrar(libro.categoria)}
+                                    descripcion={libro.descripcion}
+                                    duracion={libro.duracion}
+                                    rol={rol}
+
+                                    onClick={() => handleContainerClick(libro.id)}
+                                />
+                            ))
                         )}
                     </div>
                     <button
@@ -211,9 +178,9 @@ const AudiolibroUsuario = () => {
                     </button>                                           
                 </div>
                 <div className="contenedor-categoria"> 
-                     <h4 className="titulo-categoria">Categorías</h4>
-                     <p className="texto-categoria">Explora nuestras categorías</p>
-                     <div className="tarjetas-cat d-flex justify-content-between flex-wrap">
+                    <h4 className="titulo-categoria">Categorías</h4>
+                    <p className="texto-categoria">Explora nuestras categorías</p>
+                    <div className="tarjetas-cat d-flex justify-content-between flex-wrap">
                         {categoriasTar.map((categoria) => (
                             <Categorias
                                 key={categoria.id}
@@ -225,7 +192,6 @@ const AudiolibroUsuario = () => {
                         ))}
                     </div>
                 </div>
-                
             </div>
         </div>
     );

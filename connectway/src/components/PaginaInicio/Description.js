@@ -37,6 +37,7 @@ const Description = () => {
         navigate(`/Audiolibros/registrados/informacion/${rol}`, { state: { idLibro: id } });
     };
     const formatearCategoriaParaMostrar = (categoria) => {
+        if (!categoria) return "Sin Categoría"; // Manejar valores indefinidos
         return categoria
             .replace(/_/g, ' ') 
             .toLowerCase() 

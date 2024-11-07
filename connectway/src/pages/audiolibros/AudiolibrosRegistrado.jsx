@@ -159,6 +159,7 @@ const AudiolibroRegistrado = () => {
                                         titulo={libro.title}
                                         autor={libro.author}
                                         descripcion={libro.description}
+                                        categoria={libro.categoria}
                                         duracion={libro.duration}
                                         rol={rol}
                                         onEdit={() => handleEditAudiobook(libro.id)} 
