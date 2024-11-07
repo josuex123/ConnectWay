@@ -1,5 +1,6 @@
 .audio-player {
     display: flex;
+    position: relative;
     align-items: center;
     justify-content: space-between;
     width: 100%;
@@ -11,6 +12,20 @@
     z-index: 100;
     height: 175px;
 }
+
+.close-button {
+    position: absolute;
+    top: 1px;
+    right: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #ffffff;
+}
+.close-icon {
+    width: 25px;
+    height: 25px;
+}
   
 .audio-image {
     width: 100px;
@@ -18,6 +33,7 @@
     object-fit: cover;
     margin-right: 10px;
     border: 0.2dvi solid #ffffff; /* Borrar */
+    cursor: pointer;
 }
   
 .audio-details {
@@ -30,6 +46,7 @@
 .audio-author {
     font-size: 0.8em;
     color: #ffffff;
+    cursor: default;
 }
   
 .audio-author, .audio-title{
@@ -40,6 +57,7 @@
     font-size: 1.2em; 
     color: #ffffff;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .audio-controls {
@@ -54,7 +72,7 @@
 .audio-controls button {
     border: none; 
     background: transparent; 
-    padding: 0; 
+    padding: 1px; 
     cursor: pointer; 
     color: #000;
     transition: color 0.3s; 
@@ -132,6 +150,8 @@
         top: 0px;
         flex-direction: column;
         align-items: flex-end;
+        position: relative;
+        margin-top: -10px;
     }
 
     .audio-volume {
@@ -144,8 +164,11 @@
     
     .audio-volume input[type="range"] {
         transform: rotate(-90deg); /* Gira el control de volumen */
-        width: 100px; /* Controla la longitud de la barra de volumen desplegable */
+        width: 80px; /* Controla la longitud de la barra de volumen desplegable */
         height: 5px; /* Ajusta el grosor de la barra */
+        position: relative;
+        top: 20px;
+        right: 7px;
     }
 
     .volume-toggle {
