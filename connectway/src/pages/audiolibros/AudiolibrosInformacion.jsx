@@ -72,6 +72,9 @@ const AudiolibrosInformacion = () => {
     };
 
     const handleReproducirClick = async () => {
+        if(audiolibro.archivoAudioURL === ""){
+            alert("Audio no disponible intente mas tarde")
+        }else{
         console.log("estado desde boton repro "+estadoReproduccion)
         const audiolibroData = {
             portadaUrl: audiolibro.imagenPortadaURL,
@@ -130,7 +133,8 @@ const AudiolibrosInformacion = () => {
                } catch (error) {
                 
                }
-            }   
+            }
+        }   
     };
     
 
