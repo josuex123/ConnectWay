@@ -64,7 +64,6 @@ const AudiolibroUsuario = () => {
         audiolibrosList.sort((a, b) => a.titulo.localeCompare(b.titulo));
         setAudiolibros(audiolibrosList);
 
-        // Contar audiolibros por categoría
         const contador = audiolibrosList.reduce((acc, libro) => {
             const categoriaFormateada = formatearCategoriaParaMostrar(libro.categoria);
             acc[categoriaFormateada] = (acc[categoriaFormateada] || 0) + 1;
@@ -74,7 +73,33 @@ const AudiolibroUsuario = () => {
         
         setContadorPorCategoria(contador);
     };
-
+    const calcularContadoresPorCategoria = async () => { 
+        const audiolibrosCollection = collection(db, 'Audiolibro');
+        const snapshot = await getDocs(audiolibrosCollection);
+        const audiolibrosList = snapshot.docs.map(doc => doc.data());
+    
+        // Verificar si se obtuvieron datos
+        console.log("Lista de audiolibros:", audiolibrosList);
+    
+        // Revisar el total de audiolibros
+        const contador = { Todos: audiolibrosList.length };
+        console.log("Total de audiolibros (Todos):", contador.Todos);
+    
+        categoriasTar.forEach(categoria => {
+            const categoriaFormateada = formatearCategoria(categoria.nombre);
+    
+            contador[categoria.nombre] = audiolibrosList.filter(libro => 
+                formatearCategoria(libro.categoria) === categoriaFormateada
+            ).length;
+        });
+    
+        console.log("Contador por categoría:", contador);
+    
+        setContadorPorCategoria(contador);
+    };
+    
+    
+    
    
     const next = () => {
         if (currentIndex < getMaxIndex()) setCurrentIndex(currentIndex + 1);
@@ -181,7 +206,7 @@ const AudiolibroUsuario = () => {
                     <h4 className="titulo-categoria">Categorías</h4>
                     <p className="texto-categoria">Explora nuestras categorías</p>
                     <div className="tarjetas-cat d-flex justify-content-between flex-wrap">
-                        {categoriasTar.map((categoria) => (
+                    {categoriasTar.map((categoria) => (
                             <Categorias
                                 key={categoria.id}
                                 icono={categoria.icono}
