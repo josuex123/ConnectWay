@@ -57,7 +57,7 @@ const AudiolibroUsuario = () => {
             descripcion: doc.data().descripcion,
             duracion: doc.data().duracion,
             archivoAudioURL: doc.data().archivoAudioURL
-            console.log("categoria", categoria)
+
         }));
     
         audiolibrosList.sort((a, b) => a.titulo.localeCompare(b.titulo));
@@ -162,7 +162,7 @@ const AudiolibroUsuario = () => {
                                         autor={libro.autor}
                                         descripcion={libro.descripcion}
                                         duracion={libro.duracion}
-                                        categoria={libro.categoria} // Asegúrate de que 'categoria' esté bien
+                                        categoria={libro.categoria} 
                                         rol={rol}
                                         onEdit={null}
                                         onDelete={null}
