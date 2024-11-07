@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-const Contenedor = ({ imgPortada, titulo, autor, descripcion, duracion, id, rol, onEdit, onDelete, onClick }) => { // Agregamos el prop rol
+const Contenedor = ({ imgPortada, titulo, autor, descripcion, duracion, id, rol, onEdit, onDelete, onClick, categoria }) => {
     const navigate = useNavigate();
 
     const handleEdit = () => {
@@ -23,6 +23,9 @@ const Contenedor = ({ imgPortada, titulo, autor, descripcion, duracion, id, rol,
                 <p className="autor text-start">{autor}</p>
                 <p className="descripcion text-start">{descripcion}</p>
                 <p className="duracion text-start"><i className="fas fa-clock"></i> {duracion} minutos</p>
+                {/* Aquí mostramos la categoría */}
+                <p className="categoria text-start"><strong> {categoria}</strong></p>
+                
                 {rol === 1 && (
                     <>
                         <div className="d-flex justify-content-center gap-2 text-start mb-2">
