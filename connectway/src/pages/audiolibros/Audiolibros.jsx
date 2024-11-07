@@ -44,7 +44,7 @@ const AudiolibroUsuario = () => {
         const audiolibrosQuery = categoriaSeleccionada === "Todos"
             ? audiolibrosCollection
             : query(audiolibrosCollection, where("categoria", "==", formatearCategoria(categoriaSeleccionada)));
-
+    
         const audiolibrosSnapshot = await getDocs(audiolibrosQuery);
         const audiolibrosList = audiolibrosSnapshot.docs.map(doc => ({
             id: doc.id,
@@ -56,8 +56,12 @@ const AudiolibroUsuario = () => {
             duracion: doc.data().duracion,
             archivoAudioURL: doc.data().archivoAudioURL
         }));
+    
+        audiolibrosList.sort((a, b) => a.titulo.localeCompare(b.titulo));
+    
         setAudiolibros(audiolibrosList);
     };
+    
 
     const next = () => {
         if (currentIndex < getMaxIndex()) {
