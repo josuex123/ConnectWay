@@ -13,6 +13,7 @@ import { VerificarEstadoReporduccion } from '../../Services/EstadoReproduccion/V
 import { guardarEstadoReproduccion } from '../../Services/EstadoReproduccion/GuardarEstadoReproduccion';
 import Reproducir from '../../images/boton-de-play.png';                        // Para el boton 
 import Detener from '../../images/boton-detener.png';                           // Para el boton
+import ModalNotificacion from '../../components/Modal/ModalNotificacion';
 
 const AudiolibrosInformacion = () => {
     const isDisabled = false; 
@@ -24,6 +25,11 @@ const AudiolibrosInformacion = () => {
     const [estadoBoton, setEstadoBoton]= useState('')
     const [estadoReproduccion, setEstadoReproduccion] = useState(null);
     const [mensajeVisible, setMensajeVisible] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
 
 
     useEffect(() => {
@@ -72,6 +78,10 @@ const AudiolibrosInformacion = () => {
     };
 
     const handleReproducirClick = async () => {
+        if(audiolibro.archivoAudioURL === ""){
+            setIsModalOpen(true);
+            //alert("Audio no disponible intente mas tarde")
+        }else{
         console.log("estado desde boton repro "+estadoReproduccion)
         const audiolibroData = {
             portadaUrl: audiolibro.imagenPortadaURL,
@@ -130,7 +140,8 @@ const AudiolibrosInformacion = () => {
                } catch (error) {
                 
                }
-            }   
+            }
+        }   
     };
     
 
@@ -196,6 +207,14 @@ const AudiolibrosInformacion = () => {
             El progreso de escucha se registró exitosamente
             </div>
             )}
+
+            <ModalNotificacion
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+                type="error"
+                message="El audio no está disponible, intente más tarde."
+                iconClass="fa-exclamation-circle"
+            />
 
         </>
     );
