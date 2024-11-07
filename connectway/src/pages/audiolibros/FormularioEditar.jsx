@@ -7,6 +7,9 @@ import '../../estilos/Audiolibros/FormularioAñadir/Formulario.css';
 import ModalAdvertencia from '../../components/Modal/ModalNotificacion';
 import ModalNotificacion from '../../components/Modal/ModalNotificacion';
 import ModalConfirmacion from '../../components/Modal/ModalConfirmacion';
+import ModalConfirmacion2 from '../../components/Modal/ModalConfirmacion';
+import ModalConfirmacion3 from '../../components/Modal/ModalConfirmacion';
+import ModalCargando from '../../components/Modal/ModalCargando'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faMusic } from '@fortawesome/free-solid-svg-icons';
 
@@ -24,6 +27,8 @@ const AudiobookEdit = () => {
     const [imagenUrl, setImagenUrl] = useState('');
     const [audioUrl, setAudioUrl] = useState('');
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+    const [isConfirmModal2Open, setIsConfirmModal2Open] = useState(false);
+    const [isConfirmModal3Open, setIsConfirmModal3Open] = useState(false);
     const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
     const [notificationType, setNotificationType] = useState('success');
     const [notificationMessage, setNotificationMessage] = useState('');
@@ -137,13 +142,13 @@ const AudiobookEdit = () => {
     };
 
     const validateTitle = (value) => {
-        const regex = /^[a-zA-ZÀ-ÿ0-9\s]*$/; // Permitir solo letras, números y espacios
+        const regex = /^[\w\s.,;:¡!¿?"'()\-áéíóúÁÉÍÓÚñÑ]+$/;
         if (value.length > 100) {
           showModalAdvertencia('error', 'El título no puede superar los 100 caracteres.');
             return false;
         }
         if (!regex.test(value)) {
-            showModalAdvertencia('error', 'El título no puede contener caracteres especiales, solo numeros, letras y letras con tíldes.');
+            showModalAdvertencia('error', 'El título no puede contener caracteres especiales, solo numeros, letras y y signos de puntuación.');
             return false;
         }
         return true;
@@ -259,7 +264,7 @@ const AudiobookEdit = () => {
         setIsModalAdvertenciaOpen(false);
      };
 
-    const openConfirmModal = () => {
+     const openConfirmModal = () => {
         if (!titulo || !autor || !descripcion) {
             const emptyFields = [];
             if (!titulo) emptyFields.push('Título');
@@ -268,23 +273,39 @@ const AudiobookEdit = () => {
             showModalAdvertencia('error', `Los siguientes campos están vacíos: ${emptyFields.join(', ')}`);
             return; // No continuar si hay campos vacíos
         }
-        if(descripcion.length<50){
-           showModalAdvertencia('error', `El campo Descripción no puede ser menor a 50 caracteres`);     
+    
+        // Verificar si el título tiene múltiples espacios en blanco entre palabras
+        const multipleSpacesPattern = /\s{2,}/;
+        if (multipleSpacesPattern.test(titulo.trim())) {
+            showModalAdvertencia('error', 'El campo Título no debe contener múltiples espacios en blanco entre palabras.');
             return;
         }
-        if(autor.length<3){
-           showModalAdvertencia('error', `El campo Autor no puede ser menor a 3 caracteres`);     
+    
+        if (descripcion.length < 50) {
+            showModalAdvertencia('error', 'El campo Descripción no puede ser menor a 50 caracteres.');     
             return;
         }
-        if(titulo.length<3){
-           showModalAdvertencia('error', `El campo Titulo no puede ser menor a 3 caracteres`);     
+    
+        if (autor.length < 3) {
+            showModalAdvertencia('error', 'El campo Autor no puede ser menor a 3 caracteres.');     
             return;
         }
+    
+        if (titulo.length < 3) {
+            showModalAdvertencia('error', 'El campo Título no puede ser menor a 3 caracteres.');     
+            return;
+        }
+    
         setIsConfirmModalOpen(true);
     };
-
     const closeConfirmModal = () => {
         setIsConfirmModalOpen(false);
+    };
+    const closeConfirmModal2 = () => {
+        setIsConfirmModal2Open(false);
+    };
+    const closeConfirmModal3 = () => {
+        setIsConfirmModal3Open(false);
     };
     /* Funciones dropzone */
     useEffect(() => {
@@ -377,8 +398,13 @@ const AudiobookEdit = () => {
         onDrop: onDropAudio,
         accept: { 'audio/wav': [], 'audio/mpeg': [] },
     });
-
     
+    const changeImage = () => {
+        setIsConfirmModal2Open(true);
+    };
+    const changeAudio = () => {
+        setIsConfirmModal3Open(true);
+    };
     return (
         <>
             <h1 className="title">Editar Audiolibro</h1>
@@ -483,7 +509,7 @@ const AudiobookEdit = () => {
                             </div>
                             <button
                                 className="btn btn-outline-danger eliminar-botn"
-                                onClick={removeImageFile}
+                                onClick={changeImage} 
                             >
                                 Cambiar
                             </button>
@@ -506,7 +532,7 @@ const AudiobookEdit = () => {
                     {(audioUrl || audioFiles.length > 0) && (
                         <div className="uploaded-file">
                             <audio controls src={audioUrl}></audio>
-                            <button className="btn btn-outline-danger eliminar-botn" onClick={removeAudioFile}>
+                            <button className="btn btn-outline-danger eliminar-botn" onClick={changeAudio}>
                                 Cambiar
                             </button>
                         </div>
@@ -555,6 +581,23 @@ const AudiobookEdit = () => {
                 description="¿Estás seguro de que deseas guardar los cambios?"
                 iconClass="fa fa-save"
             />
+            <ModalConfirmacion2
+                isOpen={isConfirmModal2Open}
+                onClose={closeConfirmModal2}
+                onConfirm={removeImageFile}
+                title="Confirmar"
+                description="¿Estás seguro de que deseas cambiar la portada?"
+                iconClass="fa fa-exclamation"
+            />
+            <ModalConfirmacion3
+                isOpen={isConfirmModal3Open}
+                onClose={closeConfirmModal3}
+                onConfirm={removeAudioFile}
+                title="Confirmar"
+                description="¿Estás seguro de que deseas cambiar el audio?"
+                iconClass="fa fa-exclamation"
+            />
+            
         </>
     );
 };
