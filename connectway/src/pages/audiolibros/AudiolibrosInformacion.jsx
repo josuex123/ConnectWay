@@ -48,7 +48,8 @@ const AudiolibrosInformacion = () => {
 
         const verificar = async() =>{
             const datos = obtenerReproductor();
-            if(idLibro===datos.idLibro && datos.estadoReproductor === true){
+            console.log("sesion strorage"+datos)
+            if (datos?.idLibro === idLibro && datos?.estadoReproductor === true) {
                 setEstadoBoton('Detener');
 
             }else{
@@ -96,12 +97,12 @@ const AudiolibrosInformacion = () => {
 
     // Guardar datos en localStorage
 function guardarReproductor(idLibro, estadoReproductor) {
-    localStorage.setItem('reproductor', JSON.stringify({ idLibro, estadoReproductor }));
+    sessionStorage.setItem('reproductor', JSON.stringify({ idLibro, estadoReproductor }));
 }
 
 // Recuperar datos del reproductor
 function obtenerReproductor() {
-    const reproductor = JSON.parse(localStorage.getItem('reproductor'));
+    const reproductor = JSON.parse(sessionStorage.getItem('reproductor'));
     return reproductor ? reproductor : null;
 }
 
