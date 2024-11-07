@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt, faChevronDown, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import logo from '../images/logoejemplo.png';
-import portada from '../images/desktop.png';
+import portada from '../images/ji.jpeg';
 
 
 const LandingPage = () => {
@@ -20,7 +20,7 @@ const LandingPage = () => {
       <nav className="nav-landing">
         <div className='nav-container-landing'>
           <NavLink exact to="/" className="nav-logo-landing">
-            <img src={logo} alt="Logo" className="nav-logo-image" />
+            <img src={logo} alt="Logo" className="nav-logo-image0" />
             CONNECTWAY
           </NavLink>
 
@@ -49,7 +49,7 @@ const LandingPage = () => {
 
       <section className="main-content">
         <div className="text-content">
-          <h1 className='titulo-landing'>“El alma que se cura a sí misma puede curar a otros” - Pitágoras</h1>
+          <h1 className='titulo-landing'>“El alma que se cura a sí misma puede curar a otros” - <span className='extra'>Pitágoras</span></h1>
           
           <p className='texto-landing'>
           Descubre audiolibros sobre <span className="highlight">inteligencia emocional</span>, 

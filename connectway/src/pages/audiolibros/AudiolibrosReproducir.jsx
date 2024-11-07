@@ -115,11 +115,11 @@ const AudiolibrosReproducir = forwardRef((props, ref) => {
         navigate(`/Audiolibros/registrados/informacion/${role}`, { state: { idLibro: idAudiolib} });
     };
 
-    if (role === "1") {
+    if(role === "1"){
         return null;
     }
 
-    if (!activo) {
+    if(!activo){
         return null;
     }
 
