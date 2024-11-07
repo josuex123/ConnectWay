@@ -22,6 +22,7 @@ const Description = () => {
                 imagenPortadaURL: doc.data().imagenPortadaURL,
                 titulo: doc.data().titulo,
                 autor: doc.data().autor,
+                categoria: doc.data().categoria,
                 descripcion: doc.data().descripcion,
                 duracion: doc.data().duracion,
                 archivoAudioURL: doc.data().archivoAudioURL
@@ -34,6 +35,12 @@ const Description = () => {
 
     const handleContainerClick = (id) => {
         navigate(`/Audiolibros/registrados/informacion/${rol}`, { state: { idLibro: id } });
+    };
+    const formatearCategoriaParaMostrar = (categoria) => {
+        return categoria
+            .replace(/_/g, ' ') 
+            .toLowerCase() 
+            .replace(/(^|\s)\S/g, (letra) => letra.toUpperCase()); 
     };
 
     const settings = {
@@ -75,6 +82,7 @@ const Description = () => {
                             titulo={audiolibro.titulo}
                             autor={audiolibro.autor}
                             descripcion={audiolibro.descripcion}
+                            categoria={formatearCategoriaParaMostrar(audiolibro.categoria)}
                             duracion={audiolibro.duracion}
                             rol={rol}
                             onClick={() => handleContainerClick(audiolibro.id)}
