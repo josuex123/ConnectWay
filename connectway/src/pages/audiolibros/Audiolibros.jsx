@@ -37,6 +37,13 @@ const AudiolibroUsuario = () => {
     const formatearCategoria = (categoria) => {
         return categoria.toLowerCase().replace(/ /g, "_");
     };
+    const formatearCategoriaParaMostrar = (categoria) => {
+        if (!categoria) return ''; // Verifica si la categoría es válida
+        return categoria
+            .split('_')
+            .map(palabra => palabra.charAt(0).toUpperCase() + palabra.slice(1).toLowerCase()) // Capitaliza y convierte el resto a minúsculas
+            .join(' ');
+    };
 
     const reloadAudiolibros = async () => {
         console.log("Recargando audiolibros con categoría: ", categoriaSeleccionada); 
@@ -142,7 +149,7 @@ const AudiolibroUsuario = () => {
                                             autor={libro.autor}
                                             descripcion={libro.descripcion}
                                             duracion={libro.duracion}
-                                            categoria={libro.categoria} // Asegúrate de que 'categoria' esté bien
+                                            categoria={formatearCategoriaParaMostrar(libro.categoria)} 
                                             rol={rol}
                                             onEdit={null}
                                             onDelete={null}
