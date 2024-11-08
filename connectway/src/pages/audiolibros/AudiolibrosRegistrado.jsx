@@ -43,6 +43,7 @@ const AudiolibroRegistrado = () => {
     };
     useEffect(() => {
         reloadAudiolibros();
+        contarAudiolibrosPorCategoria(); // Llama a la función de conteo aquí
     }, [categoriaSeleccionada]);
 
     const formatearCategoria = (categoria) => categoria.toLowerCase().replace(/ /g, "_");
@@ -64,17 +65,8 @@ const AudiolibroRegistrado = () => {
             duracion: doc.data().duracion,
             archivoAudioURL: doc.data().archivoAudioURL
         }));
-
+        audiolibrosList.sort((a, b) => a.titulo.localeCompare(b.titulo));
         setAudiolibros(audiolibrosList);
-
-        const contador = audiolibrosList.reduce((acc, libro) => {
-            const categoriaFormateada = formatearCategoriaParaMostrar(libro.categoria);
-            acc[categoriaFormateada] = (acc[categoriaFormateada] || 0) + 1;
-            acc["Todos"] = (acc["Todos"] || 0) + 1;
-            return acc;
-        }, {});
-        
-        setContadorPorCategoria(contador);
     };
 
     const handleCategoriasClick = (nombre) => {
@@ -84,6 +76,25 @@ const AudiolibroRegistrado = () => {
     const handleContainerClick = (id) => 
     navigate(`/Audiolibros/registrados/informacion/${rol}`, 
     { state: { idLibro: id } });
+
+    const contarAudiolibrosPorCategoria = async () => {
+        const conteo = {};
+
+        for (const categoria of categoriasTar) {
+            const nombreCategoria = formatearCategoria(categoria.nombre);
+            const audiolibrosCollection = collection(db, 'Audiolibro');
+            const audiolibrosQuery = nombreCategoria === "todos"
+                ? audiolibrosCollection
+                : query(audiolibrosCollection, where("categoria", "==", nombreCategoria));
+            
+            const audiolibrosSnapshot = await getDocs(audiolibrosQuery);
+            conteo[categoria.nombre] = audiolibrosSnapshot.size; // Guarda el conteo para cada categoría
+        }
+
+        setContadorPorCategoria(conteo); // Actualiza el estado con el conteo de cada categoría
+    };
+
+
     const next = () => {
         if (currentIndex < getMaxIndex()) setCurrentIndex(currentIndex + 1);
     };
@@ -167,7 +178,7 @@ const AudiolibroRegistrado = () => {
                                     titulo={libro.title}
                                     autor={libro.author}
                                     descripcion={libro.description}
-                                    categoria={libro.category}
+                                    categoria={formatearCategoriaParaMostrar(libro.category)}
                                     duracion={libro.duration}
                                     rol={rol}
                                     onEdit={() => handleEditAudiobook(libro.id)} 
@@ -182,7 +193,7 @@ const AudiolibroRegistrado = () => {
                                     imgPortada={libro.imagenPortadaURL}
                                     titulo={libro.titulo}
                                     autor={libro.autor}
-                                    categoria={libro.categoria}
+                                    categoria={formatearCategoriaParaMostrar(libro.categoria)}
                                     descripcion={libro.descripcion}
                                     duracion={libro.duracion}
                                     rol={rol}
