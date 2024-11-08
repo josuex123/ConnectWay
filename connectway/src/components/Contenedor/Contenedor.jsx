@@ -7,9 +7,6 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 const Contenedor = ({ imgPortada, titulo, autor, descripcion, duracion, id, rol, onEdit, onDelete, onClick, categoria }) => {
     const navigate = useNavigate();
 
-    // Función para formatear la categoría
-    
-
     const handleEdit = () => {
         if (onEdit) {
             onEdit(id);

@@ -121,7 +121,9 @@ function FormularioCrearComunidad() {
       <div className="form-container">
         <form onSubmit={handleSubmit}>
           <div className="form-group-horizontal mb-3">
-            <label htmlFor="nombre">Título:</label>
+          <label htmlFor="nombre">
+            Título:<span style={{ color: 'red' }}>*</span>
+            </label>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <div
                 className="tooltip-container"
@@ -154,7 +156,10 @@ function FormularioCrearComunidad() {
           </div>
 
           <div className="form-group-horizontal mb-3">
-            <label htmlFor="categoria">Categoría:</label>
+          <label htmlFor="nombre">
+            Categoría:<span style={{ color: 'red', marginLeft: '5px' }}>*</span>
+          </label>
+
             <select
               id="categoria"
               className="form-control"
@@ -170,7 +175,10 @@ function FormularioCrearComunidad() {
           </div>
 
           <div className="form-group mb-3" style={{ position: 'relative' }}>
-            <label htmlFor="descripcion">Descripción:</label>
+          <label htmlFor="nombre">
+             Descripción:<span style={{ color: 'red', marginLeft: '5px' }}>*</span>
+            </label>
+
             <span style={{ position: 'absolute', top: '0', right: '0', fontSize: '12px', color: '#888' }}>
               {descripcion.length}/{maxCharsDescripcion}
             </span>
@@ -198,7 +206,10 @@ function FormularioCrearComunidad() {
           </div>
 
           <div className="form-group">
-            <label>Subir imagen:</label>
+          <label htmlFor="nombre">
+            Subir Imagen:<span style={{ color: 'red', marginLeft: '5px' }}>*</span>
+          </label>
+
             <span   
                         className="info-icon" 
                         onMouseEnter={() => setShowTooltipIcon1(true)}
