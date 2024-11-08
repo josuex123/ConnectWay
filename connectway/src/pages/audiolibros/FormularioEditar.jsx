@@ -93,6 +93,7 @@ const AudiobookEdit = () => {
     }, [audiobook]);
     const uploadImageToStorage = async (file) => {
         if (!file) return null;
+        
         const storageRef = ref(storage, `Portadas/${file.name}`);
         const uploadTask = uploadBytesResumable(storageRef, file);
         return new Promise((resolve, reject) => {
@@ -104,13 +105,16 @@ const AudiobookEdit = () => {
                 },
                 (error) => {
                     console.error('Error subiendo imagen:', error);
+                    
                     reject(error);
                 },
                 async () => {
                     try {
                         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                        
                         resolve(downloadURL);
                     } catch (error) {
+                        
                         reject(error);
                     }
                 }
@@ -119,6 +123,7 @@ const AudiobookEdit = () => {
     };
     const uploadAudioToStorage = async (file) => {
         if (!file) return null;
+       
         const storageRef = ref(storage, `Audios/${file.name}`);
         const uploadTask = uploadBytesResumable(storageRef, file);
         return new Promise((resolve, reject) => {
@@ -130,13 +135,16 @@ const AudiobookEdit = () => {
                 },
                 (error) => {
                     console.error('Error subiendo archivo de audio:', error);
+                    
                     reject(error);
                 },
                 async () => {
                     try {
                         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                        
                         resolve(downloadURL);
                     } catch (error) {
+                        
                         reject(error);
                     }
                 }
@@ -232,14 +240,17 @@ const AudiobookEdit = () => {
             imagenPortadaURL: imageUrlToSave,
             archivoAudioURL: audioUrlToSave,
         };
-
+        closeConfirmModal(); 
+        setIsLoading(true); 
         try {
             await updateAudiobook(audiobook.id, updatedData);
             closeConfirmModal();
+            setIsLoading(false); 
             showModalNotificacion('success', 'El audiolibro ha sido actualizado exitosamente.');
             
         } catch (error) {
             console.error('Error al actualizar el audiolibro: ', error);
+            setIsLoading(false); 
             showModalNotificacion('error', 'Hubo un error al actualizar el audiolibro.');
         }
     };
@@ -644,7 +655,13 @@ const AudiobookEdit = () => {
                 description="¿Estás seguro de que deseas cambiar el audio?"
                 iconClass="fa fa-exclamation"
             />
-            
+            <ModalCargando
+                isOpen={isLoading} 
+                onClose={() => {}}
+                type="loading"
+                message="Cargando, por favor espera...\n "
+                iconClass="fa fa-spinner fa-spin" 
+                />
         </>
     );
 };
