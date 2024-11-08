@@ -81,8 +81,6 @@
   margin-bottom: 10px;
 }
 
-
-
 .uploaded-file {
   text-align: center;
   margin-top: 15px;
@@ -125,6 +123,11 @@
 
 @media (max-width: 576px) {
   .file-upload-container {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .oka {
     flex-direction: column;
     gap: 0;
   }
@@ -267,6 +270,8 @@
   background-color: #03314B;
   color:white;
 }
+
+/*ojdodfdoso*/
 .eliminar-botn{
   margin-top: 10px;
   padding: 8px 16px;
@@ -278,11 +283,13 @@
   border-radius: 4px;
   cursor: pointer;
 }
+
 .eliminar-botn:hover{
   border-color: #03314B;
   background-color: #03314B;
   color:white;
 }
+
 .eliminar-botn:disabled {
   background-color: #d3d3d3;
   color: #999;

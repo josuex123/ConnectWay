@@ -263,7 +263,9 @@ function Formulario() {
     <form onSubmit={handleSubmit} className="form-container">
         {error && <div className="alert alert-danger">{error}</div>}
         <div className="form-group-horizontal mb-3">
-            <label htmlFor="titulo">Título:</label>
+            <label htmlFor="titulo"style={{ display: 'inline-flex', alignItems: 'center' }}>
+                Título:<span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+            </label>
             <div
                 className="tooltip-container"
                 onMouseEnter={() => setShowTooltip(titulo === "")}
@@ -290,7 +292,9 @@ function Formulario() {
         </div>
 
         <div className='form-group-horizontal mb-3'>
-            <label htmlFor="autor">Autor:</label> 
+            <label htmlFor="autor"style={{ display: 'inline-flex', alignItems: 'center' }}>
+                Autor:<span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+            </label> 
             <div className='tooltip-container'>
                 <div
                     className="tooltip-container"
@@ -318,7 +322,9 @@ function Formulario() {
         </div>
 
         <div className='form-group-horizontal mb-3'>
-            <label htmlFor="autor">Categoría:</label>
+            <label htmlFor="autor"style={{ display: 'inline-flex', alignItems: 'center' }}>
+                Categoría:<span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+            </label>
             <select
                 id="categoria"
                 className="form-select"
@@ -326,7 +332,7 @@ function Formulario() {
                 onChange={(e) => setCategoria(e.target.value)}
             >
                 <option value="">Elegir categoría</option>
-                <option value="meditacion">Meditación</option>
+                <option value="meditación">Meditación</option>
                 <option value="inteligencia_emocional">Inteligencia Emocional</option>
                 <option value="salud_mental">Salud Mental</option>
                 <option value="psicologia_de_parejas">Psicología de parejas</option>
@@ -335,7 +341,9 @@ function Formulario() {
         
 
         <div className="form-group mb-3" style={{position:'relative'}}>
-            <label htmlFor="descripcion">Descripción:</label>
+            <label htmlFor="descripcion" style={{ display: 'inline-flex', alignItems: 'center' }}>
+                Descripción:<span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+            </label>
                 <span style={{ position: 'absolute', top: '0', right: '0', fontSize: '12px', color: '#888' }}>
                     {descripcion.length}/{maxChars}
                 </span>
@@ -366,7 +374,7 @@ function Formulario() {
         <div className="file-upload-container">
             <div className="dropzone-container">
                 <h3 className="dropzone-title">
-                    Subir portada:
+                    Subir portada:<span style={{ color: 'red', marginLeft: '4px' }}>*</span>
                     <span   
                         className="info-icon" 
                         onMouseEnter={() => setShowTooltipIcon1(true)}
@@ -417,7 +425,8 @@ function Formulario() {
             </div>
 
             <div className="dropzone-container">
-                <h3 className="dropzone-title">Subir audiolibro:
+                <h3 className="dropzone-title">
+                    Subir audiolibro:<span style={{ color: 'red', marginLeft: '4px' }}>*</span>
                     <span className="info-icon" 
                         onMouseEnter={() => setShowTooltipIcon2(true)}
                         onMouseLeave={() => setShowTooltipIcon2(false)}

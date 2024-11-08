@@ -23,34 +23,36 @@ import AudiobookEdit from './pages/audiolibros/FormularioEditar';
 
 
 function App() {
-  const { reproductorRef } = useAudioContext();
+  const { reproductorRef, audiolibroData } = useAudioContext();
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Index />} />
-        
-        {/* Ruta dinámica con parámetro de rol */}
-        <Route path="/Home/:role" element={<Home />} />
-        <Route path="/Audiolibros/:role" element={<Audiolibros />} />
-        <Route path="/MiActividad/:role" element={<MiActividad />} />
-        <Route path="/Perfil/:role" element={<Perfil />} />
-        <Route path="/Login" element={<LogIn />} />
-        
-        {/* Rutas para el admin */}
-        <Route path="/Audiolibros/añadir/:role" element={<AudiolibrosAñadir />} />
-        <Route path="/Audiolibros/registrados/:role" element={<AudiolibrosRegistrado />} />
-        <Route path="/Audiolibros/registrados/informacion/:role" element={<AudiolibrosInformacion />} />
-        <Route path="/Audiolibros/registrados/reproducir/:role" element={<AudiolibrosReproducir />} />
-        <Route path="/Audiolibros/editar/:role" element={<AudiolibrosEditar />} />
-        
-        {/* Rutas adicionales */}
-        <Route path="/ListaAudioLibros/:role" element={<AudiobookList />} />
-        <Route path="/Formulario/:role" element={<FormularioAñadir />} /> 
-        <Route path="/FormularioEditar/:role" element={<AudiobookEdit />} /> 
-        <Route path="/comunidad/crear/:role" element={<CrearComunidad />} />
-        <Route path="/comunidad/unirse/:role" element={<UnirseComunidad />} />
-        <Route path="/comunidad/mis-comunidades/:role" element={<MisComunidades />} />
-      </Routes>
+      <div className = {audiolibroData? 'reproductor' : ''}>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          
+          {/* Ruta dinámica con parámetro de rol */}
+          <Route path="/Home/:role" element={<Home />} />
+          <Route path="/Audiolibros/:role" element={<Audiolibros />} />
+          <Route path="/MiActividad/:role" element={<MiActividad />} />
+          <Route path="/Perfil/:role" element={<Perfil />} />
+          <Route path="/Login" element={<LogIn />} />
+          
+          {/* Rutas para el admin */}
+          <Route path="/Audiolibros/añadir/:role" element={<AudiolibrosAñadir />} />
+          <Route path="/Audiolibros/registrados/:role" element={<AudiolibrosRegistrado />} />
+          <Route path="/Audiolibros/registrados/informacion/:role" element={<AudiolibrosInformacion />} />
+          <Route path="/Audiolibros/registrados/reproducir/:role" element={<AudiolibrosReproducir />} />
+          <Route path="/Audiolibros/editar/:role" element={<AudiolibrosEditar />} />
+          
+          {/* Rutas adicionales */}
+          <Route path="/ListaAudioLibros/:role" element={<AudiobookList />} />
+          <Route path="/Formulario/:role" element={<FormularioAñadir />} /> 
+          <Route path="/FormularioEditar/:role" element={<AudiobookEdit />} /> 
+          <Route path="/comunidad/crear/:role" element={<CrearComunidad />} />
+          <Route path="/comunidad/unirse/:role" element={<UnirseComunidad />} />
+          <Route path="/comunidad/mis-comunidades/:role" element={<MisComunidades />} />
+        </Routes>
+      </div>
       <AudiolibrosReproducir ref = {reproductorRef}/>
     </Router>
   );

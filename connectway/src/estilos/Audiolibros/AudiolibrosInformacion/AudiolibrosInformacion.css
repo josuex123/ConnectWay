@@ -11,16 +11,46 @@
 
 .audiolibro-detalles {
     display: flex;
-    flex-direction: row;
+    flex-direction: row; 
     justify-content: center;
     align-items: flex-start;
     width: 100%;
     flex-wrap: wrap;
 }
 
+.titulo-audiolibro {
+    font-size: 40px;
+    font-weight: semi-bold;
+    color: #03314B;
+    margin-bottom: 25px;
+    text-align: left;
+    max-width: 800px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.autor-audiolibro {
+    font-size: 18px;
+    color: #03314B;
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.text {
+    font-size: 20px;
+    text-align: left;
+    font-family: var(--bs-font-sans-serif);
+    color: #03314B;
+    max-width: 800px;
+    line-height: 1.5;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    margin: 0;
+}
+
 .contenido-audiolibro {
     flex: 1;
-    margin: 20px 10px;
+    margin: 20px 50px;
     padding: 10px;
     max-width: calc(100% - 370px);
 }
@@ -31,55 +61,66 @@
 }
 
 .audiolibro-portada {
-    flex: 0 0 350px; 
-    max-width: 350px;
-    min-width: 150px;
-    height: auto;
-    margin: 30px;
-    margin-right: 60px;
+    width: 400px;  
+    height: 570px; 
+    margin: 40px;  
+    margin-right: 180px; 
+    overflow: hidden; 
+    border-radius: 15px; 
 }
 
 .audiolibro-portada img {
-    width: 100%;
-    height: auto;
+    width: 100%;       
+    height: auto;       
+    object-fit: cover;  
 }
 
 .btn-reproducir {
     background-color: #03314B;
     color: #fff;
-    width: 150px; 
-    height: 40px; 
+    width: 143.99px;
+    height: 47.99px;
     border: none;
     cursor: pointer;
     margin-top: 20px;
     margin-bottom: 20px;
-    opacity: 0.5;
+    opacity: 1; 
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0;
     position: relative;
+    border-radius: 5px;
+    font-family: var(--bs-font-sans-serif);
+    gap: 4px;
+    transition: background-color 0.3s ease, transform 0.2s ease; 
 }
+
+.btn-reproducir:hover {
+    background-color: #025173; 
+    transform: scale(1.05); 
+}
+
+.btn-reproducir:active {
+    transform: scale(0.95); 
+}
+
 
 .btn-reproducir img {
-    position: absolute;
-    left: 10px; 
-}
-
-.icono {
-    width: 25px; 
+    width: 24px;
 }
 
 .texto {
-    width: 80px; 
+    font-size: 16px;
     text-align: left;
-    padding-left: 10px;
+    color: white;
 }
 
 .detalles-orden {
     display: flex;
     flex-direction: column;
     margin-top: 20px;
+    color: #03314B;
 }
 
 .detalles-orden > div {
@@ -95,11 +136,34 @@
     width: 50%;
 }
 
+.detalles-orden .detalles-info {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 40px; 
+    font-size: 16px;
+    justify-content: flex-start; 
+}
+
+.icono-detalle {
+    width: 24px;
+    height: 24px;
+    align-items: center;
+    margin-right: 4px;
+}
+
 .audiolibro-categoria {
     margin-top: 20px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 4px;
+    background-color: #F1F6F4;
+    border: none;
+    border-radius: 8px;
+    padding: 15px;
+    max-width: 220px;
+    text-align: left;
 }
 
 .categoria-icono {
@@ -112,24 +176,44 @@
 }
 
 .custom-hr {
-    border: 1px solid #000000;
-    max-width: 100%;
+    border: 1px solid #b5b5b5;
+    max-width: 800px;
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
 .custom2-hr {
-    border: 1px solid #000000;
-    max-width: 100%;
-    margin-bottom: 10px;
+    border: 1px solid #b5b5b5;
+    max-width: 800px;
+    margin-bottom: 20px;
 }
 
-@media (max-width: 768px) {
-    .audiolibro-container {
-        margin: 0;
-        padding: 10px;
-    }
+.mensaje-confirmacion {
+    position: fixed;
+    top: 100px; 
+    left: 40%; 
+    background-color: #025173; /* Color de fondo verde */
+    color: white;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: var(--bs-font-sans-serif);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    animation: fadeOut 3s forwards;
+    text-align: center;
+}
 
+/* Animación para desvanecer el mensaje */
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+
+/* Ajustes para pantallas más pequeñas */
+@media (max-width: 768px) {
     .audiolibro-detalles {
         flex-direction: column;
         align-items: center;
@@ -142,7 +226,8 @@
     }
 
     .audiolibro-portada {
-        max-width: 80%;
+        max-width: 100%;
         margin: 20px 0;
+        height: auto;
     }
 }

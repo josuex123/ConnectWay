@@ -29,6 +29,9 @@ function FormularioCrearComunidad() {
   const { role } = useParams();
   const [showTooltipIcon1, setShowTooltipIcon1] = useState(false);
   const [isLoading, setIsLoading] = useState(false); 
+  
+  const validateAlphanumeric = (value) => /^[a-zA-Z0-9\s]*$/.test(value);
+
 
   //Validar desde dónde se accedió a formulario y redirigir a Home/1 o /0
   const handleCancelar = () =>{
@@ -37,20 +40,22 @@ function FormularioCrearComunidad() {
   }
 
   const handleTituloChange = (e) => {
-    if (e.target.value.length <= maxCharsTitulo) {
-      setTitulo(e.target.value);
+    const value = e.target.value;
+    if (value.length <= maxCharsTitulo && validateAlphanumeric(value)) {
+      setTitulo(value);
     }
   };
-
+  
   const handleDescripcionChange = (e) => {
-    if (e.target.value.length <= maxCharsDescripcion) {
-      setDescripcion(e.target.value);
+    const value = e.target.value;
+    if (value.length <= maxCharsDescripcion && validateAlphanumeric(value)) {
+      setDescripcion(value);
     }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!titulo || !categoria || !descripcion || imageFiles.length === 0) {
+    if (!titulo || !categoria || !descripcion || imageFiles.length === 0 || !validateAlphanumeric(titulo) || !validateAlphanumeric(descripcion)) {
       setModalType('error');
       setModalMessage('Por favor, completa todos los campos y sube una imagen.');
       setShowModal(true);
@@ -116,7 +121,9 @@ function FormularioCrearComunidad() {
       <div className="form-container">
         <form onSubmit={handleSubmit}>
           <div className="form-group-horizontal mb-3">
-            <label htmlFor="nombre">Título:</label>
+          <label htmlFor="nombre">
+            Título:<span style={{ color: 'red' }}>*</span>
+            </label>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <div
                 className="tooltip-container"
@@ -135,7 +142,8 @@ function FormularioCrearComunidad() {
                 />
                     {showTooltip && (
                         <div className="tooltip-box">
-                            El título no debe superar los 100 caracteres.
+                            El título no debe superar los 100 caracteres y solo se acepta números y caracteres
+                            alfabéticos.
                         </div>
                     )}
                 </div>
@@ -148,7 +156,10 @@ function FormularioCrearComunidad() {
           </div>
 
           <div className="form-group-horizontal mb-3">
-            <label htmlFor="categoria">Categoría:</label>
+          <label htmlFor="nombre">
+            Categoría:<span style={{ color: 'red', marginLeft: '5px' }}>*</span>
+          </label>
+
             <select
               id="categoria"
               className="form-control"
@@ -164,7 +175,10 @@ function FormularioCrearComunidad() {
           </div>
 
           <div className="form-group mb-3" style={{ position: 'relative' }}>
-            <label htmlFor="descripcion">Descripción:</label>
+          <label htmlFor="nombre">
+             Descripción:<span style={{ color: 'red', marginLeft: '5px' }}>*</span>
+            </label>
+
             <span style={{ position: 'absolute', top: '0', right: '0', fontSize: '12px', color: '#888' }}>
               {descripcion.length}/{maxCharsDescripcion}
             </span>
@@ -184,15 +198,18 @@ function FormularioCrearComunidad() {
             />
                             {showTooltip && (
                     <div className="tooltip-box">
-                        La descipción debe tener 400 caracteres como máximo
-                        
+                       La descripción no debe superar los 400 caracteres y sólo se acepta números y
+                       caracteres alfabéticos
                     </div>
                 )}
             </div>
           </div>
 
           <div className="form-group">
-            <label>Subir imagen:</label>
+          <label htmlFor="nombre">
+            Subir Imagen:<span style={{ color: 'red', marginLeft: '5px' }}>*</span>
+          </label>
+
             <span   
                         className="info-icon" 
                         onMouseEnter={() => setShowTooltipIcon1(true)}
