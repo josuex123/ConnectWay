@@ -36,7 +36,7 @@ const Contenedor = ({ imgPortada, titulo, autor, descripcion, duracion, id, rol,
                         </div>
                         <div className="d-flex justify-content-center gap-2 text-start">
                             <i className="fas fa-trash-alt icono-eliminar"></i>
-                            <button disabled={true} className="btn btn-outline-danger elim" onClick={(e) => { e.stopPropagation(); onDelete(); }}>
+                            <button  disabled={true}  className="btn btn-outline-danger elim" onClick={(e) => { e.stopPropagation(); onDelete(); }}>
                                 Eliminar
                             </button>
                         </div>
