@@ -71,7 +71,7 @@
 .nav-logo-landing {
     font-size: 24px;
     font-weight: 600;
-    color: #03314B; 
+    color: #03314B !important; 
     display: flex;
     align-items: center;
     text-decoration: none;
@@ -132,8 +132,8 @@
 }
 
 .extra{
-    color: #FED00C; 
-    -webkit-text-stroke: 1px rgb(230, 196, 49);
+    color: #03314B; 
+
     letter-spacing: 1px; 
 }
 
@@ -145,12 +145,9 @@
 }
 
 .highlight {
-    color: #FED00C;
+    background-color: white;
     padding: 3px 5px;
     border-radius: 3px;
-    font-weight: 500;
-    -webkit-text-stroke: 1px rgb(230, 196, 49);
-    letter-spacing: 1px; 
 }
 
 .phone-image {
@@ -247,3 +244,4 @@
         padding: 0.5rem 5rem;
     }
 }
+
