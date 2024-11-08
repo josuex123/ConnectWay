@@ -61,9 +61,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 2; /* Asegúrate de que el texto se limite a 2 líneas */
   -webkit-box-orient: vertical;
   min-height: 2.4rem;
+  max-height: 2.4rem; /* Añade un límite de altura */
 }
 
 .duracion i {

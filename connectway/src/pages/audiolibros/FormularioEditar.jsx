@@ -481,7 +481,7 @@ const AudiobookEdit = () => {
                         <option value="meditación">Meditación</option>
                         <option value="inteligencia_emocional">Inteligencia Emocional</option>
                         <option value="salud_mental">Salud Mental</option>
-                        <option value="psicologia_de_parejas">Psicología de Parejas</option>
+                        <option value="psicología_de_parejas">Psicología de Parejas</option>
                     </select>
 
                     </div>

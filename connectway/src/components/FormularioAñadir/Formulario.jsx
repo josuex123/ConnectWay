@@ -335,7 +335,7 @@ function Formulario() {
                 <option value="meditación">Meditación</option>
                 <option value="inteligencia_emocional">Inteligencia Emocional</option>
                 <option value="salud_mental">Salud Mental</option>
-                <option value="psicologia_de_parejas">Psicología de parejas</option>
+                <option value="psicología_de_parejas">Psicología de parejas</option>
             </select>
         </div>
         

@@ -24,7 +24,7 @@ const AudiolibroUsuario = () => {
         { id: 1, icono: <i className="fas fa-list"></i>, nombre: "Todos" },
         { id: 2, icono: <i className="fas fa-lightbulb"></i>, nombre: "Inteligencia Emocional" },
         { id: 3, icono: <i className="fas fa-user-tie"></i>, nombre: "Meditación" },
-        { id: 4, icono: <i className="fas fa-users"></i>, nombre: "Psicologia De Parejas" },
+        { id: 4, icono: <i className="fas fa-users"></i>, nombre: "Psicología De Parejas" },
         { id: 5, icono: <i className="fas fa-brain"></i>, nombre: "Salud Mental" },
     ];
 
