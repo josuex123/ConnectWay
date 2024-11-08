@@ -431,7 +431,9 @@ const AudiobookEdit = () => {
             <h1 className="title">Editar Audiolibro</h1>
             <form className="form-container">
                 <div className="form-group-horizontal mb-3">
-                    <label htmlFor="titulo">Título:</label>
+                <label htmlFor="titulo"style={{ display: 'inline-flex', alignItems: 'center' }}>
+                    Título:<span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+                </label>
                     <div className="tooltip-container">
                         <input
                             type="text"
@@ -445,7 +447,9 @@ const AudiobookEdit = () => {
                 </div>
 
                 <div className="form-group-horizontal mb-3">
-                    <label htmlFor="autor">Autor:</label>
+                <label htmlFor="autor"style={{ display: 'inline-flex', alignItems: 'center' }}>
+                    Autor:<span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+                </label> 
                     <div className="tooltip-container">
                         <input
                             type="text"
@@ -459,7 +463,9 @@ const AudiobookEdit = () => {
                 </div>
 
                 <div className="form-group-horizontal mb-3">
-                    <label htmlFor="categoria">Categoría:</label>
+                <label htmlFor="autor"style={{ display: 'inline-flex', alignItems: 'center' }}>
+                    Categoría:<span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+                </label>
                     <div className="tooltip-container">
                     <select
                         id="categoria"
@@ -477,7 +483,9 @@ const AudiobookEdit = () => {
                 </div>
 
                 <div className="form-group mb-3" style={{position:'relative'}}>
-                    <label htmlFor="descripcion">Descripción:</label>
+                <label htmlFor="descripcion" style={{ display: 'inline-flex', alignItems: 'center' }}>
+                    Descripción:<span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+                </label>
                     <span style={{ position: 'absolute', top: '0', right: '0', fontSize: '12px', color: '#888' }}>
                     {descripcion.length}/{maxChars}
                 </span>
@@ -508,7 +516,9 @@ const AudiobookEdit = () => {
             )}
             <div className="oka">
              <div className="dropzone-container1">
-                <h3 className="dropzone-title">Imagen de la portada:</h3>
+                <h3 className="dropzone-title">
+                    Imagen de la portada:<span style={{ color: 'red', marginLeft: '4px' }}>*</span>
+                </h3>
                 <div {...imageDropzone.getRootProps()} className="dropzone1">
                     <input {...imageDropzone.getInputProps()} style={{ display: 'none' }} />
                     {!newImage && !imagenUrl && imageFiles.length === 0 && (
@@ -543,7 +553,9 @@ const AudiobookEdit = () => {
                 </div>
              </div>
              <div className="dropzone-container1">
-                <h3 className="dropzone-title">Audiolibro:</h3>
+                <h3 className="dropzone-title">
+                    Audiolibro:<span style={{ color: 'red', marginLeft: '4px' }}>*</span>
+                </h3>
                 <div {...audioDropzone.getRootProps()} className="dropzone1">
                     <input {...audioDropzone.getInputProps()} style={{ display: 'none' }} />
                     {!audioUrl && audioFiles.length === 0 && (
