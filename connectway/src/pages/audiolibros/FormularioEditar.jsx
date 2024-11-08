@@ -37,6 +37,7 @@ const AudiobookEdit = () => {
     const [isModalAdvertenciaOpen, setIsModalAdvertenciaOpen] = useState(false);
     const [notificationTypeAdver, setNotificationTypeAdver] = useState('success');
     const [notificationMessageAdver, setNotificationMessageAdver] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const [imageFiles, setImageFiles] = useState([]);
     const [audioFiles, setAudioFiles] = useState([]);
     const [audioError, setAudioError] = useState(null);
@@ -379,26 +380,18 @@ const AudiobookEdit = () => {
     }, []);
     
 
-    const removeImageFile = () => {
-        setImageFiles([]);
-        if (imagenUrl) URL.revokeObjectURL(imagenUrl);
-        setImagenUrl('');
-
-    };
-
-    const removeAudioFile = () => {
-        setAudioFiles([]);
-        if (audioUrl) URL.revokeObjectURL(audioUrl);
-        setAudioUrl('');
-    };
     const imageDropzone = useDropzone({
         onDrop: handleImageUpload,
         accept: { 'image/png': [], 'image/jpeg': [] },
+        noClick: true, 
+        noKeyboard: true,
     });
 
     const audioDropzone = useDropzone({
         onDrop: onDropAudio,
         accept: { 'audio/wav': [], 'audio/mpeg': [] },
+        noClick: true, 
+        noKeyboard: true,
     });
     
     const handleImageChangeConfirm = () => {
@@ -406,11 +399,12 @@ const AudiobookEdit = () => {
         closeConfirmModal2(); 
     };
     
-    // Similar para el audio:
     const handleAudioChangeConfirm = () => {
+    
         setIsAudioChangeConfirmed(true);
         closeConfirmModal3(); 
     };
+    
 
     useEffect(() => {
         if (isImageChangeConfirmed) {
@@ -520,67 +514,76 @@ const AudiobookEdit = () => {
                     Imagen de la portada:<span style={{ color: 'red', marginLeft: '4px' }}>*</span>
                 </h3>
                 <div {...imageDropzone.getRootProps()} className="dropzone1">
-                    <input {...imageDropzone.getInputProps()} style={{ display: 'none' }} />
-                    {!newImage && !imagenUrl && imageFiles.length === 0 && (
-                        <>
-                            <div className="icon-container">
-                                <FontAwesomeIcon icon={faImage} size="2x" className="icon" />
+                        <input 
+                            {...imageDropzone.getInputProps()} 
+                            style={{ display: 'none' }} 
+                            id="input-imagen-portada"  // Asignar id para el input
+                        />
+                        {!newImage && !imagenUrl && imageFiles.length === 0 && (
+                            <>
+                                <div className="icon-container">
+                                    <FontAwesomeIcon icon={faImage} size="2x" className="icon" />
+                                </div>
+                                <p>Haz clic o arrastra un archivo aquí</p>
+                            </>
+                        )}
+                        {(newImage || imagenUrl) && (
+                            <div className="uploaded-file">
+                                <div className="uploaded-portada">
+                                    <img
+                                        src={newImage || imagenUrl || ''}
+                                        alt="Portada"
+                                        width="100px"
+                                        className="image-preview"
+                                    />
+                                </div>
+                                <button
+                                    className="btn btn-outline-danger eliminar-botn"
+                                    onClick={(e) => {
+                                        e.preventDefault();  // Evita la recarga del formulario
+                                        setIsConfirmModal2Open(true);
+                                    }}
+                                    
+                                >
+                                    Cambiar
+                                </button>
                             </div>
-                            <p>Haz clic o arrastra un archivo aquí</p>
-                        </>
-                    )}
-                    {(newImage || imagenUrl) && (
-                        <div className="uploaded-file">
-                            <div className="uploaded-portada">
-                                <img
-                                    src={newImage || imagenUrl || ''}
-                                    alt="Portada"
-                                    width="100px"
-                                    className="image-preview"
-                                />
+                        )}
+                    </div>
+                                </div>
+                                <div className="dropzone-container1">
+                                    <h3 className="dropzone-title">
+                                        Audiolibro:<span style={{ color: 'red', marginLeft: '4px' }}>*</span>
+                                    </h3>
+                                    <div {...audioDropzone.getRootProps()} className="dropzone1">
+                        <input 
+                            {...audioDropzone.getInputProps()} 
+                            style={{ display: 'none' }} 
+                            id="input-audiolibro"  // Asignar id para el input
+                        />
+                        {!audioUrl && audioFiles.length === 0 && (
+                            <>
+                                <div className="icon-container">
+                                    <FontAwesomeIcon icon={faMusic} size="2x" className="icon" />
+                                </div>
+                                <p>Haz clic o arrastra un archivo aquí</p>
+                            </>
+                        )}
+                        {(audioUrl || audioFiles.length > 0) && (
+                            <div className="uploaded-file1">
+                                <audio controls src={audioUrl}></audio>
+                                <button
+                                    className="btn btn-outline-danger eliminar-botn"
+                                    onClick={(e) => {
+                                        e.preventDefault();  // Evita la recarga del formulario
+                                        setIsConfirmModal3Open(true);
+                                    }}
+                                >
+                                    Cambiar
+                                </button>
                             </div>
-                            <button
-                                className="btn btn-outline-danger eliminar-botn"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    isConfirmModal2Open();
-                                }}
-                            >
-                                Cambiar
-                            </button>
-                        </div>
-                    )}
-                </div>
-             </div>
-             <div className="dropzone-container1">
-                <h3 className="dropzone-title">
-                    Audiolibro:<span style={{ color: 'red', marginLeft: '4px' }}>*</span>
-                </h3>
-                <div {...audioDropzone.getRootProps()} className="dropzone1">
-                    <input {...audioDropzone.getInputProps()} style={{ display: 'none' }} />
-                    {!audioUrl && audioFiles.length === 0 && (
-                        <>
-                            <div className="icon-container">
-                                <FontAwesomeIcon icon={faMusic} size="2x" className="icon" />
-                            </div>
-                            <p>Haz clic o arrastra un archivo aquí</p>
-                        </>
-                    )}
-                    {(audioUrl || audioFiles.length > 0) && (
-                        <div className="uploaded-file1">
-                            <audio controls src={audioUrl}></audio>
-                            <button
-                                className="btn btn-outline-danger eliminar-botn"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    isConfirmModal3Open();
-                                }}
-                            >
-                                Cambiar
-                            </button>
-                        </div>
-                    )}
-                </div>
+                        )}
+                    </div>
              </div>
             </div>
         </form>
