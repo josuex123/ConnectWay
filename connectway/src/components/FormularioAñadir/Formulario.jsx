@@ -56,8 +56,8 @@ function Formulario() {
     // Creamos un nuevo arreglo para almacenar palabras con saltos de línea
     const processedWords = words.map(word => {
       // Si la palabra es mayor a 40 caracteres, insertamos un salto de línea
-      if (word.length > 40) {
-        return word.match(/.{1,40}/g).join("\n"); // Divide en bloques de 40 caracteres y agrega saltos de línea
+      if (word.length > 25) {
+        return word.match(/.{1,25}/g).join("\n"); // Divide en bloques de 40 caracteres y agrega saltos de línea
       }
       return word;
     });

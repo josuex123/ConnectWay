@@ -213,8 +213,8 @@ const AudiobookEdit = () => {
         // Procesa cada palabra para verificar su longitud
         const processedWords = words.map(word => {
             // Si la palabra tiene más de 40 caracteres, agrega saltos de línea
-            if (word.length > 30) {
-                return word.match(/.{1,30}/g).join("\n"); // Divide en bloques de 40 caracteres y agrega saltos de línea
+            if (word.length > 25) {
+                return word.match(/.{1,25}/g).join("\n"); // Divide en bloques de 40 caracteres y agrega saltos de línea
             }
             return word;
         });
