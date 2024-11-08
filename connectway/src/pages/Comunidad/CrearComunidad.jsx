@@ -252,7 +252,7 @@ function FormularioCrearComunidad() {
         />
       </div>
   </div>
-  <ModalCargando isOpen={isLoading} message="Creando comunidad, espera un momento..."/>
+  <ModalCargando isOpen={isLoading} message="La comunidad se está creando..."/>
     </>
   );
 }
