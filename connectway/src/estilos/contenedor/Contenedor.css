@@ -1,7 +1,7 @@
 .contenedor {
   max-width: 275px; 
   margin: 20px;
-  background-color: #ffffff; 
+  background-color: #E3EAF1!important ; 
   border: '2px solid #757575';
   border-radius: 20px;
   display: flex;
@@ -13,7 +13,7 @@
 }
 
 .contenedor:hover {
-  background-color: #F1F6F4;
+  background-color: #5c656d;
 }
 
 .img-portada {

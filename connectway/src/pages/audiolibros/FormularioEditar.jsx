@@ -206,8 +206,25 @@ const AudiobookEdit = () => {
 
     const handleDescriptionChange = (e) => {
         const { value } = e.target;
-        if (validateDescription(value)) {
-            setDescripcion(value);
+    
+        // Divide el texto ingresado en palabras
+        const words = value.split(" ");
+    
+        // Procesa cada palabra para verificar su longitud
+        const processedWords = words.map(word => {
+            // Si la palabra tiene más de 40 caracteres, agrega saltos de línea
+            if (word.length > 30) {
+                return word.match(/.{1,30}/g).join("\n"); // Divide en bloques de 40 caracteres y agrega saltos de línea
+            }
+            return word;
+        });
+    
+        // Une las palabras procesadas con espacios
+        const newDescription = processedWords.join(" ");
+    
+        // Verifica si la descripción cumple con el criterio de validación
+        if (validateDescription(newDescription)) {
+            setDescripcion(newDescription);
         }
     };
     const handleSubmit = async () => {

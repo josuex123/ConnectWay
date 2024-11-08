@@ -184,3 +184,8 @@ audio {
     margin-top: auto;
     margin-bottom: auto; 
 }
+.word-wrap {
+    word-break: break-word;
+    white-space: pre-wrap;
+  }
+  
