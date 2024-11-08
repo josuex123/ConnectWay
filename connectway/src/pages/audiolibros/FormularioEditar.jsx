@@ -645,7 +645,7 @@ const AudiobookEdit = () => {
                 onConfirm={handleImageChangeConfirm}
                 title="Confirmar"
                 description="¿Estás seguro de que deseas cambiar la portada?"
-                iconClass="fa fa-exclamation"
+                iconClass="fa fa-question"
             />
             <ModalConfirmacion3
                 isOpen={isConfirmModal3Open}
@@ -653,7 +653,7 @@ const AudiobookEdit = () => {
                 onConfirm={handleAudioChangeConfirm}
                 title="Confirmar"
                 description="¿Estás seguro de que deseas cambiar el audio?"
-                iconClass="fa fa-exclamation"
+                iconClass="fa fa-question"
             />
             <ModalCargando
                 isOpen={isLoading} 
