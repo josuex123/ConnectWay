@@ -52,7 +52,6 @@ textarea {
 button {
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #0A1044; 
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -114,7 +113,7 @@ button:hover {
     flex-direction: column;
     align-items: center;
 }
-.dropzone {
+.dropzone1 {
   width: 100%; 
   height: 250px; 
   display: flex;
@@ -132,3 +131,61 @@ button:hover {
 .dropzone:hover {
   background-color: #f1f3f5;
 }
+
+.oka{
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.dropzone-container1{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    width: 370px;
+}
+
+
+/*ojdodfdoso*/
+.eliminar-botn1{
+    padding: 8px 16px;
+    border-color: #03314B;
+    background-color: #03314B;
+    color:white;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .eliminar-botn1:hover{
+    border-color: #03314B;
+    background-color: #03314B;
+    color:white;
+  }
+  
+  .eliminar-botn1:disabled {
+    background-color: #d3d3d3;
+    color: #999;
+    border-color: #999;
+    cursor: not-allowed;
+  }
+
+  .uploaded-file1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; 
+    height: 110%; 
+}
+
+audio {
+    margin-top: auto;
+    margin-bottom: auto; 
+}
+.word-wrap {
+    word-break: break-word;
+    white-space: pre-wrap;
+  }
+  
