@@ -57,7 +57,6 @@ const AudiolibroUsuario = () => {
             descripcion: doc.data().descripcion,
             duracion: doc.data().duracion,
             archivoAudioURL: doc.data().archivoAudioURL
-            console.log("categoria", categoria)
         }));
         setAudiolibros(audiolibrosList);
     };
