@@ -18,7 +18,7 @@ export const editarEstadoReproduccion = async (idUsuario, idAudiolibro, estadoRe
 
         if (!querySnapshot.empty) {
             const documento = querySnapshot.docs[0];
-            const idDocumentoEncontrado = documento.id; // Guardar el id del documento encontrado
+            const idDocumentoEncontrado = documento.id; 
             
             // Referencia al documento
             const docRef = doc(db, 'Usuario_EstadoReproduccion', idDocumentoEncontrado);
