@@ -49,7 +49,8 @@ const Navbar = () => {
       <div className="nav-container">
         <NavLink exact to={`/home/${role}`} className="nav-logo">
           <img src={logo} alt="Logo" className="nav-logo-image" />
-          CONNECTWAY
+          <span className="nav-logo-text connect">Connect</span>
+          <span className="nav-logo-text way">Way</span>
         </NavLink>
 
         <ul className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>

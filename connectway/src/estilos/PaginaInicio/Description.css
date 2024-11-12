@@ -3,7 +3,6 @@
   margin: 0 auto;
 }
 
-
 .slick-slider {
   width: 100%;
   margin: 0 auto;
@@ -66,7 +65,6 @@
 
 .audiolibro-info p {
   font-size: 1em;
-  color: darkgray;
   margin: 5px 0 0 0;
 }
 
@@ -76,12 +74,11 @@
   width: 40px;
   height: 40px;
   z-index: 1;
-  background-color: rgba(3, 49, 75, 0.8);
+  background-color: #0A1045;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: 0.75;
   transition: opacity 0.3s ease, transform 0.3s ease;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
@@ -90,6 +87,7 @@
 .slick-next:hover {
   opacity: 1;
   transform: scale(1.1);
+  background-color: #94b9ff;
 }
 
 .slick-prev:before,
@@ -105,6 +103,11 @@
 
 .slick-next {
   right: -50px;
+}
+
+.titulo-description-1{
+  color: #03314b;
+  font-weight: 800;
 }
 
 /* Estilo Responsivo */
