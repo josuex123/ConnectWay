@@ -5,17 +5,15 @@ const db = getFirestore(app);
 
 export const editarEstadoReproduccion = async (idUsuario, idAudiolibro, estadoReproduccion, audioUrl) => {
     try {
-        // Crear una referencia a la colección
-        const collectionRef = collection(db, 'Usuario_EstadoReproduccion');
         
-        // Consulta con 'where' para traer el documento que coincide con idUsuario e idAudiolibro
+        const collectionRef = collection(db, 'Usuario_EstadoReproduccion');
+
         const q = query(
             collectionRef,
             where('idUsuario', '==', idUsuario),
             where('idAudiolibro', '==', idAudiolibro)
         );
         
-        // Ejecutar la consulta
         const querySnapshot = await getDocs(q);
 
         // Si se encuentra un documento
