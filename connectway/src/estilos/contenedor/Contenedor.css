@@ -1,7 +1,7 @@
 .contenedor {
-  max-width: 400px; 
+  max-width: 275px; 
   margin: 20px;
-  background-color: #ffffff; 
+  background-color: #E3EAF1!important ; 
   border: '2px solid #757575';
   border-radius: 20px;
   display: flex;
@@ -13,7 +13,7 @@
 }
 
 .contenedor:hover {
-  background-color: #F1F6F4;
+  background-color: #5c656d;
 }
 
 .img-portada {
@@ -61,9 +61,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 2; /* Asegúrate de que el texto se limite a 2 líneas */
   -webkit-box-orient: vertical;
   min-height: 2.4rem;
+  max-height: 2.4rem; /* Añade un límite de altura */
 }
 
 .duracion i {
@@ -93,15 +94,15 @@
 }
 
 .boton-editar {
-  font-size: 0.85rem;
-  border-color: #03314B;
-  background-color: #03314B;
-  color:white;
-  width: 90px;
-  text-align: center;
-  display: flex; 
-  align-items: baseline; 
-  justify-content: center;  
+  font-size: 0.85rem!important;
+  border-color: #03314B!important;
+  background-color: #03314B!important;
+  color:white!important;
+  width: 90px!important;
+  text-align: center!important;
+  display: flex!important; 
+  align-items: baseline!important; 
+  justify-content: center!important;  
 }
 .boton-eliminar {
   font-size: 0.85rem;
@@ -119,8 +120,8 @@
   background-color: #03314B;
 }
 .boton-editar:hover {
-  background-color: #03314B;
-  color:white;
+  background-color: #03314B!important;
+  color:white!important;
  }
 .d-flex {
   align-items: center; 
@@ -136,8 +137,8 @@
 .elim {
   font-size: 0.85rem;
   
-  background-color: #DC3545;
-  color:white;
+  background-color: #DC3545 !important;
+  color:white !important;
   width: 90px;
   text-align: center;
   display: flex; 

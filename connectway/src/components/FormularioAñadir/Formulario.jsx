@@ -47,9 +47,27 @@ function Formulario() {
       setIsModalNotificacionOpen(false);
   };
 
-  const handleDescripcionChange = (e) => {
-    setDescripcion(e.target.value);
-  };
+  function handleDescripcionChange(e) {
+    const inputText = e.target.value;
+    
+    // Dividimos el texto en palabras
+    const words = inputText.split(" ");
+  
+    // Creamos un nuevo arreglo para almacenar palabras con saltos de línea
+    const processedWords = words.map(word => {
+      // Si la palabra es mayor a 40 caracteres, insertamos un salto de línea
+      if (word.length > 25) {
+        return word.match(/.{1,25}/g).join("\n"); // Divide en bloques de 40 caracteres y agrega saltos de línea
+      }
+      return word;
+    });
+  
+    // Unimos las palabras procesadas con espacios
+    const newDescription = processedWords.join(" ");
+  
+    // Actualizamos el estado con la nueva descripción
+    setDescripcion(newDescription);
+  }
 
   const handleCancel = () => {
     window.location.href = "/Home/1";
@@ -263,7 +281,9 @@ function Formulario() {
     <form onSubmit={handleSubmit} className="form-container">
         {error && <div className="alert alert-danger">{error}</div>}
         <div className="form-group-horizontal mb-3">
-            <label htmlFor="titulo">Título:</label>
+            <label htmlFor="titulo"style={{ display: 'inline-flex', alignItems: 'center' }}>
+                Título:<span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+            </label>
             <div
                 className="tooltip-container"
                 onMouseEnter={() => setShowTooltip(titulo === "")}
@@ -290,7 +310,9 @@ function Formulario() {
         </div>
 
         <div className='form-group-horizontal mb-3'>
-            <label htmlFor="autor">Autor:</label> 
+            <label htmlFor="autor"style={{ display: 'inline-flex', alignItems: 'center' }}>
+                Autor:<span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+            </label> 
             <div className='tooltip-container'>
                 <div
                     className="tooltip-container"
@@ -318,7 +340,9 @@ function Formulario() {
         </div>
 
         <div className='form-group-horizontal mb-3'>
-            <label htmlFor="autor">Categoría:</label>
+            <label htmlFor="autor"style={{ display: 'inline-flex', alignItems: 'center' }}>
+                Categoría:<span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+            </label>
             <select
                 id="categoria"
                 className="form-select"
@@ -329,13 +353,15 @@ function Formulario() {
                 <option value="meditación">Meditación</option>
                 <option value="inteligencia_emocional">Inteligencia Emocional</option>
                 <option value="salud_mental">Salud Mental</option>
-                <option value="psicologia_de_parejas">Psicología de parejas</option>
+                <option value="psicología_de_parejas">Psicología de parejas</option>
             </select>
         </div>
         
 
         <div className="form-group mb-3" style={{position:'relative'}}>
-            <label htmlFor="descripcion">Descripción:</label>
+            <label htmlFor="descripcion" style={{ display: 'inline-flex', alignItems: 'center' }}>
+                Descripción:<span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+            </label>
                 <span style={{ position: 'absolute', top: '0', right: '0', fontSize: '12px', color: '#888' }}>
                     {descripcion.length}/{maxChars}
                 </span>
@@ -346,7 +372,7 @@ function Formulario() {
             >
                 <textarea
                     id="descripcion"
-                    className="form-control"
+                    className="form-control word-wrap"
                     placeholder="Escribe una breve descripción del libro"
                     value={descripcion}
                     onChange={handleDescripcionChange}
@@ -366,7 +392,7 @@ function Formulario() {
         <div className="file-upload-container">
             <div className="dropzone-container">
                 <h3 className="dropzone-title">
-                    Subir portada:
+                    Subir portada:<span style={{ color: 'red', marginLeft: '4px' }}>*</span>
                     <span   
                         className="info-icon" 
                         onMouseEnter={() => setShowTooltipIcon1(true)}
@@ -417,7 +443,8 @@ function Formulario() {
             </div>
 
             <div className="dropzone-container">
-                <h3 className="dropzone-title">Subir audiolibro:
+                <h3 className="dropzone-title">
+                    Subir audiolibro:<span style={{ color: 'red', marginLeft: '4px' }}>*</span>
                     <span className="info-icon" 
                         onMouseEnter={() => setShowTooltipIcon2(true)}
                         onMouseLeave={() => setShowTooltipIcon2(false)}

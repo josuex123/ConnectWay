@@ -35,7 +35,7 @@
 }
 
 .nav-link-landing {
-    color: #03314B;
+    color: white;
     text-decoration: none;
     padding: 0.5rem 1rem;
     border-radius: 5px;
@@ -46,22 +46,22 @@
 }
 
 .nav-link-start-landing {
-    color: #03314B;
+    color: white;
     text-decoration: none;
-    background-color: #2CE080;
+    background-color: #03314B;
     padding: 0.5rem 1rem;
     border-radius: 5px;
     font-weight: 600;
 }
 
 .nav-link-landing:hover {
-    background-color: #2CE080;
-    color: #03314B;
+    background-color: #03314B;
+    color: white;
     border-radius: 5px;
 }
 .nav-link-start-landing:hover {
-    background-color:#20BA68;
-    color: #03314B;
+    background-color:#03314B;
+    color: white;
     border-radius: 5px;
 }
 .nav-items-landing {
@@ -71,7 +71,7 @@
 .nav-logo-landing {
     font-size: 24px;
     font-weight: 600;
-    color: #03314B; 
+    color: #03314B !important; 
     display: flex;
     align-items: center;
     text-decoration: none;
@@ -91,7 +91,7 @@
 }
 
 .nav-link-landing, .nav-link-start-landing {
-    color: #03314B; 
+    color: white; 
     text-decoration: none;
     padding: 0.5rem 0.8rem;
 }
@@ -111,7 +111,7 @@
 
 .menu-icon-landing {
     font-size: 2rem;
-    color: #03314B;
+    color: white;
 }
 
 .main-content {
@@ -132,8 +132,8 @@
 }
 
 .extra{
-    color: #FED00C; 
-    -webkit-text-stroke: 1px rgb(230, 196, 49);
+    color: #03314B; 
+
     letter-spacing: 1px; 
 }
 
@@ -145,12 +145,9 @@
 }
 
 .highlight {
-    color: #FED00C;
+    background-color: white;
     padding: 3px 5px;
     border-radius: 3px;
-    font-weight: 500;
-    -webkit-text-stroke: 1px rgb(230, 196, 49);
-    letter-spacing: 1px; 
 }
 
 .phone-image {
@@ -169,7 +166,7 @@
     display: inline-block;
 }
 .btn-start-landing:hover {
-    background-color:#021f36;
+    background-color:#03314B;
     color: white;
     border-radius: 5px;
 }
@@ -183,7 +180,7 @@
 
 .menu-icon-landing {
     font-size: 2rem;
-    color: #03314B;
+    color: white;
 }
 
 .image-content {
@@ -247,3 +244,4 @@
         padding: 0.5rem 5rem;
     }
 }
+

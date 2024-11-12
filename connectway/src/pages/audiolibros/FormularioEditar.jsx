@@ -37,6 +37,7 @@ const AudiobookEdit = () => {
     const [isModalAdvertenciaOpen, setIsModalAdvertenciaOpen] = useState(false);
     const [notificationTypeAdver, setNotificationTypeAdver] = useState('success');
     const [notificationMessageAdver, setNotificationMessageAdver] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const [imageFiles, setImageFiles] = useState([]);
     const [audioFiles, setAudioFiles] = useState([]);
     const [audioError, setAudioError] = useState(null);
@@ -92,6 +93,7 @@ const AudiobookEdit = () => {
     }, [audiobook]);
     const uploadImageToStorage = async (file) => {
         if (!file) return null;
+        
         const storageRef = ref(storage, `Portadas/${file.name}`);
         const uploadTask = uploadBytesResumable(storageRef, file);
         return new Promise((resolve, reject) => {
@@ -103,13 +105,16 @@ const AudiobookEdit = () => {
                 },
                 (error) => {
                     console.error('Error subiendo imagen:', error);
+                    
                     reject(error);
                 },
                 async () => {
                     try {
                         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                        
                         resolve(downloadURL);
                     } catch (error) {
+                        
                         reject(error);
                     }
                 }
@@ -118,6 +123,7 @@ const AudiobookEdit = () => {
     };
     const uploadAudioToStorage = async (file) => {
         if (!file) return null;
+       
         const storageRef = ref(storage, `Audios/${file.name}`);
         const uploadTask = uploadBytesResumable(storageRef, file);
         return new Promise((resolve, reject) => {
@@ -129,13 +135,16 @@ const AudiobookEdit = () => {
                 },
                 (error) => {
                     console.error('Error subiendo archivo de audio:', error);
+                    
                     reject(error);
                 },
                 async () => {
                     try {
                         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                        
                         resolve(downloadURL);
                     } catch (error) {
+                        
                         reject(error);
                     }
                 }
@@ -197,8 +206,25 @@ const AudiobookEdit = () => {
 
     const handleDescriptionChange = (e) => {
         const { value } = e.target;
-        if (validateDescription(value)) {
-            setDescripcion(value);
+    
+        // Divide el texto ingresado en palabras
+        const words = value.split(" ");
+    
+        // Procesa cada palabra para verificar su longitud
+        const processedWords = words.map(word => {
+            // Si la palabra tiene más de 40 caracteres, agrega saltos de línea
+            if (word.length > 25) {
+                return word.match(/.{1,25}/g).join("\n"); // Divide en bloques de 40 caracteres y agrega saltos de línea
+            }
+            return word;
+        });
+    
+        // Une las palabras procesadas con espacios
+        const newDescription = processedWords.join(" ");
+    
+        // Verifica si la descripción cumple con el criterio de validación
+        if (validateDescription(newDescription)) {
+            setDescripcion(newDescription);
         }
     };
     const handleSubmit = async () => {
@@ -231,14 +257,17 @@ const AudiobookEdit = () => {
             imagenPortadaURL: imageUrlToSave,
             archivoAudioURL: audioUrlToSave,
         };
-
+        closeConfirmModal(); 
+        setIsLoading(true); 
         try {
             await updateAudiobook(audiobook.id, updatedData);
             closeConfirmModal();
+            setIsLoading(false); 
             showModalNotificacion('success', 'El audiolibro ha sido actualizado exitosamente.');
             
         } catch (error) {
             console.error('Error al actualizar el audiolibro: ', error);
+            setIsLoading(false); 
             showModalNotificacion('error', 'Hubo un error al actualizar el audiolibro.');
         }
     };
@@ -379,26 +408,18 @@ const AudiobookEdit = () => {
     }, []);
     
 
-    const removeImageFile = () => {
-        setImageFiles([]);
-        if (imagenUrl) URL.revokeObjectURL(imagenUrl);
-        setImagenUrl('');
-
-    };
-
-    const removeAudioFile = () => {
-        setAudioFiles([]);
-        if (audioUrl) URL.revokeObjectURL(audioUrl);
-        setAudioUrl('');
-    };
     const imageDropzone = useDropzone({
         onDrop: handleImageUpload,
         accept: { 'image/png': [], 'image/jpeg': [] },
+        noClick: true, 
+        noKeyboard: true,
     });
 
     const audioDropzone = useDropzone({
         onDrop: onDropAudio,
         accept: { 'audio/wav': [], 'audio/mpeg': [] },
+        noClick: true, 
+        noKeyboard: true,
     });
     
     const handleImageChangeConfirm = () => {
@@ -406,11 +427,12 @@ const AudiobookEdit = () => {
         closeConfirmModal2(); 
     };
     
-    // Similar para el audio:
     const handleAudioChangeConfirm = () => {
+    
         setIsAudioChangeConfirmed(true);
         closeConfirmModal3(); 
     };
+    
 
     useEffect(() => {
         if (isImageChangeConfirmed) {
@@ -431,7 +453,9 @@ const AudiobookEdit = () => {
             <h1 className="title">Editar Audiolibro</h1>
             <form className="form-container">
                 <div className="form-group-horizontal mb-3">
-                    <label htmlFor="titulo">Título:</label>
+                <label htmlFor="titulo"style={{ display: 'inline-flex', alignItems: 'center' }}>
+                    Título:<span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+                </label>
                     <div className="tooltip-container">
                         <input
                             type="text"
@@ -445,7 +469,9 @@ const AudiobookEdit = () => {
                 </div>
 
                 <div className="form-group-horizontal mb-3">
-                    <label htmlFor="autor">Autor:</label>
+                <label htmlFor="autor"style={{ display: 'inline-flex', alignItems: 'center' }}>
+                    Autor:<span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+                </label> 
                     <div className="tooltip-container">
                         <input
                             type="text"
@@ -459,7 +485,9 @@ const AudiobookEdit = () => {
                 </div>
 
                 <div className="form-group-horizontal mb-3">
-                    <label htmlFor="categoria">Categoría:</label>
+                <label htmlFor="autor"style={{ display: 'inline-flex', alignItems: 'center' }}>
+                    Categoría:<span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+                </label>
                     <div className="tooltip-container">
                     <select
                         id="categoria"
@@ -470,14 +498,16 @@ const AudiobookEdit = () => {
                         <option value="meditación">Meditación</option>
                         <option value="inteligencia_emocional">Inteligencia Emocional</option>
                         <option value="salud_mental">Salud Mental</option>
-                        <option value="psicologia_de_parejas">Psicología de Parejas</option>
+                        <option value="psicología_de_parejas">Psicología de Parejas</option>
                     </select>
 
                     </div>
                 </div>
 
                 <div className="form-group mb-3" style={{position:'relative'}}>
-                    <label htmlFor="descripcion">Descripción:</label>
+                <label htmlFor="descripcion" style={{ display: 'inline-flex', alignItems: 'center' }}>
+                    Descripción:<span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+                </label>
                     <span style={{ position: 'absolute', top: '0', right: '0', fontSize: '12px', color: '#888' }}>
                     {descripcion.length}/{maxChars}
                 </span>
@@ -508,67 +538,80 @@ const AudiobookEdit = () => {
             )}
             <div className="oka">
              <div className="dropzone-container1">
-                <h3 className="dropzone-title">Imagen de la portada:</h3>
+                <h3 className="dropzone-title">
+                    Imagen de la portada:<span style={{ color: 'red', marginLeft: '4px' }}>*</span>
+                </h3>
                 <div {...imageDropzone.getRootProps()} className="dropzone1">
-                    <input {...imageDropzone.getInputProps()} style={{ display: 'none' }} />
-                    {!newImage && !imagenUrl && imageFiles.length === 0 && (
-                        <>
-                            <div className="icon-container">
-                                <FontAwesomeIcon icon={faImage} size="2x" className="icon" />
+                        <input 
+                            {...imageDropzone.getInputProps()} 
+                            style={{ display: 'none' }} 
+                            id="input-imagen-portada"  // Asignar id para el input
+                        />
+                        {!newImage && !imagenUrl && imageFiles.length === 0 && (
+                            <>
+                                <div className="icon-container">
+                                    <FontAwesomeIcon icon={faImage} size="2x" className="icon" />
+                                </div>
+                                <p>Haz clic o arrastra un archivo aquí</p>
+                            </>
+                        )}
+                        {(newImage || imagenUrl) && (
+                            <div className="uploaded-file">
+                                <div className="uploaded-portada">
+                                    <img
+                                        src={newImage || imagenUrl || ''}
+                                        alt="Portada"
+                                        width="100px"
+                                        className="image-preview"
+                                    />
+                                </div>
+                                <button
+                                    className="btn btn-outline-danger eliminar-botn"
+                                    onClick={(e) => {
+                                        e.preventDefault();  // Evita la recarga del formulario
+                                        setIsConfirmModal2Open(true);
+                                    }}
+                                    
+                                >
+                                    Cambiar
+                                </button>
                             </div>
-                            <p>Haz clic o arrastra un archivo aquí</p>
-                        </>
-                    )}
-                    {(newImage || imagenUrl) && (
-                        <div className="uploaded-file">
-                            <div className="uploaded-portada">
-                                <img
-                                    src={newImage || imagenUrl || ''}
-                                    alt="Portada"
-                                    width="100px"
-                                    className="image-preview"
-                                />
+                        )}
+                    </div>
+                                </div>
+                                <div className="dropzone-container1">
+                                    <h3 className="dropzone-title">
+                                        Audiolibro:<span style={{ color: 'red', marginLeft: '4px' }}>*</span>
+                                    </h3>
+                                    <div {...audioDropzone.getRootProps()} className="dropzone1">
+                        <input 
+                            {...audioDropzone.getInputProps()} 
+                            style={{ display: 'none' }} 
+                            id="input-audiolibro"  // Asignar id para el input
+                        />
+                        {!audioUrl && audioFiles.length === 0 && (
+                            <>
+                                <div className="icon-container">
+                                    <FontAwesomeIcon icon={faMusic} size="2x" className="icon" />
+                                </div>
+                                <p>Haz clic o arrastra un archivo aquí</p>
+                            </>
+                        )}
+                        {(audioUrl || audioFiles.length > 0) && (
+                            <div className="uploaded-file1">
+                                <audio controls src={audioUrl}></audio>
+                                <button
+                                    className="btn btn-outline-danger eliminar-botn"
+                                    onClick={(e) => {
+                                        e.preventDefault();  // Evita la recarga del formulario
+                                        setIsConfirmModal3Open(true);
+                                    }}
+                                >
+                                    Cambiar
+                                </button>
                             </div>
-                            <button
-                                className="btn btn-outline-danger eliminar-botn"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    isConfirmModal2Open();
-                                }}
-                            >
-                                Cambiar
-                            </button>
-                        </div>
-                    )}
-                </div>
-             </div>
-             <div className="dropzone-container1">
-                <h3 className="dropzone-title">Audiolibro:</h3>
-                <div {...audioDropzone.getRootProps()} className="dropzone1">
-                    <input {...audioDropzone.getInputProps()} style={{ display: 'none' }} />
-                    {!audioUrl && audioFiles.length === 0 && (
-                        <>
-                            <div className="icon-container">
-                                <FontAwesomeIcon icon={faMusic} size="2x" className="icon" />
-                            </div>
-                            <p>Haz clic o arrastra un archivo aquí</p>
-                        </>
-                    )}
-                    {(audioUrl || audioFiles.length > 0) && (
-                        <div className="uploaded-file1">
-                            <audio controls src={audioUrl}></audio>
-                            <button
-                                className="btn btn-outline-danger eliminar-botn"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    isConfirmModal3Open();
-                                }}
-                            >
-                                Cambiar
-                            </button>
-                        </div>
-                    )}
-                </div>
+                        )}
+                    </div>
              </div>
             </div>
         </form>
@@ -619,7 +662,7 @@ const AudiobookEdit = () => {
                 onConfirm={handleImageChangeConfirm}
                 title="Confirmar"
                 description="¿Estás seguro de que deseas cambiar la portada?"
-                iconClass="fa fa-exclamation"
+                iconClass="fa fa-question"
             />
             <ModalConfirmacion3
                 isOpen={isConfirmModal3Open}
@@ -627,9 +670,15 @@ const AudiobookEdit = () => {
                 onConfirm={handleAudioChangeConfirm}
                 title="Confirmar"
                 description="¿Estás seguro de que deseas cambiar el audio?"
-                iconClass="fa fa-exclamation"
+                iconClass="fa fa-question"
             />
-            
+            <ModalCargando
+                isOpen={isLoading} 
+                onClose={() => {}}
+                type="loading"
+                message="Cargando, por favor espera...\n "
+                iconClass="fa fa-spinner fa-spin" 
+                />
         </>
     );
 };
