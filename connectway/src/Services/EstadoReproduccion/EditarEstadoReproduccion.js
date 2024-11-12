@@ -16,7 +16,6 @@ export const editarEstadoReproduccion = async (idUsuario, idAudiolibro, estadoRe
         
         const querySnapshot = await getDocs(q);
 
-        // Si se encuentra un documento
         if (!querySnapshot.empty) {
             // Obtener el primer documento de la consulta
             const documento = querySnapshot.docs[0];
