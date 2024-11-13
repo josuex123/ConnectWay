@@ -40,7 +40,7 @@ const AudiobookSearch2 = ({ onResults, setSearchPerformed }) => {
     const handleSearch = (event) => {
         const newValue = event.target.value;
 
-        // Si supera los 100 caracteres, no permitir más escritura y mostrar error
+        // Si se supera los 100 caracteres, no permitira más escritura y mostrar error
         if (newValue.length <= 100) {
             setSearchTerm(newValue);
         } else {

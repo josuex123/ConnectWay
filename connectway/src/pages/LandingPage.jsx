@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; 
 import './LandingPage.css';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt, faChevronDown, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import logo from '../images/logoejemplo.png';
 import portada from '../images/online-education2.png';
-
 
 const LandingPage = () => {
   const isDisabled = true; 
@@ -30,15 +29,19 @@ const LandingPage = () => {
 
           <ul className={menuOpen ? "nav-menu-landing active" : "nav-menu-landing"}>
             <li className='nav-items-landing'>
-              <NavLink className={`nav-link-landing ${isDisabled ? 'disabled' : ''}`} 
-              style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}>
+              <NavLink 
+                className={`nav-link-landing ${isDisabled ? 'disabled' : ''}`}
+                to="#"
+              >
                 Categorías 
                 <FontAwesomeIcon icon={faChevronDown} style={{ marginLeft: '5px' }} />
               </NavLink>
             </li>
             <li className='nav-items-landing'>
-              <NavLink className={`nav-link-landing ${isDisabled ? 'disabled' : ''}`} 
-              style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}>
+              <NavLink 
+                className={`nav-link-landing ${isDisabled ? 'disabled' : ''}`} 
+                to="#"
+              >
                 Iniciar sesión
                 <FontAwesomeIcon icon={faSignInAlt} style={{ marginLeft: '5px' }} />
               </NavLink>

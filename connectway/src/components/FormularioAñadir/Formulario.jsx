@@ -47,9 +47,27 @@ function Formulario() {
       setIsModalNotificacionOpen(false);
   };
 
-  const handleDescripcionChange = (e) => {
-    setDescripcion(e.target.value);
-  };
+  function handleDescripcionChange(e) {
+    const inputText = e.target.value;
+    
+    // Dividimos el texto en palabras
+    const words = inputText.split(" ");
+  
+    // Creamos un nuevo arreglo para almacenar palabras con saltos de línea
+    const processedWords = words.map(word => {
+      // Si la palabra es mayor a 40 caracteres, insertamos un salto de línea
+      if (word.length > 25) {
+        return word.match(/.{1,25}/g).join("\n"); // Divide en bloques de 40 caracteres y agrega saltos de línea
+      }
+      return word;
+    });
+  
+    // Unimos las palabras procesadas con espacios
+    const newDescription = processedWords.join(" ");
+  
+    // Actualizamos el estado con la nueva descripción
+    setDescripcion(newDescription);
+  }
 
   const handleCancel = () => {
     window.location.href = "/Home/1";
@@ -335,7 +353,7 @@ function Formulario() {
                 <option value="meditación">Meditación</option>
                 <option value="inteligencia_emocional">Inteligencia Emocional</option>
                 <option value="salud_mental">Salud Mental</option>
-                <option value="psicologia_de_parejas">Psicología de parejas</option>
+                <option value="psicología_de_parejas">Psicología de parejas</option>
             </select>
         </div>
         
@@ -354,7 +372,7 @@ function Formulario() {
             >
                 <textarea
                     id="descripcion"
-                    className="form-control"
+                    className="form-control word-wrap"
                     placeholder="Escribe una breve descripción del libro"
                     value={descripcion}
                     onChange={handleDescripcionChange}
