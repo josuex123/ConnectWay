@@ -20,8 +20,7 @@ import MiActividad from './pages/miActividad/miActividad';
 import Perfil from './pages/perfil/perfil';
 import LogIn from './pages/users/login';
 import AudiobookEdit from './pages/audiolibros/FormularioEditar';
-
-
+import IniciarSesion from './pages/SesionUsuario/IniciarSesion';
 function App() {
   const { reproductorRef, audiolibroData } = useAudioContext();
   return (
@@ -36,6 +35,7 @@ function App() {
           <Route path="/MiActividad/:role" element={<MiActividad />} />
           <Route path="/Perfil/:role" element={<Perfil />} />
           <Route path="/Login" element={<LogIn />} />
+          <Route path="/IniciarSesion" element={<IniciarSesion />} />
           
           {/* Rutas para el admin */}
           <Route path="/Audiolibros/añadir/:role" element={<AudiolibrosAñadir />} />
