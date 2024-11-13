@@ -16,6 +16,7 @@ import AudiolibrosAñadir from './pages/audiolibros/AudiolibrosAñadir';
 import CrearComunidad from './pages/Comunidad/CrearComunidad' 
 import UnirseComunidad from './pages/Comunidad/UnirseComunidad';  
 import MisComunidades from './pages/Comunidad/MisComunidades';  
+import Comunidad from './pages/Comunidad/Comunidad';  
 import MiActividad from './pages/miActividad/miActividad';
 import Perfil from './pages/perfil/perfil';
 import LogIn from './pages/users/login';
@@ -51,6 +52,7 @@ function App() {
           <Route path="/comunidad/crear/:role" element={<CrearComunidad />} />
           <Route path="/comunidad/unirse/:role" element={<UnirseComunidad />} />
           <Route path="/comunidad/mis-comunidades/:role" element={<MisComunidades />} />
+          <Route path="/comunidad/una-comunidad/:role" element={<Comunidad />} />
         </Routes>
       </div>
       <AudiolibrosReproducir ref = {reproductorRef}/>
