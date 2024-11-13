@@ -3,11 +3,11 @@ import { app } from '../../firebaseConfig';
 
 const db = getFirestore(app);
 
-export const guardarUsuario = async (uid, email, nombreCompleto) => {
+export const guardarUsuario = async (uid, usuario, nombreCompleto) => {
   try {
     const usuarioDocRef = doc(db, 'Usuarios', uid);
     await setDoc(usuarioDocRef, {
-      email: email,
+      usuario: usuario,
       nombreCompleto: nombreCompleto,
     });
 

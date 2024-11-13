@@ -21,3 +21,16 @@ const registrarUsuario = async (email, contraseña) => {
 };
 
 export default registrarUsuario;
+
+/* const handleRegister = async () => {
+  const response = await registrarUsuario(email, contraseña);
+
+  if (response.uid) {
+    // El registro fue exitoso, podemos usar el uid
+    console.log("Usuario registrado con UID:", response.uid);
+  } else if (response.error) {
+    // Hubo un error, mostramos el mensaje
+    alert(response.error);
+  }
+};
+ */
