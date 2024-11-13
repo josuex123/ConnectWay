@@ -236,7 +236,7 @@ const AudiobookEdit = () => {
             if (!descripcion) emptyFields.push('Descripción');
     
            showModalAdvertencia('error', `Los siguientes campos están vacíos: ${emptyFields.join(', ')}`);
-            return; // No continuar si hay campos vacíos
+            return; // No continuar si existe campos vacíos
         }
         let imageUrlToSave = imagenUrl;
         let audioUrlToSave = audioUrl;
@@ -622,12 +622,12 @@ const AudiobookEdit = () => {
                     <button className="cancel-bot" type="button" onClick={() => window.history.back()}>Cancelar</button>
                     <button className="submit-bot" type="button" 
                         onClick={openConfirmModal}
-                        //disabled={!isFormValid}
-                        /*style={{
+                        disabled={!isFormValid}
+                        style={{
                             backgroundColor: isFormValid ? '#03314B' : '#d3d3d3', 
                             color: isFormValid ? 'white' : '#666', 
                             cursor: isFormValid ? 'pointer' : 'not-allowed', 
-                        }}*/
+                        }}
                        
                     >Guardar
                     </button>

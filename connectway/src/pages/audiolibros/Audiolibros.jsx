@@ -110,7 +110,7 @@ const AudiolibroUsuario = () => {
     return (
         <div className="pagina-inicio">
             <Navbar />
-            <div className="content"> 
+            <div className="content-audiolibro"> 
                 <AudiobookSearch2 onResults={handleSearchResults} setSearchPerformed={setSearchPerformed} />
                 <div>
                     <p className='titulo-1'>
