@@ -236,7 +236,7 @@ const AudiobookEdit = () => {
             if (!descripcion) emptyFields.push('Descripción');
     
            showModalAdvertencia('error', `Los siguientes campos están vacíos: ${emptyFields.join(', ')}`);
-            return; // No continuar si hay campos vacíos
+            return; // No continuar si existe campos vacíos
         }
         let imageUrlToSave = imagenUrl;
         let audioUrlToSave = audioUrl;
