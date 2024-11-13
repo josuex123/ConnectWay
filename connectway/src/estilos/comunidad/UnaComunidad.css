@@ -3,20 +3,32 @@
     padding: 20px;
 }
 
+.text {
+    text-align: start;
+}
+
 .comunidad-page {
     display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
     padding: 20px;
 }
 
 .comunidades-list {
-    width: 200px;
-    margin-right: 20px;
-    border-right: 1px solid #ddd;
-    padding-right: 10px;
+    width: 300px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.comunidades-list ul {
+    list-style-type: none;
+    padding-inline: 20px;
 }
 
 .comunidades-list h3 {
-    font-size: 1.2em;
+    font-size: 1em;
     margin-bottom: 10px;
 }
 
@@ -43,57 +55,4 @@
 
 .posts {
     margin-top: 20px;
-}
-
-.post-container {
-    display: flex;
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-}
-
-.post-image img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
-.post-contenido {
-    margin-left: 20px;
-    flex: 1;
-}
-
-.post-header {
-    display: flex;
-    justify-content: space-between;
-}
-
-.user-info {
-    display: flex;
-    align-items: center;
-}
-
-.user-info img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-}
-
-.post-footer {
-    margin-top: 10px;
-}
-
-.icon-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    margin-right: 10px;
-    color: #555;
-}
-
-.icon-button i {
-    margin-right: 5px;
 }

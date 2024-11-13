@@ -1,36 +1,7 @@
 import React from 'react';
 import Navbar from '../../components/PaginaInicio/Navbar';
+import Post from './Post';
 import '../../estilos/comunidad/UnaComunidad.css';
-import defaultUser from '../../images/usuario.png'; // Imagen de usuario por defecto
-import defaultImage from '../../images/postSinImagen.png'; // Imagen de post por defecto
-
-const Post = ({ titulo, contenido, imagenUsuario, nombreUsuario, imagenPost }) => {
-    return (
-        <div className="post-container">
-            <div className="post-image">
-                <img src={imagenPost || defaultImage} alt="Post" />
-            </div>
-            <div className="post-contenido">
-                <div className="post-header">
-                    <h2>{titulo}</h2>
-                    <div className="user-info">
-                        <img src={imagenUsuario || defaultUser} alt="Usuario" />
-                        <span>{nombreUsuario}</span>
-                    </div>
-                </div>
-                <p>{contenido}</p>
-                <div className="post-footer">
-                    <button className="icon-button">
-                        <i className="fa fa-comment"></i> Comentarios
-                    </button>
-                    <button className="icon-button">
-                        <i className="fa fa-heart"></i> Reacciones
-                    </button>
-                </div>
-            </div>
-        </div>
-    );
-};
 
 const Comunidad = () => {
     // Ejemplo de datos de comunidades y posts que se podrían obtener de Firebase
@@ -48,11 +19,11 @@ const Comunidad = () => {
             <Navbar />
             <div className="titulo-comunidad">
                 {/* Sección de "Tus Comunidades" */}
-                <h1>Inteligencia Emocional</h1>
-                <h2>Comunidad A</h2>
+                <h4>Aqui la categoria de la comunidad</h4>
+                <h1>Nombre de la comunidad</h1>
                 <div className="comunidad-page">
                     <div className="comunidades-list">
-                        <h3>Tus Comunidades</h3>
+                        <h3 className="text">Tus Comunidades:</h3>
                         <ul>
                             {comunidades.map((comunidad, index) => (
                                 <li key={index} className="comunidad-item">
@@ -72,7 +43,6 @@ const Comunidad = () => {
                                 imagenPost={post.imagenPost}
                                 imagenUsuario={post.imagenUsuario}
                             />
-                            {/* Puedes agregar más componentes <Post /> aquí para más posts */}
                         </div>
                     </div>
                 </div>
