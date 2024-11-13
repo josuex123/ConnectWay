@@ -10,7 +10,12 @@ const IniciarSesion = () => {
   };
   return (
     <div className="login-container">
-      <h2>Bienvenido a ConnectWay</h2>
+       <h1 className="welcome-message">Bienvenido a 
+           <span className="logo-text first-word">Connect</span>
+           <span className="logo-text second-word">Way</span>
+       </h1>
+       
+      
       <div className="login-box">
         <h3>Iniciar Sesion</h3>
         <form>
@@ -40,8 +45,8 @@ const IniciarSesion = () => {
           <button type="submit" className="login-button">Iniciar Sesion</button>
         </form>
 
-        <p>¿No tienes una cuenta? <a href="/register" className="create-login1" >Crea una</a></p>
-        <p>OR</p>
+        <p>¿No tienes una cuenta? <a href="/CrearCuenta" className="create-login1" >Crea una</a></p>
+        <p>O</p>
         <button className="google-button1">
         <img src={require('../../images/IconGo.png')} alt="Google Icon" className='editIcon' />
            Continue con Google

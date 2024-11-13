@@ -138,4 +138,42 @@ a{
 .editIcon{
     width: 30px;
 }
+
+.welcome-message {
+    font-size: 27px;
+    font-weight: 600;
+    color: #03314B !important; 
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+.logo-text.first-word {
+    color: #94b9ff;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  }
   
+  .logo-text.second-word {
+    color: #cdffd8;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  }
+  
+  .logo-text.first-word {
+    color: #03314B;
+    text-shadow: 1px 1px 5px rgba(27, 64, 184, 0.616);
+    margin-bottom: 2px;
+    margin-left: 9px;  
+  }
+  
+  .logo-text.second-word {
+    color: #9EE493;
+    text-shadow: 1px 1px 5px rgba(27, 64, 184, 0.616);
+    margin-bottom: 2px;
+    -webkit-text-stroke: 1px #87d87db4;
+}
+  
+  .logo-text.first-word,
+  .logo-text.second-word {
+    font-family: "Arial", sans-serif;
+    font-weight: 900;
+  }

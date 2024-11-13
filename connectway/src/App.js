@@ -21,6 +21,8 @@ import Perfil from './pages/perfil/perfil';
 import LogIn from './pages/users/login';
 import AudiobookEdit from './pages/audiolibros/FormularioEditar';
 import IniciarSesion from './pages/SesionUsuario/IniciarSesion';
+import CrearCuenta from './pages/SesionUsuario/CrearCuenta';
+
 function App() {
   const { reproductorRef, audiolibroData } = useAudioContext();
   return (
@@ -36,6 +38,7 @@ function App() {
           <Route path="/Perfil/:role" element={<Perfil />} />
           <Route path="/Login" element={<LogIn />} />
           <Route path="/IniciarSesion" element={<IniciarSesion />} />
+          <Route path="/CrearCuenta" element={<CrearCuenta />} />
           
           {/* Rutas para el admin */}
           <Route path="/Audiolibros/añadir/:role" element={<AudiolibrosAñadir />} />
