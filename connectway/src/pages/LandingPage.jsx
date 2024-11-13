@@ -3,7 +3,7 @@ import './LandingPage.css';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt, faChevronDown, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
-import logo from '../images/logoejemplo.png';
+import logo from '../images/logoejemplo1.jpeg';
 import portada from '../images/online-education2.png';
 
 const LandingPage = () => {
@@ -20,7 +20,8 @@ const LandingPage = () => {
         <div className='nav-container-landing'>
           <NavLink exact to="/" className="nav-logo-landing">
             <img src={logo} alt="Logo" className="nav-logo-image0" />
-            <span className="nav-logo-text">CONNECTWAY</span>
+            <span className="nav-logo-landing-text connect">Connect</span>
+            <span className="nav-logo-landing-text way">Way</span>
           </NavLink>
 
           <div className="nav-icon-landing" onClick={toggleMenu}>
