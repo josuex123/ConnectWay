@@ -37,7 +37,7 @@ function App() {
           <Route path="/Perfil/:role" element={<Perfil />} />
           <Route path="/Login" element={<LogIn />} />
           
-          {/* Rutas para el admin */}
+          {/* Rutas para el administrador */}
           <Route path="/Audiolibros/añadir/:role" element={<AudiolibrosAñadir />} />
           <Route path="/Audiolibros/registrados/:role" element={<AudiolibrosRegistrado />} />
           <Route path="/Audiolibros/registrados/informacion/:role" element={<AudiolibrosInformacion />} />
