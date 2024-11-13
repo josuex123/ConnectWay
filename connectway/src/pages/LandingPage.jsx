@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt, faChevronDown, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import logo from '../images/logoejemplo1.jpeg';
-import portada from '../images/online-education2.png';
+import portada from '../images/landing1.png';
 
 const LandingPage = () => {
   const isDisabled = true; 
