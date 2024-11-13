@@ -3,7 +3,7 @@ import { NavLink, useNavigate, useLocation, useParams } from 'react-router-dom';
 import '../../estilos/PaginaInicio/Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
-import logo from '../../images/logoejemplo1.jpeg';
+import logo from '../../images/logoejemplo.png';
 import person from '../../images/usuario1.png';
 import home from '../../images/hogar1.png';
 import cabeza from '../../images/cabeza.png';
