@@ -1,9 +1,9 @@
 import React from 'react';
 import Navbar from '../../components/PaginaInicio/Navbar';
 import Post from './Post';
-import '../../estilos/comunidad/UnaComunidad.css';
+import '../../estilos/comunidad/VerComunidad.css';
 
-const Comunidad = () => {
+const VerComunidad = () => {
     // Ejemplo de datos de comunidades y posts que se podrían obtener de Firebase
     const comunidades = ["Comunidad A", "Comunidad B", "Comunidad C", "Comunidad D", "Comunidad E"];
     const post = {
@@ -51,4 +51,4 @@ const Comunidad = () => {
     );
 };
 
-export default Comunidad;
+export default VerComunidad;
