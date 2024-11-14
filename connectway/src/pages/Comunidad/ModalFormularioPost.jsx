@@ -68,10 +68,10 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
                         ></textarea>
                     </div>
                     <div className="modal-buttons">
-                        <button type="button" className="btn-cancel" onClick={onClose}>
+                        <button type="button" className="cancel-button" onClick={onClose}>
                             Cancelar
                         </button>
-                        <button type="button" className="btn-submit" onClick={handleSubmit}>
+                        <button type="button" className="confirm-button" onClick={handleSubmit}>
                             Publicar
                         </button>
                     </div>
