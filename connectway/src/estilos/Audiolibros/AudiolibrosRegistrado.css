@@ -30,3 +30,15 @@
     background-color: #DC3545;
     border-color: black;
 }
+.content-audiolibro {
+    margin-top: 1rem !important;
+    padding: 40px 20px;
+    z-index: 2;
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 10px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  }
+  

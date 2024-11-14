@@ -1,0 +1,58 @@
+.titulo-comunidad {
+    text-align: center;
+    padding: 20px;
+}
+
+.text {
+    text-align: start;
+}
+
+.comunidad-page {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.comunidades-list {
+    width: 300px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.comunidades-list ul {
+    list-style-type: none;
+    padding-inline: 20px;
+}
+
+.comunidades-list h3 {
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+
+.comunidad-item {
+    margin: 10px 0;
+}
+
+.comunidad-item button {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.comunidad-item button:hover {
+    background-color: #ddd;
+}
+
+.comunidad-content {
+    flex: 1;
+}
+
+.posts {
+    margin-top: 20px;
+}
