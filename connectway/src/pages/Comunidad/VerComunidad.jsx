@@ -40,7 +40,9 @@ const VerComunidad = () => {
                             <h4>Aqui la categoria de la comunidad</h4>
                             <h1>Nombre de la comunidad</h1>
                         </div>
-
+                            <button className="button-comunidad">
+                                Iniciar Discusión
+                            </button>
                         <div className="posts">
                             <Post
                                 titulo={post.titulo}

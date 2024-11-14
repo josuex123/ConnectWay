@@ -29,6 +29,17 @@
     background-color: #03314B;
     border-radius: 5px;
 }
+.button-comunidad {
+    color: #03314B;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.button-comunidad:hover {
+    color: white; 
+    background-color: #03314B; 
+}
 
 .comunidades-list {
     position: relative;
