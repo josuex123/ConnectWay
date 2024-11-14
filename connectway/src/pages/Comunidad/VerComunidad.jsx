@@ -1,21 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from '../../components/PaginaInicio/Navbar';
 import Post from './Post';
+import ModalFormularioPost from './ModalFormularioPost';
 import '../../estilos/comunidad/VerComunidad.css';
 
 const VerComunidad = () => {
-    // Ejemplo de datos de comunidades y posts que se podrían obtener de Firebase
-    const comunidades = ["Comunidad A", "Comunidad B", "Comunidad C", "Comunidad D", "Comunidad E", "Comunidad B", "Comunidad C", "Comunidad D", "Comunidad E"];
-    const post = {
-        titulo: "Este e sun titulo de post demasiado largoq ue debe acortars eafsfewfjgetujfwjgejfgefgef",
-        contenido: "Este es el contenido del post. Aquí puedes hablar sobre cualquier tema relacionado."+
-        "Este es el contenido del post. Aquí puedes hablar sobre cualquier tema relacionado."+
-        "Este es el contenido del post. Aquí puedes hablar sobre cualquier tema relacionado."+
-        "Este es el contenido del post. Aquí puedes hablar sobre cualquier tema relacionado."+
-        "Este es el contenido del post. Aquí puedes hablar sobre cualquier tema relacionado.",
-        nombreUsuario: "Este es un nombre de usuario muy largo",
-        imagenPost: null, // Usa la imagen por defecto
-        imagenUsuario: null  // Usa la imagen por defecto
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [posts, setPosts] = useState([
+        {
+            titulo: "Este es un título de post demasiado largo que debe acortarse",
+            contenido:
+                "Este es el contenido del post. Aquí puedes hablar sobre cualquier tema relacionado.",
+            nombreUsuario: "Usuario Anónimo",
+            imagenPost: null,
+            imagenUsuario: null,
+        },
+        {
+            titulo: "Este título corto",
+            contenido: "Contenido corto",
+            nombreUsuario: "Usuario Anónimo",
+            imagenPost: null,
+            imagenUsuario: null,
+        },
+        {
+            titulo: "Título mediano",
+            contenido: "Contenido mediano con algo más de texto",
+            nombreUsuario: "JeremiasVA",
+            imagenPost: null,
+            imagenUsuario: null,
+        },
+    ]);
+
+    const comunidades = [
+        "Comunidad A",
+        "Comunidad B",
+        "Comunidad C",
+        "Comunidad D",
+        "Comunidad E",
+    ];
+
+    const handleIniciarDiscusion = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleCrearPost = (nuevoPost) => {
+        // Agrega el nuevo post al inicio de la lista
+        setPosts([nuevoPost, ...posts]);
     };
 
     return (
@@ -35,68 +69,39 @@ const VerComunidad = () => {
                     </div>
 
                     <div className="comunidad-content">
-                        {/* Contenedor centrado para el título y la categoría */}
                         <div className="comunidad-header">
-                            <h4>Aqui la categoria de la comunidad</h4>
-                            <h1>Nombre de la comunidad</h1>
+                            <h4>Categoría de la Comunidad</h4>
+                            <h1>Nombre de la Comunidad</h1>
                         </div>
-                            <button className="button-comunidad">
-                                Iniciar Discusión
-                            </button>
+
+                        <button
+                            className="button-comunidad"
+                            onClick={handleIniciarDiscusion}
+                        >
+                            Iniciar Discusión
+                        </button>
+
                         <div className="posts">
-                            <Post
-                                titulo={post.titulo}
-                                contenido={post.contenido}
-                                nombreUsuario={post.nombreUsuario}
-                                imagenPost={post.imagenPost}
-                                imagenUsuario={post.imagenUsuario}
-                            />
-                            <Post
-                                titulo={"Este tit corto"}
-                                contenido={"contenido corto"}
-                                nombreUsuario={"corto"}
-                                imagenPost={post.imagenPost}
-                                imagenUsuario={post.imagenUsuario}
-                            />
-                            <Post
-                                titulo={"Este tit cmediano no tna"}
-                                contenido={"contenido corto afsjksdadljgaiefjvneijfv"}
-                                nombreUsuario={"JeremiasVA"}
-                                imagenPost={post.imagenPost}
-                                imagenUsuario={post.imagenUsuario}
-                            />
-                            <Post
-                                titulo={post.titulo}
-                                contenido={post.contenido}
-                                nombreUsuario={post.nombreUsuario}
-                                imagenPost={post.imagenPost}
-                                imagenUsuario={post.imagenUsuario}
-                            />
-                            <Post
-                                titulo={post.titulo}
-                                contenido={post.contenido}
-                                nombreUsuario={post.nombreUsuario}
-                                imagenPost={post.imagenPost}
-                                imagenUsuario={post.imagenUsuario}
-                            />
-                            <Post
-                                titulo={post.titulo}
-                                contenido={post.contenido}
-                                nombreUsuario={post.nombreUsuario}
-                                imagenPost={post.imagenPost}
-                                imagenUsuario={post.imagenUsuario}
-                            />
-                            <Post
-                                titulo={post.titulo}
-                                contenido={post.contenido}
-                                nombreUsuario={post.nombreUsuario}
-                                imagenPost={post.imagenPost}
-                                imagenUsuario={post.imagenUsuario}
-                            />
+                            {posts.map((post, index) => (
+                                <Post
+                                    key={index}
+                                    titulo={post.titulo}
+                                    contenido={post.contenido}
+                                    nombreUsuario={post.nombreUsuario}
+                                    imagenPost={post.imagenPost}
+                                    imagenUsuario={post.imagenUsuario}
+                                />
+                            ))}
                         </div>
                     </div>
                 </div>
             </div>
+
+            <ModalFormularioPost
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+                onSubmit={handleCrearPost}
+            />
         </>
     );
 };
