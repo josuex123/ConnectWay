@@ -17,7 +17,7 @@ const Post = ({ titulo, contenido, imagenUsuario, nombreUsuario, imagenPost }) =
                         <span>{nombreUsuario}</span>
                     </div>
                 </div>
-                <p>{contenido}</p>
+                <p>{contenido}</p>{/*esto se desbroda*/}
                 <div className="post-footer">
                     <button className="icon-button">
                         <i className="fa fa-comment"></i> Comentarios

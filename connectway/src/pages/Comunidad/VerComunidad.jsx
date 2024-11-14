@@ -5,7 +5,7 @@ import '../../estilos/comunidad/VerComunidad.css';
 
 const VerComunidad = () => {
     // Ejemplo de datos de comunidades y posts que se podrían obtener de Firebase
-    const comunidades = ["Comunidad A", "Comunidad B", "Comunidad C", "Comunidad D", "Comunidad E"];
+    const comunidades = ["Comunidad A", "Comunidad B", "Comunidad C", "Comunidad D", "Comunidad E", "Comunidad B", "Comunidad C", "Comunidad D", "Comunidad E"];
     const post = {
         titulo: "Título de Post",
         contenido: "Este es el contenido del post. Aquí puedes hablar sobre cualquier tema relacionado.",
@@ -18,9 +18,6 @@ const VerComunidad = () => {
         <>
             <Navbar />
             <div className="titulo-comunidad">
-                {/* Sección de "Tus Comunidades" */}
-                <h4>Aqui la categoria de la comunidad</h4>
-                <h1>Nombre de la comunidad</h1>
                 <div className="comunidad-page">
                     <div className="comunidades-list">
                         <h3 className="text">Tus Comunidades:</h3>
@@ -35,6 +32,30 @@ const VerComunidad = () => {
 
                     {/* Sección principal de la comunidad y posts */}
                     <div className="comunidad-content">
+                        {/* Contenedor centrado para el título y la categoría */}
+                        <div className="comunidad-header">
+                            <h4>Aqui la categoria de la comunidad</h4>
+                            <h1>Nombre de la comunidad</h1>
+                        </div>
+
+                        <div className="posts">
+                            <Post
+                                titulo={post.titulo}
+                                contenido={post.contenido}
+                                nombreUsuario={post.nombreUsuario}
+                                imagenPost={post.imagenPost}
+                                imagenUsuario={post.imagenUsuario}
+                            />
+                        </div>
+                        <div className="posts">
+                            <Post
+                                titulo={post.titulo}
+                                contenido={post.contenido}
+                                nombreUsuario={post.nombreUsuario}
+                                imagenPost={post.imagenPost}
+                                imagenUsuario={post.imagenUsuario}
+                            />
+                        </div>
                         <div className="posts">
                             <Post
                                 titulo={post.titulo}

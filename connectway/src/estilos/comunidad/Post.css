@@ -1,6 +1,7 @@
 .post-container {
     display: flex;
-    border: 1px solid #ddd;
+    max-width: 1200px;
+    border: 2px solid #03314B;
     padding: 10px;
     margin-bottom: 20px;
     border-radius: 8px;
@@ -36,17 +37,29 @@
 }
 
 .post-footer {
+    display: flex;
+    justify-content: flex-end;
     margin-top: 10px;
 }
 
 .icon-button {
+    font-size: 0.8em;
+    width: 150px;
     background: none;
     border: none;
     cursor: pointer;
     margin-right: 10px;
-    color: #555;
+    color: #03314B;
+    box-sizing: border-box;
 }
 
 .icon-button i {
     margin-right: 5px;
+    color: #03314B;
+}
+
+.icon-button:hover, .icon-button:hover i{
+    transition: none;
+    background-color: #03314B;
+    color: #ffffff;
 }
