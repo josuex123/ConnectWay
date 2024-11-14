@@ -8,6 +8,8 @@
 .text {
     text-align: start;
     padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .comunidad-page {
@@ -35,9 +37,16 @@
     max-height: 400px;
     border: 2px solid #03314B;
     border-radius: 5px;
-    padding: 5px;
+    padding-inline: 5px;
     box-sizing: border-box;
     overflow-y: auto;
+}
+
+.comunidades-list .text {
+    position: sticky;
+    top: 0;
+    background-color: #ffffff;
+    z-index: 1;
 }
 
 .comunidades-list ul {
