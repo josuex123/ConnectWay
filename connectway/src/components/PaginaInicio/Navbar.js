@@ -112,16 +112,16 @@ const Navbar = () => {
                 </NavLink>
                 <NavLink
                   to={`/comunidad/unirse/${role}`}
-                  className={`dropdown-link  disabled ${location.pathname === `/comunidad/unirse/${role}` ? 'active' : ''}`}
-                  style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
+                  className={`dropdown-link ${location.pathname === `/comunidad/unirse/${role}` ? 'active' : ''}`}
+                  //style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
                   onClick={() => setMenuOpen(false)}
                 >
                   Unirse a Comunidad
                 </NavLink>
                 <NavLink
-                  to={`/comunidad/mis-comunidades/${role}`}
-                  className={`dropdown-link  disabled ${location.pathname === `/comunidad/mis-comunidades/${role}` ? 'active' : ''}`}
-                  style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
+                  to={`/comunidad/ver-comunidad/${role}`}
+                  className={`dropdown-link ${location.pathname === `/comunidad/ver-comunidad/${role}` ? 'active' : ''}`}
+                  //style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
                   onClick={() => setMenuOpen(false)}
                 >
                   Mis Comunidades
