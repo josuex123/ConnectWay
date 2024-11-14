@@ -3,10 +3,23 @@ import './CrearCuenta.css';
 
 const CrearCuenta = () => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const [email, setEmail] = useState('');
+    const [emailError, setEmailError] = useState('');
 
     const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
-  };
+    };
+
+    const handleEmailChange = (e) => {
+      const value = e.target.value;
+      setEmail(value);
+
+      if(!value.includes('@')){
+        serEmailError('El correo debe contener un @');
+      }else{
+        setEmailError('');
+      }
+    }
 
   return (
     <div className="register-container">
