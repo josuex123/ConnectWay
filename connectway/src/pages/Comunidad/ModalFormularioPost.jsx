@@ -6,6 +6,8 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
     const [contenido, setContenido] = useState('');
     const [archivo, setArchivo] = useState(null);
 
+    const nombreUsuario = "Usuario Anónimo";
+
     const handleArchivoChange = (e) => {
         const file = e.target.files[0];
         if (file && (file.type.startsWith('image/') || file.type === 'video/mp4')) {
@@ -17,7 +19,7 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
 
     const handleSubmit = () => {
         if (titulo.trim() && contenido.trim()) {
-            onSubmit({ titulo, contenido, archivo });
+            onSubmit({ titulo, contenido, archivo, nombreUsuario });
             onClose();
         } else {
             alert('Por favor, completa todos los campos.');
@@ -32,8 +34,12 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
                 <button className="close-button" onClick={onClose}>×</button>
                 <h2>Crear Nueva Discusión</h2>
                 <div className="usuario-info">
-                    <img src="/ruta/icono-usuario.png" alt="Usuario" className="usuario-icono" />
-                    <span>Usuario</span>
+                    <span className="nombre-usuario">{nombreUsuario}</span>
+                    <img
+                        src="/ruta/icono-usuario.png"
+                        alt="Usuario"
+                        className="usuario-icono-derecha"
+                    />
                 </div>
                 <form className="modal-form">
                     <div className="form-group">
