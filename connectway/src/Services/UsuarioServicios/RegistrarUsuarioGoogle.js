@@ -18,9 +18,9 @@ const registrarUsuarioGoogle = async () => {
 
     // Si no está registrado, retorna el nombre completo y UID del usuario
     const fullName = user.displayName;
-    const uid = user.uid;
+    const email = user.email;
 
-    return { fullName, uid };
+    return { fullName, email };
   } catch (error) {
     if (error.message === "Cuenta ya en uso") {
       console.error(error.message);
