@@ -20,18 +20,18 @@ const CrearCuenta = () => {
       const value = e.target.value;
       setEmail(value);
 
-      // Arreglar Jere
-      if (value === '' || value.length < 20) {
+      // Arreglar Jere el value .length<20 xd, cambiar si sera aparte de @gmail.com
+      if(value === '' || value.length < 20){
           setEmailError(''); 
-      } else if (!value.includes('@gmail')) {
+      }else if(!value.includes('@gmail.com')){
           setEmailError('El correo es inválido');
-      } else {
+      }else{
           setEmailError('');
       }
   };
 
   const handleEmailBlur = () => {
-      if (email !== '' && !email.includes('@gmail')) {
+      if(email !== '' && !email.includes('@gmail.com')){
           setEmailError('El correo es inválido');
       }
   };
