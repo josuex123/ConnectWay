@@ -17,7 +17,7 @@ const IniciarSesion = () => {
        
       
       <div className="login-box">
-        <h3>Iniciar Sesion</h3>
+        <h2>Iniciar Sesion</h2>
         <form>
           <label>Usuario</label>
           <input type="email" placeholder="Ingrese su usuario" required />

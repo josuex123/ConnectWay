@@ -104,3 +104,11 @@
   .crear-of-ini{
     margin-top: 20px;
   }
+
+  .error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    text-align: left;
+  }
