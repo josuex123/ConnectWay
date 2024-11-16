@@ -24,7 +24,7 @@ const IniciarSesion = () => {
     setPassword(value);
   }
 
-  const handleIniciarSesion = (e) => {
+  const handleIniciarSesion = (e) => {//AQUI VERFICAR EL INICIO DE SESION Y CUENTAS
     e.preventDefault();
     setPasswordError(null);
     setUserError(null);
