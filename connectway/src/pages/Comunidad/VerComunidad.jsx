@@ -54,6 +54,7 @@ const VerComunidad = () => {
 
     return (
         <>
+        <div className="pagina-inicio">
             <Navbar />
             <div className="titulo-comunidad">
                 <div className="comunidad-page">
@@ -102,6 +103,7 @@ const VerComunidad = () => {
                 onClose={handleCloseModal}
                 onSubmit={handleCrearPost}
             />
+            </div>
         </>
     );
 };
