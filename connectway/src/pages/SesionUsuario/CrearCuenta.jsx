@@ -109,7 +109,7 @@ const CrearCuenta = () => {
     }
   
     if (userError!='') {
-      alert('Por favor, corrige los errores antes de enviar usuerio.');
+      alert('Por favor, corrige los errores en el campo "Usuario" antes de enviar.');
       return;
     }
   
