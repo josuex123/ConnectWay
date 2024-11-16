@@ -23,6 +23,7 @@ import LogIn from './pages/users/login';
 import AudiobookEdit from './pages/audiolibros/FormularioEditar';
 import IniciarSesion from './pages/SesionUsuario/IniciarSesion';
 import CrearCuenta from './pages/SesionUsuario/CrearCuenta';
+import GoogleSignInButton from './Services/UsuarioServicios/pruebaGoogle';
 
 function App() {
   const { reproductorRef, audiolibroData } = useAudioContext();
@@ -56,6 +57,7 @@ function App() {
           <Route path="/comunidad/unirse/:role" element={<UnirseComunidad />} />
           <Route path="/comunidad/mis-comunidades/:role" element={<MisComunidades />} />
           <Route path="/comunidad/ver-comunidad/:role" element={<VerComunidad />} />
+          <Route path="/google" element={<GoogleSignInButton />} />
         </Routes>
       </div>
       <AudiolibrosReproducir ref = {reproductorRef}/>
