@@ -29,7 +29,7 @@ const IniciarSesion = () => {
     setUserError(null);
     const datos = { userDB: '', passwordDB:'' };
     datos.userDB = 'usuarioPrue';
-    datos.passwordDB = 'blabla';
+    datos.passwordDB = 'contra';
 
     if(datos.userDB !== user){
       setUserError('No existe ninguna cuenta con ese nombre de usuario');
@@ -38,6 +38,7 @@ const IniciarSesion = () => {
         setPasswordError('La contraseña es incorrecta, vuelva a intentarlo');
       }else{
         //AQUI REDIRECCIONAR EL USUARIO
+        window.location.href = '/Home/1';
       }
     }
   }

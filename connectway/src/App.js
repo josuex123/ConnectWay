@@ -22,7 +22,7 @@ import Perfil from './pages/perfil/perfil';
 import LogIn from './pages/users/login';
 import AudiobookEdit from './pages/audiolibros/FormularioEditar';
 import IniciarSesion from './pages/SesionUsuario/IniciarSesion';
-import RecuperarContra from './pages/SesionUsuario/RecuperarContra.jsx';
+import RecuperarContra from './pages/SesionUsuario/RecuperarContra';
 import CrearCuenta from './pages/SesionUsuario/CrearCuenta';
 
 function App() {

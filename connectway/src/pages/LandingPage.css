@@ -8,6 +8,8 @@
 .landing-container{
     padding: 20px;
     background-color: #E3EAF1;
+    width: 100vw;
+    height: 100vh;
 }
 
 .nav-container-landing {
