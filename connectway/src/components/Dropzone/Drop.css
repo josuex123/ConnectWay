@@ -17,7 +17,7 @@
 .image-preview {
   width: 100%;    /* Ajustar al 100% del contenedor */
   height: auto;   /* Mantener la proporción */
-  max-width: 300px; /* Limitar el tamaño máximo si esque fuera necesario */
+  max-width: 300px; /* Limitar el tamaño máximo si es necesario */
 }
 .select-button {
   margin-top: 10px;

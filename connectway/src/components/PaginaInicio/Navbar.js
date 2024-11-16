@@ -3,7 +3,7 @@ import { NavLink, useNavigate, useLocation, useParams } from 'react-router-dom';
 import '../../estilos/PaginaInicio/Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
-import logo from '../../images/logoejemplo.png';
+import logo from '../../images/logoejemplo1.jpeg';
 import person from '../../images/usuario1.png';
 import home from '../../images/hogar1.png';
 import cabeza from '../../images/cabeza.png';
@@ -49,7 +49,8 @@ const Navbar = () => {
       <div className="nav-container">
         <NavLink exact to={`/home/${role}`} className="nav-logo">
           <img src={logo} alt="Logo" className="nav-logo-image" />
-          CONNECTWAY
+          <span className="nav-logo-text connect">Connect</span>
+          <span className="nav-logo-text way">Way</span>
         </NavLink>
 
         <ul className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>

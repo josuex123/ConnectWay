@@ -32,14 +32,6 @@
     transition: background-color 0.3s, color 0.3s;
 }
 
-.nav-logo {
-    display: flex;
-    align-items: center; 
-    font-size: 24px;
-    margin-left: 20px;
-}
-
-
 .nav-menu {
     display: flex;
     list-style: none;
@@ -99,6 +91,41 @@
     height: 3rem;
     background-color: #03314B;
     display: inline-block;
+}
+
+.nav-logo-text.connect {
+    color: #94b9ff;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  }
+  
+  .nav-logo-text.way {
+    color: #cdffd8;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  }
+  
+.nav-logo {
+    display: flex;
+    align-items: center;
+    font-size: 27px;
+}
+
+.nav-logo-text.connect {
+    color: #03314B;
+    text-shadow: 1px 1px 5px rgba(27, 64, 184, 0.616);
+    margin-bottom: 9px;
+}
+  
+.nav-logo-text.way {
+    color: #9EE493;
+    text-shadow: 1px 1px 5px rgba(27, 64, 184, 0.616);
+    margin-bottom: 9px;
+    -webkit-text-stroke: 1px #87d87db4; /* Aplica el borde negro con grosor de 2px */
+}
+
+.nav-logo-text.connect,
+.nav-logo-text.way {
+  font-family: "Arial", sans-serif;
+  font-weight: 900;
 }
 
 @media screen and (max-width: 1200px) {
@@ -167,8 +194,7 @@
 .nav-logo-image {
     width: 95px;
     height: auto;
-    margin-right: 10px; 
-    padding-bottom:10px;
+    padding-bottom:20px;
 }
 
 .nav-logo-image1 {
@@ -183,7 +209,7 @@
     padding-top: 80px; 
 }
 
-/* Inicio, Audiolibros, Comunidad, Mi actividad, Perfil */
+
 .nav-linkss, .nav-linkss1, .nav-linkss2, .nav-linkss3, .nav-linkss4 {
     color: #03314B;
     text-decoration: none;
