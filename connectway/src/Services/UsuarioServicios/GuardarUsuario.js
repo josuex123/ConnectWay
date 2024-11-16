@@ -5,7 +5,7 @@ const db = getFirestore(app);
 
 export const guardarUsuario = async (email, usuario) => {
   try {
-    const usuarioDocRef = doc(db, 'Usuarios', email);
+    const usuarioDocRef = doc(db, 'Usuario', email);
     await setDoc(usuarioDocRef, {
       usuario: usuario,
     });
