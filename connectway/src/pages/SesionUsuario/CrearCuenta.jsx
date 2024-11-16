@@ -1,7 +1,8 @@
 import React,{useState} from 'react';
 import './CrearCuenta.css';
 import { useNavigate } from 'react-router-dom';
-
+import registrarUsuario from '../../Services/UsuarioServicios/RegistrarUsuarioCorreoContraseña';
+import { guardarUsuario } from '../../Services/UsuarioServicios/GuardarUsuario';
 const CrearCuenta = () => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [email, setEmail] = useState('');
@@ -10,6 +11,8 @@ const CrearCuenta = () => {
     const [passwordError, setPasswordError] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
+    const [user, setUser] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
  
     const togglePasswordVisibility = () => {
@@ -56,29 +59,53 @@ const CrearCuenta = () => {
     setConfirmPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
-     e.preventDefault();
-      
-      let valid = true;
-      if (!email || emailError) valid = false;
-      if (!password || passwordError) valid = false;
-      if (password !== confirmPassword) {
-          setConfirmPasswordError('Las contraseñas no coinciden.');
-          valid = false;
-        }else{
-          setConfirmPasswordError('');
-        }
-      
+  const handleUserNameChange = (e) => {
+    const value = e.target.value;
+    setUser(value);
+  }
 
-      if (valid) {
-        console.log('Formulario enviado');
-        navigate('/Home/0');
-      } else {
-        console.log('Por favor, corrige los errores antes de enviar.');
-      }
-
+  const validateForm = () => {
+    let valid = true;
+  
+    if (!email || emailError) valid = false;
+    if (!password || passwordError) valid = false;
+  
+    if (password !== confirmPassword) {
+      setConfirmPasswordError('Las contraseñas no coinciden.');
+      valid = false;
+    } else {
+      setConfirmPasswordError('');
+    }
+  
+    return valid;
   };
-
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    if (!validateForm()) {
+      console.log('Por favor, corrige los errores antes de enviar.');
+      return;
+    }
+  
+    setLoading(true); // modal de carga o algo
+    try {
+      const response = await registrarUsuario(email, password);
+  
+      if (response.email) {
+        const guardarUsuarioPromise = guardarUsuario(response.email, user);
+        navigate('/Home/0'); // Navegación inmediata
+        await guardarUsuarioPromise; // Espera solo si es esencial
+      } else if (response.error) {
+        alert(response.error);//Reemplazar con un modal
+      }
+    } catch (error) {
+      console.error('Error al procesar el formulario:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
   return (
     <div className="register-container">
       <h1 className="welcome-message">Bienvenido a 
@@ -93,7 +120,10 @@ const CrearCuenta = () => {
           <input type="text" placeholder="Ingrese su nombre completo" required />
 
           <label>Usuario</label>
-          <input type="text" placeholder="Ingrese un usuario" required />
+          <input type="text" placeholder="Ingrese un usuario" 
+            onChange={handleUserNameChange}
+            required
+          />
 
           <label>Correo electrónico</label>
           <input 

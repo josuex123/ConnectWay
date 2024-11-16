@@ -3,17 +3,16 @@ import { app } from '../../firebaseConfig';
 
 const db = getFirestore(app);
 
-export const guardarUsuario = async (uid, usuario, nombreCompleto) => {
+export const guardarUsuario = async (email, usuario) => {
   try {
-    const usuarioDocRef = doc(db, 'Usuarios', uid);
+    const usuarioDocRef = doc(db, 'Usuario', email);
     await setDoc(usuarioDocRef, {
       usuario: usuario,
-      nombreCompleto: nombreCompleto,
     });
-
     console.log("Se creó con éxito el usuario");
-    return uid;
+    return true;
   } catch (error) {
     console.log("Error al guardar el usuario: " + error);
+    return false;
   }
 };

@@ -7,8 +7,8 @@ const registrarUsuario = async (email, contraseña) => {
     const user = userCredential.user;
     console.log("Usuario registrado:", user);
 
-    // Retornar un objeto con el uid del usuario
-    return { uid: user.uid }; // Retornamos el UID
+    // Retornar un objeto con el email del usuario
+    return { email: user.email }; // Retornamos el email
   } catch (error) {
     // Manejo de errores específicos
     switch (error.code) {
