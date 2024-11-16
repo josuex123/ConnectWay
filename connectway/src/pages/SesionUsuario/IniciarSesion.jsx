@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import './IniciarSesion.css';
-
+import '../../estilos/SesionUsuario/IniciarSesion.css';
 
 const IniciarSesion = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -80,7 +79,7 @@ const IniciarSesion = () => {
           </div>
           {passwordError && <p className="error-message">{passwordError}</p>}
 
-          <a href="/" className="forgot-password1">¿Olvidaste tu contraseña?</a>
+          <a href="/RecuperarContrasenia" className="forgot-password1">¿Olvidaste tu contraseña?</a>
 
           <button type="submit" className="login-button">
                     Iniciar Sesión

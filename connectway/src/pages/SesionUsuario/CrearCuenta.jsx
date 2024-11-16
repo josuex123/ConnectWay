@@ -1,8 +1,9 @@
 import React,{useState} from 'react';
-import './CrearCuenta.css';
+import '../../estilos/SesionUsuario/CrearCuenta.css';
 import { useNavigate } from 'react-router-dom';
 import registrarUsuario from '../../Services/UsuarioServicios/RegistrarUsuarioCorreoContraseña';
 import { guardarUsuario } from '../../Services/UsuarioServicios/GuardarUsuario';
+
 const CrearCuenta = () => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [email, setEmail] = useState('');

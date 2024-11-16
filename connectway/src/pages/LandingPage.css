@@ -36,6 +36,7 @@
 
 .nav-link-landing {
     color: white;
+    background-color: #03314B;
     text-decoration: none;
     padding: 0.5rem 1rem;
     border-radius: 5px;
@@ -112,6 +113,12 @@
 }
 
 .nav-link-landing, .nav-link-start-landing {
+    color: white; 
+    text-decoration: none;
+    padding: 0.5rem 0.8rem;
+}
+
+.nav-link-start-landing {
     color: white; 
     text-decoration: none;
     padding: 0.5rem 0.8rem;

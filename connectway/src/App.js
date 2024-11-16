@@ -22,6 +22,7 @@ import Perfil from './pages/perfil/perfil';
 import LogIn from './pages/users/login';
 import AudiobookEdit from './pages/audiolibros/FormularioEditar';
 import IniciarSesion from './pages/SesionUsuario/IniciarSesion';
+import RecuperarContra from './pages/SesionUsuario/RecuperarContra.jsx';
 import CrearCuenta from './pages/SesionUsuario/CrearCuenta';
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
           <Route path="/Perfil/:role" element={<Perfil />} />
           <Route path="/Login" element={<LogIn />} />
           <Route path="/IniciarSesion" element={<IniciarSesion />} />
+          <Route path="/RecuperarContrasenia" element={<RecuperarContra />} />
           <Route path="/CrearCuenta" element={<CrearCuenta />} />
           
           {/* Rutas para el admin */}
