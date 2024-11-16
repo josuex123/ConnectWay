@@ -184,12 +184,12 @@ const CrearCuenta = () => {
             <label className="terms-label1" >He leído y acepto los <a href="/terms">Términos y Condiciones</a></label>
           </div>
 
-          <button type="submit" className="register-button">Registrarse
-
+          <button type="submit" className="register-button">
+            Registrarse
           </button>
         </form>
         <div className='crear-of-ini'>
-            <p>¿Ya tienes una cuenta? <a href="/IniciarSesion" className="create-login1">Iniciar Sesion</a></p>
+            <p>¿Ya tienes una cuenta? <a href="/IniciarSesion" className="create-login1">Iniciar Sesión</a></p>
         </div>
       </div>
     </div>
