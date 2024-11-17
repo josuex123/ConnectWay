@@ -23,6 +23,7 @@ import LogIn from './pages/users/login';
 import AudiobookEdit from './pages/audiolibros/FormularioEditar';
 import IniciarSesion from './pages/SesionUsuario/IniciarSesion';
 import RecuperarContra from './pages/SesionUsuario/RecuperarContra';
+import CambiarContra from './pages/SesionUsuario/CambiarContra';
 import CrearCuenta from './pages/SesionUsuario/CrearCuenta';
 
 
@@ -43,6 +44,7 @@ function App() {
           <Route path="/IniciarSesion" element={<IniciarSesion />} />
           <Route path="/RecuperarContrasenia" element={<RecuperarContra />} />
           <Route path="/CrearCuenta" element={<CrearCuenta />} />
+          <Route path="/linkSeguro" element={<CambiarContra />} />
           
           {/* Rutas para el admin */}
           <Route path="/Audiolibros/añadir/:role" element={<AudiolibrosAñadir />} />
