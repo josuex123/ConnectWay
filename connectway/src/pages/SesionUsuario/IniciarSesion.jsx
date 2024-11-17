@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import './IniciarSesion.css';
+import '../../estilos/SesionUsuario/IniciarSesion.css';
 import { useNavigate } from 'react-router-dom';
-import authService from '../../Services/UsuarioServicios/VerificarUsuario'; // Importa tu servicio de autenticación
+import authService from '../../Services/UsuarioServicios/VerificarUsuario'; 
 
 const IniciarSesion = () => {
   const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const navigate = useNavigate()
   
