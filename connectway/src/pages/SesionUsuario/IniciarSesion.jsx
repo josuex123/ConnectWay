@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import './IniciarSesion.css';
-
+import '../../estilos/SesionUsuario/IniciarSesion.css';
 
 const IniciarSesion = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -28,9 +27,10 @@ const IniciarSesion = () => {
     e.preventDefault();
     setPasswordError(null);
     setUserError(null);
+    
     const datos = { userDB: '', passwordDB:'' };
     datos.userDB = 'usuarioPrue';
-    datos.passwordDB = 'blabla';
+    datos.passwordDB = 'contra';
 
     if(datos.userDB !== user){
       setUserError('No existe ninguna cuenta con ese nombre de usuario');
@@ -39,6 +39,7 @@ const IniciarSesion = () => {
         setPasswordError('La contraseña es incorrecta, vuelva a intentarlo');
       }else{
         //AQUI REDIRECCIONAR EL USUARIO
+        window.location.href = '/Home/1';
       }
     }
   }
@@ -80,7 +81,7 @@ const IniciarSesion = () => {
           </div>
           {passwordError && <p className="error-message">{passwordError}</p>}
 
-          <a href="/" className="forgot-password1">¿Olvidaste tu contraseña?</a>
+          <a href="/RecuperarContrasenia" className="forgot-password1">¿Olvidaste tu contraseña?</a>
 
           <button type="submit" className="login-button">
                     Iniciar Sesión

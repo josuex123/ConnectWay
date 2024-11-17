@@ -5,8 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt, faChevronDown, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import logo from '../images/logoejemplo1.jpeg';
 import portada from '../images/ojoo.png';
-import IniciarSesion from '../pages/SesionUsuario/IniciarSesion'; {/*borrar*/}
-import './SesionUsuario/IniciarSesion.css';
 
 const LandingPage = () => {
   const isDisabled = true; 
@@ -42,8 +40,8 @@ const LandingPage = () => {
             </li>
             <li className='nav-items-landing'>
               <NavLink 
-                className={`nav-link-landing ${isDisabled ? 'disabled' : ''}`} 
-                to="#"
+                className="nav-link-landing" 
+                to="/IniciarSesion"
               >
                 Iniciar sesión
                 <FontAwesomeIcon icon={faSignInAlt} style={{ marginLeft: '5px' }} />
@@ -63,10 +61,7 @@ const LandingPage = () => {
           y <span className="highlight">psicología de parejas</span> con ConnectWay. Únete, aprende y 
           conecta en comunidad.
           </p>
-          <NavLink className="btn-start-landing" to="/Home/0">Comenzar</NavLink> 
-          {/* Botón adicional para iniciar sesión */}
-          <NavLink className="btn-login-landing" to="/IniciarSesion">Iniciar Sesión</NavLink>
-              
+          <NavLink className="btn-start-landing" to="/IniciarSesion">Comenzar</NavLink> 
         </div>
         <div className="image-content">
           <img src={portada} alt="Portada" className="phone-image"/>
