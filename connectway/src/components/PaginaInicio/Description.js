@@ -80,7 +80,7 @@ const Description = () => {
 
     return (
         <div className="description">
-            <p className="titulo-description-1">Sugerencias para ti:</p>
+            <h2 className="h1-color">Conecta con tu mente</h2>
             <Slider {...settings}>
                 {audiolibros.map((audiolibro) => (
                     <div key={audiolibro.id} className="contenedor">

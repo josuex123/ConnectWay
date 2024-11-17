@@ -8,6 +8,8 @@
 .landing-container{
     padding: 20px;
     background-color: #E3EAF1;
+    width: 100vw;
+    height: 100vh;
 }
 
 .nav-container-landing {
@@ -36,6 +38,7 @@
 
 .nav-link-landing {
     color: white;
+    background-color: #03314B;
     text-decoration: none;
     padding: 0.5rem 1rem;
     border-radius: 5px;
@@ -112,6 +115,12 @@
 }
 
 .nav-link-landing, .nav-link-start-landing {
+    color: white; 
+    text-decoration: none;
+    padding: 0.5rem 0.8rem;
+}
+
+.nav-link-start-landing {
     color: white; 
     text-decoration: none;
     padding: 0.5rem 0.8rem;

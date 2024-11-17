@@ -61,6 +61,7 @@ const IniciarSesion = () => {
           <label>Contraseña</label>
           <div className="password-field">
             <input 
+            <input 
               type={isPasswordVisible ? "text" : "password"} 
               placeholder="Ingrese su contraseña" 
               value={password}
@@ -72,11 +73,12 @@ const IniciarSesion = () => {
               alt="Mostrar/ocultar contraseña" 
               className="editIcon" 
               onClick={togglePasswordVisibility} 
-              style={{ cursor: 'pointer' }}
+              style={{ cursor: 'pointer', marginTop: '-15px' }}
             />
           </div>
+          {passwordError && <p className="error-message">{passwordError}</p>}
 
-          <a href="/" className="forgot-password1">¿Olvidaste tu contraseña?</a>
+          <a href="/RecuperarContrasenia" className="forgot-password1">¿Olvidaste tu contraseña?</a>
 
           <button type="submit" className="login-button">Iniciar Sesión</button>
         </form>

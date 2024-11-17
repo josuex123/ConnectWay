@@ -1,8 +1,10 @@
 import React,{useState} from 'react';
-import './CrearCuenta.css';
+import '../../estilos/SesionUsuario/CrearCuenta.css';
 import { useNavigate } from 'react-router-dom';
 import registrarUsuario from '../../Services/UsuarioServicios/RegistrarUsuarioCorreoContraseña';
 import { guardarUsuario } from '../../Services/UsuarioServicios/GuardarUsuario';
+import { verificarNombreUsuarioExistente } from '../../Services/UsuarioServicios/VerificarNombreUsuarioExistente';
+
 const CrearCuenta = () => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [email, setEmail] = useState('');
@@ -12,6 +14,7 @@ const CrearCuenta = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
     const [user, setUser] = useState('');
+    const [userError, setUserError] = useState(''); // Estado para el error del usuario
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
  
@@ -59,10 +62,27 @@ const CrearCuenta = () => {
     setConfirmPassword(e.target.value);
   };
 
-  const handleUserNameChange = (e) => {
-    const value = e.target.value;
+  const handleUserNameChange = async (e) => {
+    let value = e.target.value;
+  
+    // Elimina los espacios finales en tiempo real
+    value = value.trimEnd();
+  
     setUser(value);
-  }
+  
+    // Verificación en tiempo real
+    if (value.trim() !== '') {
+      const usuarioExistente = await verificarNombreUsuarioExistente(value);
+      if (usuarioExistente) {
+        setUserError('El nombre de usuario ya existe. Intenta con otro.');
+      } else {
+        setUserError('');
+      }
+    } else {
+      setUserError('');
+    }
+  };
+  
 
   const validateForm = () => {
     let valid = true;
@@ -88,6 +108,12 @@ const CrearCuenta = () => {
       return;
     }
   
+    if (userError!='') {
+      alert('Por favor, corrige los errores en el campo "Usuario" antes de enviar.');
+      return;
+    }
+  
+
     setLoading(true); // modal de carga o algo
     try {
       const response = await registrarUsuario(email, password);
@@ -120,10 +146,14 @@ const CrearCuenta = () => {
           <input type="text" placeholder="Ingrese su nombre completo" required />
 
           <label>Usuario</label>
-          <input type="text" placeholder="Ingrese un usuario" 
+          <input 
+            type="text" 
+            placeholder="Ingrese un usuario" 
+            value={user}
             onChange={handleUserNameChange}
             required
           />
+          {userError && <p className="error-message">{userError}</p>}
 
           <label>Correo electrónico</label>
           <input 
@@ -184,12 +214,12 @@ const CrearCuenta = () => {
             <label className="terms-label1" >He leído y acepto los <a href="/terms">Términos y Condiciones</a></label>
           </div>
 
-          <button type="submit" className="register-button">Registrarse
-
+          <button type="submit" className="register-button">
+            Registrarse
           </button>
         </form>
         <div className='crear-of-ini'>
-            <p>¿Ya tienes una cuenta? <a href="/IniciarSesion" className="create-login1">Iniciar Sesion</a></p>
+            <p>¿Ya tienes una cuenta? <a href="/IniciarSesion" className="create-login1">Iniciar Sesión</a></p>
         </div>
       </div>
     </div>
