@@ -61,7 +61,7 @@ const IniciarSesion = () => {
           <label>Contraseña</label>
           <div className="password-field">
             <input 
-            <input 
+            
               type={isPasswordVisible ? "text" : "password"} 
               placeholder="Ingrese su contraseña" 
               value={password}
