@@ -27,6 +27,7 @@ const IniciarSesion = () => {
     e.preventDefault();
     setPasswordError(null);
     setUserError(null);
+    
     const datos = { userDB: '', passwordDB:'' };
     datos.userDB = 'usuarioPrue';
     datos.passwordDB = 'contra';

@@ -1,16 +1,25 @@
 import React, {useState} from 'react';
 import '../../estilos/SesionUsuario/RecuperarContra.css';
+import ModalNotificacion from '../../components/Modal/ModalNotificacion';
+
 
 function RecuperarContrasenia() {
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-
   const [ email,setEmail ] = useState(null);
-  const [ password,setPassword ] = useState(null);
   const [ emailError,setEmailError ] = useState(null);
-  const [ passwordError, setPasswordError] = useState(null);
 
-  const togglePasswordVisibility = () => {
-    setIsPasswordVisible(!isPasswordVisible);
+  const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
+  const [notificationType, setNotificationType] = useState('success'); 
+  const [notificationMessage, setNotificationMessage] = useState('');
+
+  const showModalNotificacion = (type, message) => { 
+    setNotificationType(type);
+    setNotificationMessage(message); 
+    setIsModalNotificacionOpen(true);
+  };
+
+  const closeModalNotificacion = async () => {
+      setIsModalNotificacionOpen(false);
+      window.location.href = "/IniciarSesion";
   };
 
   const handleEmailChange = (e) => {
@@ -33,59 +42,59 @@ function RecuperarContrasenia() {
     }
   };
 
-  const handlePasswordChange = (e) => {
-    const value = e.target.value;
-    setPassword(value);
-  }
-
-  const handleRecuperar = (e) => {
+  const handleRecuperar = (e) => { //AQUI CONTROLAR SI EXISTE EL CORREO CON LA BD
     e.preventDefault();
-    setPasswordError(null);
-    setUserError(null);
+    setEmailError(null);
     
-
-    if(true){
-      setEmailError('No existe ninguna cuenta con ese nombre de usuario');
+    const emailDB = 'correo@gmail.com';
+    if(email !== emailDB){
+      setEmailError('No existe ninguna cuenta vinculada a este correo electrónico');
     }else{
-      if(true){
-        setPasswordError('La contraseña es incorrecta, vuelva a intentarlo');
-      }else{
-        //AQUI REDIRECCIONAR EL USUARIO
-        window.location.href = '/Home/1';
-      }
+      //en esta linea mandar el link seguro de restablecer contra
+      showModalNotificacion('success', 'Se ha enviado el link de restablecimiento a su correo electronico');
     }
   }
 
   return (
-    <div className="login-container">
-       <h1 className="welcome-message">Bienvenido a 
-           <span className="logo-text first-word">Connect</span>
-           <span className="logo-text second-word">Way</span>
-       </h1>
-       
-      
-      <div className="login-box">
-        <h2>Olvidaste tu contraseña?</h2>
-        <h3>Te enviaremos un correo donde puedas restablecer la contraseña de tu cuenta.</h3>
-        <form onSubmit={ handleRecuperar }>
-          <label>Correo electrónico</label>
-            <input 
-              type="email" 
-              placeholder="Ingrese su correo electrónico" 
-              value={email}
-              onChange={handleEmailChange}
-              onBlur={handleEmailBlur}
-              autoComplete="email"
-              required 
-            />
-          {emailError && <p className="error-message">{emailError}</p>}
-          <button type="submit" className="login-button">
-                    Recuperar Contraseña
-          </button>
-        </form>
-        <p>¿Ya tienes una cuenta? <a href="/IniciarSesion" className="create-login1">Iniciar Sesión</a></p>
+    <>
+      <div className="recover-container">
+        <h1 className="welcome-message">Bienvenido a 
+            <span className="logo-text first-word">Connect</span>
+            <span className="logo-text second-word">Way</span>
+        </h1>
+        
+        
+        <div className="recover-box">
+          <h2>Olvidaste tu contraseña?</h2>
+          <h3>Te enviaremos un correo donde puedas restablecer la contraseña de tu cuenta.</h3>
+          <form onSubmit={ handleRecuperar }>
+            <label>Correo electrónico</label>
+              <input 
+                type="email" 
+                placeholder="Ingrese su correo electrónico" 
+                value={email}
+                onChange={handleEmailChange}
+                onBlur={handleEmailBlur}
+                autoComplete="email"
+                required 
+              />
+            {emailError && <p className="error-message">{emailError}</p>}
+            <button type="submit" className="recover-button">
+                      Recuperar Contraseña
+            </button>
+          </form>
+          <p>¿Ya tienes una cuenta? <a href="/IniciarSesion" className="create-login1">Iniciar Sesión</a></p>
+        </div>
       </div>
-    </div>
+
+      <ModalNotificacion
+        isOpen={isModalNotificacionOpen}
+        onClose={closeModalNotificacion}
+        type={notificationType}
+        message={notificationMessage}
+        iconClass={notificationType === 'success' ? 'fa fa-check' : 'fa fa-exclamation'}
+      />
+    </>
   );
 };
 
