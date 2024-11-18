@@ -63,8 +63,8 @@ const ListarSubComunidad = () => {
               titulo={sub.titulo}
               imgPortada={sub.imagenURL}
               descripcion={sub.descripcion}
-              id={sub.id}
-              idColeccion={idComunidad}
+              idColeccion={sub.id}
+              id={idComunidad}
             />
           ))}
         </div>
