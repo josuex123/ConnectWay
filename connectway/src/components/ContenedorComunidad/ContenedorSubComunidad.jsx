@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { unirseComunidad } from '../../Services/ComunidadesServicios/UnirseComunidad';
+import { listaComunidadesPerteneciente } from '../../Services/ComunidadesServicios/ListaComunidadesPerteneciente';
 
 const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColeccion }) => {
     const navigate = useNavigate();
@@ -12,6 +13,14 @@ const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColecci
         navigate('/comunidad/ver-comunidad', { state: { idComunidad: id, idColeccion: idColeccion} });
         console.log("desde el bton unirse"+id+" "+idColeccion);
         await unirseComunidad(id,idColeccion,'luizagamerinogustavo@gmail.com','user1');
+// Ejemplo de uso
+await listaComunidadesPerteneciente(id, 'luizagamerinogustavo@gmail.com')
+  .then((subcomunidades) => {
+    console.log("Subcomunidades donde el usuario es miembro:", subcomunidades);
+  })
+  .catch((error) => {
+    console.error("Error al obtener las subcomunidades:", error);
+  });        
      
 
     };
