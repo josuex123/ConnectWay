@@ -3,7 +3,7 @@ import { app } from '../../firebaseConfig';
 
 const db = getFirestore(app);
 
-const obtenerNombreUsuario = async (usuarioId) => {
+export const obtenerNombreUsuario = async (usuarioId) => {
   try {
     // Referencia al documento del usuario en la colección "Usuarios"
     const usuarioDocRef = doc(db, "Usuario", usuarioId);

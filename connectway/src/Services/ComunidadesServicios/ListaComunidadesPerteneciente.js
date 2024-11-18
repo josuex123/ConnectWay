@@ -33,7 +33,9 @@ export const listaComunidadesPerteneciente = async (comunidadId, userEmail) => {
 
 /* 
         Retorna una lista con el titulo de las subcomunidades de las cuales es miembro
-        Espera como parametros(idComunidad(inteligencia_emocial),correoElectronico(lo puedes sacar del session storage))
+        Espera como parametros(idComunidad(inteligencia_emocial),correoElectronico(lo puedes sacar del session storage con:
+        const correoUsuario = sessionStorage.getItem('correoUsuario');))
+        
         // Ejemplo de uso
         await listaComunidadesPerteneciente(id, 'luizagamerinogustavo@gmail.com')
         .then((subcomunidades) => {

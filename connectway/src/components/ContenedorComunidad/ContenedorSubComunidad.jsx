@@ -13,7 +13,8 @@ const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColecci
         navigate('/comunidad/ver-comunidad', { state: { idComunidad: id, idColeccion: idColeccion} });
         console.log("desde el bton unirse"+id+" "+idColeccion);
         const correoUsuario = sessionStorage.getItem('correoUsuario');
-        await unirseComunidad(id,idColeccion,correoUsuario,'user1');
+        const username = sessionStorage.getItem('nombreUsuario');
+        await unirseComunidad(id,idColeccion,correoUsuario,username);
 
 
 
