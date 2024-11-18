@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../../estilos/SesionUsuario/IniciarSesion.css';
 import { useNavigate } from 'react-router-dom';
 import authService from '../../Services/UsuarioServicios/VerificarUsuario';
+import { obtenerNombreUsuario } from '../../Services/UsuarioServicios/NombreUsuarioPorIdDoc';
 
 const IniciarSesion = () => {
   const [emailOrUsername, setEmailOrUsername] = useState('');
@@ -23,6 +24,10 @@ const IniciarSesion = () => {
 
       // Guardar el correo en sessionStorage
       sessionStorage.setItem('correoUsuario', emailOrUsername);
+
+      const username = await obtenerNombreUsuario(emailOrUsername);
+
+      sessionStorage.setItem('nombreUsuario', username);
 
       navigate('/Home/0');
     } catch (error) {

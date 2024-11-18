@@ -3,12 +3,21 @@ import '../../estilos/contenedor/ContenedorComunidad.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import { unirseComunidad } from '../../Services/ComunidadesServicios/UnirseComunidad';
+import { listaComunidadesPerteneciente } from '../../Services/ComunidadesServicios/ListaComunidadesPerteneciente';
 
 const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColeccion }) => {
     const navigate = useNavigate();
 
-    const handleUnirse = () => {
+    const handleUnirse = async() => {
         navigate('/comunidad/ver-comunidad', { state: { idComunidad: id, idColeccion: idColeccion} });
+        console.log("desde el bton unirse"+id+" "+idColeccion);
+        const correoUsuario = sessionStorage.getItem('correoUsuario');
+        const username = sessionStorage.getItem('nombreUsuario');
+        await unirseComunidad(id,idColeccion,correoUsuario,username);
+
+
+
     };
 
     return (
