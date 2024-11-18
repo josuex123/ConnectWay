@@ -12,7 +12,9 @@ const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColecci
     const handleUnirse = async() => {
         navigate('/comunidad/ver-comunidad', { state: { idComunidad: id, idColeccion: idColeccion} });
         console.log("desde el bton unirse"+id+" "+idColeccion);
-        await unirseComunidad(id,idColeccion,'luizagamerinogustavo@gmail.com','user1');
+        const correoUsuario = sessionStorage.getItem('correoUsuario');
+        await unirseComunidad(id,idColeccion,correoUsuario,'user1');
+
 
 
     };
