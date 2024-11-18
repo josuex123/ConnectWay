@@ -66,8 +66,6 @@ function FormularioCrearComunidad() {
     try {
       const imagenUrl = await subirImagenYObtenerUrl(imageFiles[0]);
       const comunidadDoc = { titulo, descripcion, imagenURL: imagenUrl };
-    
-      // Crear el documento en la colección "comunidades" dentro de la categoría especificada
       const categoriaRef = doc(db, "Comunidades", categoria);
       const comunidadRef = await addDoc(collection(categoriaRef, "comunidades"), comunidadDoc);
       
