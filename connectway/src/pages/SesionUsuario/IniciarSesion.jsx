@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import '../../estilos/SesionUsuario/IniciarSesion.css';
 import { useNavigate } from 'react-router-dom';
-import authService from '../../Services/UsuarioServicios/VerificarUsuario'; 
+import authService from '../../Services/UsuarioServicios/VerificarUsuario';
 
 const IniciarSesion = () => {
   const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
-
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
@@ -21,6 +20,10 @@ const IniciarSesion = () => {
     try {
       const user = await authService.signInWithEmail(emailOrUsername, password);
       console.log('Usuario autenticado:', user);
+
+      // Guardar el correo en sessionStorage
+      sessionStorage.setItem('correoUsuario', emailOrUsername);
+
       navigate('/Home/0');
     } catch (error) {
       console.error('Error en inicio de sesión:', error.message);
@@ -33,6 +36,10 @@ const IniciarSesion = () => {
     try {
       const user = await authService.signInWithGoogle();
       console.log('Usuario autenticado con Google:', user);
+
+      // Guardar el correo en sessionStorage
+      sessionStorage.setItem('correoUsuario', user.email);
+
       navigate('/Home/0');
     } catch (error) {
       console.error('Error en inicio de sesión con Google:', error.message);
@@ -63,7 +70,6 @@ const IniciarSesion = () => {
           <label>Contraseña</label>
           <div className="password-field">
             <input 
-            
               type={isPasswordVisible ? "text" : "password"} 
               placeholder="Ingrese su contraseña" 
               value={password}
