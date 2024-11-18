@@ -70,12 +70,7 @@ function FormularioCrearComunidad() {
       // Crear el documento en la colección "comunidades" dentro de la categoría especificada
       const categoriaRef = doc(db, "Comunidades", categoria);
       const comunidadRef = await addDoc(collection(categoriaRef, "comunidades"), comunidadDoc);
-    
-      // Añadir un documento temporal vacío en la subcolección "miembros"
-      await addDoc(collection(comunidadRef, "miembros"), {
-        temporal: true // Esto es solo para que la subcolección exista
-      });
-
+      
       setTitulo('');
       setCategoria('');
       setDescripcion('');
