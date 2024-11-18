@@ -19,12 +19,11 @@ export const listaComunidadesPerteneciente = async (comunidadId, userEmail) => {
       "miembros"
     );
 
-    // Filtrar por el ID del miembro (correo del usuario)
     const miembroQuery = query(miembrosRef, where("__name__", "==", userEmail));
     const miembroSnapshot = await getDocs(miembroQuery);
 
     if (!miembroSnapshot.empty) {
-      userSubcommunities.push(subcomunidad.data().titulo); // Cambia "titulo" al campo correcto
+      userSubcommunities.push(subcomunidad.data().titulo); 
     }
   }
 
@@ -32,3 +31,16 @@ export const listaComunidadesPerteneciente = async (comunidadId, userEmail) => {
 };
 
 
+/* 
+        Retorna una lista con el titulo de las subcomunidades de las cuales es miembro
+        Espera como parametros(idComunidad(inteligencia_emocial),correoElectronico(lo puedes sacar del session storage))
+        // Ejemplo de uso
+        await listaComunidadesPerteneciente(id, 'luizagamerinogustavo@gmail.com')
+        .then((subcomunidades) => {
+        console.log("Subcomunidades donde el usuario es miembro:", subcomunidades);
+        })
+        .catch((error) => {
+        console.error("Error al obtener las subcomunidades:", error);
+        });        
+     
+*/
