@@ -3,7 +3,7 @@ import { app } from '../../firebaseConfig';
 
 const db = getFirestore(app);
 
-const listaComunidadesPerteneciente = async (comunidadId, userEmail) => {
+export const listaComunidadesPerteneciente = async (comunidadId, userEmail) => {
   const subcomunidadesRef = collection(db, "Comunidades", comunidadId, "subcomunidades");
   const subcomunidadesSnapshot = await getDocs(subcomunidadesRef);
 
