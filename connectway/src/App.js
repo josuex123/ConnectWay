@@ -59,7 +59,7 @@ function App() {
           <Route path="/comunidad/crear/:role" element={<CrearComunidad />} />
           <Route path="/comunidad/unirse/:role" element={<UnirseComunidad />} />
           <Route path="/comunidad/mis-comunidades/:role" element={<MisComunidades />} />
-          <Route path="/comunidad/ver-comunidad/:role" element={<VerComunidad />} />
+          <Route path="/comunidad/ver-comunidad" element={<VerComunidad />} />
           <Route path="/comunidad/listar-comunidad/:idComunidad" element={<ListarComunidad />} />
           
         </Routes>

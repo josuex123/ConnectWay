@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+
 import Navbar from '../../components/PaginaInicio/Navbar';
 import Post from './Post';
 import ModalFormularioPost from './ModalFormularioPost';
 import '../../estilos/comunidad/VerComunidad.css';
 
 const VerComunidad = () => {
+
+    const location = useLocation();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const idComunidad = location.state?.idComunidad;
+    const idColeccion = location.state?.idColeccion;
+    const [comunidadData, setComunidadData] = useState(null);
+
     const [posts, setPosts] = useState([
         {
             titulo: "Este es un título de post demasiado largo que debe acortarse",
@@ -21,7 +29,8 @@ const VerComunidad = () => {
             nombreUsuario: "Usuario Anónimo",
             imagenPost: null,
             imagenUsuario: null,
-        },
+        },    
+
         {
             titulo: "Título mediano",
             contenido: "Contenido mediano con algo más de texto",
@@ -52,6 +61,27 @@ const VerComunidad = () => {
         setPosts([nuevoPost, ...posts]);
     };
 
+    useEffect(() => {
+        const obtenerDatosComunidad = async () => {
+            if (!idComunidad) return;
+            try {
+                const subComunidadRef = doc(db, 'Comunidades', idColeccion, 'comunidades', idComunidad);
+                const subComunidadSnap = await getDoc(subComunidadRef);
+
+                if (subComunidadSnap.exists()) {
+                    console.log('Datos de la subcomunidad:', subComunidadSnap.data());
+                    setComunidadData(subComunidadSnap.data());
+                } else {
+                    console.error('La subcomunidad no existe');
+                }
+            } catch (error) {
+                console.error('Error al obtener la subcomunidad:', error);
+            }
+        };
+
+        obtenerDatosComunidad();
+    }, [idComunidad]);
+
     return (
         <>
         <div className="pagina-inicio">
@@ -72,7 +102,7 @@ const VerComunidad = () => {
                     <div className="comunidad-content">
                         <div className="comunidad-header">
                             <h4>Categoría de la Comunidad</h4>
-                            <h1>Nombre de la Comunidad</h1>
+                            <h1>{comunidadData.titulo}</h1>
                         </div>
 
                         <button

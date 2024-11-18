@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { db } from '../../firebaseConfig';
 import { getFirestore, doc, collection, getDocs, getDoc } from 'firebase/firestore';
 import Navbar from '../../components/PaginaInicio/Navbar';
-import ContenedorComunidad from '../../components/ContenedorComunidad/ContenedorComunidad';
+import ContenedorSubComunidad from '../../components/ContenedorComunidad/ContenedorSubComunidad';
 
 const ListarSubComunidad = () => {
   const { idComunidad } = useParams();
@@ -15,10 +15,8 @@ const ListarSubComunidad = () => {
   useEffect(() => {
     const obtenerSubcomunidades = async () => {
       try {
-        console.log('Obteniendo referencia al documento de la comunidad...');
         const comunidadRef = doc(db, 'Comunidades', idComunidad);
 
-        console.log('Recuperando el documento de la comunidad...');
         const comunidadSnap = await getDoc(comunidadRef);
         
         if (comunidadSnap.exists()) {
@@ -33,7 +31,6 @@ const ListarSubComunidad = () => {
         const subcomunidadesRef = collection(comunidadRef, 'comunidades');
         const subcomunidadesSnap = await getDocs(subcomunidadesRef);
 
-        console.log('Subcolección "comunidades" recuperada:', subcomunidadesSnap.docs);
 
         const subcomunidadesData = subcomunidadesSnap.docs.map((doc) => ({
           id: doc.id,
@@ -56,17 +53,18 @@ const ListarSubComunidad = () => {
     <div className="pagina-inicio">
       <Navbar />
       <div className="content-audiolibro" >
-        <h1 className="titulo-aud-reg">x{tituloComunidad}</h1>
+        <h1 className="titulo-aud-reg">{tituloComunidad}</h1>
         
 
-        <div className="d-flex justify-content-around flex-wrap" style={{ width: '80%' }}>
+        <div className="d-flex justify-content-around flex-wrap" style={{ width: '100%' }}>
           {subcomunidades.map((sub) => (
-            <ContenedorComunidad
+            <ContenedorSubComunidad
               key={sub.id}
               titulo={sub.titulo}
               imgPortada={sub.imagenURL}
               descripcion={sub.descripcion}
               id={sub.id}
+              idColeccion={idComunidad}
             />
           ))}
         </div>
