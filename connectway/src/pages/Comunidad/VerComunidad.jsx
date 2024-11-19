@@ -8,7 +8,23 @@
     import '../../estilos/comunidad/VerComunidad.css';
     import {listaComunidadesPerteneciente} from '../../Services/ComunidadesServicios/ListaComunidadesPerteneciente';
     import {collection, addDoc, serverTimestamp} from 'firebase/firestore';
+    import {obtenerPostsOrdenados} from '../../Services/Post/ObtenerTodosPost';
 
+    const fetchPostsByComunidad = async (idComunidad, idColeccion) => {
+        if (!idComunidad || !idColeccion) {
+            console.warn("ID de comunidad o colección no proporcionados.");
+            return;
+        }
+    
+        try {
+            const posts = await obtenerPostsOrdenados(idComunidad, idColeccion);
+            setPosts(posts);
+        } catch (error) {
+            console.error("Error al obtener los posts:", error);
+        }
+    };
+    
+    
     const VerComunidad = () => {
         const location = useLocation();
         const [isModalOpen, setIsModalOpen] = useState(false);
@@ -41,30 +57,33 @@
         };
     
         const handleCrearPost = async (nuevoPost) => {
-        try {
-            // Referencia a la colección `posts` dentro de la comunidad seleccionada
-            const postsRef = collection(
-                db,
-                "Comunidades",
-                idComunidad, // ID de la categoría
-                "comunidades",
-                idColeccion, // ID de la subcomunidad
-                "posts"
-            );
-
-            // Agregar el nuevo post a Firebase
-            await addDoc(postsRef, {
-                ...nuevoPost,
-                fechaHoraPublicacion: serverTimestamp(), // Fecha de Firebase
-            });
-
-            // Actualizar el estado local
-            setPosts([nuevoPost, ...posts]);
-        } catch (error) {
-            console.error("Error al registrar el post en Firebase:", error);
-        }
-    };
-    
+            if (!idComunidad || !idColeccion) {
+                console.error("Los IDs de comunidad o colección no están definidos.");
+                return;
+            }
+        
+            try {
+                const postsRef = collection(
+                    db,
+                    "Comunidades",
+                    idComunidad,
+                    "comunidades",
+                    idColeccion,
+                    "posts"
+                );
+        
+                await addDoc(postsRef, {
+                    ...nuevoPost,
+                    fechaHoraPublicacion: serverTimestamp(),
+                });
+        
+                // Actualizar el estado local
+                setPosts((prevPosts) => [nuevoPost, ...prevPosts]);
+            } catch (error) {
+                console.error("Error al registrar el post en Firebase:", error);
+            }
+        };
+        
        // const idColeccion = location.state?.idColeccion;
        // console.log('Datos id com:', idComunidad);
         
@@ -106,41 +125,42 @@
                                 {userComunidades.length > 0 ? (
                                     userComunidades.map((comunidad, index) => (
                                         <li key={index} className="comunidad-item">
-                                            <button
-                                    onClick={async () => {
-                                        setComunidadData(null); // Limpia los datos anteriores
-                                        setIdComunidad(comunidad.idComunidad);
-                                        setIdColeccion(comunidad.idColeccion);
-                                    
-                                        try {
-                                            // Obtén los datos de la comunidad desde Firebase
-                                            const docRef = doc(
-                                                db,
-                                                "Comunidades",
-                                                comunidad.idComunidad,
-                                                "comunidades",
-                                                comunidad.idColeccion
-                                            );
-                                            const docSnap = await getDoc(docRef);
-                                    
-                                            if (docSnap.exists()) {
-                                                // Configura los datos de la comunidad en el estado, incluyendo la categoría
-                                                setComunidadData({
-                                                    ...docSnap.data(),
-                                                    categoria: comunidad.categoria, // Agrega la categoría directamente
-                                                });
-                                            } else {
-                                                console.warn("No se encontró la comunidad seleccionada.");
-                                            }
-                                        } catch (error) {
-                                            console.error("Error al obtener los datos de la comunidad:", error);
-                                        }
-                                    }}
-                                    
+                    <button
+                    onClick={async () => {
+                        setComunidadData(null); // Limpia los datos anteriores
+                        setIdComunidad(comunidad.idComunidad);
+                        setIdColeccion(comunidad.idColeccion);
 
-                                            >
-                                                {comunidad.titulo}
-                                            </button>
+                        try {
+                            // Obtén los datos de la comunidad desde Firebase
+                            const docRef = doc(
+                                db,
+                                "Comunidades",
+                                comunidad.idComunidad,
+                                "comunidades",
+                                comunidad.idColeccion
+                            );
+                            const docSnap = await getDoc(docRef);
+
+                            if (docSnap.exists()) {
+                                setComunidadData({
+                                    ...docSnap.data(),
+                                    categoria: comunidad.categoria, // Agrega la categoría directamente
+                                });
+
+                                // Llama al servicio para cargar los posts
+                                await fetchPostsByComunidad(comunidad.idComunidad, comunidad.idColeccion);
+                            } else {
+                                console.warn("No se encontró la comunidad seleccionada.");
+                            }
+                        } catch (error) {
+                            console.error("Error al obtener los datos de la comunidad:", error);
+                        }
+                    }}
+                >
+                    {comunidad.titulo}
+                </button>
+
                                         </li>
                                     ))
                                 ) : (
@@ -174,17 +194,21 @@
                                 </button>
     
                                 <div className="posts">
-                                    {posts.map((post, index) => (
+                                {Array.isArray(posts) && posts.length > 0 ? (
+                                    posts.map((post, index) => (
                                         <Post
-                                            key={index}
-                                            titulo={post.titulo}
-                                            contenido={post.contenido}
-                                            nombreUsuario={post.nombreUsuario}
-                                            imagenPost={post.imagenPost}
-                                            //imagenUsuario={post.imagenUsuario}
+                                            key={post.id || index} // Asegúrate de tener un identificador único
+                                            titulo={post.titulo || "Sin título"}
+                                            contenido={post.contenido || "Sin contenido"}
+                                            nombreUsuario={post.usuario || "Usuario desconocido"}
+                                            imagenPost={post.archivoUrl || ""}
                                         />
-                                    ))}
-                                </div>
+                                    ))
+                                ) : (
+                                    <p>No hay publicaciones en esta comunidad.</p>
+                                )}
+
+                            </div>
                             </div>
                         </div>
                     </div>
