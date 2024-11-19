@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
 import '../../estilos/comunidad/ModalFormularioPost.css';
 import { subirPost } from '../../Services/Post/SubirPost';
-import { subirArchivoYObtenerUrl } from '../../Services/Post/SubirMultimediaPostObtenerUrl';
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { app } from '../../firebaseConfig'; // Asegúrate de que este archivo exporte tu configuración de Firebase.
+import { obtenerNombreUsuario } from '../../Services/UsuarioServicios/NombreUsuarioPorIdDoc'; // Importa la función para obtener el nombre del usuario.
+
+const storage = getStorage(app); // Instancia de Storage
+
+const handleFileUpload = async (file) => {
+    const fileRef = ref(storage, `Post/${Date.now()}_${file.name}`);
+    await uploadBytes(fileRef, file);
+    return await getDownloadURL(fileRef);
+};
 
 const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
     const [titulo, setTitulo] = useState('');
@@ -11,7 +21,7 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
     const nombreUsuario = "Usuario Anónimo";
 
     const handleArchivoChange = (e) => {
-        const file = e.target.files[0];
+        const file = e.target.files?.[0];
         if (file && (file.type.startsWith('image/') || file.type === 'video/mp4')) {
             setArchivo(file);
         } else {
@@ -20,36 +30,22 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
     };
 
     const handleSubmit = async () => {
-        if (titulo.trim() && contenido.trim()) {
-            onSubmit({ titulo, contenido, archivo, nombreUsuario });
-            try {
-                // Subir el archivo (imagen o video)
-                const archivoUrl = await subirArchivoYObtenerUrl(archivo);
-                const correoUsuario = sessionStorage.getItem('correoUsuario');
-                const usuarioNombre = sessionStorage.getItem('nombreUsuario');
-    
-                // Preparar el objeto del post
-                const postContenido = {
-                    titulo,
-                    descripcion: contenido,
-                    archivoUrl, // URL del archivo subido
-                    correoUsuario: correoUsuario,
-                    usuario: usuarioNombre,
-                    fechaHoraPublicacion: new Date().toISOString(), // Agregar timestamp
-                };
-    
-                // Guardar el post en Firestore
-                                    //Cambiar por los valores a recibir
-                await subirPost("inteligencia_emocional","6e0pWUPCFiP3pbFY4ERR" , postContenido);
-    
-                alert('Post agregado exitosamente.');
-                onClose();
-            } catch (error) {
-                console.error('Error al agregar el post:', error);
-                alert('Hubo un error al agregar el post. Por favor, intenta nuevamente.');
-            }
-        } else {
-            alert('Por favor, completa todos los campos.');
+        try {
+            const archivoUrl = archivo ? await handleFileUpload(archivo) : null;
+
+            const nuevoPost = {
+                titulo,
+                contenido, // Cambié "descripcion" por "contenido", ya que "contenido" está definido.
+                archivoUrl,
+                correoUsuario: sessionStorage.getItem('correoUsuario'),
+                usuario: await obtenerNombreUsuario(sessionStorage.getItem('correoUsuario')),
+            };
+
+            await subirPost(nuevoPost); // Suponiendo que esta función guarda el post.
+            onSubmit(nuevoPost); // Callback proporcionado por el componente padre.
+            onClose(); // Cierra el modal.
+        } catch (error) {
+            console.error("Error al enviar el post:", error);
         }
     };
 
@@ -113,5 +109,4 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
         </div>
     );
 };
-
 export default ModalFormularioPost;

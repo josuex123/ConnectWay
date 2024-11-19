@@ -7,6 +7,8 @@
     import ModalFormularioPost from './ModalFormularioPost';
     import '../../estilos/comunidad/VerComunidad.css';
     import {listaComunidadesPerteneciente} from '../../Services/ComunidadesServicios/ListaComunidadesPerteneciente';
+    import {collection, addDoc, serverTimestamp} from 'firebase/firestore';
+
     const VerComunidad = () => {
         const location = useLocation();
         const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,9 +40,30 @@
             setIsModalOpen(false);
         };
     
-        const handleCrearPost = (nuevoPost) => {
+        const handleCrearPost = async (nuevoPost) => {
+        try {
+            // Referencia a la colección `posts` dentro de la comunidad seleccionada
+            const postsRef = collection(
+                db,
+                "Comunidades",
+                idComunidad, // ID de la categoría
+                "comunidades",
+                idColeccion, // ID de la subcomunidad
+                "posts"
+            );
+
+            // Agregar el nuevo post a Firebase
+            await addDoc(postsRef, {
+                ...nuevoPost,
+                fechaHoraPublicacion: serverTimestamp(), // Fecha de Firebase
+            });
+
+            // Actualizar el estado local
             setPosts([nuevoPost, ...posts]);
-        };
+        } catch (error) {
+            console.error("Error al registrar el post en Firebase:", error);
+        }
+    };
     
        // const idColeccion = location.state?.idColeccion;
        // console.log('Datos id com:', idComunidad);
@@ -158,7 +181,7 @@
                                             contenido={post.contenido}
                                             nombreUsuario={post.nombreUsuario}
                                             imagenPost={post.imagenPost}
-                                            imagenUsuario={post.imagenUsuario}
+                                            //imagenUsuario={post.imagenUsuario}
                                         />
                                     ))}
                                 </div>
