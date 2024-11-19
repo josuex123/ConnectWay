@@ -15,13 +15,8 @@ export const obtenerPostsOrdenados = async (comunidadId, subcomunidadId) => {
             'posts'
         );
 
-        // Consulta ordenada por fechaHoraPublicacion de forma descendente (más recientes primero)
         const postsQuery = query(postsCollectionRef, orderBy('fechaHoraPublicacion', 'desc'));
-
-        // Obtener los documentos de la consulta
         const querySnapshot = await getDocs(postsQuery);
-
-        // Convertir los documentos en un array de objetos con los campos requeridos
         const posts = querySnapshot.docs.map((doc) => ({
             id: doc.id, // ID del documento
             archivoUrl: doc.data().archivoUrl || "", // URL del archivo
@@ -35,6 +30,6 @@ export const obtenerPostsOrdenados = async (comunidadId, subcomunidadId) => {
         return posts;
     } catch (error) {
         console.error('Error al obtener los posts ordenados:', error);
-        throw error; // Lanza el error para manejarlo en el lugar donde se llama la función
+        throw error; 
     }
 };
