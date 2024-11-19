@@ -39,6 +39,7 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
                 };
     
                 // Guardar el post en Firestore
+                                    //Cambiar por los valores a recibir
                 await subirPost("inteligencia_emocional","6e0pWUPCFiP3pbFY4ERR" , postContenido);
     
                 alert('Post agregado exitosamente.');
