@@ -73,8 +73,8 @@
         };
 
 
-        const idComunidad = location.state?.idComunidad;
-        const idColeccion = location.state?.idColeccion;
+        const idComunidad = location.state?.idComunidad; //categoria
+        const idColeccion = location.state?.idColeccion;  // subcominidad
         console.log('Datos id com:', idComunidad);
         console.log('Datos id subcom:', idColeccion);
 
