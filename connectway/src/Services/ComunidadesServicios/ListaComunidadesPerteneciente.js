@@ -6,26 +6,22 @@ const db = getFirestore(app);
 export const listaComunidadesPerteneciente = async (userEmail) => {
   try {
     const comunidadesRef = collection(db, "Comunidades");
-    const comunidadesSnapshot = await getDocs(comunidadesRef);
+    const categoriasSnapshot = await getDocs(comunidadesRef); // Obtiene las categorías
 
     const userSubcommunities = [];
 
-    // Iterar sobre todas las comunidades
-    for (const comunidad of comunidadesSnapshot.docs) {
-      const comunidadId = comunidad.id;
-
-      // Obtener las subcomunidades de la comunidad actual
-      const subcomunidadesRef = collection(db, "Comunidades", comunidadId, "comunidades");
+    for (const categoriaDoc of categoriasSnapshot.docs) {
+      const categoriaId = categoriaDoc.id; // Nombre de la categoría (por ejemplo: "inteligencia_emocional")
+      const subcomunidadesRef = collection(db, "Comunidades", categoriaId, "comunidades");
       const subcomunidadesSnapshot = await getDocs(subcomunidadesRef);
 
       for (const subcomunidad of subcomunidadesSnapshot.docs) {
         const subcomunidadId = subcomunidad.id;
 
-        // Verificar si el usuario es miembro de la subcomunidad
         const miembrosRef = collection(
           db,
           "Comunidades",
-          comunidadId,
+          categoriaId,
           "comunidades",
           subcomunidadId,
           "miembros"
@@ -35,8 +31,12 @@ export const listaComunidadesPerteneciente = async (userEmail) => {
         const miembroSnapshot = await getDocs(miembroQuery);
 
         if (!miembroSnapshot.empty) {
-          // Agregar el título de la subcomunidad si el usuario es miembro
-          userSubcommunities.push(subcomunidad.data().titulo);
+          userSubcommunities.push({
+            idComunidad: categoriaId, // ID de la categoría
+            idColeccion: subcomunidadId,
+            titulo: subcomunidad.data().titulo,
+            categoria: categoriaId, // Incluye la categoría aquí
+          });
         }
       }
     }
@@ -47,6 +47,9 @@ export const listaComunidadesPerteneciente = async (userEmail) => {
     throw error;
   }
 };
+
+
+
 
 /* 
     Retorna una lista con el título de las subcomunidades donde el usuario es miembro.

@@ -42,52 +42,34 @@
             setPosts([nuevoPost, ...posts]);
         };
     
-        const idComunidad = location.state?.idComunidad;
-        const idColeccion = location.state?.idColeccion;
-        console.log('Datos id com:', idComunidad);
-        console.log('Datos id subcom:', idColeccion);
-    
+       // const idColeccion = location.state?.idColeccion;
+       // console.log('Datos id com:', idComunidad);
+        
+        
+        const [idComunidad, setIdComunidad] = useState(null);
+        const [idColeccion, setIdColeccion] = useState(null);
         useEffect(() => {
-            const obtenerDatosComunidad = async () => {
-                if (!idComunidad || !idColeccion) {
-                    console.error('Faltan los identificadores de la comunidad o subcomunidad.');
-                    return;
-                }
-    
-                try {
-                    const subComunidadRef = doc(db, 'Comunidades', idComunidad, 'comunidades', idColeccion);
-                    const subComunidadSnap = await getDoc(subComunidadRef);
-    
-                    if (subComunidadSnap.exists()) {
-                        const comunidad = subComunidadSnap.data();
-                        setComunidadData({
-                            titulo: comunidad.titulo || 'Título no disponible',
-                            descripcion: comunidad.descripcion || 'Descripción no disponible',
-                            imagenURL: comunidad.imagenURL || '',
-                        });
-                    } else {
-                        console.error('La subcomunidad no existe en la base de datos.');
-                    }
-                } catch (error) {
-                    console.error('Error al obtener la subcomunidad:', error);
-                }
-            };
-    
-            obtenerDatosComunidad();
-    
-            // Obtener comunidades a las que el usuario se ha unido
-            const fetchUserComunidades = async () => {
+            const fetchData = async () => {
                 const userEmail = sessionStorage.getItem('correoUsuario'); // Obtener el correo del usuario
+        
                 try {
                     const comunidades = await listaComunidadesPerteneciente(userEmail);
-                    setUserComunidades(comunidades);
+        
+                    // Validar si se obtuvieron comunidades y mapearlas correctamente
+                    if (comunidades && comunidades.length > 0) {
+                        setUserComunidades(comunidades);
+                    } else {
+                        console.warn('El usuario no pertenece a ninguna comunidad.');
+                    }
                 } catch (error) {
                     console.error('Error al obtener las comunidades del usuario:', error);
                 }
             };
-    
-            fetchUserComunidades();
-        }, [idComunidad, idColeccion]);
+        
+            fetchData();
+        }, []);
+        
+          
     
         return (
             <>
@@ -98,27 +80,68 @@
                             <div className="comunidades-list">
                                 <h3 className="text">Tus Comunidades:</h3>
                                 <ul>
-                                    {userComunidades.length > 0 ? (
-                                        userComunidades.map((comunidad, index) => (
-                                            <li key={index} className="comunidad-item">
-                                                <button>{comunidad}</button>
-                                            </li>
-                                        ))
-                                    ) : (
-                                        <li>No te has unido a ninguna comunidad</li>
-                                    )}
+                                {userComunidades.length > 0 ? (
+                                    userComunidades.map((comunidad, index) => (
+                                        <li key={index} className="comunidad-item">
+                                            <button
+                                    onClick={async () => {
+                                        setComunidadData(null); // Limpia los datos anteriores
+                                        setIdComunidad(comunidad.idComunidad);
+                                        setIdColeccion(comunidad.idColeccion);
+                                    
+                                        try {
+                                            // Obtén los datos de la comunidad desde Firebase
+                                            const docRef = doc(
+                                                db,
+                                                "Comunidades",
+                                                comunidad.idComunidad,
+                                                "comunidades",
+                                                comunidad.idColeccion
+                                            );
+                                            const docSnap = await getDoc(docRef);
+                                    
+                                            if (docSnap.exists()) {
+                                                // Configura los datos de la comunidad en el estado, incluyendo la categoría
+                                                setComunidadData({
+                                                    ...docSnap.data(),
+                                                    categoria: comunidad.categoria, // Agrega la categoría directamente
+                                                });
+                                            } else {
+                                                console.warn("No se encontró la comunidad seleccionada.");
+                                            }
+                                        } catch (error) {
+                                            console.error("Error al obtener los datos de la comunidad:", error);
+                                        }
+                                    }}
+                                    
+
+                                            >
+                                                {comunidad.titulo}
+                                            </button>
+                                        </li>
+                                    ))
+                                ) : (
+                                    <li>No te has unido a ninguna comunidad</li>
+                                )}
                                 </ul>
+
                             </div>
     
                             <div className="comunidad-content">
-                                <div className="comunidad-header">
-                                    <h4>{formatearCategoria(categoria) || 'Categoría no disponible'}</h4>
-                                    {comunidadData ? (
-                                        <h1>{comunidadData.titulo}</h1>
-                                    ) : (
-                                        <h1>Cargando comunidad...</h1>
-                                    )}
-                                </div>
+                            <div className="comunidad-header">
+                            <h4>
+                                                {(() => {
+                        console.log('Datos de comunidadData:', comunidadData); // Depuración
+                        return formatearCategoria(comunidadData?.categoria) || 'Categoría no disponible';
+                    })()}
+                            </h4>
+                            {comunidadData ? (
+                                <h1>{comunidadData.titulo}</h1>
+                            ) : (
+                                <h1>Cargando comunidad...</h1>
+                            )}
+                            </div>
+
     
                                 <button
                                     className="button-comunidad"
