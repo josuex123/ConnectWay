@@ -1,6 +1,8 @@
 .post-container {
+    text-align: start;
     display: flex;
-    border: 1px solid #ddd;
+    max-width: 1200px;
+    border: 2px solid #03314B;
     padding: 10px;
     margin-bottom: 20px;
     border-radius: 8px;
@@ -20,33 +22,74 @@
 
 .post-header {
     display: flex;
+    padding-bottom: 20px;
     justify-content: space-between;
 }
 
+.post-header h2 {
+    font-size: 1.5em;
+    margin: 0;
+    overflow-wrap: break-word; /* Permite que el título se ajuste en múltiples líneas */
+    word-break: break-word;
+}
+
+.ver-mas-link, .ver-menos-link {
+    color: #1e79dad1;
+    cursor: pointer;
+    margin-left: 5px;
+    text-decoration: underline;
+}
+
+.ver-mas-link:hover, .ver-menos-link:hover {
+    color: #0056b3;
+}
+
 .user-info {
+    font-size: 0.8em;
+    width: 100px;
     display: flex;
+    flex-direction: column;
     align-items: center;
 }
 
 .user-info img {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
-    margin-right: 10px;
+}
+
+.user-info span {
+    display: inline-block;
+    max-width: 100px; /* Limita el ancho del nombre */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Aplica puntos suspensivos al nombre */
 }
 
 .post-footer {
+    display: flex;
+    justify-content: flex-end;
     margin-top: 10px;
+    gap: 10px;
 }
 
 .icon-button {
+    font-size: 0.8em;
+    width: 135px;
     background: none;
     border: none;
     cursor: pointer;
-    margin-right: 10px;
-    color: #555;
+    color: #03314B;
+    box-sizing: border-box;
 }
 
 .icon-button i {
     margin-right: 5px;
+    color: #03314B;
+}
+
+.icon-button:hover, .icon-button:hover i{
+    transition: none;
+    background-color: #03314B;
+    color: #ffffff;
 }

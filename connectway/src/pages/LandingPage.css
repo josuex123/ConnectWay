@@ -8,6 +8,8 @@
 .landing-container{
     padding: 20px;
     background-color: #E3EAF1;
+    width: 100vw;
+    height: 100vh;
 }
 
 .nav-container-landing {
@@ -36,6 +38,7 @@
 
 .nav-link-landing {
     color: white;
+    background-color: #03314B;
     text-decoration: none;
     padding: 0.5rem 1rem;
     border-radius: 5px;
@@ -69,28 +72,55 @@
 }
 
 .nav-logo-landing {
-    font-size: 24px;
+    font-size: 27px;
     font-weight: 600;
     color: #03314B !important; 
     display: flex;
     align-items: center;
     text-decoration: none;
-    margin-left: 20px;
 }
 
-.nav-logo-text {
-    padding-top: 15px; 
+.nav-logo-landing-text.connect {
+    color: #94b9ff;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+  
+.nav-logo-landing-text.way {
+    color: #cdffd8;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+.nav-logo-landing-text.connect {
+    color: #03314B;
+    text-shadow: 1px 1px 5px rgba(27, 64, 184, 0.616);
+    margin-bottom: -7px;
+}
+  
+.nav-logo-landing-text.way {
+    color: #9EE493;
+    text-shadow: 1px 1px 5px rgba(27, 64, 184, 0.616);
+    margin-bottom: -7px;
+    -webkit-text-stroke: 1px #87d87db4; /* Aplica el borde negro con grosor de 2px */
+}
+.nav-logo-landing-text.connect,
+.nav-logo-landing-text.way {
+  font-family: "Arial", sans-serif;
+  font-weight: 900;
 }
 
 .nav-logo-image0 {
     width: 95px;
     height: auto;
-    margin-right: 10px; 
-    padding-bottom:10px;
+    padding-bottom:20px;
     margin-top: 16px;
 }
 
 .nav-link-landing, .nav-link-start-landing {
+    color: white; 
+    text-decoration: none;
+    padding: 0.5rem 0.8rem;
+}
+
+.nav-link-start-landing {
     color: white; 
     text-decoration: none;
     padding: 0.5rem 0.8rem;

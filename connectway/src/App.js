@@ -21,6 +21,10 @@ import MiActividad from './pages/miActividad/miActividad';
 import Perfil from './pages/perfil/perfil';
 import LogIn from './pages/users/login';
 import AudiobookEdit from './pages/audiolibros/FormularioEditar';
+import IniciarSesion from './pages/SesionUsuario/IniciarSesion';
+import RecuperarContra from './pages/SesionUsuario/RecuperarContra';
+import CrearCuenta from './pages/SesionUsuario/CrearCuenta';
+import ListarComunidad from './pages/Comunidad/ListarSubcomunidad'
 
 
 function App() {
@@ -37,8 +41,11 @@ function App() {
           <Route path="/MiActividad/:role" element={<MiActividad />} />
           <Route path="/Perfil/:role" element={<Perfil />} />
           <Route path="/Login" element={<LogIn />} />
+          <Route path="/IniciarSesion" element={<IniciarSesion />} />
+          <Route path="/RecuperarContrasenia" element={<RecuperarContra />} />
+          <Route path="/CrearCuenta" element={<CrearCuenta />} />
           
-          {/* Rutas para el administrador */}
+          {/* Rutas para el admin */}
           <Route path="/Audiolibros/añadir/:role" element={<AudiolibrosAñadir />} />
           <Route path="/Audiolibros/registrados/:role" element={<AudiolibrosRegistrado />} />
           <Route path="/Audiolibros/registrados/informacion/:role" element={<AudiolibrosInformacion />} />
@@ -52,7 +59,9 @@ function App() {
           <Route path="/comunidad/crear/:role" element={<CrearComunidad />} />
           <Route path="/comunidad/unirse/:role" element={<UnirseComunidad />} />
           <Route path="/comunidad/mis-comunidades/:role" element={<MisComunidades />} />
-          <Route path="/comunidad/ver-comunidad/:role" element={<VerComunidad />} />
+          <Route path="/comunidad/ver-comunidad" element={<VerComunidad />} />
+          <Route path="/comunidad/listar-comunidad/:idComunidad" element={<ListarComunidad />} />
+          
         </Routes>
       </div>
       <AudiolibrosReproducir ref = {reproductorRef}/>

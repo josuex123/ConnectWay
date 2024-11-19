@@ -21,7 +21,7 @@
     transition: border 0.3s ease; 
 }
 
-/* Cambia el borde a color verde cuando la barra de búsqueda está activa (focus) */
+/* Cambia el borde a verde cuando la barra de búsqueda está activa (focus) */
 .search-bar:focus-within {
     border: 2px solid #03314B; 
 }
