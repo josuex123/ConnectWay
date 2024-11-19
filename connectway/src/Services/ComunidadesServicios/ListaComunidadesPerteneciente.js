@@ -3,46 +3,62 @@ import { app } from '../../firebaseConfig';
 
 const db = getFirestore(app);
 
-export const listaComunidadesPerteneciente = async (comunidadId, userEmail) => {
-  const subcomunidadesRef = collection(db, "Comunidades", comunidadId, "comunidades");
-  const subcomunidadesSnapshot = await getDocs(subcomunidadesRef);
+export const listaComunidadesPerteneciente = async (userEmail) => {
+  try {
+    const comunidadesRef = collection(db, "Comunidades");
+    const comunidadesSnapshot = await getDocs(comunidadesRef);
 
-  const userSubcommunities = [];
+    const userSubcommunities = [];
 
-  for (const subcomunidad of subcomunidadesSnapshot.docs) {
-    const miembrosRef = collection(
-      db,
-      "Comunidades",
-      comunidadId,
-      "comunidades",
-      subcomunidad.id,
-      "miembros"
-    );
+    // Iterar sobre todas las comunidades
+    for (const comunidad of comunidadesSnapshot.docs) {
+      const comunidadId = comunidad.id;
 
-    const miembroQuery = query(miembrosRef, where("__name__", "==", userEmail));
-    const miembroSnapshot = await getDocs(miembroQuery);
+      // Obtener las subcomunidades de la comunidad actual
+      const subcomunidadesRef = collection(db, "Comunidades", comunidadId, "comunidades");
+      const subcomunidadesSnapshot = await getDocs(subcomunidadesRef);
 
-    if (!miembroSnapshot.empty) {
-      userSubcommunities.push(subcomunidad.data().titulo); 
+      for (const subcomunidad of subcomunidadesSnapshot.docs) {
+        const subcomunidadId = subcomunidad.id;
+
+        // Verificar si el usuario es miembro de la subcomunidad
+        const miembrosRef = collection(
+          db,
+          "Comunidades",
+          comunidadId,
+          "comunidades",
+          subcomunidadId,
+          "miembros"
+        );
+
+        const miembroQuery = query(miembrosRef, where("__name__", "==", userEmail));
+        const miembroSnapshot = await getDocs(miembroQuery);
+
+        if (!miembroSnapshot.empty) {
+          // Agregar el título de la subcomunidad si el usuario es miembro
+          userSubcommunities.push(subcomunidad.data().titulo);
+        }
+      }
     }
-  }
 
-  return userSubcommunities;
+    return userSubcommunities;
+  } catch (error) {
+    console.error("Error al obtener las subcomunidades:", error);
+    throw error;
+  }
 };
 
-
 /* 
-        Retorna una lista con el titulo de las subcomunidades de las cuales es miembro
-        Espera como parametros(idComunidad(inteligencia_emocial),correoElectronico(lo puedes sacar del session storage con:
-        const correoUsuario = sessionStorage.getItem('correoUsuario');))
-        
-        // Ejemplo de uso
-        await listaComunidadesPerteneciente(id, 'luizagamerinogustavo@gmail.com')
-        .then((subcomunidades) => {
+    Retorna una lista con el título de las subcomunidades donde el usuario es miembro.
+    
+    // Ejemplo de uso:
+    const correoUsuario = sessionStorage.getItem('correoUsuario'); // Obtener el correo del usuario logueado
+
+    listaComunidadesPerteneciente(correoUsuario)
+      .then((subcomunidades) => {
         console.log("Subcomunidades donde el usuario es miembro:", subcomunidades);
-        })
-        .catch((error) => {
+      })
+      .catch((error) => {
         console.error("Error al obtener las subcomunidades:", error);
-        });        
-     
+      });
 */
