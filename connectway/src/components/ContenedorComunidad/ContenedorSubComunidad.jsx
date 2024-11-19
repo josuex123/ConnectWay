@@ -22,9 +22,6 @@ const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColecci
         const correoUsuario = sessionStorage.getItem('correoUsuario');
         const username = sessionStorage.getItem('nombreUsuario');
         await unirseComunidad(id,idColeccion,correoUsuario,username);
-
-
-
     };
 
     return (
