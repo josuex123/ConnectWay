@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import '../../estilos/comunidad/ModalFormularioPost.css';
+import { subirPost } from '../../Services/Post/SubirPost';
+import { subirArchivoYObtenerUrl } from '../../Services/Post/SubirMultimediaPostObtenerUrl';
 
 const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
     const [titulo, setTitulo] = useState('');
@@ -17,10 +19,34 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
         }
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (titulo.trim() && contenido.trim()) {
             onSubmit({ titulo, contenido, archivo, nombreUsuario });
-            onClose();
+            try {
+                // Subir el archivo (imagen o video)
+                const archivoUrl = await subirArchivoYObtenerUrl(archivo);
+                const correoUsuario = sessionStorage.getItem('correoUsuario');
+                const usuarioNombre = sessionStorage.getItem('nombreUsuario');
+    
+                // Preparar el objeto del post
+                const postContenido = {
+                    titulo,
+                    descripcion: contenido,
+                    archivoUrl, // URL del archivo subido
+                    correoUsuario: correoUsuario,
+                    usuario: usuarioNombre,
+                    fechaHoraPublicacion: new Date().toISOString(), // Agregar timestamp
+                };
+    
+                // Guardar el post en Firestore
+                await subirPost("inteligencia_emocional","6e0pWUPCFiP3pbFY4ERR" , postContenido);
+    
+                alert('Post agregado exitosamente.');
+                onClose();
+            } catch (error) {
+                console.error('Error al agregar el post:', error);
+                alert('Hubo un error al agregar el post. Por favor, intenta nuevamente.');
+            }
         } else {
             alert('Por favor, completa todos los campos.');
         }
