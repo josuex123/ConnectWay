@@ -12,6 +12,18 @@
         const location = useLocation();
         const [isModalOpen, setIsModalOpen] = useState(false);
         const [comunidadData, setComunidadData] = useState(null);
+        const categoria = location.state?.categoria;
+
+        const categoriasMap = {
+            inteligencia_emocional: 'Inteligencia Emocional',
+            meditacion: 'Meditación',
+            psicologia_de_parejas: 'Psicología de Parejas',
+            salud_mental: 'Salud Mental',
+          };
+        
+        const formatearCategoria = (categoria) => {
+            return categoriasMap[categoria];
+        };
 
         const [posts, setPosts] = useState([
             {
@@ -79,7 +91,6 @@
         
                     if (subComunidadSnap.exists()) {
                         const comunidad = subComunidadSnap.data();
-                        console.log('Datos de la subcomunidad:', comunidad);
                         setComunidadData({
                             titulo: comunidad.titulo || 'Título no disponible',
                             descripcion: comunidad.descripcion || 'Descripción no disponible',
@@ -115,12 +126,12 @@
 
                         <div className="comunidad-content">
                             <div className="comunidad-header">
-                                <h4>Categoría de la Comunidad</h4>
-                                {comunidadData ? (
-                                        <h1>{comunidadData.titulo}</h1>
-                                    ) : (
-                                        <h1>Cargando comunidad...</h1>
-                                    )}
+                                <h4>{formatearCategoria(categoria) || 'Categoría no disponible'}</h4>
+                    {comunidadData ? (
+                        <h1>{comunidadData.titulo}</h1>
+                    ) : (
+                        <h1>Cargando comunidad...</h1>
+                    )}
                             </div>
 
                             <button

@@ -9,45 +9,61 @@ const ListarSubComunidad = () => {
   const { idComunidad } = useParams();
   const [subcomunidades, setSubcomunidades] = useState([]);
   const [tituloComunidad, setTituloComunidad] = useState('');
+  const [categoria, setCategoria] = useState('');
+
   console.log('El componente ListarSubComunidad se está montando.');
   console.log('Valor de idComunidad:', idComunidad);
 
   useEffect(() => {
-    const obtenerSubcomunidades = async () => {
+    const obtenerDatosComunidad = async () => {
       try {
         const comunidadRef = doc(db, 'Comunidades', idComunidad);
-
         const comunidadSnap = await getDoc(comunidadRef);
-        
+  
         if (comunidadSnap.exists()) {
-          console.log('Documento de la comunidad encontrado:', comunidadSnap.data());
-          setTituloComunidad(comunidadSnap.data().titulo || 'Comunidad');
+          const comunidadData = comunidadSnap.data();
+          setTituloComunidad(comunidadData.titulo || 'Título no disponible');
         } else {
-          console.error('La comunidad no existe');
+          console.error('La comunidad no existe.');
+        }
+      } catch (error) {
+        console.error('Error al obtener la comunidad:', error);
+      }
+    };
+  
+    const obtenerSubcomunidades = async () => {
+      try {
+        // Aquí utilizamos el ID de la comunidad como categoría
+        const categoriaActual = idComunidad;
+        setCategoria(categoriaActual);
+  
+        const subcomunidadesRef = collection(db, 'Comunidades', categoriaActual, 'comunidades');
+        const subcomunidadesSnap = await getDocs(subcomunidadesRef);
+  
+        if (subcomunidadesSnap.empty) {
+          console.error('No se encontraron subcomunidades.');
           return;
         }
-
-        console.log('Obteniendo subcolección "comunidades"...');
-        const subcomunidadesRef = collection(comunidadRef, 'comunidades');
-        const subcomunidadesSnap = await getDocs(subcomunidadesRef);
-
-
+  
         const subcomunidadesData = subcomunidadesSnap.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-        console.log('Datos de subcomunidades procesados:', subcomunidadesData);
+  
         setSubcomunidades(subcomunidadesData);
       } catch (error) {
         console.error('Error al obtener las subcomunidades:', error);
       }
     };
-
+  
     if (idComunidad) {
-      console.log('ID de la comunidad:', idComunidad);
+      obtenerDatosComunidad();
       obtenerSubcomunidades();
     }
   }, [idComunidad]);
+  
+  
+  
 
   return (
     <div className="pagina-inicio">
@@ -65,6 +81,7 @@ const ListarSubComunidad = () => {
               descripcion={sub.descripcion}
               idColeccion={sub.id}
               id={idComunidad}
+              categoria={categoria}
             />
           ))}
         </div>

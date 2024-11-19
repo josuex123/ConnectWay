@@ -6,11 +6,18 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import { unirseComunidad } from '../../Services/ComunidadesServicios/UnirseComunidad';
 import { listaComunidadesPerteneciente } from '../../Services/ComunidadesServicios/ListaComunidadesPerteneciente';
 
-const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColeccion }) => {
+const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColeccion, categoria }) => {
     const navigate = useNavigate();
 
     const handleUnirse = async() => {
-        navigate('/comunidad/ver-comunidad', { state: { idComunidad: id, idColeccion: idColeccion} });
+        //navigate('/comunidad/ver-comunidad', { state: { idComunidad: id, idColeccion: idColeccion} });
+        navigate('/comunidad/ver-comunidad', {
+            state: { 
+                idComunidad: id, 
+                idColeccion: idColeccion, 
+                categoria: categoria || 'Categoría no disponible',
+            }
+        });
         console.log("desde el bton unirse"+id+" "+idColeccion);
         const correoUsuario = sessionStorage.getItem('correoUsuario');
         const username = sessionStorage.getItem('nombreUsuario');
