@@ -1,0 +1,69 @@
+.change-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 75px;
+    font-family: Arial, sans-serif;
+    margin-bottom: 75px;
+  }
+  
+  .change-container h2 {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .change-box {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    width: 450px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    border: 1px solid #ccc;
+  }
+  
+  .change-box label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    font-size: 14px;
+  }
+  
+  .change-box input[type="text"],
+  .change-box input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .password-field {
+    display: flex;
+    align-items: center;
+  }
+  
+  .password-field .show-password {
+    margin-left: -30px;
+    cursor: pointer;
+  }
+  
+  .change-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #03314B;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    text-align: left;
+  }
