@@ -9,7 +9,8 @@
     import {listaComunidadesPerteneciente} from '../../Services/ComunidadesServicios/ListaComunidadesPerteneciente';
     import {collection, addDoc, serverTimestamp} from 'firebase/firestore';
     import {obtenerPostsOrdenados} from '../../Services/Post/ObtenerTodosPost';   
-    
+    import ModalCargando from '../../components/Modal/ModalCargando';
+
     const VerComunidad = () => {
         const location = useLocation();
         const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,7 +20,8 @@
         const [posts, setPosts] = useState([]); 
          const [idComunidad, setIdComunidad] = useState(null);
         const [idColeccion, setIdColeccion] = useState(null);
-        
+        const [loading, setLoading] = useState(true); // Estado para manejar la carga
+
         const fetchPostsByComunidad = async (idComunidad, idColeccion) => {
             if (!idComunidad || !idColeccion) {
                 console.warn("ID de comunidad o colección no proporcionados.");
@@ -83,7 +85,7 @@
         useEffect(() => {
             const fetchData = async () => {
                 const userEmail = sessionStorage.getItem('correoUsuario'); 
-        
+                setLoading(true);
                 try {
                     const comunidades = await listaComunidadesPerteneciente(userEmail);
         
@@ -95,6 +97,8 @@
                     }
                 } catch (error) {
                     console.error('Error al obtener las comunidades del usuario:', error);
+                }finally{
+                    setLoading(false);
                 }
             };
         
@@ -109,6 +113,7 @@
                     <Navbar />
                     <div className="titulo-comunidad">
                         <div className="comunidad-page">
+                            <ModalCargando isOpen={loading} message="Cargando tus comunidades..." />
                             <div className="comunidades-list">
                                 <h3 className="text">Tus Comunidades:</h3>
                                 <ul>
