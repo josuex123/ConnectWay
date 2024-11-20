@@ -85,9 +85,9 @@ const CambiarContra = () => {
         </h1>
         
         <div className="change-box">
-          <h2>Cambia tu Contraseña</h2>
+          <h2>Restablecer la Contraseña</h2>
           <form onSubmit={handleSubmit}>
-            <label>Contraseña</label>
+            <label>Contraseña<span style={{ color: 'red', marginLeft: '2px' }}>*</span></label>
             <div className="password-field">
               <input 
                 type={isPasswordVisible ? "text" : "password"} 
@@ -106,7 +106,7 @@ const CambiarContra = () => {
             </div>
             {passwordError && <p className="error-message">{passwordError}</p>}
 
-            <label>Confirmar contraseña</label>
+            <label>Confirmar contraseña<span style={{ color: 'red', marginLeft: '2px' }}>*</span></label>
             <div className="password-field">
               <input 
                 type={isPasswordVisible ? "text" : "password"} 
