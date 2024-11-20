@@ -120,13 +120,20 @@ const Navbar = () => {
                   Unirse a Comunidad
                 </NavLink>
                 <NavLink
-                  to={`/comunidad/ver-comunidad/${role}`}
-                  className={`dropdown-link ${location.pathname === `/comunidad/ver-comunidad/${role}` ? 'active' : ''}`}
-                  //style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
-                  onClick={() => setMenuOpen(false)}
+                  className="dropdown-link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const correoUsuario = sessionStorage.getItem('correoUsuario');
+                    if (correoUsuario) {
+                      navigate('/comunidad/ver-comunidad', { state: { correo: correoUsuario } });
+                    } else {
+                      alert('No se ha encontrado el correo del usuario. Por favor, inicie sesión.');
+                    }
+                  }}
                 >
                   Mis Comunidades
                 </NavLink>
+
               </div>
             )}
           </li>
