@@ -12,7 +12,8 @@ import amigues from '../../images/grupo.png';
 
 const Navbar = () => {
   const [isAudiolibrosOpen, setAudiolibrosOpen] = useState(false);
-  const [isComunidadOpen, setComunidadOpen] = useState(false); // Estado para controlar el dropdown de Comunidad
+  const [isComunidadOpen, setComunidadOpen] = useState(false); 
+  const [isPerfilOpen, setPerfilOpen] = useState(false);// Estado para controlar el dropdown de Comunidad
   const [isMenuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -37,6 +38,15 @@ const Navbar = () => {
       setComunidadOpen(false);  
     } else {
       setComunidadOpen(true);  
+    }
+  };
+
+  const handlePerfilClick = (e) => {
+    e.preventDefault();
+    if (isPerfilOpen) {
+      setPerfilOpen(false);  
+    } else {
+      setPerfilOpen(true);  
     }
   };
 
@@ -138,7 +148,7 @@ const Navbar = () => {
             )}
           </li>
 
-          <li className="nav-item">
+          <li className="nav-item ">
             <NavLink
               to={`/MiActividad/${role}`}
               className={`nav-linkss3 disabled`}
@@ -150,16 +160,42 @@ const Navbar = () => {
             </NavLink>
           </li>
 
-          <li className="nav-item">
-            <NavLink
-              to={`/Perfil/${role}`}
-              className={`nav-linkss4 disabled`}
-              style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
-              onClick={() => setMenuOpen(false)}
+          <li className="nav-item dropdown">
+            <span
+              className={`nav-linkss4 ${location.pathname.includes('/Perfil') ? 'active' : ''}`}
+              onClick={handlePerfilClick}
             >
               Perfil
               <img src={person} alt="IconPerson" className="nav-logo-image1" />
-            </NavLink>
+            </span>
+            {isPerfilOpen && (
+              <div className="dropdown-content">
+                <NavLink
+                  to={`/perfil/${role}`}
+                  className={`dropdown-link ${location.pathname === `/perfil/${role}` ? 'active' : ''}`}
+                  style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Ver Perfil
+                </NavLink>
+                <NavLink
+                  to={`/perfil/${role}`}
+                  className={`dropdown-link ${location.pathname === `/perfil/${role}` ? 'active' : ''}`}
+                  style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Configuracion
+                </NavLink>
+                <NavLink
+                  to={`/`}
+                  className={`dropdown-link ${location.pathname === `/` ? 'active' : ''}`}
+                  //style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Cerrar Sesion
+                </NavLink>
+              </div>
+            )}
           </li>
         </ul>
 
