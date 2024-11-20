@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../estilos/comunidad/ModalFormularioPost.css';
 import { subirPost } from '../../Services/Post/SubirPost';
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { app } from '../../firebaseConfig'; // Asegúrate de que este archivo exporte tu configuración de Firebase.
-import { obtenerNombreUsuario } from '../../Services/UsuarioServicios/NombreUsuarioPorIdDoc'; // Importa la función para obtener el nombre del usuario.
+import { app } from '../../firebaseConfig';
+import { obtenerNombreUsuario } from '../../Services/UsuarioServicios/NombreUsuarioPorIdDoc';
 
-const storage = getStorage(app); // Instancia de Storage
+const storage = getStorage(app);
 
 const handleFileUpload = async (file) => {
     const fileRef = ref(storage, `Post/${Date.now()}_${file.name}`);
@@ -17,15 +17,49 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
     const [titulo, setTitulo] = useState('');
     const [contenido, setContenido] = useState('');
     const [archivo, setArchivo] = useState(null);
+    const [archivoPreview, setArchivoPreview] = useState(null);  
+    const [nombreUsuario, setNombreUsuario] = useState('Usuario Anónimo');
 
-    const nombreUsuario = "Usuario Anónimo";
+    // Actualiza el nombre del usuario al abrir el modal
+    useEffect(() => {
+        const cargarNombreUsuario = async () => {
+            const correoUsuario = sessionStorage.getItem('correoUsuario');
+            if (correoUsuario) {
+                try {
+                    const nombre = await obtenerNombreUsuario(correoUsuario);
+                    setNombreUsuario(nombre || 'Usuario Anónimo');
+                } catch (error) {
+                    console.error("Error al obtener el nombre del usuario:", error);
+                }
+            }
+        };
+
+        if (isOpen) {
+            cargarNombreUsuario();
+            setTitulo('');
+            setContenido('');
+            setArchivo(null);
+            setArchivoPreview(null); // Limpia la previsualización al abrir
+        }
+    }, [isOpen]);
+
+    // Limpia los campos al cerrar el modal
+    useEffect(() => {
+        if (isOpen) {
+            setTitulo('');
+            setContenido('');
+            setArchivo(null);
+        }
+    }, [isOpen]);
+    
 
     const handleArchivoChange = (e) => {
         const file = e.target.files?.[0];
-        if (file && (file.type.startsWith('image/') || file.type === 'video/mp4')) {
+        if (file && (file.type.startsWith('image/') || file.type === 'image/gif')) {
             setArchivo(file);
+            setArchivoPreview(URL.createObjectURL(file)); 
         } else {
-            alert('Solo se permiten imágenes (png, jpg, gif) o videos (mp4).');
+            alert('Solo se permiten imágenes (png, jpg, gif).');
         }
     };
 
@@ -35,15 +69,15 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
 
             const nuevoPost = {
                 titulo,
-                contenido, // Cambié "descripcion" por "contenido", ya que "contenido" está definido.
+                contenido,
                 archivoUrl,
                 correoUsuario: sessionStorage.getItem('correoUsuario'),
-                usuario: await obtenerNombreUsuario(sessionStorage.getItem('correoUsuario')),
+                usuario: nombreUsuario,
             };
 
-            await subirPost(nuevoPost); // Suponiendo que esta función guarda el post.
-            onSubmit(nuevoPost); // Callback proporcionado por el componente padre.
-            onClose(); // Cierra el modal.
+            await subirPost(nuevoPost);
+            onSubmit(nuevoPost);
+            onClose();
         } catch (error) {
             console.error("Error al enviar el post:", error);
         }
@@ -76,17 +110,48 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
                         />
                     </div>
                     <div className="form-group archivo-input">
+                    {!archivoPreview && ( 
                         <label htmlFor="archivo">
-                            <div className="archivo-placeholder">📂 Subir archivo (png, jpg, gif, mp4)</div>
+                            <div className="archivo-placeholder">📂 Subir archivo (png, jpg, gif)</div>
                         </label>
-                        <input
-                            id="archivo"
-                            type="file"
-                            onChange={handleArchivoChange}
-                            accept="image/*,video/mp4"
-                            hidden
-                        />
-                    </div>
+                    )}
+                    <input
+                        id="archivo"
+                        type="file"
+                        onChange={handleArchivoChange}
+                        accept="image/*"
+                        hidden
+                    />
+                    {archivoPreview && (
+                        <div
+                            className="archivo-preview"
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                gap: '10px',
+                                marginTop: '10px',
+                            }}
+                        >
+                            <img
+                                src={archivoPreview}
+                                alt="Previsualización"
+                                style={{ width: '100px', borderRadius: '5px' }}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setArchivo(null);
+                                    setArchivoPreview(null);
+                                }}
+                                class="eliminar-botton-post"
+                            >
+                                Eliminar
+                            </button>
+                        </div>
+                    )}
+                </div>
+
                     <div className="form-group">
                         <textarea
                             value={contenido}
@@ -109,4 +174,5 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
         </div>
     );
 };
+
 export default ModalFormularioPost;
