@@ -12,10 +12,10 @@ const Post = ({ titulo, contenido, imagenUsuario, nombreUsuario, imagenPost }) =
     };
 
     const contenidoVisible = mostrarTodo
-        ? contenido
-        : contenido.length > limiteCaracteres
-            ? contenido.slice(0, limiteCaracteres) + "..."
-            : contenido;
+    ? contenido || "Sin contenido disponible" // Asegura un valor por defecto
+    : contenido && contenido.length > limiteCaracteres
+        ? contenido.slice(0, limiteCaracteres) + "..."
+        : contenido || "Sin contenido disponible";
 
     return (
         <div className="post-container">

@@ -102,3 +102,15 @@
     margin-left: auto;
 }
 
+.eliminar-botton-post{
+    margin-top: 10px;
+    padding: 5px 10px;
+    border-color: #03314B;
+    background-color: #03314B;
+    border-radius: 4px;
+    color:white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
