@@ -8,30 +8,32 @@
     import '../../estilos/comunidad/VerComunidad.css';
     import {listaComunidadesPerteneciente} from '../../Services/ComunidadesServicios/ListaComunidadesPerteneciente';
     import {collection, addDoc, serverTimestamp} from 'firebase/firestore';
-    import {obtenerPostsOrdenados} from '../../Services/Post/ObtenerTodosPost';
-
-    const fetchPostsByComunidad = async (idComunidad, idColeccion) => {
-        if (!idComunidad || !idColeccion) {
-            console.warn("ID de comunidad o colección no proporcionados.");
-            return;
-        }
-    
-        try {
-            const posts = await obtenerPostsOrdenados(idComunidad, idColeccion);
-            setPosts(posts);
-        } catch (error) {
-            console.error("Error al obtener los posts:", error);
-        }
-    };
-    
+    import {obtenerPostsOrdenados} from '../../Services/Post/ObtenerTodosPost';   
     
     const VerComunidad = () => {
         const location = useLocation();
         const [isModalOpen, setIsModalOpen] = useState(false);
         const [comunidadData, setComunidadData] = useState(null);
-        const [userComunidades, setUserComunidades] = useState([]); // Estado para las comunidades del usuario
+        const [userComunidades, setUserComunidades] = useState([]); 
         const categoria = location.state?.categoria;
-    
+        const [posts, setPosts] = useState([]); 
+         const [idComunidad, setIdComunidad] = useState(null);
+        const [idColeccion, setIdColeccion] = useState(null);
+        
+        const fetchPostsByComunidad = async (idComunidad, idColeccion) => {
+            if (!idComunidad || !idColeccion) {
+                console.warn("ID de comunidad o colección no proporcionados.");
+                return;
+            }
+        
+            try {
+                const posts = await obtenerPostsOrdenados(idComunidad, idColeccion);
+                setPosts(posts);
+            } catch (error) {
+                console.error("Error al obtener los posts:", error);
+            }
+        };
+
         const categoriasMap = {
             inteligencia_emocional: 'Inteligencia Emocional',
             meditacion: 'Meditación',
@@ -42,11 +44,7 @@
         const formatearCategoria = (categoria) => {
             return categoriasMap[categoria];
         };
-    
-        const [posts, setPosts] = useState([
-            // Ejemplo de posts
-            // ...
-        ]);
+
     
         const handleIniciarDiscusion = () => {
             setIsModalOpen(true);
@@ -76,23 +74,15 @@
                     ...nuevoPost,
                     fechaHoraPublicacion: serverTimestamp(),
                 });
-        
-                // Actualizar el estado local
                 setPosts((prevPosts) => [nuevoPost, ...prevPosts]);
             } catch (error) {
                 console.error("Error al registrar el post en Firebase:", error);
             }
         };
-        
-       // const idColeccion = location.state?.idColeccion;
-       // console.log('Datos id com:', idComunidad);
-        
-        
-        const [idComunidad, setIdComunidad] = useState(null);
-        const [idColeccion, setIdColeccion] = useState(null);
+    
         useEffect(() => {
             const fetchData = async () => {
-                const userEmail = sessionStorage.getItem('correoUsuario'); // Obtener el correo del usuario
+                const userEmail = sessionStorage.getItem('correoUsuario'); 
         
                 try {
                     const comunidades = await listaComunidadesPerteneciente(userEmail);
@@ -132,7 +122,6 @@
                         setIdColeccion(comunidad.idColeccion);
 
                         try {
-                            // Obtén los datos de la comunidad desde Firebase
                             const docRef = doc(
                                 db,
                                 "Comunidades",
@@ -197,7 +186,7 @@
                                 {Array.isArray(posts) && posts.length > 0 ? (
                                     posts.map((post, index) => (
                                         <Post
-                                            key={post.id || index} // Asegúrate de tener un identificador único
+                                            key={post.id || index} 
                                             titulo={post.titulo || "Sin título"}
                                             contenido={post.contenido || "Sin contenido"}
                                             nombreUsuario={post.usuario || "Usuario desconocido"}
