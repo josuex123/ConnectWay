@@ -25,6 +25,7 @@ import IniciarSesion from './pages/SesionUsuario/IniciarSesion';
 import RecuperarContra from './pages/SesionUsuario/RecuperarContra';
 import CambiarContra from './pages/SesionUsuario/CambiarContra';
 import CrearCuenta from './pages/SesionUsuario/CrearCuenta';
+import ListarComunidad from './pages/Comunidad/ListarSubcomunidad'
 
 
 function App() {
@@ -60,7 +61,9 @@ function App() {
           <Route path="/comunidad/crear/:role" element={<CrearComunidad />} />
           <Route path="/comunidad/unirse/:role" element={<UnirseComunidad />} />
           <Route path="/comunidad/mis-comunidades/:role" element={<MisComunidades />} />
-          <Route path="/comunidad/ver-comunidad/:role" element={<VerComunidad />} />
+          <Route path="/comunidad/ver-comunidad" element={<VerComunidad />} />
+          <Route path="/comunidad/listar-comunidad/:idComunidad" element={<ListarComunidad />} />
+          
         </Routes>
       </div>
       <AudiolibrosReproducir ref = {reproductorRef}/>
