@@ -164,23 +164,25 @@
                             <h4>
                                                 {(() => {
                         console.log('Datos de comunidadData:', comunidadData); // Depuración
-                        return formatearCategoria(comunidadData?.categoria) || 'Categoría no disponible';
+                        return formatearCategoria(comunidadData?.categoria) || 'Categoría de la comunidad';
                     })()}
                             </h4>
                             {comunidadData ? (
                                 <h1>{comunidadData.titulo}</h1>
                             ) : (
-                                <h1>Cargando comunidad...</h1>
+                                <h1>¡Selecciona una comunidad!</h1>
                             )}
                             </div>
 
     
-                                <button
-                                    className="button-comunidad"
-                                    onClick={handleIniciarDiscusion}
-                                >
-                                    Iniciar Discusión
-                                </button>
+                            <button
+                                className="button-comunidad"
+                                onClick={handleIniciarDiscusion}
+                                disabled={!idComunidad} 
+                            >
+                                Iniciar Discusión
+                            </button>
+
     
                                 <div className="posts">
                                 {Array.isArray(posts) && posts.length > 0 ? (
