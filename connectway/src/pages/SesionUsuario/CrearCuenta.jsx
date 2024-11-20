@@ -121,7 +121,7 @@ const CrearCuenta = () => {
   
       if (response.email) {
         const guardarUsuarioPromise = guardarUsuario(response.email, user);
-        navigate('/InicarSesion'); // Navegación inmediata
+        navigate('/IniciarSesion'); // Navegación inmediata
         await guardarUsuarioPromise; // Espera solo si es esencial
       } else if (response.error) {
         alert(response.error);//Reemplazar con un modal
