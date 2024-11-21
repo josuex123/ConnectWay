@@ -198,6 +198,9 @@
                                             contenido={post.contenido || "Sin contenido"}
                                             nombreUsuario={post.usuario || "Usuario desconocido"}
                                             imagenPost={post.archivoUrl || ""}
+                                            comunidadId={idComunidad || ""}
+                                            subComunidadId={idColeccion || ""}
+                                            postId={post.id || ""}
                                         />
                                     ))
                                 ) : (
