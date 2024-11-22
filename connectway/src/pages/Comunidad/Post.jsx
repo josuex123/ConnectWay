@@ -19,6 +19,8 @@ import WowIcon from "../../images/wow.png";
 import AngryIcon from "../../images/angry.png";
 import HahaIcon from "../../images/haha.png";
 import LoveIcon from "../../images/love.png";
+import Comentarios from "./Comentarios";
+
 
 // Reacciones disponibles
 const reactions = [
@@ -48,6 +50,31 @@ const Post = ({
   const reactionRef = useRef(null);
   const limiteCaracteres = 200;
   const userId = sessionStorage.getItem('correoUsuario'); 
+  const [mostrarComentarios, setMostrarComentarios] = useState(false);
+  const [comentariosCount, setComentariosCount] = useState(0);
+  const obtenerComentariosCount = async () => {
+    if (!comunidadId || !subComunidadId || !postId) return;
+  
+    try {
+      const comentariosRef = collection(
+        db,
+        "Comunidades",
+        comunidadId,
+        "comunidades",
+        subComunidadId,
+        "posts",
+        postId,
+        "comentarios"
+      );
+      const comentariosSnapshot = await getDocs(comentariosRef);
+      setComentariosCount(comentariosSnapshot.size);
+    } catch (error) {
+      console.error("Error al obtener el número de comentarios:", error);
+    }
+  };
+
+  const toggleComentarios = () => setMostrarComentarios((prev) => !prev);
+
   // Alternar contenido visible
   const toggleContenido = () => setMostrarTodo(!mostrarTodo);
 
@@ -194,6 +221,11 @@ const Post = ({
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    obtenerComentariosCount();
+  }, [comunidadId, subComunidadId, postId]);
+  
+
   const contenidoVisible = mostrarTodo
     ? contenido || "Sin contenido disponible"
     : contenido && contenido.length > limiteCaracteres
@@ -237,10 +269,27 @@ const Post = ({
                         </div>
                     ))}
                 </div>
-                <button className="icon-button">
-                    <i className="fa fa-comment"></i> Comentarios
-                </button>
+                <div className="post-footer">
+                <div>
+                  <button className="icon-button" onClick={toggleComentarios}>
+                    <i className="fa fa-comment"></i> Comentarios ({comentariosCount})
+                  </button>
+                </div>
+                {mostrarComentarios && (
+                  <div className="comentarios-contenedor">
+                    <Comentarios
+                      comunidadId={comunidadId}
+                      subComunidadId={subComunidadId}
+                      postId={postId}
+                      usuarioActual={sessionStorage.getItem("correoUsuario")}
+                      mostrarComentarios={mostrarComentarios}
+                    />
+                  </div>
+                )}
+              </div>
+              <div className="post-footer">
                 <div ref={reactionRef} style={{ position: "relative" }}>
+                    <div>
                     <button className="reaction-button" onClick={toggleReactions}>
                     <img
                         src={
@@ -252,6 +301,7 @@ const Post = ({
                     />
                     <span>Reacciones</span>
                     </button>
+                    </div>
                     {showReactions && (
                     <div className="reaction-popup">
                         {reactions.map((reaction) => (
@@ -261,6 +311,7 @@ const Post = ({
                         ))}
                     </div>
                     )}
+                </div>
                 </div>
                 </div>
           </div>

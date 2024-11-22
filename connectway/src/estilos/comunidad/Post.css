@@ -159,4 +159,21 @@
     height: 20px;
     margin-right: 10px;
   }
+  .icon-button {
+    position: relative;
+    display: inline-block;
+    margin: 0; /* Asegúrate de no tener márgenes que lo empujen */
+  }
+  
+  .post-footer {
+    display: flex;
+    justify-content: space-between; /* Asegura alineación constante */
+    align-items: center; /* Centra verticalmente el contenido */
+    flex-wrap: wrap; /* Para manejar contenido adicional sin desbordar */
+  }
+  
+  .comentarios-contenedor {
+    width: 100%; /* O ajusta según tu diseño */
+    margin-top: 10px; /* Espacio solo entre los comentarios y el resto */
+  }
   

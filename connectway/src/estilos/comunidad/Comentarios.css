@@ -1,0 +1,38 @@
+.comentarios-container {
+    margin-top: 20px;
+  }
+  
+  .comentarios-seccion {
+    margin-top: 10px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+  }
+  
+  .comentario {
+    margin-bottom: 10px;
+  }
+  
+  .comentario strong {
+    display: block;
+    font-weight: bold;
+  }
+  
+  .nuevo-comentario {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .nuevo-comentario input {
+    flex: 1;
+    padding: 5px;
+  }
+  
+  .nuevo-comentario button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
