@@ -3,16 +3,36 @@
     flex-direction: column;
     align-items: center;
     font-family: Arial, sans-serif;
-    margin-top: 75px;
+    margin-top: 40px;
     margin-bottom: 75px;
   }
   
+  .login-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
+  } 
+
+  .login-image img {
+    max-width: 600px; 
+    height: auto;
+    margin-left: 130px;
+  }
+
   .login-container h2 {
     font-size: 24px;
     font-weight: bold;
   }
   
   .login-box {
+    padding: 20px;
+    border-radius: 10px;
+    width: 450px;
+    text-align: center;
+  }
+
+  .login-box2{
     background-color: #f9f9f9;
     padding: 20px;
     border-radius: 10px;
@@ -145,9 +165,8 @@ a{
     font-size: 27px;
     font-weight: 600;
     color: #03314B !important; 
-    display: flex;
-    align-items: center;
     text-decoration: none;
+    margin-left: 40px;
   }
 
 .logo-text.first-word {
