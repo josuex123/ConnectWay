@@ -71,6 +71,11 @@ const CrearCuenta = () => {
 
     setUser(value);
 
+    if (user.length > 20) {
+      setUserError("El nombre de usuario no puede tener más de 20 caracteres.");
+      return;
+    }
+
     // Verificación en tiempo real
     if (value.trim() !== "") {
       const usuarioExistente = await verificarNombreUsuarioExistente(value);
