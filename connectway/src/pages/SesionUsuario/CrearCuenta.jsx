@@ -17,6 +17,9 @@ const CrearCuenta = () => {
   const [user, setUser] = useState("");
   const [userError, setUserError] = useState(""); // Estado para el error del usuario
   const [isLoading, setIsLoading] = useState(false); // Estado de carga
+  const [name, setName] = useState("");
+  const [nameError, setNameError] = useState("");
+
   const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
@@ -89,6 +92,20 @@ const CrearCuenta = () => {
     }
   };
 
+  const handleNameChange = (e) => {
+    let value = e.target.value;
+
+    value = value.trimEnd();
+
+    setName(value);
+
+    if (value.length > 40) {
+      setNameError("El nombre no puede tener más de 40 caracteres.");
+    } else {
+      setNameError("");
+    }
+  };
+
   const validateForm = () => {
     let valid = true;
 
@@ -158,8 +175,11 @@ const CrearCuenta = () => {
                 <input
                   type="text"
                   placeholder="Ingrese su nombre completo"
+                  value={name}
+                  onChange={handleNameChange}
                   required
                 />
+                {nameError && <p className="error-message">{nameError}</p>}
 
                 <label>
                   Usuario
