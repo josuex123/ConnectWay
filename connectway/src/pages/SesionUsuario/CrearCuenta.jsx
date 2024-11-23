@@ -30,10 +30,11 @@ const CrearCuenta = () => {
     const value = e.target.value;
     setEmail(value);
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     // Arreglar Jere el value .length<20 xd, cambiar si sera aparte de @gmail.com
-    if (value === "" || value.length < 20) {
+    if (value === "" || value.length < 40) {
       setEmailError("");
-    } else if (!value.includes("@gmail.com")) {
+    } else if (!emailRegex.test(value)) {
       setEmailError("El correo es inválido");
     } else {
       setEmailError("");
@@ -41,7 +42,9 @@ const CrearCuenta = () => {
   };
 
   const handleEmailBlur = () => {
-    if (email !== "" && !email.includes("@gmail.com")) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (email !== "" && !emailRegex.test(email)) {
       setEmailError("El correo es inválido");
     }
   };
