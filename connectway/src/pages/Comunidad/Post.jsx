@@ -281,7 +281,7 @@ const Post = ({
                       comunidadId={comunidadId}
                       subComunidadId={subComunidadId}
                       postId={postId}
-                      usuarioActual={sessionStorage.getItem("correoUsuario")}
+                      usuarioActual={sessionStorage.getItem("nombreUsuario")}
                       mostrarComentarios={mostrarComentarios}
                     />
                   </div>
