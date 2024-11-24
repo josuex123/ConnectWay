@@ -4,12 +4,14 @@ import { db, storage } from "../../firebaseConfig"; // Asegúrate de importar 's
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { FaPaperclip, FaPaperPlane } from "react-icons/fa"; // Íconos para clip y envío
 import "../../estilos/comunidad/Comentarios.css";
+import ModalCargando from '../../components/Modal/ModalCargando'; 
 
 const Comentarios = ({ comunidadId, subComunidadId, postId, usuarioActual, mostrarComentarios }) => {
   const [comentarios, setComentarios] = useState([]);
   const [nuevoComentario, setNuevoComentario] = useState("");
   const [imagenComentario, setImagenComentario] = useState(null); // Estado para la imagen
   const [imagenPreview, setImagenPreview] = useState(null); 
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (imagenComentario) {
@@ -47,45 +49,54 @@ const Comentarios = ({ comunidadId, subComunidadId, postId, usuarioActual, mostr
 
   // Función para subir la imagen al Storage
   const subirImagen = async (archivo) => {
-    const imagenRef = ref(storage, `comentarios/${Date.now()}_${archivo.name}`);
-    const snapshot = await uploadBytes(imagenRef, archivo);
-    return await getDownloadURL(snapshot.ref); // Obtiene la URL de descarga
+    setIsLoading(true); // Mostrar el modal
+    try {
+      const imagenRef = ref(storage, `comentarios/${Date.now()}_${archivo.name}`);
+      const snapshot = await uploadBytes(imagenRef, archivo);
+      return await getDownloadURL(snapshot.ref); // URL de descarga
+    } finally {
+      setIsLoading(false); // Ocultar el modal
+    }
   };
+  
 
   // Función para agregar un comentario
   const agregarComentario = async () => {
     if (!nuevoComentario.trim() && !imagenComentario) return;
-
-    const comentariosRef = collection(
-      db,
-      "Comunidades",
-      comunidadId,
-      "comunidades",
-      subComunidadId,
-      "posts",
-      postId,
-      "comentarios"
-    );
-
-    let urlImagen = null;
-
-    // Subir la imagen si existe
-    if (imagenComentario) {
-      urlImagen = await subirImagen(imagenComentario);
+  
+    setIsLoading(true); // Mostrar el modal
+    try {
+      const comentariosRef = collection(
+        db,
+        "Comunidades",
+        comunidadId,
+        "comunidades",
+        subComunidadId,
+        "posts",
+        postId,
+        "comentarios"
+      );
+  
+      let urlImagen = null;
+      if (imagenComentario) {
+        urlImagen = await subirImagen(imagenComentario); // Subir imagen con el modal
+      }
+  
+      await addDoc(comentariosRef, {
+        contenido: nuevoComentario,
+        usuario: usuarioActual || "Anónimo",
+        fechaHora: new Date().toISOString(),
+        imagen: urlImagen,
+      });
+  
+      setNuevoComentario(""); // Limpiar estado
+      setImagenComentario(null);
+      setImagenPreview(null);
+    } finally {
+      setIsLoading(false); // Ocultar el modal
     }
-
-    await addDoc(comentariosRef, {
-      contenido: nuevoComentario,
-      usuario: usuarioActual || "Anónimo",
-      fechaHora: new Date().toISOString(),
-      imagen: urlImagen, // Almacenar la URL de la imagen
-    });
-
-    setNuevoComentario(""); // Limpiar el campo de texto
-    setImagenComentario(null); // Limpiar la imagen seleccionada
-    setImagenPreview(null); // Limpiar la previsualización
   };
-
+  
   if (!mostrarComentarios) return null;
 
   return (
@@ -148,6 +159,7 @@ const Comentarios = ({ comunidadId, subComunidadId, postId, usuarioActual, mostr
           </button>
         </div>
       </div>
+      <ModalCargando isOpen={isLoading} message="Procesando tu comentario..." />
     </div>
   );
 };
