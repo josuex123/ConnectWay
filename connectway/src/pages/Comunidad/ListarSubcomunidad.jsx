@@ -79,7 +79,7 @@ const ListarSubComunidad = () => {
   
   const obtenerEstadoBoton = (tituloSubcomunidad) => {
     // Comparamos el título de la subcomunidad con los títulos obtenidos
-    return titulosUsuario.includes(tituloSubcomunidad) ? 'Ver' : 'Unirse';
+    return titulosUsuario.includes(tituloSubcomunidad) ? 'Ver Comunidad' : 'Unirse';
   };
   
 
