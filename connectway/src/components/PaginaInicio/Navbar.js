@@ -3,7 +3,7 @@ import { NavLink, useNavigate, useLocation, useParams } from 'react-router-dom';
 import '../../estilos/PaginaInicio/Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
-import logo from '../../images/logoejemplo.png';
+import logo from '../../images/logoejemplo1.jpeg';
 import person from '../../images/usuario1.png';
 import home from '../../images/hogar1.png';
 import cabeza from '../../images/cabeza.png';
@@ -12,7 +12,8 @@ import amigues from '../../images/grupo.png';
 
 const Navbar = () => {
   const [isAudiolibrosOpen, setAudiolibrosOpen] = useState(false);
-  const [isComunidadOpen, setComunidadOpen] = useState(false); // Estado para controlar el dropdown de Comunidad
+  const [isComunidadOpen, setComunidadOpen] = useState(false); 
+  const [isPerfilOpen, setPerfilOpen] = useState(false);// Estado para controlar el dropdown de Comunidad
   const [isMenuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -40,6 +41,15 @@ const Navbar = () => {
     }
   };
 
+  const handlePerfilClick = (e) => {
+    e.preventDefault();
+    if (isPerfilOpen) {
+      setPerfilOpen(false);  
+    } else {
+      setPerfilOpen(true);  
+    }
+  };
+
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
   };
@@ -49,7 +59,8 @@ const Navbar = () => {
       <div className="nav-container">
         <NavLink exact to={`/home/${role}`} className="nav-logo">
           <img src={logo} alt="Logo" className="nav-logo-image" />
-          CONNECTWAY
+          <span className="nav-logo-text connect">Connect</span>
+          <span className="nav-logo-text way">Way</span>
         </NavLink>
 
         <ul className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
@@ -112,25 +123,32 @@ const Navbar = () => {
                 </NavLink>
                 <NavLink
                   to={`/comunidad/unirse/${role}`}
-                  className={`dropdown-link  disabled ${location.pathname === `/comunidad/unirse/${role}` ? 'active' : ''}`}
-                  style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
+                  className={`dropdown-link ${location.pathname === `/comunidad/unirse/${role}` ? 'active' : ''}`}
+                  //style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
                   onClick={() => setMenuOpen(false)}
                 >
                   Unirse a Comunidad
                 </NavLink>
                 <NavLink
-                  to={`/comunidad/mis-comunidades/${role}`}
-                  className={`dropdown-link  disabled ${location.pathname === `/comunidad/mis-comunidades/${role}` ? 'active' : ''}`}
-                  style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
-                  onClick={() => setMenuOpen(false)}
+                  className="dropdown-link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const correoUsuario = sessionStorage.getItem('correoUsuario');
+                    if (correoUsuario) {
+                      navigate('/comunidad/ver-comunidad', { state: { correo: correoUsuario } });
+                    } else {
+                      alert('No se ha encontrado el correo del usuario. Por favor, inicie sesión.');
+                    }
+                  }}
                 >
                   Mis Comunidades
                 </NavLink>
+
               </div>
             )}
           </li>
 
-          <li className="nav-item">
+          <li className="nav-item ">
             <NavLink
               to={`/MiActividad/${role}`}
               className={`nav-linkss3 disabled`}
@@ -142,16 +160,42 @@ const Navbar = () => {
             </NavLink>
           </li>
 
-          <li className="nav-item">
-            <NavLink
-              to={`/Perfil/${role}`}
-              className={`nav-linkss4 disabled`}
-              style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
-              onClick={() => setMenuOpen(false)}
+          <li className="nav-item dropdown">
+            <span
+              className={`nav-linkss4 ${location.pathname.includes('/Perfil') ? 'active' : ''}`}
+              onClick={handlePerfilClick}
             >
               Perfil
               <img src={person} alt="IconPerson" className="nav-logo-image1" />
-            </NavLink>
+            </span>
+            {isPerfilOpen && (
+              <div className="dropdown-content">
+                <NavLink
+                  to={`/perfil/${role}`}
+                  className={`dropdown-link ${location.pathname === `/perfil/${role}` ? 'active' : ''}`}
+                  style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Ver Perfil
+                </NavLink>
+                <NavLink
+                  to={`/perfil/${role}`}
+                  className={`dropdown-link ${location.pathname === `/perfil/${role}` ? 'active' : ''}`}
+                  style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Configuracion
+                </NavLink>
+                <NavLink
+                  to={`/`}
+                  className={`dropdown-link ${location.pathname === `/` ? 'active' : ''}`}
+                  //style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Cerrar Sesion
+                </NavLink>
+              </div>
+            )}
           </li>
         </ul>
 

@@ -1,0 +1,74 @@
+.comentarios-container {
+  margin-top: 20px;
+}
+
+.comentarios-seccion {
+  margin-top: 10px;
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
+}
+
+.comentario {
+  display: flex;
+  align-items: flex-start; 
+  margin-bottom: 10px;
+}
+
+.comentario strong {
+  display: block;
+  font-weight: bold;
+}
+
+.comentario-imagen {
+  width: 50px; 
+  height: 50px;
+  object-fit: cover; 
+  margin-right: 10px; 
+  border-radius: 5px; 
+}
+
+.comentario-texto {
+  flex: 1; 
+}
+.nuevo-comentario {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.nuevo-comentario input[type="text"] {
+  flex: 1;
+  padding: 5px;
+}
+
+.nuevo-comentario button {
+  padding: 5px 10px;
+  background-color: #ddd;
+  color: #03314B;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.nuevo-comentario button:hover {
+  background-color: #03314B;
+  color: white;
+}
+
+.btn-clip {
+  cursor: pointer;
+  font-size: 24px;
+  color: #03314B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-clip:hover {
+  color: #03314B;
+}
+

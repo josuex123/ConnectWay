@@ -32,14 +32,6 @@
     transition: background-color 0.3s, color 0.3s;
 }
 
-.nav-logo {
-    display: flex;
-    align-items: center; 
-    font-size: 24px;
-    margin-left: 20px;
-}
-
-
 .nav-menu {
     display: flex;
     list-style: none;
@@ -100,6 +92,34 @@
     background-color: #03314B;
     display: inline-block;
 }
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    font-size: 32px;
+}
+
+.nav-logo-text.connect {
+    color: #03314B; 
+    /*text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);*/
+    padding-bottom: 15px;
+    -webkit-text-stroke: 0.5px #FFFFFF; 
+}
+
+.nav-logo-text.way {
+    color: #34A853; 
+    /*text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);*/
+    padding-bottom: 15px;
+    -webkit-text-stroke: 0.5px #FFFFFF; 
+}
+
+.nav-logo-text.connect,
+.nav-logo-text.way {
+    font-family: "Arial", sans-serif;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
 
 @media screen and (max-width: 1200px) {
     .nav-menu {
@@ -167,8 +187,7 @@
 .nav-logo-image {
     width: 95px;
     height: auto;
-    margin-right: 10px; 
-    padding-bottom:10px;
+    padding-bottom:20px;
 }
 
 .nav-logo-image1 {
@@ -183,7 +202,7 @@
     padding-top: 80px; 
 }
 
-/* Inicio, Audiolibros, Comunidad, Mi actividad, Perfil */
+
 .nav-linkss, .nav-linkss1, .nav-linkss2, .nav-linkss3, .nav-linkss4 {
     color: #03314B;
     text-decoration: none;

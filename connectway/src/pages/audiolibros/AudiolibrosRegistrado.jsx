@@ -157,7 +157,7 @@ const AudiolibroRegistrado = () => {
     return (
         <div className="pagina-inicio">
             <Navbar />
-            <div className="content">
+            <div className="content-audiolibro">
                 <h1 className='titulo-aud-reg'>Audiolibros Registrados</h1>
                 <AudiobookSearch2 onResults={handleSearchResults} setSearchPerformed={setSearchPerformed} />
                 <div className="d-flex justify-content-between align-items-center">

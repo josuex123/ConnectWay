@@ -67,8 +67,8 @@ function FormularioCrearComunidad() {
       const imagenUrl = await subirImagenYObtenerUrl(imageFiles[0]);
       const comunidadDoc = { titulo, descripcion, imagenURL: imagenUrl };
       const categoriaRef = doc(db, "Comunidades", categoria);
-      await addDoc(collection(categoriaRef, "comunidades"), comunidadDoc);
-
+      const comunidadRef = await addDoc(collection(categoriaRef, "comunidades"), comunidadDoc);
+      
       setTitulo('');
       setCategoria('');
       setDescripcion('');

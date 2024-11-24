@@ -16,10 +16,16 @@ import AudiolibrosAñadir from './pages/audiolibros/AudiolibrosAñadir';
 import CrearComunidad from './pages/Comunidad/CrearComunidad' 
 import UnirseComunidad from './pages/Comunidad/UnirseComunidad';  
 import MisComunidades from './pages/Comunidad/MisComunidades';  
+import VerComunidad from './pages/Comunidad/VerComunidad';  
 import MiActividad from './pages/miActividad/miActividad';
 import Perfil from './pages/perfil/perfil';
 import LogIn from './pages/users/login';
 import AudiobookEdit from './pages/audiolibros/FormularioEditar';
+import IniciarSesion from './pages/SesionUsuario/IniciarSesion';
+import RecuperarContra from './pages/SesionUsuario/RecuperarContra';
+import CambiarContra from './pages/SesionUsuario/CambiarContra';
+import CrearCuenta from './pages/SesionUsuario/CrearCuenta';
+import ListarComunidad from './pages/Comunidad/ListarSubcomunidad'
 
 
 function App() {
@@ -36,6 +42,10 @@ function App() {
           <Route path="/MiActividad/:role" element={<MiActividad />} />
           <Route path="/Perfil/:role" element={<Perfil />} />
           <Route path="/Login" element={<LogIn />} />
+          <Route path="/IniciarSesion" element={<IniciarSesion />} />
+          <Route path="/RecuperarContrasenia" element={<RecuperarContra />} />
+          <Route path="/CrearCuenta" element={<CrearCuenta />} />
+          <Route path="/linkSeguro" element={<CambiarContra />} />
           
           {/* Rutas para el admin */}
           <Route path="/Audiolibros/añadir/:role" element={<AudiolibrosAñadir />} />
@@ -51,6 +61,9 @@ function App() {
           <Route path="/comunidad/crear/:role" element={<CrearComunidad />} />
           <Route path="/comunidad/unirse/:role" element={<UnirseComunidad />} />
           <Route path="/comunidad/mis-comunidades/:role" element={<MisComunidades />} />
+          <Route path="/comunidad/ver-comunidad" element={<VerComunidad />} />
+          <Route path="/comunidad/listar-comunidad/:idComunidad" element={<ListarComunidad />} />
+          
         </Routes>
       </div>
       <AudiolibrosReproducir ref = {reproductorRef}/>

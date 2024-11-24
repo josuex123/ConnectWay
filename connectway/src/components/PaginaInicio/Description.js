@@ -15,6 +15,8 @@ const Description = () => {
 
     // Obtener el valor de rol (último dígito de la URL actual)
     const rol = location.pathname.endsWith('1') ? 1 : 0;
+    const correoUsuario = sessionStorage.getItem('correoUsuario');
+    console.log('Correo del usuario:', correoUsuario);
 
     useEffect(() => {
         const fetchAudiolibros = async () => {
@@ -80,6 +82,7 @@ const Description = () => {
 
     return (
         <div className="description">
+            <h2 className="h1-color">Conecta con tu mente</h2>
             <Slider {...settings}>
                 {audiolibros.map((audiolibro) => (
                     <div key={audiolibro.id} className="contenedor">

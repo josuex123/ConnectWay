@@ -3,8 +3,8 @@ import './LandingPage.css';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt, faChevronDown, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
-import logo from '../images/logoejemplo.png';
-import portada from '../images/online-education2.png';
+import logo from '../images/logoejemplo1.jpeg';
+import portada from '../images/ojoo.png';
 
 const LandingPage = () => {
   const isDisabled = true; 
@@ -20,7 +20,8 @@ const LandingPage = () => {
         <div className='nav-container-landing'>
           <NavLink exact to="/" className="nav-logo-landing">
             <img src={logo} alt="Logo" className="nav-logo-image0" />
-            <span className="nav-logo-text">CONNECTWAY</span>
+            <span className="nav-logo-landing-text connect">Connect</span>
+            <span className="nav-logo-landing-text way">Way</span>
           </NavLink>
 
           <div className="nav-icon-landing" onClick={toggleMenu}>
@@ -39,8 +40,8 @@ const LandingPage = () => {
             </li>
             <li className='nav-items-landing'>
               <NavLink 
-                className={`nav-link-landing ${isDisabled ? 'disabled' : ''}`} 
-                to="#"
+                className="nav-link-landing" 
+                to="/IniciarSesion"
               >
                 Iniciar sesión
                 <FontAwesomeIcon icon={faSignInAlt} style={{ marginLeft: '5px' }} />
@@ -60,10 +61,10 @@ const LandingPage = () => {
           y <span className="highlight">psicología de parejas</span> con ConnectWay. Únete, aprende y 
           conecta en comunidad.
           </p>
-          <NavLink className="btn-start-landing" to="/Home/0">Comenzar</NavLink>
+          <NavLink className="btn-start-landing" to="/IniciarSesion">Comenzar</NavLink> 
         </div>
         <div className="image-content">
-          <img src={portada} alt="Portada" className="phone-image" />
+          <img src={portada} alt="Portada" className="phone-image"/>
         </div>
       </section>
     </div>
