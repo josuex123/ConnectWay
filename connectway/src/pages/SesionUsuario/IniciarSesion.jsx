@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../../estilos/SesionUsuario/IniciarSesion.css';
 import { useNavigate } from 'react-router-dom';
 import authService from '../../Services/UsuarioServicios/VerificarUsuario';
+import {guardarUsuario} from '../../Services/UsuarioServicios/GuardarUsuario';
 import { obtenerNombreUsuario } from '../../Services/UsuarioServicios/NombreUsuarioPorIdDoc';
 import ModalCargando from '../../components/Modal/ModalCargando'; 
 
@@ -65,19 +66,34 @@ const IniciarSesion = () => {
     }
   };
 
+  const removeDomain = (user2) => {
+    const userName =user2.split("@")[0]; ;
+    console.log("name",userName)
+    return  userName;
+  };
   // Maneja el inicio de sesión con Google
   const handleGoogleSignIn = async () => {
+    setIsLoading(true);
     try {
       const user = await authService.signInWithGoogle();
-      console.log('Usuario autenticado con Google:', user);
-
-      // Guardar el correo en sessionStorage
+      const user2 = user.email;
+      const userName = removeDomain(user2);
+  
+      // Verificar si el usuario ya existe
+      const usuarioExiste = await verificarUsuario(user2);
+  
+      if (!usuarioExiste) {
+        // Si no existe, lo guardamos
+        await guardarUsuario(user2, userName);
+      }
+  
       sessionStorage.setItem('correoUsuario', user.email);
-
+      setIsLoading(false);
       navigate('/Home/0');
     } catch (error) {
       console.error('Error en inicio de sesión con Google:', error.message);
       alert('Error al iniciar sesión con Google: ' + error.message);
+      setIsLoading(false);
     }
   };
 
