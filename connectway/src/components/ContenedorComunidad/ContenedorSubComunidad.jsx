@@ -8,18 +8,29 @@ import { unirseComunidad } from '../../Services/ComunidadesServicios/UnirseComun
 const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColeccion, categoria, estadoBoton }) => {
     const navigate = useNavigate();
 
-    const handleUnirse = async() => {
-        navigate('/comunidad/ver-comunidad', {
-            state: { 
-                idComunidad: id, 
-                idColeccion: idColeccion, 
-                categoria: categoria || 'Categoría no disponible',
+    const handleClick = async () => {
+        const datosComunidad = {
+            idComunidad: id,
+            idColeccion: idColeccion,
+            categoria: categoria || 'Categoría no disponible',
+        };
+
+        if (estadoBoton === 'Unirse') {
+            console.log("Desde el botón unirse: " + id + " " + idColeccion);
+            const correoUsuario = sessionStorage.getItem('correoUsuario');
+            const username = sessionStorage.getItem('nombreUsuario');
+
+            try {
+                await unirseComunidad(id, idColeccion, correoUsuario, username);
+                console.log("Unido exitosamente a la comunidad");
+            } catch (error) {
+                console.error("Error al unirse a la comunidad:", error);
+                return; // Detener la navegación si ocurre un error
             }
-        });
-        console.log("Desde el botón unirse: " + id + " " + idColeccion);
-        const correoUsuario = sessionStorage.getItem('correoUsuario');
-        const username = sessionStorage.getItem('nombreUsuario');
-        await unirseComunidad(id, idColeccion, correoUsuario, username);
+        }
+
+        // Redirigir después de completar la lógica
+        navigate('/comunidad/ver-comunidad', { state: datosComunidad });
     };
 
     return (
@@ -30,7 +41,13 @@ const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColecci
                 <p className="descripcion-comun text-start">{descripcion}</p>
 
                 <div className="d-flex justify-content-center gap-2 text-start mb-2">
-                    <button className="btn btn-outline-secondary boton-ver" onClick={(e) => { e.stopPropagation(); handleUnirse(); }}>
+                    <button
+                        className="btn btn-outline-secondary boton-ver"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleClick();
+                        }}
+                    >
                         {estadoBoton}  {/* Muestra el texto del botón basado en el estado */}
                     </button>
                 </div>
