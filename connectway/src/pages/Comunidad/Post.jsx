@@ -23,7 +23,7 @@ const reactions = [
   { id: "sad", label: "Me entristece", icon: SadIcon },
   { id: "angry", label: "Me enoja", icon: AngryIcon },
 ];
-const Post = ({titulo,contenido,imagenUsuario,nombreUsuario,imagenPost,comunidadId,subComunidadId,postId,}) => {
+const Post = ({titulo,contenido,imagenUsuario,nombreUsuario,imagenPost,comunidadId,subComunidadId,postId,fechaHora,}) => {
   const [mostrarTodo, setMostrarTodo] = useState(false);
   const [showReactions, setShowReactions] = useState(false);
   const [lastReaction, setLastReaction] = useState(null);
@@ -163,7 +163,7 @@ const Post = ({titulo,contenido,imagenUsuario,nombreUsuario,imagenPost,comunidad
         "posts",
         postId
       );
-      await setDoc(docRef, { ...postData, reactions: [] }, { merge: true });
+      await setDoc(docRef, { ...postData, fechaHora:new Date().toISOString(), reactions: [] }, { merge: true });
       console.log("Post creado correctamente");
     } catch (error) {
       console.error("Error al crear el post:", error);
@@ -205,6 +205,13 @@ const Post = ({titulo,contenido,imagenUsuario,nombreUsuario,imagenPost,comunidad
     obtenerComentariosCount();
   }, [comunidadId, subComunidadId, postId]);
   
+    // Función para formatear la fecha y hora
+    const formatearFecha = (fecha) => {
+      return new Date(fecha).toLocaleString("es-ES", {
+        dateStyle: "long",
+        timeStyle: "short",
+      });
+    };
 
   const contenidoVisible = mostrarTodo
     ? contenido || "Sin contenido disponible"
@@ -220,19 +227,22 @@ const Post = ({titulo,contenido,imagenUsuario,nombreUsuario,imagenPost,comunidad
           <div className="post-contenido">
             <div className="post-header">
               <h2>{titulo}</h2>
+              {fechaHora && (
+        <p className="post-fecha-hora">{formatearFecha(fechaHora)}</p> // Mostramos la fecha formateada
+              )}
               <div className="user-info">
                 <img src={imagenUsuario || defaultUser} alt="Usuario" />
                 <span>{nombreUsuario}</span>
               </div>
             </div>
-            <p>
+            <span>
               {contenidoVisible}
               {contenido && contenido.length > limiteCaracteres && !mostrarTodo && (
                 <span onClick={toggleContenido} className="ver-mas-link">
                   Ver más
                 </span>
               )}
-            </p>
+            </span>
             {mostrarTodo && (
               <span onClick={toggleContenido} className="ver-menos-link">
                 Ver menos

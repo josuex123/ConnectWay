@@ -20,6 +20,18 @@ const Comentarios = ({ comunidadId, subComunidadId, postId, usuarioActual, mostr
       setImagenPreview(null); // Limpiar la previsualización si no hay imagen
     }
   }, [imagenComentario]);
+
+          // Función para formatear la fecha y hora
+          const formatearFecha = (fecha) => {
+            const opciones = { 
+              year: "numeric", 
+              month: "long", 
+              day: "numeric", 
+              hour: "2-digit", 
+              minute: "2-digit" 
+            };
+            return new Date(fecha).toLocaleString("es-ES", opciones);
+          };
   
   // Función para obtener comentarios en tiempo real
   useEffect(() => {
@@ -35,11 +47,11 @@ const Comentarios = ({ comunidadId, subComunidadId, postId, usuarioActual, mostr
       postId,
       "comentarios"
     );
-
     const unsubscribe = onSnapshot(comentariosRef, (snapshot) => {
       const comentariosCargados = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
+        fechaHora: doc.data().fechaHora?.toDate ? doc.data().fechaHora.toDate() : doc.data().fechaHora,
       }));
       setComentarios(comentariosCargados);
     });
@@ -111,7 +123,7 @@ const Comentarios = ({ comunidadId, subComunidadId, postId, usuarioActual, mostr
               <div className="comentario-texto">
                 <strong>{comentario.usuario}:</strong>
                 <span>{comentario.contenido}</span>
-                <p>{new Date(comentario.fechaHora).toLocaleString()}</p>
+                <p>{formatearFecha(comentario.fechaHora || "Fecha no disponible")}</p>
               </div>
             </div>
           ))
