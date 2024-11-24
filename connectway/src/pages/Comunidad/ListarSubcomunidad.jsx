@@ -4,12 +4,14 @@ import { db } from '../../firebaseConfig';
 import { getFirestore, doc, collection, getDocs, getDoc } from 'firebase/firestore';
 import Navbar from '../../components/PaginaInicio/Navbar';
 import ContenedorSubComunidad from '../../components/ContenedorComunidad/ContenedorSubComunidad';
+import {obtenerTitulosSubcomunidadesPorCategoria} from '../../Services/ComunidadesServicios/ListaSubcomunidadCategoria';
 
 const ListarSubComunidad = () => {
   const { idComunidad } = useParams();
   const [subcomunidades, setSubcomunidades] = useState([]);
   const [tituloComunidad, setTituloComunidad] = useState('');
   const [categoria, setCategoria] = useState('');
+  const [titulosUsuario, setTitulosUsuario] = useState([]); 
 
   console.log('El componente ListarSubComunidad se está montando.');
   console.log('Valor de idComunidad:', idComunidad);
@@ -55,14 +57,30 @@ const ListarSubComunidad = () => {
         console.error('Error al obtener las subcomunidades:', error);
       }
     };
+
+    const obtenerTitulos = async () => {
+      try {
+        // Suponiendo que el email del usuario ya está disponible
+        const correoUsuario = sessionStorage.getItem('correoUsuario');
+        console.log("idcomunnn ANTES DE BUSACAR"+idComunidad);
+        const titulos = await obtenerTitulosSubcomunidadesPorCategoria(correoUsuario, idComunidad);
+        setTitulosUsuario(titulos); // Guardamos los títulos de las subcomunidades a las que el usuario pertenece
+      } catch (error) {
+        console.error('Error al obtener los títulos de las subcomunidades:', error);
+      }
+    };
   
     if (idComunidad) {
       obtenerDatosComunidad();
       obtenerSubcomunidades();
+      obtenerTitulos();
     }
   }, [idComunidad]);
   
-  
+  const obtenerEstadoBoton = (tituloSubcomunidad) => {
+    // Comparamos el título de la subcomunidad con los títulos obtenidos
+    return titulosUsuario.includes(tituloSubcomunidad) ? 'Ver Comunidad' : 'Unirse';
+  };
   
 
   return (
@@ -82,6 +100,7 @@ const ListarSubComunidad = () => {
               idColeccion={sub.id}
               id={idComunidad}
               categoria={categoria}
+              estadoBoton={obtenerEstadoBoton(sub.titulo)}
             />
           ))}
         </div>
