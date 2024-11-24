@@ -70,9 +70,11 @@
   
   .post-footer {
     display: flex;
-    justify-content: flex-end;
-    margin-top: 10px;
-    gap: 10px;
+    justify-content: space-between;
+    /*margin-top: 10px;
+    gap: 10px;*/
+    align-items: center;
+    flex-wrap: nowrap;
   }
   
   .icon-button {
@@ -147,6 +149,8 @@
     cursor: pointer;
     color: #03314B;
     box-sizing: border-box;
+    flex-shrink: 0; 
+    margin: 0;
   }
   .reaction-button:hover {
     transition: none !important;
@@ -162,18 +166,19 @@
   .icon-button {
     position: relative;
     display: inline-block;
-    margin: 0; /* Asegúrate de no tener márgenes que lo empujen */
+    margin: 0; 
   }
   
   .post-footer {
     display: flex;
-    justify-content: space-between; /* Asegura alineación constante */
-    align-items: center; /* Centra verticalmente el contenido */
-    flex-wrap: wrap; /* Para manejar contenido adicional sin desbordar */
+    justify-content: space-between; 
+    align-items: center; 
+    flex-wrap: wrap; 
   }
   
   .comentarios-contenedor {
-    width: 100%; /* O ajusta según tu diseño */
-    margin-top: 10px; /* Espacio solo entre los comentarios y el resto */
+    width: 100%; 
+    margin-top: 10px; 
+    position: relative;
   }
   

@@ -255,47 +255,45 @@ const Post = ({titulo,contenido,imagenUsuario,nombreUsuario,imagenPost,comunidad
                     <i className="fa fa-comment"></i> Comentarios ({comentariosCount})
                   </button>
                 </div>
-                {mostrarComentarios && (
-                  <div className="comentarios-contenedor">
-                    <Comentarios
-                      comunidadId={comunidadId}
-                      subComunidadId={subComunidadId}
-                      postId={postId}
-                      usuarioActual={sessionStorage.getItem("nombreUsuario")}
-                      mostrarComentarios={mostrarComentarios}
-                    />
-                  </div>
-                )}
-              </div>
-              <div className="post-footer">
                 <div ref={reactionRef} style={{ position: "relative" }}>
-                    <div>
-                    <button className="reaction-button" onClick={toggleReactions}>
+                  <button className="reaction-button" onClick={toggleReactions}>
                     <img
-                        src={
+                      src={
                         lastReaction
-                            ? reactions.find((reaction) => reaction.id === lastReaction)?.icon || LikeGreyIcon
-                            : LikeGreyIcon
-                        }
-                        alt="Reacción actual"
+                          ? reactions.find((reaction) => reaction.id === lastReaction)?.icon || LikeGreyIcon
+                          : LikeGreyIcon
+                      }
+                      alt="Reacción actual"
                     />
                     <span>Reacciones</span>
-                    </button>
-                    </div>
-                    {showReactions && (
+                  </button>
+                  {showReactions && (
                     <div className="reaction-popup">
-                        {reactions.map((reaction) => (
+                      {reactions.map((reaction) => (
                         <div key={reaction.id} onClick={() => handleReactionClick(reaction.id)}>
-                            <img src={reaction.icon} alt={reaction.label} />
+                          <img src={reaction.icon} alt={reaction.label} />
                         </div>
-                        ))}
+                      ))}
                     </div>
-                    )}
+                  )}
                 </div>
+              </div>
+              {mostrarComentarios && (
+                <div className="comentarios-contenedor">
+                  <Comentarios
+                    comunidadId={comunidadId}
+                    subComunidadId={subComunidadId}
+                    postId={postId}
+                    usuarioActual={sessionStorage.getItem("nombreUsuario")}
+                    mostrarComentarios={mostrarComentarios}
+                  />
+                </div>
+              )}
+
+
                 </div>
                 </div>
           </div>
-        </div>
       );
 };
 
