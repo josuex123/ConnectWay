@@ -3,6 +3,7 @@ import { NavLink, useNavigate, useLocation, useParams } from 'react-router-dom';
 import '../../estilos/PaginaInicio/Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { getAuth, signOut } from 'firebase/auth';
 import logo from '../../images/logoejemplo1.jpeg';
 import person from '../../images/usuario1.png';
 import home from '../../images/hogar1.png';
@@ -52,6 +53,19 @@ const Navbar = () => {
 
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
+  };
+
+  const cerrarSesion = async () => {
+    const auth = getAuth(); 
+    try {
+      await signOut(auth);
+      sessionStorage.removeItem('correoUsuario'); 
+      setMenuOpen(false); 
+      console.log('Sesión cerrada con éxito');
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+      alert('Hubo un problema al cerrar sesión. Por favor, inténtalo de nuevo.');
+    }
   };
 
   return (
@@ -190,7 +204,7 @@ const Navbar = () => {
                   to={`/`}
                   className={`dropdown-link ${location.pathname === `/` ? 'active' : ''}`}
                   //style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
-                  onClick={() => setMenuOpen(false)}
+                  onClick={cerrarSesion}
                 >
                   Cerrar Sesion
                 </NavLink>
