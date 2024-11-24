@@ -5,6 +5,7 @@ import registrarUsuario from '../../Services/UsuarioServicios/RegistrarUsuarioCo
 import { guardarUsuario } from '../../Services/UsuarioServicios/GuardarUsuario';
 import { verificarNombreUsuarioExistente } from '../../Services/UsuarioServicios/VerificarNombreUsuarioExistente';
 import ModalCargando from '../../components/Modal/ModalCargando'; 
+import { obtenerNombreUsuario } from '../../Services/UsuarioServicios/NombreUsuarioPorIdDoc';
 
 const CrearCuenta = () => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -123,6 +124,11 @@ const CrearCuenta = () => {
         const guardarUsuarioPromise = guardarUsuario(response.email, user);
         navigate('/home/0'); // Navegación inmediata
         await guardarUsuarioPromise; // Espera solo si es esencial
+        sessionStorage.setItem('correoUsuario', emailOrUsername);
+
+        const username = await obtenerNombreUsuario(emailOrUsername);
+  
+        sessionStorage.setItem('nombreUsuario', username);
       } else if (response.error) {
         alert(response.error);//Reemplazar con un modal
       }
