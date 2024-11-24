@@ -73,7 +73,7 @@ const IniciarSesion = () => {
   };
   // Maneja el inicio de sesión con Google
   const handleGoogleSignIn = async () => {
-    setIsLoading(true);
+    
     try {
       const user = await authService.signInWithGoogle();
       const user2 = user.email;
@@ -88,12 +88,12 @@ const IniciarSesion = () => {
       }
   
       sessionStorage.setItem('correoUsuario', user.email);
-      setIsLoading(false);
+      
       navigate('/Home/0');
     } catch (error) {
       console.error('Error en inicio de sesión con Google:', error.message);
       alert('Error al iniciar sesión con Google: ' + error.message);
-      setIsLoading(false);
+      
     }
   };
 
