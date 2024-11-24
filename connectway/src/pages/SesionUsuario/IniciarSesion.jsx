@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import '../../estilos/SesionUsuario/IniciarSesion.css';
 import { useNavigate } from 'react-router-dom';
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 import authService from '../../Services/UsuarioServicios/VerificarUsuario';
 import {guardarUsuario} from '../../Services/UsuarioServicios/GuardarUsuario';
 import { obtenerNombreUsuario } from '../../Services/UsuarioServicios/NombreUsuarioPorIdDoc';
@@ -16,6 +18,18 @@ const IniciarSesion = () => {
   const [isLoading, setIsLoading] = useState(false);  // Estado de carga
   const navigate = useNavigate();
   
+  const usuarioExisteEnFirestore = async (email) => {
+    try {
+      const usuarioDocRef = doc(db, "Usuario", email); // Documento con el email como ID
+      const docSnapshot = await getDoc(usuarioDocRef);
+      return docSnapshot.exists(); // Retorna true si el documento existe
+    } catch (error) {
+      console.error("Error al verificar el usuario:", error);
+      return false;
+    }
+  };
+
+
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
@@ -80,7 +94,7 @@ const IniciarSesion = () => {
       const userName = removeDomain(user2);
   
       // Verificar si el usuario ya existe
-      const usuarioExiste = await verificarUsuario(user2);
+      const usuarioExiste = await usuarioExisteEnFirestore(user2);
   
       if (!usuarioExiste) {
         // Si no existe, lo guardamos
