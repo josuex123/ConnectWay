@@ -3,7 +3,7 @@ import '../../estilos/contenedor/ContenedorComunidad.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import ModalNotificacion from '../../components/Modal/ModalNotificacion'; // Ajusta la ruta según tu estructura de archivos
+import ModalNotificacion from '../../components/Modal/ModalNotificacion';
 import { unirseComunidad } from '../../Services/ComunidadesServicios/UnirseComunidad';
 
 const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColeccion, categoria, estadoBoton }) => {
@@ -12,6 +12,7 @@ const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColecci
     const [modalMessage, setModalMessage] = useState('');
     const [modalType, setModalType] = useState('success');
 
+    //Cerrar el modad y redirigir    
     const handleModalClose = () => {
         setIsModalOpen(false);
         navigate('/comunidad/ver-comunidad', {
@@ -35,6 +36,7 @@ const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColecci
                 setModalType('success');
                 setModalMessage('Te has unido exitosamente a la comunidad.');
                 setIsModalOpen(true);
+                //Modal por 3seg
                 setTimeout(() => {
                     setIsModalOpen(false);
                     handleModalClose();
@@ -45,7 +47,7 @@ const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColecci
                 setModalMessage('Hubo un error al intentar unirte a la comunidad.');
                 setIsModalOpen(true);
             }
-        }else{
+        }else{//Caso de VerComunidad Redirigir
             navigate('/comunidad/ver-comunidad', {
                 state: {
                     idComunidad: id,
