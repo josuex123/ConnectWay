@@ -1,13 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  doc,
-  getDoc,
-  updateDoc,
-  setDoc,
-  collection,
-  getDocs,
-} from "firebase/firestore";
-import { db } from "../../firebaseConfig"; // Asegúrate de importar `db` desde tu configuración de Firebase
+import {doc,getDoc,updateDoc,setDoc,collection,getDocs,} from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 import "../../estilos/comunidad/Post.css";
 import defaultUser from "../../images/usuario.png";
 import defaultImage from "../../images/postSinImagen.png";
@@ -21,8 +14,6 @@ import HahaIcon from "../../images/haha.png";
 import LoveIcon from "../../images/love.png";
 import Comentarios from "./Comentarios";
 
-
-// Reacciones disponibles
 const reactions = [
   { id: "like", label: "Me gusta", icon: LikeIcon },
   { id: "love", label: "Me encanta", icon: LoveIcon },
@@ -32,17 +23,7 @@ const reactions = [
   { id: "sad", label: "Me entristece", icon: SadIcon },
   { id: "angry", label: "Me enoja", icon: AngryIcon },
 ];
-
-const Post = ({
-  titulo,
-  contenido,
-  imagenUsuario,
-  nombreUsuario,
-  imagenPost,
-  comunidadId,
-  subComunidadId,
-  postId,
-}) => {
+const Post = ({titulo,contenido,imagenUsuario,nombreUsuario,imagenPost,comunidadId,subComunidadId,postId,}) => {
   const [mostrarTodo, setMostrarTodo] = useState(false);
   const [showReactions, setShowReactions] = useState(false);
   const [lastReaction, setLastReaction] = useState(null);
@@ -54,7 +35,6 @@ const Post = ({
   const [comentariosCount, setComentariosCount] = useState(0);
   const obtenerComentariosCount = async () => {
     if (!comunidadId || !subComunidadId || !postId) return;
-  
     try {
       const comentariosRef = collection(
         db,
