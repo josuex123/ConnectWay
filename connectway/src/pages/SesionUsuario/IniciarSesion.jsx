@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import '../../estilos/SesionUsuario/IniciarSesion.css';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import "../../estilos/SesionUsuario/IniciarSesion.css";
+import { useNavigate } from "react-router-dom";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
-import authService from '../../Services/UsuarioServicios/VerificarUsuario';
-import {guardarUsuario} from '../../Services/UsuarioServicios/GuardarUsuario';
-import { obtenerNombreUsuario } from '../../Services/UsuarioServicios/NombreUsuarioPorIdDoc';
-import ModalCargando from '../../components/Modal/ModalCargando'; 
+import authService from "../../Services/UsuarioServicios/VerificarUsuario";
+import { guardarUsuario } from "../../Services/UsuarioServicios/GuardarUsuario";
+import { obtenerNombreUsuario } from "../../Services/UsuarioServicios/NombreUsuarioPorIdDoc";
+import ModalCargando from "../../components/Modal/ModalCargando";
 
 const IniciarSesion = () => {
   const [emailOrUsername, setEmailOrUsername] = useState("");
@@ -17,7 +17,7 @@ const IniciarSesion = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // Estado de carga
   const navigate = useNavigate();
-  
+
   const usuarioExisteEnFirestore = async (email) => {
     try {
       const usuarioDocRef = doc(db, "Usuario", email); // Documento con el email como ID
@@ -28,7 +28,6 @@ const IniciarSesion = () => {
       return false;
     }
   };
-
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
@@ -81,45 +80,31 @@ const IniciarSesion = () => {
   };
 
   const removeDomain = (user2) => {
-    const userName =user2.split("@")[0]; ;
-    console.log("name",userName)
-    return  userName;
+    const userName = user2.split("@")[0];
+    console.log("name", userName);
+    return userName;
   };
   // Maneja el inicio de sesión con Google
   const handleGoogleSignIn = async () => {
-    
     try {
       const user = await authService.signInWithGoogle();
-<<<<<<< HEAD
-      console.log("Usuario autenticado con Google:", user);
+      const user2 = user.email;
+      const userName = removeDomain(user2);
 
-      // Guardar el correo en sessionStorage
+      // Verificar si el usuario ya existe
+      const usuarioExiste = await usuarioExisteEnFirestore(user2);
+
+      if (!usuarioExiste) {
+        // Si no existe, lo guardamos
+        await guardarUsuario(user2, userName);
+      }
+
       sessionStorage.setItem("correoUsuario", user.email);
 
       navigate("/Home/0");
     } catch (error) {
       console.error("Error en inicio de sesión con Google:", error.message);
       alert("Error al iniciar sesión con Google: " + error.message);
-=======
-      const user2 = user.email;
-      const userName = removeDomain(user2);
-  
-      // Verificar si el usuario ya existe
-      const usuarioExiste = await usuarioExisteEnFirestore(user2);
-  
-      if (!usuarioExiste) {
-        // Si no existe, lo guardamos
-        await guardarUsuario(user2, userName);
-      }
-  
-      sessionStorage.setItem('correoUsuario', user.email);
-      
-      navigate('/Home/0');
-    } catch (error) {
-      console.error('Error en inicio de sesión con Google:', error.message);
-      alert('Error al iniciar sesión con Google: ' + error.message);
-      
->>>>>>> d2c2df3f1fbf7b7e845323913d48926f2471bf92
     }
   };
 
