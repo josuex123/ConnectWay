@@ -57,10 +57,9 @@ const ListarSubComunidad = () => {
         console.error('Error al obtener las subcomunidades:', error);
       }
     };
-
+    //Titulo de subcomunidades en la que es miembro por categoria
     const obtenerTitulos = async () => {
       try {
-        // Suponiendo que el email del usuario ya está disponible
         const correoUsuario = sessionStorage.getItem('correoUsuario');
         console.log("idcomunnn ANTES DE BUSACAR"+idComunidad);
         const titulos = await obtenerTitulosSubcomunidadesPorCategoria(correoUsuario, idComunidad);
