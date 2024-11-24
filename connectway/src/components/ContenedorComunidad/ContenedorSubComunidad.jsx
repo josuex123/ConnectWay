@@ -1,20 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../../estilos/contenedor/ContenedorComunidad.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import ModalNotificacion from '../../components/Modal/ModalNotificacion'; // Ajusta la ruta según tu estructura de archivos
 import { unirseComunidad } from '../../Services/ComunidadesServicios/UnirseComunidad';
 
 const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColeccion, categoria, estadoBoton }) => {
     const navigate = useNavigate();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
+    const [modalType, setModalType] = useState('success');
+
+    const handleModalClose = () => {
+        setIsModalOpen(false);
+        navigate('/comunidad/ver-comunidad', {
+            state: {
+                idComunidad: id,
+                idColeccion: idColeccion,
+                categoria: categoria || 'Categoría no disponible',
+            },
+        });
+    };
 
     const handleClick = async () => {
-        const datosComunidad = {
-            idComunidad: id,
-            idColeccion: idColeccion,
-            categoria: categoria || 'Categoría no disponible',
-        };
-
         if (estadoBoton === 'Unirse') {
             console.log("Desde el botón unirse: " + id + " " + idColeccion);
             const correoUsuario = sessionStorage.getItem('correoUsuario');
@@ -23,14 +32,28 @@ const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColecci
             try {
                 await unirseComunidad(id, idColeccion, correoUsuario, username);
                 console.log("Unido exitosamente a la comunidad");
+                setModalType('success');
+                setModalMessage('Te has unido exitosamente a la comunidad.');
+                setIsModalOpen(true);
+                setTimeout(() => {
+                    setIsModalOpen(false);
+                    handleModalClose();
+                }, 3000);
             } catch (error) {
                 console.error("Error al unirse a la comunidad:", error);
-                return; // Detener la navegación si ocurre un error
+                setModalType('error');
+                setModalMessage('Hubo un error al intentar unirte a la comunidad.');
+                setIsModalOpen(true);
             }
+        }else{
+            navigate('/comunidad/ver-comunidad', {
+                state: {
+                    idComunidad: id,
+                    idColeccion: idColeccion,
+                    categoria: categoria || 'Categoría no disponible',
+                },
+            });
         }
-
-        // Redirigir después de completar la lógica
-        navigate('/comunidad/ver-comunidad', { state: datosComunidad });
     };
 
     return (
@@ -52,6 +75,15 @@ const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColecci
                     </button>
                 </div>
             </div>
+
+            {/* Modal de notificación */}
+            <ModalNotificacion
+                isOpen={isModalOpen}
+                onClose={handleModalClose}
+                type={modalType}
+                message={modalMessage}
+                iconClass={modalType === 'success' ? 'fa-check-circle' : 'fa-times-circle'}
+            />
         </div>
     );
 };
