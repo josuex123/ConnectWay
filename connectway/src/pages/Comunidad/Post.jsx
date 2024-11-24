@@ -1,13 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  doc,
-  getDoc,
-  updateDoc,
-  setDoc,
-  collection,
-  getDocs,
-} from "firebase/firestore";
-import { db } from "../../firebaseConfig"; // Asegúrate de importar `db` desde tu configuración de Firebase
+import {doc,getDoc,updateDoc,setDoc,collection,getDocs,} from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 import "../../estilos/comunidad/Post.css";
 import defaultUser from "../../images/usuario.png";
 import defaultImage from "../../images/postSinImagen.png";
@@ -21,8 +14,6 @@ import HahaIcon from "../../images/haha.png";
 import LoveIcon from "../../images/love.png";
 import Comentarios from "./Comentarios";
 
-
-// Reacciones disponibles
 const reactions = [
   { id: "like", label: "Me gusta", icon: LikeIcon },
   { id: "love", label: "Me encanta", icon: LoveIcon },
@@ -32,17 +23,7 @@ const reactions = [
   { id: "sad", label: "Me entristece", icon: SadIcon },
   { id: "angry", label: "Me enoja", icon: AngryIcon },
 ];
-
-const Post = ({
-  titulo,
-  contenido,
-  imagenUsuario,
-  nombreUsuario,
-  imagenPost,
-  comunidadId,
-  subComunidadId,
-  postId,
-}) => {
+const Post = ({titulo,contenido,imagenUsuario,nombreUsuario,imagenPost,comunidadId,subComunidadId,postId,fechaHora,}) => {
   const [mostrarTodo, setMostrarTodo] = useState(false);
   const [showReactions, setShowReactions] = useState(false);
   const [lastReaction, setLastReaction] = useState(null);
@@ -54,7 +35,6 @@ const Post = ({
   const [comentariosCount, setComentariosCount] = useState(0);
   const obtenerComentariosCount = async () => {
     if (!comunidadId || !subComunidadId || !postId) return;
-  
     try {
       const comentariosRef = collection(
         db,
@@ -183,7 +163,7 @@ const Post = ({
         "posts",
         postId
       );
-      await setDoc(docRef, { ...postData, reactions: [] }, { merge: true });
+      await setDoc(docRef, { ...postData, fechaHora:new Date().toISOString(), reactions: [] }, { merge: true });
       console.log("Post creado correctamente");
     } catch (error) {
       console.error("Error al crear el post:", error);
@@ -225,6 +205,13 @@ const Post = ({
     obtenerComentariosCount();
   }, [comunidadId, subComunidadId, postId]);
   
+    // Función para formatear la fecha y hora
+    const formatearFecha = (fecha) => {
+      return new Date(fecha).toLocaleString("es-ES", {
+        dateStyle: "long",
+        timeStyle: "short",
+      });
+    };
 
   const contenidoVisible = mostrarTodo
     ? contenido || "Sin contenido disponible"
@@ -240,19 +227,22 @@ const Post = ({
           <div className="post-contenido">
             <div className="post-header">
               <h2>{titulo}</h2>
+              {fechaHora && (
+        <p className="post-fecha-hora">{formatearFecha(fechaHora)}</p> // Mostramos la fecha formateada
+              )}
               <div className="user-info">
                 <img src={imagenUsuario || defaultUser} alt="Usuario" />
                 <span>{nombreUsuario}</span>
               </div>
             </div>
-            <p>
+            <span>
               {contenidoVisible}
               {contenido && contenido.length > limiteCaracteres && !mostrarTodo && (
                 <span onClick={toggleContenido} className="ver-mas-link">
                   Ver más
                 </span>
               )}
-            </p>
+            </span>
             {mostrarTodo && (
               <span onClick={toggleContenido} className="ver-menos-link">
                 Ver menos
@@ -275,47 +265,45 @@ const Post = ({
                     <i className="fa fa-comment"></i> Comentarios ({comentariosCount})
                   </button>
                 </div>
-                {mostrarComentarios && (
-                  <div className="comentarios-contenedor">
-                    <Comentarios
-                      comunidadId={comunidadId}
-                      subComunidadId={subComunidadId}
-                      postId={postId}
-                      usuarioActual={sessionStorage.getItem("nombreUsuario")}
-                      mostrarComentarios={mostrarComentarios}
-                    />
-                  </div>
-                )}
-              </div>
-              <div className="post-footer">
                 <div ref={reactionRef} style={{ position: "relative" }}>
-                    <div>
-                    <button className="reaction-button" onClick={toggleReactions}>
+                  <button className="reaction-button" onClick={toggleReactions}>
                     <img
-                        src={
+                      src={
                         lastReaction
-                            ? reactions.find((reaction) => reaction.id === lastReaction)?.icon || LikeGreyIcon
-                            : LikeGreyIcon
-                        }
-                        alt="Reacción actual"
+                          ? reactions.find((reaction) => reaction.id === lastReaction)?.icon || LikeGreyIcon
+                          : LikeGreyIcon
+                      }
+                      alt="Reacción actual"
                     />
                     <span>Reacciones</span>
-                    </button>
-                    </div>
-                    {showReactions && (
+                  </button>
+                  {showReactions && (
                     <div className="reaction-popup">
-                        {reactions.map((reaction) => (
+                      {reactions.map((reaction) => (
                         <div key={reaction.id} onClick={() => handleReactionClick(reaction.id)}>
-                            <img src={reaction.icon} alt={reaction.label} />
+                          <img src={reaction.icon} alt={reaction.label} />
                         </div>
-                        ))}
+                      ))}
                     </div>
-                    )}
+                  )}
                 </div>
+              </div>
+              {mostrarComentarios && (
+                <div className="comentarios-contenedor">
+                  <Comentarios
+                    comunidadId={comunidadId}
+                    subComunidadId={subComunidadId}
+                    postId={postId}
+                    usuarioActual={sessionStorage.getItem("nombreUsuario")}
+                    mostrarComentarios={mostrarComentarios}
+                  />
+                </div>
+              )}
+
+
                 </div>
                 </div>
           </div>
-        </div>
       );
 };
 

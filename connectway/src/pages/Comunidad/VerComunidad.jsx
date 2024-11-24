@@ -30,11 +30,20 @@
         
             try {
                 const posts = await obtenerPostsOrdenados(idComunidad, idColeccion);
-                setPosts(posts);
+                setPosts(
+                    posts.map((post) => ({
+                        ...post,
+                        fechaHora: post.fechaHoraPublicacion
+                            ? post.fechaHoraPublicacion.toDate().toISOString() // Conversión correcta
+                            : null,
+                    }))
+                );
             } catch (error) {
                 console.error("Error al obtener los posts:", error);
             }
         };
+        
+        
 
         const categoriasMap = {
             inteligencia_emocional: 'Inteligencia Emocional',
@@ -201,6 +210,8 @@
                                             comunidadId={idComunidad || ""}
                                             subComunidadId={idColeccion || ""}
                                             postId={post.id || ""}
+                                            fechaHora={post.fechaHora} 
+
                                         />
                                     ))
                                 ) : (
