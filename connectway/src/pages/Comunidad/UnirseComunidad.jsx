@@ -38,7 +38,7 @@ const UnirseComunidad = () => {
           <h1 className='titulo-aud-reg'>Comunidades</h1>
         )}
         <div className="d-flex justify-content-between align-items-center">
-          <div className="d-flex justify-content-between align-items-center flex-wrap" style={{ width: '100%' }}>
+          <div className="d-flex justify-content-center align-items-center flex-wrap" style={{ width: '100%' }}>
             {comunidades.map((comunidad) => (
               <ContenedorComunidad
                 key={comunidad.id}

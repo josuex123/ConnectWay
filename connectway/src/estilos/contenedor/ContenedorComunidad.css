@@ -1,15 +1,16 @@
 .contenedor-comun {
-  max-width: 22% !important;
-  margin: 10px asdasda; 
+  width: 250px !important;
+  margin-top: 10px; 
+  margin-left: -30px;
   background-color: #E3EAF1  !important  ; 
-  border: '2px solid #757575a sdasd';
   border-radius: 20px  !important;
   display: flex  !important;
-  flex-direction: column  !important;
+  flex-direction: row  !important;
   align-items: center  !important;
   padding: 15px  !important;
   position: relative  !important;
-  justify-content: space-between  !important;
+  justify-content: center  !important;
+  margin-inline-start: 30px;
 }
 
 .img-portada-comun {
@@ -33,6 +34,7 @@
 }
 
 .descripcion-comun {
+  padding-top: 10px;
   font-size: 0.85rem;
   color: #6D7891;
   text-align: left;
