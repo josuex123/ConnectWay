@@ -18,9 +18,12 @@
         const [userComunidades, setUserComunidades] = useState([]); 
         const categoria = location.state?.categoria;
         const [posts, setPosts] = useState([]); 
-         const [idComunidad, setIdComunidad] = useState(null);
+        const [idComunidad, setIdComunidad] = useState(null);
         const [idColeccion, setIdColeccion] = useState(null);
         const [loading, setLoading] = useState(true); // Estado para manejar la carga
+        const [selectedComunidad, setSelectedComunidad] = useState(null);
+        const [selectedButton, setSelectedButton] = useState(null);
+
 
         const fetchPostsByComunidad = async (idComunidad, idColeccion) => {
             if (!idComunidad || !idColeccion) {
@@ -131,6 +134,7 @@
                                         <li key={index} className="comunidad-item">
                     <button
                     onClick={async () => {
+                        setSelectedButton(index);
                         setComunidadData(null); // Limpia los datos anteriores
                         setIdComunidad(comunidad.idComunidad);
                         setIdColeccion(comunidad.idColeccion);
@@ -160,6 +164,7 @@
                             console.error("Error al obtener los datos de la comunidad:", error);
                         }
                     }}
+                    className={`comunidad-item-btn ${selectedButton === index ? "active" : ""}`}
                 >
                     {comunidad.titulo}
                 </button>

@@ -109,6 +109,38 @@
     margin-top: 20px;
 }
 
+.selected-button {
+    background-color: #03314B; 
+    color: #ffffff; 
+    border: 2px solid #03314B; 
+    transition: all 0.4s ease;
+}
+.comunidad-item-btn {
+    background-color: #ffffff;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    color: #03314B;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.4s, color 0.4s;
+    border-radius: 5px;
+    box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.1);
+}
+
+.comunidad-item-btn:hover {
+    background-color: #03314B;
+    color: #ffffff;
+}
+
+.comunidad-item-btn.active {
+    background-color: #03314B;
+    color: #ffffff;
+}
+
+
+
 @media (max-width: 870px) {
     .comunidad-page {
         flex-direction: column;
