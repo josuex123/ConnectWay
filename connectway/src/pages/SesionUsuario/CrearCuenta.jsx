@@ -5,6 +5,8 @@ import registrarUsuario from '../../Services/UsuarioServicios/RegistrarUsuarioCo
 import { guardarUsuario } from '../../Services/UsuarioServicios/GuardarUsuario';
 import { verificarNombreUsuarioExistente } from '../../Services/UsuarioServicios/VerificarNombreUsuarioExistente';
 import ModalCargando from '../../components/Modal/ModalCargando'; 
+import ModalNotificacion from '../../components/Modal/ModalNotificacion';
+import ModalTerms from './TerminosCondiciones';
 
 const CrearCuenta = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
