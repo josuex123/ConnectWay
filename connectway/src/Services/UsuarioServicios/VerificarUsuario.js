@@ -34,29 +34,18 @@ const VerificarUsuario = {
  
   signInWithEmail: async (email, password) => {
     if (!email || !password) {
-      throw new Error('Correo o contraseña vacíos');
+        throw new Error('Correo o contraseña vacíos');
     }
-
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      console.log('Usuario autenticado con correo y contraseña:', userCredential.user);
-      return userCredential.user;
-    } catch (error) {
-      console.error('Error al iniciar sesión con correo y contraseña:', error.message);
-
-      // Manejo de errores específicos
-      if (error.code === 'auth/user-not-found') {
-        throw new Error('Este correo no se encuentra registrado');
-      } else if (error.code === 'auth/wrong-password') {
-        throw new Error('La contraseña es incorrecta');
-      } else if (error.code === 'auth/invalid-email') {
-        throw new Error('El correo electrónico es inválido');
-      } else if (error.code === 'auth/invalid-credential') {
-        throw new Error('Credenciales inválidas. Asegúrate de que el correo esté correctamente escrito');
-      } else {
-        throw new Error('Ocurrió un error al iniciar sesión. Intenta nuevamente');
-      }
-    }
+    return signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            console.log('Usuario autenticado con correo y contraseña:', userCredential.user);
+            return userCredential.user;
+        })
+        .catch((error) => {
+            console.error('Error al iniciar sesión con correo y contraseña:', error.message);
+            console.error('E', error);
+            throw error;
+        });
   }
 
 };

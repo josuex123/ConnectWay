@@ -115,17 +115,10 @@ const IniciarSesion = () => {
         setIsLoading(false);
         navigate('/Home/0');
     } catch (error) {
-<<<<<<< HEAD
         console.error('Error en inicio de sesión:', error.code);
         setIsLoading(false); 
 
         veriUsuario(emailOrUsername);
-=======
-      setIsLoading(false);
-      showModalNotificacion('error', 'Error al iniciar sesion, revise sus datos');
-    } finally {
-      setIsLoading(false);
->>>>>>> aa15bc766011174188c0a24e6e5b329c73b23476
     }
 };
 
@@ -224,11 +217,7 @@ const IniciarSesion = () => {
         isOpen={isLoading} 
         onClose={() => {}}
         type="loading"
-<<<<<<< HEAD
         message="Cargando, por favor espera... "
-=======
-        message="Cargando, por favor espera..."
->>>>>>> aa15bc766011174188c0a24e6e5b329c73b23476
         iconClass="fa fa-spinner fa-spin" 
       />
       <ModalNotificacion
