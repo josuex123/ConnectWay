@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import '../../estilos/SesionUsuario/IniciarSesion.css';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import "../../estilos/SesionUsuario/IniciarSesion.css";
+import { useNavigate } from "react-router-dom";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import authService from '../../Services/UsuarioServicios/VerificarUsuario';
@@ -10,13 +10,13 @@ import ModalCargando from '../../components/Modal/ModalCargando';
 import ModalNotificacion from '../../components/Modal/ModalNotificacion';
 
 const IniciarSesion = () => {
-  const [emailOrUsername, setEmailOrUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [emailOrUsername, setEmailOrUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);  // Estado de carga
+  const [isLoading, setIsLoading] = useState(false); // Estado de carga
   const navigate = useNavigate();
 
   const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
@@ -44,7 +44,6 @@ const IniciarSesion = () => {
     }
   };
 
-
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
@@ -54,12 +53,12 @@ const IniciarSesion = () => {
     setEmailOrUsername(value);
 
     // Arreglar Jere el value .length<20 xd, cambiar si sera aparte de @gmail.com
-    if(value === '' || value.length < 20){
-        setEmailError(''); 
-    }else if(!value.includes('@gmail.com')){
-        setEmailError('El correo es inválido');
-    }else{
-        setEmailError('');
+    if (value === "" || value.length < 20) {
+      setEmailError("");
+    } else if (!value.includes("@gmail.com")) {
+      setEmailError("El correo es inválido");
+    } else {
+      setEmailError("");
     }
   };
 
@@ -69,8 +68,8 @@ const IniciarSesion = () => {
   };
 
   const handleEmailBlur = () => {
-    if(emailOrUsername !== '' && !emailOrUsername.includes('@gmail.com')){
-        setEmailError('El correo es inválido');
+    if (emailOrUsername !== "" && !emailOrUsername.includes("@gmail.com")) {
+      setEmailError("El correo es inválido");
     }
   };
 
@@ -125,59 +124,60 @@ const IniciarSesion = () => {
 
 
   const removeDomain = (user2) => {
-    const userName =user2.split("@")[0]; ;
-    console.log("name",userName)
-    return  userName;
+    const userName = user2.split("@")[0];
+    console.log("name", userName);
+    return userName;
   };
   // Maneja el inicio de sesión con Google
   const handleGoogleSignIn = async () => {
-    
     try {
       const user = await authService.signInWithGoogle();
       const user2 = user.email;
       const userName = removeDomain(user2);
-  
+
       // Verificar si el usuario ya existe
       const usuarioExiste = await usuarioExisteEnFirestore(user2);
-  
+
       if (!usuarioExiste) {
         // Si no existe, lo guardamos
         await guardarUsuario(user2, userName);
       }
-  
-      sessionStorage.setItem('correoUsuario', user.email);
-      
-      navigate('/Home/0');
+
+      sessionStorage.setItem("correoUsuario", user.email);
+
+      navigate("/Home/0");
     } catch (error) {
-      console.error('Error en inicio de sesión con Google:', error.message);
-      alert('Error al iniciar sesión con Google: ' + error.message);
-      
+      console.error("Error en inicio de sesión con Google:", error.message);
+      alert("Error al iniciar sesión con Google: " + error.message);
     }
   };
 
   return (
     <>
       <div className="login-container">
-        <h1 className="welcome-message">
-          Bienvenido a 
-          <span className="logo-text first-word">Connect</span>
-          <span className="logo-text second-word">Way</span>
-        </h1>
-        
-        <div className="login-box">
-          <h2>Iniciar Sesión</h2>
-          <form onSubmit={handleEmailSignIn}>
-            <label>Correo electrónico<span style={{ color: 'red', marginLeft: '2px' }}>*</span></label>
-            <input 
-              type="email" 
-              placeholder="Ingrese su correo electrónico" 
-              value={emailOrUsername}
-              onChange={handleEmailChange}
-              onBlur={handleEmailBlur}
-              autoComplete="email"
-              required 
-            />
-            {emailError && <p className="error-message">{emailError}</p>}
+        <div className="login-content">
+          <div className="login-box">
+            <h1 className="welcome-message">
+              Bienvenido a<span className="logo-text first-word">Connect</span>
+              <span className="logo-text second-word">Way</span>
+            </h1>
+            <div className="login-box2">
+              <h2>Iniciar Sesión</h2>
+              <form onSubmit={handleEmailSignIn}>
+                <label>
+                  Correo electrónico
+                  <span style={{ color: "red", marginLeft: "2px" }}>*</span>
+                </label>
+                <input
+                  type="email"
+                  placeholder="Ingrese su correo electrónico"
+                  value={emailOrUsername}
+                  onChange={handleEmailChange}
+                  onBlur={handleEmailBlur}
+                  autoComplete="email"
+                  required
+                />
+                {emailError && <p className="error-message">{emailError}</p>}
 
             <label>Contraseña<span style={{ color: 'red', marginLeft: '2px' }}>*</span></label>
             <div className="password-field">
@@ -214,7 +214,7 @@ const IniciarSesion = () => {
         </div>
       </div>
       <ModalCargando
-        isOpen={isLoading} 
+        isOpen={isLoading}
         onClose={() => {}}
         type="loading"
         message="Cargando, por favor espera... "

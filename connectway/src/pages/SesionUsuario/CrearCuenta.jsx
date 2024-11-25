@@ -5,22 +5,22 @@ import registrarUsuario from '../../Services/UsuarioServicios/RegistrarUsuarioCo
 import { guardarUsuario } from '../../Services/UsuarioServicios/GuardarUsuario';
 import { verificarNombreUsuarioExistente } from '../../Services/UsuarioServicios/VerificarNombreUsuarioExistente';
 import ModalCargando from '../../components/Modal/ModalCargando'; 
-import { obtenerNombreUsuario } from '../../Services/UsuarioServicios/NombreUsuarioPorIdDoc';
-import ModalNotificacion from '../../components/Modal/ModalNotificacion';
-import ModalTerms from './TerminosCondiciones';
 
 const CrearCuenta = () => {
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-    const [email, setEmail] = useState('');
-    const [emailError, setEmailError] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordError, setPasswordError] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [confirmPasswordError, setConfirmPasswordError] = useState('');
-    const [user, setUser] = useState('');
-    const [userError, setUserError] = useState(''); // Estado para el error del usuario
-    const [isLoading, setIsLoading] = useState(false);  // Estado de carga
-    const navigate = useNavigate();
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [user, setUser] = useState("");
+  const [userError, setUserError] = useState(""); // Estado para el error del usuario
+  const [isLoading, setIsLoading] = useState(false); // Estado de carga
+  const [name, setName] = useState("");
+  const [nameError, setNameError] = useState("");
+
+  const navigate = useNavigate();
 
     const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
     const [notificationType, setNotificationType] = useState('success');
@@ -42,104 +42,126 @@ const CrearCuenta = () => {
   
     const closeModalNotificacion = async () => {
       setIsModalNotificacionOpen(false);
-      navigate('/IniciarSesion');
+      navigate('/home/0');
     };
- 
-    const togglePasswordVisibility = () => {
+
+  const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
-    };
+  };
 
-    const handleEmailChange = (e) => {
-      const value = e.target.value;
-      setEmail(value);
+  const handleEmailChange = (e) => {
+    const value = e.target.value;
+    setEmail(value);
 
-      // Arreglar Jere el value .length<20 xd, cambiar si sera aparte de @gmail.com
-      if(value === '' || value.length < 20){
-          setEmailError(''); 
-      }else if(!value.includes('@gmail.com')){
-          setEmailError('El correo es inválido');
-      }else{
-          setEmailError('');
-      }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Arreglar Jere el value .length<20 xd, cambiar si sera aparte de @gmail.com
+    if (value === "" || value.length < 40) {
+      setEmailError("");
+    } else if (!emailRegex.test(value)) {
+      setEmailError("El correo es inválido");
+    } else {
+      setEmailError("");
+    }
   };
 
   const handleEmailBlur = () => {
-      if(email !== '' && !email.includes('@gmail.com')){
-          setEmailError('El correo es inválido');
-      }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (email !== "" && !emailRegex.test(email)) {
+      setEmailError("El correo es inválido");
+    }
   };
 
-  const handlePasswordChange = (e) =>{
+  const handlePasswordChange = (e) => {
     const value = e.target.value;
     setPassword(value);
 
-    let error = '';
-    if(!/[0-9]/.test(value)){
-      error = 'La contraseña debe contener al menos un número.';
-        } else if (!/[A-Z]/.test(value)) {
-            error = 'La contraseña debe contener al menos una letra mayúscula.';
-        } else if (!/[a-z]/.test(value)) {
-            error = 'La contraseña debe contener al menos una letra minúscula.';
-        } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(value)) {
-            error = 'La contraseña debe contener al menos un carácter especial.';
-        }
+    let error = "";
+    if (!/[0-9]/.test(value)) {
+      error = "La contraseña debe contener al menos un número.";
+    } else if (!/[A-Z]/.test(value)) {
+      error = "La contraseña debe contener al menos una letra mayúscula.";
+    } else if (!/[a-z]/.test(value)) {
+      error = "La contraseña debe contener al menos una letra minúscula.";
+    } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(value)) {
+      error = "La contraseña debe contener al menos un carácter especial.";
+    }
     setPasswordError(error);
-  }
+  };
   const handleConfirmPasswordChange = (e) => {
     setConfirmPassword(e.target.value);
   };
 
   const handleUserNameChange = async (e) => {
     let value = e.target.value;
-  
+
     // Elimina los espacios finales en tiempo real
     value = value.trimEnd();
-  
+
     setUser(value);
-  
+
+    if (user.length > 20) {
+      setUserError("El nombre de usuario no puede tener más de 20 caracteres.");
+      return;
+    }
+
     // Verificación en tiempo real
-    if (value.trim() !== '') {
+    if (value.trim() !== "") {
       const usuarioExistente = await verificarNombreUsuarioExistente(value);
       if (usuarioExistente) {
-        setUserError('El nombre de usuario ya existe. Intenta con otro.');
+        setUserError("El nombre de usuario ya existe. Intenta con otro.");
       } else {
-        setUserError('');
+        setUserError("");
       }
     } else {
-      setUserError('');
+      setUserError("");
     }
   };
-  
+
+  const handleNameChange = (e) => {
+    let value = e.target.value;
+
+    value = value.trimEnd();
+
+    setName(value);
+
+    if (value.length > 40) {
+      setNameError("El nombre no puede tener más de 40 caracteres.");
+    } else {
+      setNameError("");
+    }
+  };
 
   const validateForm = () => {
     let valid = true;
-  
+
     if (!email || emailError) valid = false;
     if (!password || passwordError) valid = false;
-  
+
     if (password !== confirmPassword) {
-      setConfirmPasswordError('Las contraseñas no coinciden.');
+      setConfirmPasswordError("Las contraseñas no coinciden.");
       valid = false;
     } else {
-      setConfirmPasswordError('');
+      setConfirmPasswordError("");
     }
-  
+
     return valid;
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!validateForm()) {
-      console.log('Por favor, corrige los errores antes de enviar.');
+      console.log("Por favor, corrige los errores antes de enviar.");
       return;
     }
-  
-    if (userError!='') {
-      alert('Por favor, corrige los errores en el campo "Usuario" antes de enviar.');
+
+    if (userError != "") {
+      alert(
+        'Por favor, corrige los errores en el campo "Usuario" antes de enviar.'
+      );
       return;
     }
-  
 
     setIsLoading(true); // modal de carga o algo
     try {
@@ -147,12 +169,14 @@ const CrearCuenta = () => {
   
       if (response.email) {
         const guardarUsuarioPromise = guardarUsuario(response.email, user);
+
         await guardarUsuarioPromise; // Espera solo si es esencial
         sessionStorage.setItem('correoUsuario', emailOrUsername);
 
         const username = await obtenerNombreUsuario(emailOrUsername);
   
         sessionStorage.setItem('nombreUsuario', username);
+  
       } else if (response.error) {
         showModalNotificacion('error', 'No se pudo crear la cuenta');
       }
@@ -163,108 +187,159 @@ const CrearCuenta = () => {
       showModalNotificacion('success', 'Se ha creado la cuenta exitosamente');
     }
   };
-  
+
   return (
     <>
       <div className="register-container">
-        <h1 className="welcome-message">Bienvenido a 
-            <span className="logo-text first-word">Connect</span>
-            <span className="logo-text second-word">Way</span>
-        </h1>
-        
-        <div className="register-box">
-          <h2>Crea una cuenta</h2>
-          <form onSubmit={handleSubmit}>
-            <label>Nombre completo<span style={{ color: 'red', marginLeft: '2px' }}>*</span></label>
-            <input type="text" placeholder="Ingrese su nombre completo" required />
+        <div className="login-content">
+          <div className="login-box">
+            <h1 className="welcome-message">
+              Bienvenido a<span className="logo-text first-word">Connect</span>
+              <span className="logo-text second-word">Way</span>
+            </h1>
 
-            <label>Usuario<span style={{ color: 'red', marginLeft: '2px' }}>*</span></label>
-            <input 
-              type="text" 
-              placeholder="Ingrese un usuario" 
-              value={user}
-              onChange={handleUserNameChange}
-              required
-            />
-            {userError && <p className="error-message">{userError}</p>}
+            <div className="register-box">
+              <h2>Crea una cuenta</h2>
+              <form onSubmit={handleSubmit}>
+                <label>
+                  Nombre completo
+                  <span style={{ color: "red", marginLeft: "2px" }}>*</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Ingrese su nombre completo"
+                  value={name}
+                  onChange={handleNameChange}
+                  required
+                />
+                {nameError && <p className="error-message">{nameError}</p>}
 
-            <label>Correo electrónico<span style={{ color: 'red', marginLeft: '2px' }}>*</span></label>
-            <input 
-              type="email" 
-              placeholder="Ingrese su correo electrónico" 
-              value={email}
-              onChange={handleEmailChange}
-              onBlur={handleEmailBlur}
-              autoComplete="email"
-              required 
-            />
-            {emailError && <p className="error-message">{emailError}</p>}
+                <label>
+                  Usuario
+                  <span style={{ color: "red", marginLeft: "2px" }}>*</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Ingrese un usuario"
+                  value={user}
+                  onChange={handleUserNameChange}
+                  required
+                />
+                {userError && <p className="error-message">{userError}</p>}
 
+                <label>
+                  Correo electrónico
+                  <span style={{ color: "red", marginLeft: "2px" }}>*</span>
+                </label>
+                <input
+                  type="email"
+                  placeholder="Ingrese su correo electrónico"
+                  value={email}
+                  onChange={handleEmailChange}
+                  onBlur={handleEmailBlur}
+                  autoComplete="email"
+                  required
+                />
+                {emailError && <p className="error-message">{emailError}</p>}
 
-            <label>Contraseña<span style={{ color: 'red', marginLeft: '2px' }}>*</span></label>
-            <div className="password-field">
-              <input 
-                type={isPasswordVisible ? "text" : "password"} 
-                placeholder="Ingrese su contraseña" 
-                value={password}
-                onChange={handlePasswordChange}
-                required 
-              />
-              <img 
-                src={isPasswordVisible ? require('../../images/ojo2.png') : require('../../images/ojo1.png')} 
-                alt="Mostrar/ocultar contraseña" 
-                className="editIcon" 
-                onClick={togglePasswordVisibility} 
-                style={{ cursor: 'pointer',marginTop: '-15px' }}
-              />
-            </div>
+                <label>
+                  Contraseña
+                  <span style={{ color: "red", marginLeft: "2px" }}>*</span>
+                </label>
+                <div className="password-field">
+                  <input
+                    type={isPasswordVisible ? "text" : "password"}
+                    placeholder="Ingrese su contraseña"
+                    value={password}
+                    onChange={handlePasswordChange}
+                    required
+                  />
+                  <img
+                    src={
+                      isPasswordVisible
+                        ? require("../../images/ojo2.png")
+                        : require("../../images/ojo1.png")
+                    }
+                    alt="Mostrar/ocultar contraseña"
+                    className="editIcon"
+                    onClick={togglePasswordVisibility}
+                    style={{ cursor: "pointer", marginTop: "-15px" }}
+                  />
+                </div>
 
-            {passwordError && <p className="error-message">{passwordError}</p>}
+                {passwordError && (
+                  <p className="error-message">{passwordError}</p>
+                )}
 
-            <label>Confirmar contraseña<span style={{ color: 'red', marginLeft: '2px' }}>*</span></label>
-            <div className="password-field">
-              <input 
-                type={isPasswordVisible ? "text" : "password"} 
-                placeholder="Confirme su contraseña" 
-                value={confirmPassword}
-                onChange={handleConfirmPasswordChange}
-                required 
-              />
+                <label>
+                  Confirmar contraseña
+                  <span style={{ color: "red", marginLeft: "2px" }}>*</span>
+                </label>
+                <div className="password-field">
+                  <input
+                    type={isPasswordVisible ? "text" : "password"}
+                    placeholder="Confirme su contraseña"
+                    value={confirmPassword}
+                    onChange={handleConfirmPasswordChange}
+                    required
+                  />
 
-              <img 
-                src={isPasswordVisible ? require('../../images/ojo2.png') : require('../../images/ojo1.png')} 
-                alt="Mostrar/ocultar contraseña" 
-                className="editIcon" 
-                onClick={togglePasswordVisibility} 
-                style={{ cursor: 'pointer',marginTop: '-15px' }}
-              />
-            </div>
+                  <img
+                    src={
+                      isPasswordVisible
+                        ? require("../../images/ojo2.png")
+                        : require("../../images/ojo1.png")
+                    }
+                    alt="Mostrar/ocultar contraseña"
+                    className="editIcon"
+                    onClick={togglePasswordVisibility}
+                    style={{ cursor: "pointer", marginTop: "-15px" }}
+                  />
+                </div>
 
-            {confirmPasswordError && <p className="error-message">{confirmPasswordError}</p>}
-            
-            <div className="terms">
-              <input type="checkbox" required />
-              <label className="terms-label1" >He leído y acepto los 
+                {confirmPasswordError && (
+                  <p className="error-message">{confirmPasswordError}</p>
+                )}
+
+                <div className="terms">
+                  <input type="checkbox" required />
+                  <label className="terms-label1">
+                    He leído y acepto los{" "}
+                    
                 <span
                   onClick={showTerms}
                   style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
                 >
                   Términos y Condiciones
                 </span>
-              </label>
-            </div>
+              
+                  </label>
+                </div>
 
-            <button type="submit" className="register-button">
-              Registrarse
-            </button>
-          </form>
-          <div className='crear-of-ini'>
-              <p>¿Ya tienes una cuenta? <a href="/IniciarSesion" className="create-login1">Iniciar Sesión</a></p>
+                <button type="submit" className="register-button">
+                  Registrarse
+                </button>
+              </form>
+              <div className="crear-of-ini">
+                <p>
+                  ¿Ya tienes una cuenta?{" "}
+                  <a href="/IniciarSesion" className="create-login1">
+                    Iniciar Sesión
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="login-image">
+            <img
+              src={require("../../images/imagenInicio1.png")}
+              alt="Login Visual"
+            />
           </div>
         </div>
       </div>
       <ModalCargando
-        isOpen={isLoading} 
+        isOpen={isLoading}
         onClose={() => {}}
         type="loading"
         message="Cargando, por favor espera..."
