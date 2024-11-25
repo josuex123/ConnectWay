@@ -38,6 +38,19 @@ function FormularioCrearComunidad() {
     const redirectionPath = role === '1' ? '/Home/1' : '/Home/0';
     navigate(redirectionPath);
   }
+  const formatearDescripcion = (texto) => {
+    // Divide el texto en palabras
+    const palabras = texto.split(' ');
+    // Recorre cada palabra y agrega un espacio si la palabra tiene más de 26 caracteres
+    const palabrasFormateadas = palabras.map((palabra) => {
+      if (palabra.length > 26) {
+        return palabra + ' '; // Añade un espacio al final de palabras largas
+      }
+      return palabra;
+    });
+    // Une las palabras de nuevo en una sola cadena
+    return palabrasFormateadas.join(' ');
+  };
 
   const handleTituloChange = (e) => {
     const value = e.target.value;
@@ -47,7 +60,8 @@ function FormularioCrearComunidad() {
   };
   
   const handleDescripcionChange = (e) => {
-    const value = e.target.value;
+    let value = e.target.value;
+    value = formatearDescripcion(value); // Aplica el formato a la descripción
     if (value.length <= maxCharsDescripcion && validateAlphanumeric(value)) {
       setDescripcion(value);
     }
