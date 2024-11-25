@@ -48,17 +48,37 @@ const IniciarSesion = () => {
     }
   };
 
-  const handleEmailBlur = async () => {
-    if (emailOrUsername !== '' && emailOrUsername.includes('@gmail.com')) {
-        const usuarioExiste = await usuarioExisteEnFirestore(emailOrUsername);
-        if (!usuarioExiste) {
-            setEmailError('El correo no está registrado.');
-        } else {
-            setEmailError('');
-        }
-    }
-};
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setPassword(value);
+  };
 
+  const handleEmailBlur = () => {
+    if(emailOrUsername !== '' && !emailOrUsername.includes('@gmail.com')){
+        setEmailError('El correo es inválido');
+    }
+  };
+
+  const handlePasswordBlur = () => {
+    if (password === '' || password.length < 8) {
+      setPasswordError('La contraseña no puede estar vacía o ser menor de 8 caracteres.');
+    } else {
+      setPasswordError('');
+    }
+  };
+
+  async function veriUsuario(id) {
+    const docRef = doc(db, "Usuario", id); // Suponiendo que 'usuarios' es tu colección y 'id' es el campo del documento
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+            setPasswordError("La contraseña es incorrecta");
+            return true;
+    } else {
+      
+      setEmailError("El correo no se encuentra registrado");
+      return false;
+    }
+  }
 
   // Maneja el inicio de sesión con correo/usuario y contraseña
   const handleEmailSignIn = async (e) => {
@@ -81,18 +101,9 @@ const IniciarSesion = () => {
         navigate('/Home/0');
     } catch (error) {
         console.error('Error en inicio de sesión:', error.code);
-        setIsLoading(false); // Desactiva el estado de carga antes de manejar errores.
+        setIsLoading(false); 
 
-        // Manejo de errores específicos
-        if (error.code === 'auth/user-not-found') {
-            setEmailError('El correo no está registrado.');
-        } else if (error.code === 'auth/wrong-password') {
-            setPasswordError('La contraseña es incorrecta.');
-        } else if (error.code === 'auth/invalid-email') {
-            setEmailError('El formato del correo es inválido.');
-        } else {
-            setEmailError('Ocurrió un error inesperado. Intenta nuevamente.');
-        }
+        veriUsuario(emailOrUsername);
     }
 };
 
@@ -159,7 +170,9 @@ const IniciarSesion = () => {
                 type={isPasswordVisible ? "text" : "password"} 
                 placeholder="Ingrese su contraseña" 
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handlePasswordChange}
+                onBlur={handlePasswordBlur}
+                
                 required 
               />
               <img 
@@ -177,7 +190,7 @@ const IniciarSesion = () => {
             <button type="submit" className="login-button">Iniciar Sesión</button>
           </form>
 
-          <p>¿No tienes una cuenta? <a href="/CrearCuenta" className="create-login1">Crea una</a></p>
+          <p>¿No tienes una cuenta? <a href="/CrearCuenta" className="create-login1">Crea una cuenta aqui</a></p>
           <p>O</p>
           <button className="google-button1" onClick={handleGoogleSignIn}>
             <img src={require('../../images/IconGo.png')} alt="Google Icon" className='editIcon' />
@@ -189,7 +202,7 @@ const IniciarSesion = () => {
         isOpen={isLoading} 
         onClose={() => {}}
         type="loading"
-        message="Cargando, por favor espera...\n "
+        message="Cargando, por favor espera... "
         iconClass="fa fa-spinner fa-spin" 
       />
     </>
