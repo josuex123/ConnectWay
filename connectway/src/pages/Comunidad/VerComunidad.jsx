@@ -94,7 +94,7 @@
         useEffect(() => {
             const fetchData = async () => {
                 const userEmail = sessionStorage.getItem('correoUsuario'); 
-                setLoading(true);
+                //setLoading(true); //dejar de comentar estooooooooooooooooooooooo
                 try {
                     const comunidades = await listaComunidadesPerteneciente(userEmail);
         
@@ -198,7 +198,7 @@
                             </button>
 
     
-                                <div className="posts">
+                            <div className="posts">
                                 {Array.isArray(posts) && posts.length > 0 ? (
                                     posts.map((post, index) => (
                                         <Post
