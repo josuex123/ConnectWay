@@ -13,8 +13,8 @@
 }
 
 .img-portada-comun {
-  width: 100%;
-  object-fit: cover;
+  width: 200px;
+    height: 200px;
   border-radius: 5px;
   min-height: 200px;
   max-height: 200px;
