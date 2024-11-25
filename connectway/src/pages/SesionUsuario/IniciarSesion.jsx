@@ -7,6 +7,7 @@ import authService from '../../Services/UsuarioServicios/VerificarUsuario';
 import {guardarUsuario} from '../../Services/UsuarioServicios/GuardarUsuario';
 import { obtenerNombreUsuario } from '../../Services/UsuarioServicios/NombreUsuarioPorIdDoc';
 import ModalCargando from '../../components/Modal/ModalCargando'; 
+import ModalNotificacion from '../../components/Modal/ModalNotificacion';
 
 const IniciarSesion = () => {
   const [emailOrUsername, setEmailOrUsername] = useState('');
@@ -17,6 +18,20 @@ const IniciarSesion = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);  // Estado de carga
   const navigate = useNavigate();
+
+  const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
+  const [notificationType, setNotificationType] = useState('success');
+  const [notificationMessage, setNotificationMessage] = useState('');
+
+  const showModalNotificacion = (type, message) => {
+    setNotificationType(type);
+    setNotificationMessage(message);
+    setIsModalNotificacionOpen(true);
+  };
+
+  const closeModalNotificacion = async () => {
+    setIsModalNotificacionOpen(false);
+  };
   
   const usuarioExisteEnFirestore = async (email) => {
     try {
@@ -100,10 +115,17 @@ const IniciarSesion = () => {
         setIsLoading(false);
         navigate('/Home/0');
     } catch (error) {
+<<<<<<< HEAD
         console.error('Error en inicio de sesión:', error.code);
         setIsLoading(false); 
 
         veriUsuario(emailOrUsername);
+=======
+      setIsLoading(false);
+      showModalNotificacion('error', 'Error al iniciar sesion, revise sus datos');
+    } finally {
+      setIsLoading(false);
+>>>>>>> aa15bc766011174188c0a24e6e5b329c73b23476
     }
 };
 
@@ -202,8 +224,19 @@ const IniciarSesion = () => {
         isOpen={isLoading} 
         onClose={() => {}}
         type="loading"
+<<<<<<< HEAD
         message="Cargando, por favor espera... "
+=======
+        message="Cargando, por favor espera..."
+>>>>>>> aa15bc766011174188c0a24e6e5b329c73b23476
         iconClass="fa fa-spinner fa-spin" 
+      />
+      <ModalNotificacion
+        isOpen={isModalNotificacionOpen}
+        onClose={closeModalNotificacion}
+        type={notificationType}
+        message={notificationMessage}
+        iconClass={notificationType === 'success' ? 'fa fa-check' : 'fa fa-exclamation'}
       />
     </>
   );

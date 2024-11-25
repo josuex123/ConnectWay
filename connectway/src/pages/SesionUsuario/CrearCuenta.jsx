@@ -6,6 +6,8 @@ import { guardarUsuario } from '../../Services/UsuarioServicios/GuardarUsuario';
 import { verificarNombreUsuarioExistente } from '../../Services/UsuarioServicios/VerificarNombreUsuarioExistente';
 import ModalCargando from '../../components/Modal/ModalCargando'; 
 import { obtenerNombreUsuario } from '../../Services/UsuarioServicios/NombreUsuarioPorIdDoc';
+import ModalNotificacion from '../../components/Modal/ModalNotificacion';
+import ModalTerms from './TerminosCondiciones';
 
 const CrearCuenta = () => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -19,6 +21,29 @@ const CrearCuenta = () => {
     const [userError, setUserError] = useState(''); // Estado para el error del usuario
     const [isLoading, setIsLoading] = useState(false);  // Estado de carga
     const navigate = useNavigate();
+
+    const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
+    const [notificationType, setNotificationType] = useState('success');
+    const [notificationMessage, setNotificationMessage] = useState('');
+
+    const [isTermsOpen, setIsTermsOpen ] = useState(false);
+    const closeTerms = async () => {
+      setIsTermsOpen(false);
+    }
+    const showTerms = async () => {
+      setIsTermsOpen(true);
+    }
+
+    const showModalNotificacion = (type, message) => {
+      setNotificationType(type);
+      setNotificationMessage(message);
+      setIsModalNotificacionOpen(true);
+    };
+  
+    const closeModalNotificacion = async () => {
+      setIsModalNotificacionOpen(false);
+      navigate('/IniciarSesion');
+    };
  
     const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
@@ -122,7 +147,6 @@ const CrearCuenta = () => {
   
       if (response.email) {
         const guardarUsuarioPromise = guardarUsuario(response.email, user);
-        navigate('/home/0'); // Navegación inmediata
         await guardarUsuarioPromise; // Espera solo si es esencial
         sessionStorage.setItem('correoUsuario', emailOrUsername);
 
@@ -130,12 +154,13 @@ const CrearCuenta = () => {
   
         sessionStorage.setItem('nombreUsuario', username);
       } else if (response.error) {
-        alert(response.error);//Reemplazar con un modal
+        showModalNotificacion('error', 'No se pudo crear la cuenta');
       }
     } catch (error) {
-      console.error('Error al procesar el formulario:', error);
+      showModalNotificacion('error', 'No se pudo procesar el formulario');
     } finally {
       setIsLoading(false);
+      showModalNotificacion('success', 'Se ha creado la cuenta exitosamente');
     }
   };
   
@@ -219,7 +244,14 @@ const CrearCuenta = () => {
             
             <div className="terms">
               <input type="checkbox" required />
-              <label className="terms-label1" >He leído y acepto los <a href="/terms">Términos y Condiciones</a></label>
+              <label className="terms-label1" >He leído y acepto los 
+                <span
+                  onClick={showTerms}
+                  style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
+                >
+                  Términos y Condiciones
+                </span>
+              </label>
             </div>
 
             <button type="submit" className="register-button">
@@ -235,8 +267,19 @@ const CrearCuenta = () => {
         isOpen={isLoading} 
         onClose={() => {}}
         type="loading"
-        message="Cargando, por favor espera...\n "
+        message="Cargando, por favor espera..."
         iconClass="fa fa-spinner fa-spin" 
+      />
+      <ModalNotificacion
+        isOpen={isModalNotificacionOpen}
+        onClose={closeModalNotificacion}
+        type={notificationType}
+        message={notificationMessage}
+        iconClass={notificationType === 'success' ? 'fa fa-check' : 'fa fa-exclamation'}
+      />
+      <ModalTerms
+        isOpen={isTermsOpen}
+        onClose={closeTerms}
       />
     </>
   );

@@ -3,6 +3,7 @@ import '../../estilos/SesionUsuario/RecuperarContra.css';
 import ModalNotificacion from '../../components/Modal/ModalNotificacion';
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../firebaseConfig"; // Importa la configuración de Firebase
+import ModalCargando from '../../components/Modal/ModalCargando'; 
 
 function RecuperarContrasenia() {
   const [email, setEmail] = useState('');
@@ -10,6 +11,7 @@ function RecuperarContrasenia() {
   const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
   const [notificationType, setNotificationType] = useState('success'); 
   const [notificationMessage, setNotificationMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);  // Estado de carga
 
   const showModalNotificacion = (type, message) => {
     setNotificationType(type);
@@ -44,17 +46,19 @@ function RecuperarContrasenia() {
   const handleRecuperar = async (e) => {
     e.preventDefault();
     setEmailError(null);
-
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setEmailError('El correo es inválido');
       return;
     }
 
+    setIsLoading(true);
     try {
       await sendPasswordResetEmail(auth, email);
+      setIsLoading(false);
       showModalNotificacion('success', 'Si el correo está registrado, se enviará un enlace para restablecer la contraseña.');
     } catch (error) {
+      setIsLoading(false);
       showModalNotificacion('error', 'Ocurrió un error al intentar enviar el correo. Inténtelo nuevamente.');
     }    
   };
@@ -90,7 +94,13 @@ function RecuperarContrasenia() {
           <p>¿Ya tienes una cuenta? <a href="/IniciarSesion" className="create-login1">Iniciar Sesión</a></p>
         </div>
       </div>
-
+      <ModalCargando
+        isOpen={isLoading} 
+        onClose={() => {}}
+        type="loading"
+        message="Cargando, por favor espera..."
+        iconClass="fa fa-spinner fa-spin" 
+      />
       <ModalNotificacion
         isOpen={isModalNotificacionOpen}
         onClose={closeModalNotificacion}
