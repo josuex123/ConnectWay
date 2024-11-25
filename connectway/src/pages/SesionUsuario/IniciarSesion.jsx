@@ -48,37 +48,55 @@ const IniciarSesion = () => {
     }
   };
 
-  const handleEmailBlur = () => {
-    if(emailOrUsername !== '' && !emailOrUsername.includes('@gmail.com')){
-        setEmailError('El correo es inválido');
+  const handleEmailBlur = async () => {
+    if (emailOrUsername !== '' && emailOrUsername.includes('@gmail.com')) {
+        const usuarioExiste = await usuarioExisteEnFirestore(emailOrUsername);
+        if (!usuarioExiste) {
+            setEmailError('El correo no está registrado.');
+        } else {
+            setEmailError('');
+        }
     }
-  };
+};
+
 
   // Maneja el inicio de sesión con correo/usuario y contraseña
   const handleEmailSignIn = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setEmailError('');
+    setPasswordError('');
+    
     try {
-      const user = await authService.signInWithEmail(emailOrUsername, password);
-      console.log('Usuario autenticado:', user);
+        const user = await authService.signInWithEmail(emailOrUsername, password);
+        console.log('Usuario autenticado:', user);
 
-      // Guardar el correo en sessionStorage
-      sessionStorage.setItem('correoUsuario', emailOrUsername);
+        // Guardar el correo en sessionStorage
+        sessionStorage.setItem('correoUsuario', emailOrUsername);
 
-      const username = await obtenerNombreUsuario(emailOrUsername);
+        const username = await obtenerNombreUsuario(emailOrUsername);
+        sessionStorage.setItem('nombreUsuario', username);
 
-      sessionStorage.setItem('nombreUsuario', username);
-
-      navigate('/Home/0');
+        setIsLoading(false);
+        navigate('/Home/0');
     } catch (error) {
-      setIsLoading(false);
-      
-      console.error('Error en inicio de sesión:', error.message);
-      alert('Error al iniciar sesión: ' + error.message);
-    } finally {
-      setIsLoading(false);
+        console.error('Error en inicio de sesión:', error.code);
+        setIsLoading(false); // Desactiva el estado de carga antes de manejar errores.
+
+        // Manejo de errores específicos
+        if (error.code === 'auth/user-not-found') {
+            setEmailError('El correo no está registrado.');
+        } else if (error.code === 'auth/wrong-password') {
+            setPasswordError('La contraseña es incorrecta.');
+        } else if (error.code === 'auth/invalid-email') {
+            setEmailError('El formato del correo es inválido.');
+        } else {
+            setEmailError('Ocurrió un error inesperado. Intenta nuevamente.');
+        }
     }
-  };
+};
+
+
 
   const removeDomain = (user2) => {
     const userName =user2.split("@")[0]; ;
