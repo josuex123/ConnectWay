@@ -7,6 +7,7 @@ import { verificarNombreUsuarioExistente } from '../../Services/UsuarioServicios
 import ModalCargando from '../../components/Modal/ModalCargando'; 
 import { obtenerNombreUsuario } from '../../Services/UsuarioServicios/NombreUsuarioPorIdDoc';
 import ModalNotificacion from '../../components/Modal/ModalNotificacion';
+import ModalTerms from './TerminosCondiciones';
 
 const CrearCuenta = () => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -24,6 +25,14 @@ const CrearCuenta = () => {
     const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
     const [notificationType, setNotificationType] = useState('success');
     const [notificationMessage, setNotificationMessage] = useState('');
+
+    const [isTermsOpen, setIsTermsOpen ] = useState(false);
+    const closeTerms = async () => {
+      setIsTermsOpen(false);
+    }
+    const showTerms = async () => {
+      setIsTermsOpen(true);
+    }
 
     const showModalNotificacion = (type, message) => {
       setNotificationType(type);
@@ -235,7 +244,14 @@ const CrearCuenta = () => {
             
             <div className="terms">
               <input type="checkbox" required />
-              <label className="terms-label1" >He leído y acepto los <a href="/terms">Términos y Condiciones</a></label>
+              <label className="terms-label1" >He leído y acepto los 
+                <span
+                  onClick={showTerms}
+                  style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
+                >
+                  Términos y Condiciones
+                </span>
+              </label>
             </div>
 
             <button type="submit" className="register-button">
@@ -260,6 +276,10 @@ const CrearCuenta = () => {
         type={notificationType}
         message={notificationMessage}
         iconClass={notificationType === 'success' ? 'fa fa-check' : 'fa fa-exclamation'}
+      />
+      <ModalTerms
+        isOpen={isTermsOpen}
+        onClose={closeTerms}
       />
     </>
   );
