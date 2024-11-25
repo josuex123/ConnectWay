@@ -178,57 +178,57 @@ const IniciarSesion = () => {
                   required
                 />
                 {emailError && <p className="error-message">{emailError}</p>}
-
-            <label>Contraseña<span style={{ color: 'red', marginLeft: '2px' }}>*</span></label>
-            <div className="password-field">
-              <input 
-                type={isPasswordVisible ? "text" : "password"} 
-                placeholder="Ingrese su contraseña" 
-                value={password}
-                onChange={handlePasswordChange}
-                onBlur={handlePasswordBlur}
-                
-                required 
-              />
-              <img 
-                src={isPasswordVisible ? require('../../images/ojo2.png') : require('../../images/ojo1.png')} 
-                alt="Mostrar/ocultar contraseña" 
-                className="editIcon" 
-                onClick={togglePasswordVisibility} 
-                style={{ cursor: 'pointer', marginTop: '-15px' }}
-              />
+  
+                <label>Contraseña<span style={{ color: 'red', marginLeft: '2px' }}>*</span></label>
+                <div className="password-field">
+                  <input 
+                    type={isPasswordVisible ? "text" : "password"} 
+                    placeholder="Ingrese su contraseña" 
+                    value={password}
+                    onChange={handlePasswordChange}
+                    onBlur={handlePasswordBlur}
+                    required 
+                  />
+                  <img 
+                    src={isPasswordVisible ? require('../../images/ojo2.png') : require('../../images/ojo1.png')} 
+                    alt="Mostrar/ocultar contraseña" 
+                    className="editIcon" 
+                    onClick={togglePasswordVisibility} 
+                    style={{ cursor: 'pointer', marginTop: '-15px' }}
+                  />
+                </div>
+                {passwordError && <p className="error-message">{passwordError}</p>}
+  
+                <a href="/RecuperarContrasenia" className="forgot-password1">¿Olvidaste tu contraseña?</a>
+  
+                <button type="submit" className="login-button">Iniciar Sesión</button>
+              </form>
+  
+              <p>¿No tienes una cuenta? <a href="/CrearCuenta" className="create-login1">Crea una cuenta aquí</a></p>
+              <p>O</p>
+              <button className="google-button1" onClick={handleGoogleSignIn}>
+                <img src={require('../../images/IconGo.png')} alt="Google Icon" className='editIcon' />
+                Continuar con Google
+              </button>
             </div>
-            {passwordError && <p className="error-message">{passwordError}</p>}
-
-            <a href="/RecuperarContrasenia" className="forgot-password1">¿Olvidaste tu contraseña?</a>
-
-            <button type="submit" className="login-button">Iniciar Sesión</button>
-          </form>
-
-          <p>¿No tienes una cuenta? <a href="/CrearCuenta" className="create-login1">Crea una cuenta aqui</a></p>
-          <p>O</p>
-          <button className="google-button1" onClick={handleGoogleSignIn}>
-            <img src={require('../../images/IconGo.png')} alt="Google Icon" className='editIcon' />
-            Continuar con Google
-          </button>
+          </div>
         </div>
+        <ModalCargando
+          isOpen={isLoading}
+          onClose={() => {}}
+          type="loading"
+          message="Cargando, por favor espera... "
+          iconClass="fa fa-spinner fa-spin" 
+        />
+        <ModalNotificacion
+          isOpen={isModalNotificacionOpen}
+          onClose={closeModalNotificacion}
+          type={notificationType}
+          message={notificationMessage}
+          iconClass={notificationType === 'success' ? 'fa fa-check' : 'fa fa-exclamation'}
+        />
       </div>
-      <ModalCargando
-        isOpen={isLoading}
-        onClose={() => {}}
-        type="loading"
-        message="Cargando, por favor espera... "
-        iconClass="fa fa-spinner fa-spin" 
-      />
-      <ModalNotificacion
-        isOpen={isModalNotificacionOpen}
-        onClose={closeModalNotificacion}
-        type={notificationType}
-        message={notificationMessage}
-        iconClass={notificationType === 'success' ? 'fa fa-check' : 'fa fa-exclamation'}
-      />
     </>
   );
-};
-
+}  
 export default IniciarSesion;
