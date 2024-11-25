@@ -26,6 +26,7 @@ import RecuperarContra from './pages/SesionUsuario/RecuperarContra';
 import CambiarContra from './pages/SesionUsuario/CambiarContra';
 import CrearCuenta from './pages/SesionUsuario/CrearCuenta';
 import ListarComunidad from './pages/Comunidad/ListarSubcomunidad'
+import TermsAndConditions from './pages/SesionUsuario/TerminosCondiciones';
 
 
 function App() {
@@ -63,6 +64,7 @@ function App() {
           <Route path="/comunidad/mis-comunidades/:role" element={<MisComunidades />} />
           <Route path="/comunidad/ver-comunidad" element={<VerComunidad />} />
           <Route path="/comunidad/listar-comunidad/:idComunidad" element={<ListarComunidad />} />
+          <Route path="/terms" element={<TermsAndConditions />} />
           
         </Routes>
       </div>
