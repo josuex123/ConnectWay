@@ -41,16 +41,17 @@ function FormularioCrearComunidad() {
   const formatearDescripcion = (texto) => {
     // Divide el texto en palabras
     const palabras = texto.split(' ');
-    // Recorre cada palabra y agrega un espacio si la palabra tiene más de 26 caracteres
+    // Recorre cada palabra y agrega un salto de línea si la palabra tiene más de 26 caracteres
     const palabrasFormateadas = palabras.map((palabra) => {
       if (palabra.length > 26) {
-        return palabra + ' '; // Añade un espacio al final de palabras largas
+        return palabra + '\n'; // Añade un salto de línea al final de palabras largas
       }
       return palabra;
     });
-    // Une las palabras de nuevo en una sola cadena
+    // Une las palabras de nuevo en una sola cadena, separadas por un espacio
     return palabrasFormateadas.join(' ');
   };
+  
 
   const handleTituloChange = (e) => {
     const value = e.target.value;
@@ -60,12 +61,26 @@ function FormularioCrearComunidad() {
   };
   
   const handleDescripcionChange = (e) => {
-    let value = e.target.value;
-    value = formatearDescripcion(value); // Aplica el formato a la descripción
-    if (value.length <= maxCharsDescripcion && validateAlphanumeric(value)) {
-      setDescripcion(value);
-    }
-  };
+    const { value } = e.target;
+
+    // Divide el texto ingresado en palabras
+    const words = value.split(" ");
+
+    // Procesa cada palabra para verificar su longitud
+    const processedWords = words.map(word => {
+        // Si la palabra tiene más de 40 caracteres, agrega saltos de línea
+        if (word.length > 25) {
+            return word.match(/.{1,25}/g).join(" "); // Divide en bloques de 40 caracteres y agrega saltos de línea
+        }
+        return word;
+    });
+
+    // Une las palabras procesadas con espacios
+    const newDescription = processedWords.join(" ");
+
+        setDescripcion(newDescription);
+    
+};
 
   const handleSubmit = async (event) => {
     event.preventDefault();
