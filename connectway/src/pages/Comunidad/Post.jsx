@@ -226,10 +226,12 @@ const Post = ({titulo,contenido,imagenUsuario,nombreUsuario,imagenPost,comunidad
           </div>
           <div className="post-contenido">
             <div className="post-header">
-              <h2>{titulo}</h2>
-              {fechaHora && (
-        <p className="post-fecha-hora">{formatearFecha(fechaHora)}</p> // Mostramos la fecha formateada
-              )}
+              <div className="post-info">
+                <h2>{titulo}</h2>
+                {fechaHora && (
+                  <p className="post-fecha-hora">{formatearFecha(fechaHora)}</p> // Mostramos la fecha formateada
+                )}
+              </div>
               <div className="user-info">
                 <img src={imagenUsuario || defaultUser} alt="Usuario" />
                 <span>{nombreUsuario}</span>
@@ -262,20 +264,25 @@ const Post = ({titulo,contenido,imagenUsuario,nombreUsuario,imagenPost,comunidad
                 <div className="post-footer">
                 <div>
                   <button className="icon-button" onClick={toggleComentarios}>
-                    <i className="fa fa-comment"></i> Comentarios ({comentariosCount})
+                    <i className="fa fa-comment"></i>
+                  {comentariosCount}
                   </button>
                 </div>
                 <div ref={reactionRef} style={{ position: "relative" }}>
                   <button className="reaction-button" onClick={toggleReactions}>
-                    <img
-                      src={
-                        lastReaction
-                          ? reactions.find((reaction) => reaction.id === lastReaction)?.icon || LikeGreyIcon
-                          : LikeGreyIcon
+                    <div aria-hidden="true">
+                      {lastReaction
+                        ? (
+                          <img
+                            src={reactions.find((reaction) => reaction.id === lastReaction)?.icon || LikeGreyIcon}
+                            alt="Reacción actual"
+                          />
+                        )
+                        : (
+                          <i className="fa fa-thumbs-up" aria-hidden="true"></i>
+                        )
                       }
-                      alt="Reacción actual"
-                    />
-                    <span>Reacciones</span>
+                    </div>
                   </button>
                   {showReactions && (
                     <div className="reaction-popup">
