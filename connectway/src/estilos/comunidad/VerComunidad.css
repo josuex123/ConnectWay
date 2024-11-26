@@ -14,11 +14,43 @@
 
 .comunidad-page {
     display: flex;
+    align-items: flex-start;
     gap: 20px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     padding: 20px;
-    overflow: hidden;
+    min-height: 100vh; 
 }
+
+.comunidades-list {
+    position: relative;
+    top: 100px;
+    width: 300px;
+    min-height: 500px; 
+    max-height: calc(100vh - 150px); 
+    border: 2px solid #03314B;
+    border-radius: 5px;
+    padding-inline: 5px;
+    box-sizing: border-box;
+    overflow-y: auto; 
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+}
+
+.spacer {
+    flex-grow: 1; 
+}
+
+
+
+.comunidades-list.empty {
+    justify-content: center; 
+    text-align: center;
+    color: #666; 
+    font-style: italic; 
+}
+
+
 
 .comunidades-list::-webkit-scrollbar{
     width: 5px;
@@ -101,12 +133,17 @@
 }
 
 .comunidad-content {
-    flex: 1;
-    min-width: 300px;
+    flex: 2;
+    min-width: 0;
 }
 
 .posts {
     margin-top: 20px;
+}
+empty {
+    justify-content: center; 
+    color: #666; 
+    font-style: italic; 
 }
 
 .selected-button {
