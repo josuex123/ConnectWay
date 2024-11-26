@@ -18,9 +18,12 @@
         const [userComunidades, setUserComunidades] = useState([]); 
         const categoria = location.state?.categoria;
         const [posts, setPosts] = useState([]); 
-         const [idComunidad, setIdComunidad] = useState(null);
+        const [idComunidad, setIdComunidad] = useState(null);
         const [idColeccion, setIdColeccion] = useState(null);
-        const [loading, setLoading] = useState(true); // Estado para manejar la carga
+        const [loading, setLoading] = useState(true); 
+        const [selectedComunidad, setSelectedComunidad] = useState(null);
+        const [selectedButton, setSelectedButton] = useState(null);
+
 
         const fetchPostsByComunidad = async (idComunidad, idColeccion) => {
             if (!idComunidad || !idColeccion) {
@@ -34,7 +37,7 @@
                     posts.map((post) => ({
                         ...post,
                         fechaHora: post.fechaHoraPublicacion
-                            ? post.fechaHoraPublicacion.toDate().toISOString() // Conversión correcta
+                            ? post.fechaHoraPublicacion.toDate().toISOString() 
                             : null,
                     }))
                 );
@@ -124,54 +127,62 @@
                         <div className="comunidad-page">
                             <ModalCargando isOpen={loading} message="Cargando tus comunidades..." />
                             <div className="comunidades-list">
-                                <h3 className="text">Tus Comunidades:</h3>
-                                <ul>
-                                {userComunidades.length > 0 ? (
-                                    userComunidades.map((comunidad, index) => (
-                                        <li key={index} className="comunidad-item">
+    <h3 className="text">Tus Comunidades:</h3>
+    <ul>
+        {userComunidades.length > 0 ? (
+            userComunidades.map((comunidad, index) => (
+                <li key={index} className="comunidad-item">
                     <button
-                    onClick={async () => {
-                        setComunidadData(null); // Limpia los datos anteriores
-                        setIdComunidad(comunidad.idComunidad);
-                        setIdColeccion(comunidad.idColeccion);
+                        onClick={async () => {
+                            setSelectedButton(index);
+                            setComunidadData(null);
+                            setIdComunidad(comunidad.idComunidad);
+                            setIdColeccion(comunidad.idColeccion);
 
-                        try {
-                            const docRef = doc(
-                                db,
-                                "Comunidades",
-                                comunidad.idComunidad,
-                                "comunidades",
-                                comunidad.idColeccion
-                            );
-                            const docSnap = await getDoc(docRef);
+                            try {
+                                const docRef = doc(
+                                    db,
+                                    "Comunidades",
+                                    comunidad.idComunidad,
+                                    "comunidades",
+                                    comunidad.idColeccion
+                                );
+                                const docSnap = await getDoc(docRef);
 
-                            if (docSnap.exists()) {
-                                setComunidadData({
-                                    ...docSnap.data(),
-                                    categoria: comunidad.categoria, // Agrega la categoría directamente
-                                });
+                                if (docSnap.exists()) {
+                                    setComunidadData({
+                                        ...docSnap.data(),
+                                        categoria: comunidad.categoria,
+                                    });
 
-                                // Llama al servicio para cargar los posts
-                                await fetchPostsByComunidad(comunidad.idComunidad, comunidad.idColeccion);
-                            } else {
-                                console.warn("No se encontró la comunidad seleccionada.");
+                                    await fetchPostsByComunidad(
+                                        comunidad.idComunidad,
+                                        comunidad.idColeccion
+                                    );
+                                } else {
+                                    console.warn("No se encontró la comunidad seleccionada.");
+                                }
+                            } catch (error) {
+                                console.error("Error al obtener los datos de la comunidad:", error);
                             }
-                        } catch (error) {
-                            console.error("Error al obtener los datos de la comunidad:", error);
-                        }
-                    }}
-                >
-                    {comunidad.titulo}
-                </button>
+                        }}
+                        className={`comunidad-item-btn ${
+                            selectedButton === index ? "active" : ""
+                        }`}
+                    >
+                        {comunidad.titulo}
+                    </button>
+                </li>
+            ))
+        ) : (
+            <div className="empty-content">No te has unido a ninguna comunidad.</div>
+        )}
+    </ul>
+    {/* Agregar un espaciador para asegurar tamaño fijo */}
+    <div className="spacer"></div>
+</div>
 
-                                        </li>
-                                    ))
-                                ) : (
-                                    <li>No te has unido a ninguna comunidad</li>
-                                )}
-                                </ul>
 
-                            </div>
     
                             <div className="comunidad-content">
                             <div className="comunidad-header">
@@ -215,7 +226,9 @@
                                         />
                                     ))
                                 ) : (
+                                    <div className="empty">
                                     <p>No hay publicaciones en esta comunidad.</p>
+                                    </div>
                                 )}
 
                             </div>
