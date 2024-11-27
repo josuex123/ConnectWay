@@ -132,6 +132,7 @@
     border: none;
     padding: 10px;
     width: 100%;
+    height: 44px;
     text-align: start;
     color: #03314B;
     font-weight: 500;
@@ -140,6 +141,9 @@
     border-radius: 5px;
     box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+    
 }
 
 .comunidad-item button:hover {
@@ -179,6 +183,12 @@ empty {
     transition: background-color 0.4s, color 0.4s;
     border-radius: 5px;
     box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.1);
+}
+.comunidad-item-btn img {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    margin-right: 10px;
 }
 
 .comunidad-item-btn:hover {

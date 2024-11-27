@@ -170,7 +170,7 @@
                                                         selectedButton === index ? "active" : ""
                                                     }`}
                                                 >
-                                                    {comunidad.titulo}
+                                                    <img src={comunidad.imagenURL}/>{comunidad.titulo}
                                                 </button>
                                             </li>
                                         ))
