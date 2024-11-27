@@ -54,9 +54,14 @@
   font-size: 16px;
 }
 
+.boton-comentario {
+  background-color: #fff !important;
+  width: 40px;
+  height: 40px;
+}
+
 .nuevo-comentario button:hover {
-  background-color: #03314B;
-  color: white;
+  background-color: #e8e8e8c5 !important;
 }
 
 .btn-clip {

@@ -5,6 +5,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { FaPaperclip, FaPaperPlane } from "react-icons/fa"; // Íconos para clip y envío
 import "../../estilos/comunidad/Comentarios.css";
 import ModalCargando from '../../components/Modal/ModalCargando'; 
+import { width } from "@fortawesome/free-solid-svg-icons/fa0";
 
 const Comentarios = ({ comunidadId, subComunidadId, postId, usuarioActual, mostrarComentarios }) => {
   const [comentarios, setComentarios] = useState([]);
@@ -164,10 +165,10 @@ const Comentarios = ({ comunidadId, subComunidadId, postId, usuarioActual, mostr
             onChange={(e) => setImagenComentario(e.target.files[0])}
           />
           <label htmlFor="imagen-comentario" className="btn-clip">
-            <FaPaperclip />
+            <FaPaperclip size="1em"/>
           </label>
-          <button onClick={agregarComentario}>
-            <FaPaperPlane />
+          <button onClick={agregarComentario} className="boton-comentario">
+            <FaPaperPlane size="1.3em"/>
           </button>
         </div>
       </div>
