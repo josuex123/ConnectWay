@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect } from 'react';
 import '../../estilos/comunidad/ModalFormularioPost.css';
 import { subirPost } from '../../Services/Post/SubirPost';
@@ -13,6 +14,7 @@ const handleFileUpload = async (file) => {
     await uploadBytes(fileRef, file);
     return await getDownloadURL(fileRef);
 };
+
 const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
     const [titulo, setTitulo] = useState('');
     const [contenido, setContenido] = useState('');
@@ -46,19 +48,20 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
     }, [isOpen]);
 
     const handleArchivoChange = (e) => {
-        const file = e.target.files?.[0];  
+        const file = e.target.files?.[0];
         if (file) {
-            if (file.size > 10 * 1024 * 1024 ) { // Verifica si el archivo es mayor a 10 MB
+            const allowedFormats = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif']; // Formatos permitidos
+            if (!allowedFormats.includes(file.type)) {
+                setMensajeError('Solo se permiten imágenes en formato PNG, JPG y GIF.');
+                return;
+            }
+            if (file.size > 10 * 1024 * 1024) { // Verifica si el archivo es mayor a 10 MB
                 setMensajeError('Imágenes superiores a 10MB no están permitidas.');
                 return;
             }
-            if (file.type.startsWith('image/') || file.type === 'image/gif') {
-                setArchivo(file);
-                setArchivoPreview(URL.createObjectURL(file)); 
-                setMensajeError(''); // Limpia cualquier error previo
-            } else {
-                setMensajeError('Solo se permiten imágenes (png, jpg, gif).');
-            }
+            setArchivo(file);
+            setArchivoPreview(URL.createObjectURL(file));
+            setMensajeError(''); // Limpia cualquier error previo
         }
     };
 
@@ -182,4 +185,5 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
         </div>
     );
 };
+
 export default ModalFormularioPost;
