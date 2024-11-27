@@ -171,13 +171,14 @@ const CrearCuenta = () => {
 
     value = value.trimEnd();
 
-    setName(value);
-
     if (value.length > 40) {
+      value = value.slice(0, 40);
       setNameError("El nombre no puede tener más de 40 caracteres.");
     } else {
       setNameError("");
     }
+
+    setName(value);
   };
 
   const validateForm = () => {
