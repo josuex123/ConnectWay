@@ -97,7 +97,7 @@
         useEffect(() => {
             const fetchData = async () => {
                 const userEmail = sessionStorage.getItem('correoUsuario'); 
-                //setLoading(true); //dejar de comentar estooooooooooooooooooooooo
+                setLoading(true); //dejar de comentar estooooooooooooooooooooo
                 try {
                     const comunidades = await listaComunidadesPerteneciente(userEmail);
         
