@@ -21,9 +21,8 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
     const [archivo, setArchivo] = useState(null);
     const [archivoPreview, setArchivoPreview] = useState(null);  
     const [nombreUsuario, setNombreUsuario] = useState('Usuario Anónimo');
-    const [mensajeError, setMensajeError] = useState(''); // Nuevo estado para el mensaje de error
+    const [showTooltip, setShowTooltip] = useState(false); // Estado para mostrar el mensaje de advertencia
 
-    // Actualiza el nombre del usuario al abrir el modal
     useEffect(() => {
         const cargarNombreUsuario = async () => {
             const correoUsuario = sessionStorage.getItem('correoUsuario');
@@ -42,31 +41,25 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
             setTitulo('');
             setContenido('');
             setArchivo(null);
-            setArchivoPreview(null); // Limpia la previsualización al abrir
-            setMensajeError(''); // Limpia el mensaje de error
+            setArchivoPreview(null);
         }
     }, [isOpen]);
 
     const handleArchivoChange = (e) => {
         const file = e.target.files?.[0];
         if (file) {
-            const allowedFormats = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif']; // Formatos permitidos
+            const allowedFormats = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
             if (!allowedFormats.includes(file.type)) {
-                setMensajeError('Solo se permiten imágenes en formato PNG, JPG y GIF.');
+                alert('Solo se permiten imágenes en formato PNG, JPG y GIF.');
                 return;
             }
-            if (file.size > 10 * 1024 * 1024) { // Verifica si el archivo es mayor a 10 MB
-                setMensajeError('Imágenes superiores a 10MB no están permitidas.');
+            if (file.size > 10 * 1024 * 1024) {
+                alert('Imágenes superiores a 10MB no están permitidas.');
                 return;
             }
             setArchivo(file);
             setArchivoPreview(URL.createObjectURL(file));
-            setMensajeError(''); // Limpia cualquier error previo
         }
-    };
-
-    const handleOverlayClick = () => {
-        setMensajeError(''); // Oculta el mensaje de error al hacer clic en cualquier parte
     };
 
     const handleSubmit = async () => {
@@ -92,8 +85,8 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="modal-overlay" onClick={handleOverlayClick}>
-            <div className="modal-container" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-overlay">
+            <div className="modal-container">
                 <button className="close-button" onClick={onClose}>×</button>
                 <h2>Crear Nueva Discusión</h2>
                 <div className="usuario-info">
@@ -104,21 +97,30 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
                         className="usuario-icono-derecha"
                     />
                 </div>
-                {mensajeError && ( // Muestra el mensaje de error si existe
-                    <div className="mensaje-error" style={{ color: 'red', marginBottom: '10px' }}>
-                        {mensajeError}
-                    </div>
-                )}
                 <form className="modal-form">
                     <div className="form-group">
-                        <input
-                            type="text"
-                            value={titulo}
-                            onChange={(e) => setTitulo(e.target.value)}
-                            placeholder="Título de Tema"
-                            maxLength={100}
-                            className="titulo-input"
-                        />
+                        <div
+                            className="tooltip-container"
+                            onMouseEnter={() => setShowTooltip(true)} // Muestra el mensaje al pasar el cursor
+                            onMouseLeave={() => setShowTooltip(false)} // Oculta el mensaje al salir el cursor
+                        >
+                            <input
+                                type="text"
+                                value={titulo}
+                                onChange={(e) => setTitulo(e.target.value)}
+                                placeholder="Título de Tema"
+                                maxLength={100}
+                                className="titulo-input"
+                            />
+                            {showTooltip && (
+                                <div className="tooltip-box">
+                                    El título no debe superar los 100 caracteres y solo se acepta números y caracteres alfabéticos.
+                                </div>
+                            )}
+                        </div>
+                        <span style={{ fontSize: '12px', color: '#888' }}>
+                            {titulo.length}/100
+                        </span>
                     </div>
                     <div className="form-group archivo-input">
                         {!archivoPreview && ( 
