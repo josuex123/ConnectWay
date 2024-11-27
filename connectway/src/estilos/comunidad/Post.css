@@ -27,6 +27,13 @@
     margin-left: 20px;
     flex: 1;
   }
+  .post-contenido h5 {
+    max-width: 100%;
+    overflow-wrap: anywhere; /* Divide palabras largas en cualquier parte */
+    white-space: normal;
+    font-size: 14px;
+    font-weight: 400;
+  }
   
   .post-header {
     display: flex;

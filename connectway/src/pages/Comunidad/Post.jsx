@@ -238,7 +238,7 @@ const Post = ({titulo,contenido,imagenUsuario,nombreUsuario,imagenPost,comunidad
               </div>
             </div>
             <span>
-              {contenidoVisible}
+              <h5>{contenidoVisible}</h5>
               {contenido && contenido.length > limiteCaracteres && !mostrarTodo && (
                 <span onClick={toggleContenido} className="ver-mas-link">
                   Ver más

@@ -2,6 +2,8 @@
     position: relative;
     background-color: #E3EAF1;
     overflow: hidden;
+    padding: 0px;
+    margin: 0px;
 }
 
 .titulo-comunidad {
@@ -146,8 +148,8 @@
 }
 
 .comunidad-content {
-    flex: 2;
-    min-width: 0;
+    flex: 1;
+    width: 100%;
 }
 
 .posts {
@@ -202,5 +204,8 @@ empty {
         top: 0;
         width: 100%;
         margin-right: 0;
+    }
+    .titulo-comunidad {
+        padding: 0px;
     }
 }
