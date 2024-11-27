@@ -145,14 +145,31 @@ const CrearCuenta = () => {
   const handleUserNameChange = async (e) => {
     let value = e.target.value;
 
-    value = value.trimEnd();
+    const specialChars = value.match(/[\s._-]/g);
+    const specialCharCount = specialChars ? specialChars.length : 0;
+
+    if (specialCharCount > 2) {
+      setUserError(
+        "El nombre de usuario no puede tener más de 2 caracteres especiales."
+      );
+      return;
+    }
 
     if (value.length > 20) {
       value = value.slice(0, 20);
       setUserError("El nombre de usuario no puede tener más de 20 caracteres.");
     }
 
+    const allowedCharsRegex = /^[a-zA-Z0-9\s._-]*$/;
+    if (!allowedCharsRegex.test(value)) {
+      setUserError(
+        "El nombre de usuario solo puede incluir letras, números y 2 caracteres especiales permitidos (espacio, guion, guion bajo, punto)."
+      );
+      return;
+    }
+
     setUser(value);
+    value = value.trimEnd();
 
     if (value.trim() !== "") {
       const usuarioExistente = await verificarNombreUsuarioExistente(value);
