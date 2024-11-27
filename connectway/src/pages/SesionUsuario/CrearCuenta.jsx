@@ -111,8 +111,6 @@ const CrearCuenta = () => {
     }
   };
 
-  //-------------------------------------------------
-
   const handlePasswordChange = (e) => {
     const value = e.target.value;
 
