@@ -66,11 +66,10 @@ const CrearCuenta = () => {
 
     if (value.length > 254) {
       setEmailError("El correo no puede tener más de 254 caracteres.");
-      setEmail(value.slice(0, 254)); // Recorta el correo a 254 caracteres
+      setEmail(value.slice(0, 254));
       return;
     }
 
-    // Verifica que el dominio no exceda los 253 caracteres
     if (domainPart && domainPart.length > 30) {
       setEmailError("El dominio no puede tener más de 30 caracteres.");
       return;
@@ -146,17 +145,15 @@ const CrearCuenta = () => {
   const handleUserNameChange = async (e) => {
     let value = e.target.value;
 
-    // Elimina los espacios finales en tiempo real
     value = value.trimEnd();
+
+    if (value.length > 20) {
+      value = value.slice(0, 20);
+      setUserError("El nombre de usuario no puede tener más de 20 caracteres.");
+    }
 
     setUser(value);
 
-    if (user.length > 20) {
-      setUserError("El nombre de usuario no puede tener más de 20 caracteres.");
-      return;
-    }
-
-    // Verificación en tiempo real
     if (value.trim() !== "") {
       const usuarioExistente = await verificarNombreUsuarioExistente(value);
       if (usuarioExistente) {
