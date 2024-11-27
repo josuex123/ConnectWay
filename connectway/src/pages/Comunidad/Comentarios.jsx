@@ -151,12 +151,20 @@ const Comentarios = ({ comunidadId, subComunidadId, postId, usuarioActual, mostr
               </button>
             </div>
           )}
-          <input
-            type="text"
-            placeholder="Escribe un comentario..."
-            value={nuevoComentario}
-            onChange={(e) => setNuevoComentario(e.target.value)}
-          />
+          <div className="tooltip-container">
+            <input
+              type="text"
+              placeholder="Escribe un comentario..."
+              value={nuevoComentario}
+              onChange={(e) => setNuevoComentario(e.target.value)}
+              maxLength={500}
+            />
+            {nuevoComentario.length === 500 && (
+                    <div className="tooltip-box">
+                        Los comentarios no pueden exceder los 500 caracteres.
+                    </div>
+                )}
+          </div>
           <input
             type="file"
             accept="image/*"
