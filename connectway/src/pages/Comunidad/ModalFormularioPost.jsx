@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect } from 'react';
 import '../../estilos/comunidad/ModalFormularioPost.css';
 import { subirPost } from '../../Services/Post/SubirPost';
@@ -21,8 +20,10 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
     const [archivo, setArchivo] = useState(null);
     const [archivoPreview, setArchivoPreview] = useState(null);  
     const [nombreUsuario, setNombreUsuario] = useState('Usuario Anónimo');
-    const [showTooltip, setShowTooltip] = useState(false); // Estado para mostrar el mensaje de advertencia
+    const [showTooltipTitulo, setShowTooltipTitulo] = useState(false); // Tooltip para "Título de Tema"
+    const [showTooltipContenido, setShowTooltipContenido] = useState(false); // Tooltip para "Contenido"
 
+    // Actualiza el nombre del usuario al abrir el modal
     useEffect(() => {
         const cargarNombreUsuario = async () => {
             const correoUsuario = sessionStorage.getItem('correoUsuario');
@@ -48,15 +49,6 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
     const handleArchivoChange = (e) => {
         const file = e.target.files?.[0];
         if (file) {
-            const allowedFormats = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
-            if (!allowedFormats.includes(file.type)) {
-                alert('Solo se permiten imágenes en formato PNG, JPG y GIF.');
-                return;
-            }
-            if (file.size > 10 * 1024 * 1024) {
-                alert('Imágenes superiores a 10MB no están permitidas.');
-                return;
-            }
             setArchivo(file);
             setArchivoPreview(URL.createObjectURL(file));
         }
@@ -98,11 +90,12 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
                     />
                 </div>
                 <form className="modal-form">
+                    {/* Campo de Título de Tema */}
                     <div className="form-group">
                         <div
                             className="tooltip-container"
-                            onMouseEnter={() => setShowTooltip(true)} // Muestra el mensaje al pasar el cursor
-                            onMouseLeave={() => setShowTooltip(false)} // Oculta el mensaje al salir el cursor
+                            onMouseEnter={() => setShowTooltipTitulo(true)}
+                            onMouseLeave={() => setShowTooltipTitulo(false)}
                         >
                             <input
                                 type="text"
@@ -112,16 +105,43 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
                                 maxLength={100}
                                 className="titulo-input"
                             />
-                            {showTooltip && (
+                            {showTooltipTitulo && (
                                 <div className="tooltip-box">
                                     El título no debe superar los 100 caracteres y solo se acepta números y caracteres alfabéticos.
                                 </div>
                             )}
                         </div>
-                        <span style={{ fontSize: '12px', color: '#888' }}>
+                        <span style={{ fontSize: '12px', color: '#888', marginTop: '5px' }}>
                             {titulo.length}/100
                         </span>
                     </div>
+
+                    {/* Campo de Contenido */}
+                    <div className="form-group">
+                        <div
+                            className="tooltip-container"
+                            onMouseEnter={() => setShowTooltipContenido(true)}
+                            onMouseLeave={() => setShowTooltipContenido(false)}
+                        >
+                            <textarea
+                                value={contenido}
+                                onChange={(e) => setContenido(e.target.value)}
+                                placeholder="Escribe el contenido aquí"
+                                rows={5}
+                                className="contenido-textarea"
+                            ></textarea>
+                            {showTooltipContenido && (
+                                <div className="tooltip-box">
+                                    La descripción no debe superar los 400 caracteres y solo se acepta números y caracteres alfabéticos.
+                                </div>
+                            )}
+                        </div>
+                        <span style={{ fontSize: '12px', color: '#888', marginTop: '5px' }}>
+                            {contenido.length}/400
+                        </span>
+                    </div>
+
+                    {/* Campo de Archivo */}
                     <div className="form-group archivo-input">
                         {!archivoPreview && ( 
                             <label htmlFor="archivo">
@@ -165,15 +185,7 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
                         )}
                     </div>
 
-                    <div className="form-group">
-                        <textarea
-                            value={contenido}
-                            onChange={(e) => setContenido(e.target.value)}
-                            placeholder="Escribe el contenido aquí"
-                            rows={5}
-                            className="contenido-textarea"
-                        ></textarea>
-                    </div>
+                    {/* Botones */}
                     <div className="modal-buttons">
                         <button type="button" className="cancel-button" onClick={onClose}>
                             Cancelar
