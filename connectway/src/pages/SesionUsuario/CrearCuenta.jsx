@@ -186,6 +186,12 @@ const CrearCuenta = () => {
   const handleNameChange = (e) => {
     let value = e.target.value;
 
+    const regex = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]*$/;
+    if (!regex.test(value)) {
+      setNameError("El nombre solo puede contener letras y espacios.");
+      return;
+    }
+    setName(value);
     value = value.trimEnd();
 
     if (value.length > 40) {
@@ -194,8 +200,6 @@ const CrearCuenta = () => {
     } else {
       setNameError("");
     }
-
-    setName(value);
   };
 
   const validateForm = () => {
