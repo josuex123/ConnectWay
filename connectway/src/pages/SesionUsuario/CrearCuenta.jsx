@@ -53,26 +53,68 @@ const CrearCuenta = () => {
 
   const handleEmailChange = (e) => {
     const value = e.target.value;
-    setEmail(value);
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // Arreglar Jere el value .length<20 xd, cambiar si sera aparte de @gmail.com
-    if (value === "" || value.length < 40) {
-      setEmailError("");
-    } else if (!emailRegex.test(value)) {
+    const namePart = value.split("@")[0];
+    const domainPart = value.split("@")[1];
+
+    if (namePart.length > 64) {
+      setEmailError(
+        "El nombre del correo no puede tener más de 64 caracteres."
+      );
+      return;
+    }
+
+    if (value.length > 254) {
+      setEmailError("El correo no puede tener más de 254 caracteres.");
+      setEmail(value.slice(0, 254)); // Recorta el correo a 254 caracteres
+      return;
+    }
+
+    // Verifica que el dominio no exceda los 253 caracteres
+    if (domainPart && domainPart.length > 30) {
+      setEmailError("El dominio no puede tener más de 30 caracteres.");
+      return;
+    }
+
+    setEmail(value);
+    setEmailError("");
+
+    {
+      /*const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (value !== "" && !emailRegex.test(value)) {
       setEmailError("El correo es inválido");
+    }
+    */
+    }
+  };
+
+  //-------------------------------------------------
+
+  const handleEmailBlur = () => {
+    const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/;
+
+    if (email.length > 254) {
+      setEmailError("El correo no puede tener más de 254 caracteres.");
+      return;
+    }
+
+    const namePart = email.split("@")[0];
+    if (namePart.length > 64) {
+      setEmailError(
+        "El nombre del correo no puede tener más de 64 caracteres."
+      );
+      return;
+    }
+
+    if (email !== "" && !emailRegex.test(email)) {
+      setEmailError("El correo es inválido.");
     } else {
       setEmailError("");
     }
   };
 
-  const handleEmailBlur = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (email !== "" && !emailRegex.test(email)) {
-      setEmailError("El correo es inválido");
-    }
-  };
+  //-------------------------------------------------
 
   const handlePasswordChange = (e) => {
     const value = e.target.value;
