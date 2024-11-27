@@ -1,12 +1,12 @@
-import React,{useState} from 'react';
-import '../../estilos/SesionUsuario/CrearCuenta.css';
-import { useNavigate } from 'react-router-dom';
-import registrarUsuario from '../../Services/UsuarioServicios/RegistrarUsuarioCorreoContraseña';
-import { guardarUsuario } from '../../Services/UsuarioServicios/GuardarUsuario';
-import { verificarNombreUsuarioExistente } from '../../Services/UsuarioServicios/VerificarNombreUsuarioExistente';
-import ModalCargando from '../../components/Modal/ModalCargando'; 
-import ModalNotificacion from '../../components/Modal/ModalNotificacion';
-import ModalTerms from './TerminosCondiciones';
+import React, { useState } from "react";
+import "../../estilos/SesionUsuario/CrearCuenta.css";
+import { useNavigate } from "react-router-dom";
+import registrarUsuario from "../../Services/UsuarioServicios/RegistrarUsuarioCorreoContraseña";
+import { guardarUsuario } from "../../Services/UsuarioServicios/GuardarUsuario";
+import { verificarNombreUsuarioExistente } from "../../Services/UsuarioServicios/VerificarNombreUsuarioExistente";
+import ModalCargando from "../../components/Modal/ModalCargando";
+import ModalNotificacion from "../../components/Modal/ModalNotificacion";
+import ModalTerms from "./TerminosCondiciones";
 
 const CrearCuenta = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -24,28 +24,28 @@ const CrearCuenta = () => {
 
   const navigate = useNavigate();
 
-    const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
-    const [notificationType, setNotificationType] = useState('success');
-    const [notificationMessage, setNotificationMessage] = useState('');
+  const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
+  const [notificationType, setNotificationType] = useState("success");
+  const [notificationMessage, setNotificationMessage] = useState("");
 
-    const [isTermsOpen, setIsTermsOpen ] = useState(false);
-    const closeTerms = async () => {
-      setIsTermsOpen(false);
-    }
-    const showTerms = async () => {
-      setIsTermsOpen(true);
-    }
+  const [isTermsOpen, setIsTermsOpen] = useState(false);
+  const closeTerms = async () => {
+    setIsTermsOpen(false);
+  };
+  const showTerms = async () => {
+    setIsTermsOpen(true);
+  };
 
-    const showModalNotificacion = (type, message) => {
-      setNotificationType(type);
-      setNotificationMessage(message);
-      setIsModalNotificacionOpen(true);
-    };
-  
-    const closeModalNotificacion = async () => {
-      setIsModalNotificacionOpen(false);
-      navigate('/home/0');
-    };
+  const showModalNotificacion = (type, message) => {
+    setNotificationType(type);
+    setNotificationMessage(message);
+    setIsModalNotificacionOpen(true);
+  };
+
+  const closeModalNotificacion = async () => {
+    setIsModalNotificacionOpen(false);
+    navigate("/home/0");
+  };
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
@@ -76,9 +76,13 @@ const CrearCuenta = () => {
 
   const handlePasswordChange = (e) => {
     const value = e.target.value;
-    setPassword(value);
 
     let error = "";
+
+    if (value.length > 8) {
+      error = "La contraseña no puede exceder los 8 caracteres.";
+    }
+
     if (!/[0-9]/.test(value)) {
       error = "La contraseña debe contener al menos un número.";
     } else if (!/[A-Z]/.test(value)) {
@@ -89,7 +93,12 @@ const CrearCuenta = () => {
       error = "La contraseña debe contener al menos un carácter especial.";
     }
     setPasswordError(error);
+
+    if (value.length <= 8) {
+      setPassword(value);
+    }
   };
+
   const handleConfirmPasswordChange = (e) => {
     setConfirmPassword(e.target.value);
   };
@@ -168,25 +177,24 @@ const CrearCuenta = () => {
     setIsLoading(true); // modal de carga o algo
     try {
       const response = await registrarUsuario(email, password);
-  
+
       if (response.email) {
         const guardarUsuarioPromise = guardarUsuario(response.email, user);
 
         await guardarUsuarioPromise; // Espera solo si es esencial
-        sessionStorage.setItem('correoUsuario', emailOrUsername);
+        sessionStorage.setItem("correoUsuario", emailOrUsername);
 
         const username = await obtenerNombreUsuario(emailOrUsername);
-  
-        sessionStorage.setItem('nombreUsuario', username);
-  
+
+        sessionStorage.setItem("nombreUsuario", username);
       } else if (response.error) {
-        showModalNotificacion('error', 'No se pudo crear la cuenta');
+        showModalNotificacion("error", "No se pudo crear la cuenta");
       }
     } catch (error) {
-      showModalNotificacion('error', 'No se pudo procesar el formulario');
+      showModalNotificacion("error", "No se pudo procesar el formulario");
     } finally {
       setIsLoading(false);
-      showModalNotificacion('success', 'Se ha creado la cuenta exitosamente');
+      showModalNotificacion("success", "Se ha creado la cuenta exitosamente");
     }
   };
 
@@ -307,14 +315,16 @@ const CrearCuenta = () => {
                   <input type="checkbox" required />
                   <label className="terms-label1">
                     He leído y acepto los{" "}
-                    
-                <span
-                  onClick={showTerms}
-                  style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
-                >
-                  Términos y Condiciones
-                </span>
-              
+                    <span
+                      onClick={showTerms}
+                      style={{
+                        color: "blue",
+                        textDecoration: "underline",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Términos y Condiciones
+                    </span>
                   </label>
                 </div>
 
@@ -345,19 +355,18 @@ const CrearCuenta = () => {
         onClose={() => {}}
         type="loading"
         message="Cargando, por favor espera..."
-        iconClass="fa fa-spinner fa-spin" 
+        iconClass="fa fa-spinner fa-spin"
       />
       <ModalNotificacion
         isOpen={isModalNotificacionOpen}
         onClose={closeModalNotificacion}
         type={notificationType}
         message={notificationMessage}
-        iconClass={notificationType === 'success' ? 'fa fa-check' : 'fa fa-exclamation'}
+        iconClass={
+          notificationType === "success" ? "fa fa-check" : "fa fa-exclamation"
+        }
       />
-      <ModalTerms
-        isOpen={isTermsOpen}
-        onClose={closeTerms}
-      />
+      <ModalTerms isOpen={isTermsOpen} onClose={closeTerms} />
     </>
   );
 };
