@@ -54,9 +54,14 @@
   font-size: 16px;
 }
 
+.boton-comentario {
+  background-color: #fff !important;
+  width: 40px;
+  height: 40px;
+}
+
 .nuevo-comentario button:hover {
-  background-color: #03314B;
-  color: white;
+  background-color: #e8e8e8c5 !important;
 }
 
 .btn-clip {
@@ -72,3 +77,31 @@
   color: #03314B;
 }
 
+.tooltip-container {
+  position: relative; /* Para posicionar el tooltip sin afectar otros elementos */
+  display: inline-block; /* Evita que cambie el tamaño del contenedor */
+  width: 100%;
+}
+
+.tooltip-box {
+  position: absolute; /* Asegura que no impacte en el flujo del layout */
+  left: 150px;
+  top: -70px;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 8px;
+  color: white;
+  border-radius: 4px;
+  font-size: 12px;
+  z-index: 1000;
+  display: none; /* Se muestra solo cuando sea necesario */
+}
+
+.tooltip-container:hover .tooltip-box {
+  display: block; /* Se muestra al hacer hover */
+}
+
+.tooltip-container input {
+  width: 100%; /* O el tamaño que prefieras */
+  box-sizing: border-box; /* Evita que el padding afecte el tamaño */
+  margin: 0; /* Elimina márgenes que podrían ser aplicados por estilos globales */
+}

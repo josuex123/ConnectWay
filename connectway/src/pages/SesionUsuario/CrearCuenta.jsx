@@ -24,17 +24,27 @@ const CrearCuenta = () => {
 
   const navigate = useNavigate();
 
-  const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
-  const [notificationType, setNotificationType] = useState("success");
-  const [notificationMessage, setNotificationMessage] = useState("");
+    const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
+    const [notificationType, setNotificationType] = useState("success");
+    const [notificationMessage, setNotificationMessage] = useState("");
+    const [checkboxActive, setCheckboxActive] = useState(false);
 
-  const [isTermsOpen, setIsTermsOpen] = useState(false);
-  const closeTerms = async () => {
-    setIsTermsOpen(false);
-  };
-  const showTerms = async () => {
-    setIsTermsOpen(true);
-  };
+    const [isTermsOpen, setIsTermsOpen ] = useState(false);
+    const closeTerms = async () => {
+      setIsTermsOpen(false);
+    }
+    const showTerms = async () => {
+      setIsTermsOpen(true);
+    }
+    
+    const handleShowTerms = () => {
+      if(!checkboxActive) {
+        showTerms();
+        setCheckboxActive(true);
+      } else {
+        setCheckboxActive(false);
+      }
+    };
 
   const showModalNotificacion = (type, message) => {
     setNotificationType(type);
@@ -369,7 +379,9 @@ const CrearCuenta = () => {
                 )}
 
                 <div className="terms">
-                  <input type="checkbox" required />
+                  <input type="checkbox" 
+                  required 
+                  onClick={handleShowTerms}/>
                   <label className="terms-label1">
                     He leído y acepto los{" "}
                     <span
