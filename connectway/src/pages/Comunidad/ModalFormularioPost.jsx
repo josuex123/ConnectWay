@@ -20,11 +20,13 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
     const [archivo, setArchivo] = useState(null);
     const [archivoPreview, setArchivoPreview] = useState(null);  
     const [nombreUsuario, setNombreUsuario] = useState('Usuario Anónimo');
-    const [mensajeError, setMensajeError] = useState(''); // Nuevo estado para el mensaje de error
-    const [mensajeTituloError, setMensajeTituloError] = useState('');
-    const [mensajeContenidoError, setMensajeContenidoError] = useState('');
+    const [mensajeError, setMensajeError] = useState(''); // Para errores generales
+    const [mensajeTituloError, setMensajeTituloError] = useState([]); // Para errores del título
+    const [mensajeContenidoError, setMensajeContenidoError] = useState(''); // Para errores del contenido
 
-    // Actualiza el nombre del usuario al abrir el modal
+    const validarAlfanumerico = (texto) => /^[a-zA-Z0-9\s]*$/.test(texto);
+
+    
     useEffect(() => {
         const cargarNombreUsuario = async () => {
             const correoUsuario = sessionStorage.getItem('correoUsuario');
@@ -44,20 +46,35 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
             setContenido('');
             setArchivo(null);
             setArchivoPreview(null); // Limpia la previsualización al abrir
-            setMensajeError(''); // Limpia el mensaje de error
-            setMensajeTituloError('');
+            setMensajeError('');
+            setMensajeTituloError([]);
             setMensajeContenidoError('');
         }
     }, [isOpen]);
 
     const handleTituloChange = (e) => {
         const value = e.target.value;
-        if (value.length > 100) {
-            setMensajeTituloError('El título no puede exceder los 100 caracteres.');
-            return;
+        const errores = [];
+
+        // Validación de símbolos o emojis
+        if (!validarAlfanumerico(value)) {
+            errores.push('No se permite ese tipo de símbolos o emojis.');
         }
+
+        // Validación de límite de caracteres
+        if (value.length > 100) {
+            errores.push('El título no puede exceder los 100 caracteres.');
+        }
+
+        // Si hay errores, muestra los mensajes y detiene la actualización del valor
+        if (errores.length > 0) {
+            setMensajeTituloError(errores);
+            return; // No actualiza el estado
+        }
+
+        // Si pasa las validaciones, actualiza el estado y limpia los errores
         setTitulo(value);
-        setMensajeTituloError(''); // Limpia el mensaje de error si vuelve a estar dentro del límite
+        setMensajeTituloError([]);
     };
 
     const handleContenidoChange = (e) => {
@@ -67,7 +84,7 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
             return;
         }
         setContenido(value);
-        setMensajeContenidoError(''); // Limpia el mensaje de error si vuelve a estar dentro del límite
+        setMensajeContenidoError('');
     };
 
     const handleArchivoChange = (e) => {
@@ -84,7 +101,7 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
             }
             setArchivo(file);
             setArchivoPreview(URL.createObjectURL(file));
-            setMensajeError(''); // Limpia cualquier error previo
+            setMensajeError('');
         }
     };
 
@@ -127,11 +144,6 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
                         className="usuario-icono-derecha"
                     />
                 </div>
-                {mensajeError && ( // Muestra el mensaje de error si existe
-                    <div className="mensaje-error" style={{ color: 'red', marginBottom: '10px' }}>
-                        {mensajeError}
-                    </div>
-                )}
                 <form className="modal-form">
                     <div className="form-group">
                         <input
@@ -141,9 +153,11 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
                             placeholder="Título de Tema"
                             className="titulo-input"
                         />
-                        {mensajeTituloError && (
+                        {mensajeTituloError.length > 0 && (
                             <div style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>
-                                {mensajeTituloError}
+                                {mensajeTituloError.map((error, index) => (
+                                    <div key={index}>{error}</div>
+                                ))}
                             </div>
                         )}
                     </div>
