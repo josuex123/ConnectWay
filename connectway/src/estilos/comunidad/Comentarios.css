@@ -1,5 +1,6 @@
 .comentarios-container {
   margin-top: 20px;
+  word-wrap: break-word;
 }
 
 .comentarios-seccion {
@@ -10,7 +11,7 @@
 
 .comentario {
   display: flex;
-  align-items: flex-start; 
+  align-items: flex-start;
   margin-bottom: 10px;
 }
 
@@ -20,15 +21,18 @@
 }
 
 .comentario-imagen {
-  width: 50px; 
+  width: 50px;
   height: 50px;
-  object-fit: cover; 
-  margin-right: 10px; 
-  border-radius: 5px; 
+  object-fit: cover;
+  margin-right: 10px;
+  border-radius: 5px;
 }
 
 .comentario-texto {
-  flex: 1; 
+  flex: 1;
+  word-break: break-word;
+  font-size: 16px;
+  line-height: 1.5;
 }
 .nuevo-comentario {
   display: flex;
@@ -45,7 +49,7 @@
 .nuevo-comentario button {
   padding: 5px 10px;
   background-color: #ddd;
-  color: #03314B;
+  color: #03314b;
   border: none;
   cursor: pointer;
   display: flex;
@@ -55,7 +59,7 @@
 }
 
 .boton-comentario {
-  background-color: #fff !important;
+  background-color: transparent !important;
   width: 40px;
   height: 40px;
 }
@@ -65,26 +69,32 @@
 }
 
 .btn-clip {
-  cursor: pointer;
+  background-color: transparent;
   font-size: 24px;
-  color: #03314B;
+  color: #03314b;
   display: flex;
   align-items: center;
   justify-content: center;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  padding: 8px;
 }
 
 .btn-clip:hover {
-  color: #03314B;
+  background-color: #e8e8e8c5 !important;
+  cursor: pointer;
 }
 
 .tooltip-container {
-  position: relative; /* Para posicionar el tooltip sin afectar otros elementos */
-  display: inline-block; /* Evita que cambie el tamaño del contenedor */
+  position: relative;
+  display: inline-block;
   width: 100%;
 }
 
 .tooltip-box {
-  position: absolute; /* Asegura que no impacte en el flujo del layout */
+  position: absolute;
   left: 150px;
   top: -70px;
   background-color: rgba(0, 0, 0, 0.8);
@@ -93,15 +103,31 @@
   border-radius: 4px;
   font-size: 12px;
   z-index: 1000;
-  display: none; /* Se muestra solo cuando sea necesario */
+  display: none;
 }
 
 .tooltip-container:hover .tooltip-box {
-  display: block; /* Se muestra al hacer hover */
+  display: block;
 }
 
 .tooltip-container input {
-  width: 100%; /* O el tamaño que prefieras */
-  box-sizing: border-box; /* Evita que el padding afecte el tamaño */
-  margin: 0; /* Elimina márgenes que podrían ser aplicados por estilos globales */
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .comentario-texto {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .comentario-texto {
+    font-size: 12px;
+  }
+
+  .comentarios-container {
+    padding: 0 5px;
+  }
 }

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import {doc,getDoc,updateDoc,setDoc,collection,getDocs,} from "firebase/firestore";
 import { db } from "../../firebaseConfig";
@@ -12,7 +13,9 @@ import WowIcon from "../../images/wow.png";
 import AngryIcon from "../../images/angry.png";
 import HahaIcon from "../../images/haha.png";
 import LoveIcon from "../../images/love.png";
+import LaughIcon from "../../images/laugh.png";
 import Comentarios from "./Comentarios";
+
 
 const reactions = [
   { id: "like", label: "Me gusta", icon: LikeIcon },
@@ -22,7 +25,11 @@ const reactions = [
   { id: "wow", label: "Me asombra", icon: WowIcon },
   { id: "sad", label: "Me entristece", icon: SadIcon },
   { id: "angry", label: "Me enoja", icon: AngryIcon },
+  { id: "laugh", label: "Me hace reír mucho", icon: LaughIcon }, // Me divierte
 ];
+
+
+
 const Post = ({titulo,contenido,imagenUsuario,nombreUsuario,imagenPost,comunidadId,subComunidadId,postId,fechaHora,}) => {
   const [mostrarTodo, setMostrarTodo] = useState(false);
   const [showReactions, setShowReactions] = useState(false);
@@ -315,3 +322,5 @@ const Post = ({titulo,contenido,imagenUsuario,nombreUsuario,imagenPost,comunidad
 };
 
 export default Post;
+
+
