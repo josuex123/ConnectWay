@@ -10,7 +10,7 @@
 
 .comentario {
   display: flex;
-  align-items: flex-start; 
+  align-items: flex-start;
   margin-bottom: 10px;
 }
 
@@ -20,15 +20,15 @@
 }
 
 .comentario-imagen {
-  width: 50px; 
+  width: 50px;
   height: 50px;
-  object-fit: cover; 
-  margin-right: 10px; 
-  border-radius: 5px; 
+  object-fit: cover;
+  margin-right: 10px;
+  border-radius: 5px;
 }
 
 .comentario-texto {
-  flex: 1; 
+  flex: 1;
 }
 .nuevo-comentario {
   display: flex;
@@ -45,7 +45,7 @@
 .nuevo-comentario button {
   padding: 5px 10px;
   background-color: #ddd;
-  color: #03314B;
+  color: #03314b;
   border: none;
   cursor: pointer;
   display: flex;
@@ -55,7 +55,7 @@
 }
 
 .boton-comentario {
-  background-color: #fff !important;
+  background-color: transparent !important;
   width: 40px;
   height: 40px;
 }
@@ -65,16 +65,22 @@
 }
 
 .btn-clip {
-  cursor: pointer;
+  background-color: transparent;
   font-size: 24px;
-  color: #03314B;
+  color: #03314b;
   display: flex;
   align-items: center;
   justify-content: center;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  padding: 8px;
 }
 
 .btn-clip:hover {
-  color: #03314B;
+  background-color: #e8e8e8c5 !important;
+  cursor: pointer;
 }
 
 .tooltip-container {
