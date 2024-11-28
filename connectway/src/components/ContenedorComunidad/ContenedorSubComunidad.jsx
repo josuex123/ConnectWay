@@ -77,8 +77,6 @@ const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColecci
                     </button>
                 </div>
             </div>
-
-            {/* Modal de notificación */}
             <ModalNotificacion
                 isOpen={isModalOpen}
                 onClose={handleModalClose}
