@@ -36,7 +36,7 @@ const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColecci
                 setModalType('success');
                 setModalMessage('Te has unido exitosamente a la comunidad.');
                 setIsModalOpen(true);
-                //Modal por 3seg
+
                 setTimeout(() => {
                     setIsModalOpen(false);
                     handleModalClose();
