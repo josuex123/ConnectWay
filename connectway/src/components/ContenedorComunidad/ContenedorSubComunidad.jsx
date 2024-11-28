@@ -12,7 +12,7 @@ const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColecci
     const [modalMessage, setModalMessage] = useState('');
     const [modalType, setModalType] = useState('success');
 
-    //Cerrar el modad y redirigir    
+      
     const handleModalClose = () => {
         setIsModalOpen(false);
         navigate('/comunidad/ver-comunidad', {
@@ -47,7 +47,7 @@ const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColecci
                 setModalMessage('Hubo un error al intentar unirte a la comunidad.');
                 setIsModalOpen(true);
             }
-        }else{//Caso de VerComunidad Redirigir
+        }else{
             navigate('/comunidad/ver-comunidad', {
                 state: {
                     idComunidad: id,
