@@ -28,6 +28,7 @@
   color: #03314B;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   min-height: 2.4rem;
@@ -40,6 +41,7 @@
   text-align: left;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   min-height: 3.6rem;
