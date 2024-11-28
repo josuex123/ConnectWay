@@ -20,8 +20,9 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
     const [archivo, setArchivo] = useState(null);
     const [archivoPreview, setArchivoPreview] = useState(null);  
     const [nombreUsuario, setNombreUsuario] = useState('Usuario Anónimo');
-    const [showTooltipTitulo, setShowTooltipTitulo] = useState(false); // Tooltip para "Título de Tema"
-    const [showTooltipContenido, setShowTooltipContenido] = useState(false); // Tooltip para "Contenido"
+    const [mensajeError, setMensajeError] = useState(''); // Nuevo estado para el mensaje de error
+    const [mensajeTituloError, setMensajeTituloError] = useState('');
+    const [mensajeContenidoError, setMensajeContenidoError] = useState('');
 
     // Actualiza el nombre del usuario al abrir el modal
     useEffect(() => {
@@ -42,16 +43,53 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
             setTitulo('');
             setContenido('');
             setArchivo(null);
-            setArchivoPreview(null);
+            setArchivoPreview(null); // Limpia la previsualización al abrir
+            setMensajeError(''); // Limpia el mensaje de error
+            setMensajeTituloError('');
+            setMensajeContenidoError('');
         }
     }, [isOpen]);
+
+    const handleTituloChange = (e) => {
+        const value = e.target.value;
+        if (value.length > 100) {
+            setMensajeTituloError('El título no puede exceder los 100 caracteres.');
+            return;
+        }
+        setTitulo(value);
+        setMensajeTituloError(''); // Limpia el mensaje de error si vuelve a estar dentro del límite
+    };
+
+    const handleContenidoChange = (e) => {
+        const value = e.target.value;
+        if (value.length > 400) {
+            setMensajeContenidoError('El contenido no puede exceder los 400 caracteres.');
+            return;
+        }
+        setContenido(value);
+        setMensajeContenidoError(''); // Limpia el mensaje de error si vuelve a estar dentro del límite
+    };
 
     const handleArchivoChange = (e) => {
         const file = e.target.files?.[0];
         if (file) {
+            const allowedFormats = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif']; // Formatos permitidos
+            if (!allowedFormats.includes(file.type)) {
+                setMensajeError('Solo se permiten imágenes en formato PNG, JPG y GIF.');
+                return;
+            }
+            if (file.size > 10 * 1024 * 1024) { // Verifica si el archivo es mayor a 10 MB
+                setMensajeError('Imágenes superiores a 10MB no están permitidas.');
+                return;
+            }
             setArchivo(file);
             setArchivoPreview(URL.createObjectURL(file));
+            setMensajeError(''); // Limpia cualquier error previo
         }
+    };
+
+    const handleOverlayClick = () => {
+        setMensajeError(''); // Oculta el mensaje de error al hacer clic en cualquier parte
     };
 
     const handleSubmit = async () => {
@@ -77,8 +115,8 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="modal-overlay">
-            <div className="modal-container">
+        <div className="modal-overlay" onClick={handleOverlayClick}>
+            <div className="modal-container" onClick={(e) => e.stopPropagation()}>
                 <button className="close-button" onClick={onClose}>×</button>
                 <h2>Crear Nueva Discusión</h2>
                 <div className="usuario-info">
@@ -89,59 +127,26 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
                         className="usuario-icono-derecha"
                     />
                 </div>
+                {mensajeError && ( // Muestra el mensaje de error si existe
+                    <div className="mensaje-error" style={{ color: 'red', marginBottom: '10px' }}>
+                        {mensajeError}
+                    </div>
+                )}
                 <form className="modal-form">
-                    {/* Campo de Título de Tema */}
                     <div className="form-group">
-                        <div
-                            className="tooltip-container"
-                            onMouseEnter={() => setShowTooltipTitulo(true)}
-                            onMouseLeave={() => setShowTooltipTitulo(false)}
-                        >
-                            <input
-                                type="text"
-                                value={titulo}
-                                onChange={(e) => setTitulo(e.target.value)}
-                                placeholder="Título de Tema"
-                                maxLength={100}
-                                className="titulo-input"
-                            />
-                            {showTooltipTitulo && (
-                                <div className="tooltip-box">
-                                    El título no debe superar los 100 caracteres y solo se acepta números y caracteres alfabéticos.
-                                </div>
-                            )}
-                        </div>
-                        <span style={{ fontSize: '12px', color: '#888', marginTop: '5px' }}>
-                            {titulo.length}/100
-                        </span>
+                        <input
+                            type="text"
+                            value={titulo}
+                            onChange={handleTituloChange}
+                            placeholder="Título de Tema"
+                            className="titulo-input"
+                        />
+                        {mensajeTituloError && (
+                            <div style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>
+                                {mensajeTituloError}
+                            </div>
+                        )}
                     </div>
-
-                    {/* Campo de Contenido */}
-                    <div className="form-group">
-                        <div
-                            className="tooltip-container"
-                            onMouseEnter={() => setShowTooltipContenido(true)}
-                            onMouseLeave={() => setShowTooltipContenido(false)}
-                        >
-                            <textarea
-                                value={contenido}
-                                onChange={(e) => setContenido(e.target.value)}
-                                placeholder="Escribe el contenido aquí"
-                                rows={5}
-                                className="contenido-textarea"
-                            ></textarea>
-                            {showTooltipContenido && (
-                                <div className="tooltip-box">
-                                    La descripción no debe superar los 400 caracteres y solo se acepta números y caracteres alfabéticos.
-                                </div>
-                            )}
-                        </div>
-                        <span style={{ fontSize: '12px', color: '#888', marginTop: '5px' }}>
-                            {contenido.length}/400
-                        </span>
-                    </div>
-
-                    {/* Campo de Archivo */}
                     <div className="form-group archivo-input">
                         {!archivoPreview && ( 
                             <label htmlFor="archivo">
@@ -185,7 +190,20 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
                         )}
                     </div>
 
-                    {/* Botones */}
+                    <div className="form-group">
+                        <textarea
+                            value={contenido}
+                            onChange={handleContenidoChange}
+                            placeholder="Escribe el contenido aquí"
+                            rows={5}
+                            className="contenido-textarea"
+                        ></textarea>
+                        {mensajeContenidoError && (
+                            <div style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>
+                                {mensajeContenidoError}
+                            </div>
+                        )}
+                    </div>
                     <div className="modal-buttons">
                         <button type="button" className="cancel-button" onClick={onClose}>
                             Cancelar
