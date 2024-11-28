@@ -23,7 +23,7 @@ function FormularioCrearComunidad() {
   const db = getFirestore(app);
   const navigate = useNavigate(); 
   const maxCharsDescripcion = 400;
-  const maxCharsTitulo = 100;
+  const maxCharsTitulo = 50;
   const [titulo, setTitulo] = useState('');
   const [showTooltip, setShowTooltip] = useState(false);
   const { role } = useParams();
@@ -166,7 +166,7 @@ function FormularioCrearComunidad() {
                   id="titulo"
                   placeholder="Ej: La Ventaja De Ser Introvertido"
                   value={titulo} 
-                  maxLength="100"
+                  maxLength={maxCharsTitulo}
                   onChange={handleTituloChange} 
                 />
                     {showTooltip && (
@@ -177,8 +177,8 @@ function FormularioCrearComunidad() {
                     )}
                 </div>
                 <span style={{ fontSize: '12px', color: '#888', marginLeft: '10px' }}>
-                {titulo.length}/{maxCharsTitulo}
-              </span>
+    {titulo.length}/{maxCharsTitulo}
+  </span>
             </div>
             </div>
             

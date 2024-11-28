@@ -30,13 +30,12 @@
   word-wrap: break-word; 
   overflow-wrap: break-word; 
   overflow: hidden;
-  text-overflow: ellipsis; 
   margin-bottom: 10px;
   position: relative;
   white-space: normal; 
+  max-width: 100%; 
+  height: auto; 
 }
-
-
 
 .descripcion-comun {
   font-size: 0.9rem;
@@ -50,8 +49,6 @@
   margin: 10px 0;
 }
 
-
-
 .boton-ver {
   font-size: 0.85rem;
   border-color: #03314B;
@@ -63,4 +60,3 @@
   justify-content: center;
   margin-top: 10px;
 }
-
