@@ -1,5 +1,6 @@
 .comentarios-container {
   margin-top: 20px;
+  word-wrap: break-word;
 }
 
 .comentarios-seccion {
@@ -29,6 +30,9 @@
 
 .comentario-texto {
   flex: 1;
+  word-break: break-word;
+  font-size: 16px;
+  line-height: 1.5;
 }
 .nuevo-comentario {
   display: flex;
@@ -84,13 +88,13 @@
 }
 
 .tooltip-container {
-  position: relative; /* Para posicionar el tooltip sin afectar otros elementos */
-  display: inline-block; /* Evita que cambie el tamaño del contenedor */
+  position: relative;
+  display: inline-block;
   width: 100%;
 }
 
 .tooltip-box {
-  position: absolute; /* Asegura que no impacte en el flujo del layout */
+  position: absolute;
   left: 150px;
   top: -70px;
   background-color: rgba(0, 0, 0, 0.8);
@@ -99,15 +103,31 @@
   border-radius: 4px;
   font-size: 12px;
   z-index: 1000;
-  display: none; /* Se muestra solo cuando sea necesario */
+  display: none;
 }
 
 .tooltip-container:hover .tooltip-box {
-  display: block; /* Se muestra al hacer hover */
+  display: block;
 }
 
 .tooltip-container input {
-  width: 100%; /* O el tamaño que prefieras */
-  box-sizing: border-box; /* Evita que el padding afecte el tamaño */
-  margin: 0; /* Elimina márgenes que podrían ser aplicados por estilos globales */
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .comentario-texto {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .comentario-texto {
+    font-size: 12px;
+  }
+
+  .comentarios-container {
+    padding: 0 5px;
+  }
 }
