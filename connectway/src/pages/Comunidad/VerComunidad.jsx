@@ -175,14 +175,8 @@ const VerComunidad = () => {
                                         >
                                                         <img
                 src={comunidad.imagenURL}
-                alt={`Portada de ${comunidad.titulo}`}
+                alt="¿img?"
                 onError={(e) => (e.target.src = "https://via.placeholder.com/150?text=Error")}
-                style={{
-                    width: "50px",
-                    height: "50px",
-                    marginRight: "10px",
-                    borderRadius: "5px",
-                }}
             />
                                             {comunidad.titulo}
                                         </button>

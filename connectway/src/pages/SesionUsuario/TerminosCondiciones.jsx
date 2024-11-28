@@ -6,10 +6,10 @@ const TermsAndConditionsModal = ({ isOpen, onClose }) => {
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content1 terms-modal">
+      <div className="modal-contenido terms-modal">
         <div className="modal-header">
           <h2 className="title-modal">Términos y Condiciones</h2>
-          <button className="close-button" onClick={onClose}>
+          <button onClick={onClose}>
             &times;
           </button>
         </div>

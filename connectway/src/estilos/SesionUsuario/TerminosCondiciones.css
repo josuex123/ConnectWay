@@ -11,7 +11,7 @@
     z-index: 1000;
   }
   
-  .modal-content1 {
+  .modal-contenido {
     background: #fff;
     width: 90%;
     max-width: 800px;
@@ -25,27 +25,27 @@
   }
 
 /* Scrollbar personalizado */
-.modal-content::-webkit-scrollbar {
+.modal-contenido::-webkit-scrollbar {
     width: 10px;
     background-color: #ffffff;
     border-radius: 5px;
 }
 
-.modal-content::-webkit-scrollbar-thumb {
+.modal-contenido::-webkit-scrollbar-thumb {
     background-color: #03314B;
     border-radius: 5px;
 }
 
-.modal-content::-webkit-scrollbar-track {
+.modal-contenido::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 5px;
 }
   
   .modal-header {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
   }
   
   .title-modal {
@@ -54,12 +54,14 @@
     color: #03314b;
   }
   
-  .close-button {
+  .modal-header button {
     background: none;
     border: none;
-    font-size: 1.5rem;
+    font-size: 3rem;
     cursor: pointer;
-    color: #666;
+    color: black;
+    position: relative;
+    top: -10px;
   }
   
   .modal-divider {
