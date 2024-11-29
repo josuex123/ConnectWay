@@ -109,6 +109,7 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
                 archivoUrl,
                 correoUsuario: sessionStorage.getItem('correoUsuario'),
                 usuario: nombreUsuario,
+                fechaHora: new Date().toISOString(),
             };
     
             await subirPost(nuevoPost);
