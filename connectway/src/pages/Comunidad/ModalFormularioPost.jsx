@@ -91,12 +91,12 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
     };
 
     const handleOverlayClick = () => {
-        setMensajeError(''); // Oculta el mensaje de error al hacer clic en cualquier parte
+        setMensajeError(''); 
     };
 
     const handleSubmit = async () => {
         if (!titulo.trim() || !contenido.trim()) {
-            setModalNotificacion(true); // Muestra el modal si falta información
+            setModalNotificacion(true); 
             return;
         }
     
@@ -135,7 +135,7 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
                         className="usuario-icono-derecha"
                     />
                 </div>
-                {mensajeError && ( // Muestra el mensaje de error si existe
+                {mensajeError && ( 
                     <div className="mensaje-error" style={{ color: 'red', marginBottom: '10px' }}>
                         {mensajeError}
                     </div>
