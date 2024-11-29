@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { collection, addDoc, onSnapshot } from "firebase/firestore";
-import { db, storage } from "../../firebaseConfig"; // Asegúrate de importar 'storage' para subir imágenes
+import { db, storage } from "../../firebaseConfig"; 
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { FaPaperclip, FaPaperPlane } from "react-icons/fa"; // Íconos para clip y envío
+import { FaPaperclip, FaPaperPlane } from "react-icons/fa"; 
 import "../../estilos/comunidad/Comentarios.css";
 import ModalCargando from "../../components/Modal/ModalCargando";
 import { width } from "@fortawesome/free-solid-svg-icons/fa0";
@@ -28,7 +28,7 @@ const Comentarios = ({
     }
   }, [imagenComentario]);
 
-  // Función para formatear la fecha y hora
+ 
   const formatearFecha = (fecha) => {
     const opciones = {
       year: "numeric",
@@ -77,17 +77,17 @@ const Comentarios = ({
         `comentarios/${Date.now()}_${archivo.name}`
       );
       const snapshot = await uploadBytes(imagenRef, archivo);
-      return await getDownloadURL(snapshot.ref); // URL de descarga
+      return await getDownloadURL(snapshot.ref); 
     } finally {
-      setIsLoading(false); // Ocultar el modal
+      setIsLoading(false); 
     }
   };
 
-  // Función para agregar un comentario
+  
   const agregarComentario = async () => {
     if (!nuevoComentario.trim() && !imagenComentario) return;
 
-    setIsLoading(true); // Mostrar el modal
+    setIsLoading(true); 
     try {
       const comentariosRef = collection(
         db,
@@ -102,7 +102,7 @@ const Comentarios = ({
 
       let urlImagen = null;
       if (imagenComentario) {
-        urlImagen = await subirImagen(imagenComentario); // Subir imagen con el modal
+        urlImagen = await subirImagen(imagenComentario);
       }
 
       await addDoc(comentariosRef, {
@@ -112,11 +112,11 @@ const Comentarios = ({
         imagen: urlImagen,
       });
 
-      setNuevoComentario(""); // Limpiar estado
+      setNuevoComentario(""); 
       setImagenComentario(null);
       setImagenPreview(null);
     } finally {
-      setIsLoading(false); // Ocultar el modal
+      setIsLoading(false); 
     }
   };
 
