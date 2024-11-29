@@ -4,7 +4,6 @@ import {doc,getDoc,updateDoc,setDoc,collection,getDocs,} from "firebase/firestor
 import { db } from "../../firebaseConfig";
 import "../../estilos/comunidad/Post.css";
 import defaultUser from "../../images/usuario.png";
-import defaultImage from "../../images/postSinImagen.png";
 import LikeGreyIcon from "../../images/like-grey.png";
 import LikeIcon from "../../images/like.png";
 import SadIcon from "../../images/sad.PNG";
@@ -227,97 +226,101 @@ const Post = ({titulo,contenido,imagenUsuario,nombreUsuario,imagenPost,comunidad
     : contenido || "Sin contenido disponible";
 
     return (
-        <div className="post-container">
-          <div className="post-image">
-            <img src={imagenPost || defaultImage} alt="Post" />
-          </div>
-          <div className="post-contenido">
-            <div className="post-header">
-              <div className="post-info">
-                <h2>{titulo}</h2>
-                {fechaHora && (
-                  <p className="post-fecha-hora">{formatearFecha(fechaHora)}</p> // Mostramos la fecha formateada
-                )}
-              </div>
-              <div className="user-info">
-                <img src={imagenUsuario || defaultUser} alt="Usuario" />
-                <span>{nombreUsuario}</span>
-              </div>
-            </div>
-            <span>
-              <h5>{contenidoVisible}</h5>
-              {contenido && contenido.length > limiteCaracteres && !mostrarTodo && (
-                <span onClick={toggleContenido} className="ver-mas-link">
-                  Ver más
-                </span>
-              )}
-            </span>
-            {mostrarTodo && (
-              <span onClick={toggleContenido} className="ver-menos-link">
-                Ver menos
-              </span>
+      <div className="post-container">
+      {imagenPost && ( // Renderiza solo si hay una imagen
+        <div className="post-image">
+          <img src={imagenPost} alt="Post" />
+        </div>
+      )}
+      <div className="post-contenido">
+        <div className="post-header">
+          <div className="post-info">
+            <h2>{titulo}</h2>
+            {fechaHora && (
+              <p className="post-fecha-hora">{formatearFecha(fechaHora)}</p>
             )}
-            <div className="post-footer">
-                <div className="reactions-summary">
-                    {reaccionesAgrupadas
-                    .filter((reaction) => reaction.count > 0)
-                    .map((reaction) => (
-                        <div key={reaction.id}>
-                        <img src={reaction.icon} alt={reaction.label} />
-                        <span>{reaction.count}</span>
-                        </div>
-                    ))}
+          </div>
+          <div className="user-info">
+            <img src={imagenUsuario || defaultUser} alt="Usuario" />
+            <span>{nombreUsuario}</span>
+          </div>
+        </div>
+        <span>
+          <h5>{contenidoVisible}</h5>
+          {contenido && contenido.length > limiteCaracteres && !mostrarTodo && (
+            <span onClick={toggleContenido} className="ver-mas-link">
+              Ver más
+            </span>
+          )}
+        </span>
+        {mostrarTodo && (
+          <span onClick={toggleContenido} className="ver-menos-link">
+            Ver menos
+          </span>
+        )}
+        <div className="post-footer">
+          <div className="reactions-summary">
+            {reaccionesAgrupadas
+              .filter((reaction) => reaction.count > 0)
+              .map((reaction) => (
+                <div key={reaction.id}>
+                  <img src={reaction.icon} alt={reaction.label} />
+                  <span>{reaction.count}</span>
                 </div>
-                <div className="post-footer">
-                <div>
-                  <button className="icon-button" onClick={toggleComentarios}>
-                    <i className="fa fa-comment"></i>
-                  {comentariosCount}
-                  </button>
-                </div>
-                <div ref={reactionRef} style={{ position: "relative" }}>
-                  <button className="reaction-button" onClick={toggleReactions}>
-                    <div aria-hidden="true">
-                      {lastReaction
-                        ? (
-                          <img
-                            src={reactions.find((reaction) => reaction.id === lastReaction)?.icon || LikeGreyIcon}
-                            alt="Reacción actual"
-                          />
-                        )
-                        : (
-                          <i className="fa fa-thumbs-up" aria-hidden="true"></i>
-                        )
+              ))}
+          </div>
+          <div className="post-footer">
+            <div>
+              <button className="icon-button" onClick={toggleComentarios}>
+                <i className="fa fa-comment"></i>
+                {comentariosCount}
+              </button>
+            </div>
+            <div ref={reactionRef} style={{ position: "relative" }}>
+              <button className="reaction-button" onClick={toggleReactions}>
+                <div aria-hidden="true">
+                  {lastReaction ? (
+                    <img
+                      src={
+                        reactions.find((reaction) => reaction.id === lastReaction)
+                          ?.icon || LikeGreyIcon
                       }
-                    </div>
-                  </button>
-                  {showReactions && (
-                    <div className="reaction-popup">
-                      {reactions.map((reaction) => (
-                        <div key={reaction.id} onClick={() => handleReactionClick(reaction.id)}>
-                          <img src={reaction.icon} alt={reaction.label} />
-                        </div>
-                      ))}
-                    </div>
+                      alt="Reacción actual"
+                    />
+                  ) : (
+                    <i className="fa fa-thumbs-up" aria-hidden="true"></i>
                   )}
                 </div>
-              </div>
-              {mostrarComentarios && (
-                <div className="comentarios-contenedor">
-                  <Comentarios
-                    comunidadId={comunidadId}
-                    subComunidadId={subComunidadId}
-                    postId={postId}
-                    usuarioActual={sessionStorage.getItem("nombreUsuario")}
-                    mostrarComentarios={mostrarComentarios}
-                  />
+              </button>
+              {showReactions && (
+                <div className="reaction-popup">
+                  {reactions.map((reaction) => (
+                    <div
+                      key={reaction.id}
+                      onClick={() => handleReactionClick(reaction.id)}
+                    >
+                      <img src={reaction.icon} alt={reaction.label} />
+                    </div>
+                  ))}
                 </div>
               )}
-
-
-                </div>
-                </div>
+            </div>
           </div>
+          {mostrarComentarios && (
+            <div className="comentarios-contenedor">
+              <Comentarios
+                comunidadId={comunidadId}
+                subComunidadId={subComunidadId}
+                postId={postId}
+                usuarioActual={sessionStorage.getItem("nombreUsuario")}
+                mostrarComentarios={mostrarComentarios}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+    
       );
 };
 
