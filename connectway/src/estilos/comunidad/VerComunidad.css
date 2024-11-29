@@ -1,8 +1,17 @@
+.pagina-inicio {
+    position: relative;
+    background-color: #E3EAF1;
+    overflow: hidden;
+    padding: 0px;
+    margin: 0px;
+}
+
 .titulo-comunidad {
     text-align: center;
     display: flex;
     justify-content: center;
     padding: 20px;
+    width: 100%;
 }
 
 .text {
@@ -14,11 +23,46 @@
 
 .comunidad-page {
     display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    justify-items: center;
     gap: 20px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     padding: 20px;
-    overflow: hidden;
+    min-height: 100vh; 
+    width: 80%;
 }
+
+.comunidades-list {
+    position: relative;
+    top: 100px;
+    width: 300px;
+    min-height: 500px; 
+    max-height: calc(100vh - 150px); 
+    border: 2px solid #03314B;
+    border-radius: 5px;
+    padding-inline: 5px;
+    box-sizing: border-box;
+    overflow-y: auto; 
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+}
+
+.spacer {
+    flex-grow: 1; 
+}
+
+
+
+.comunidades-list.empty {
+    justify-content: center; 
+    text-align: center;
+    color: #666; 
+    font-style: italic; 
+}
+
+
 
 .comunidades-list::-webkit-scrollbar{
     width: 5px;
@@ -30,10 +74,13 @@
     border-radius: 5px;
 }
 .button-comunidad {
+    box-sizing: border-box;
     color: #03314B;
     text-decoration: none;
     font-weight: 600;
     transition: background-color 0.3s, color 0.3s;
+    background-color: #E3EAF1;
+    border: 2px solid #03314B;
 }
 
 .button-comunidad:hover {
@@ -51,13 +98,15 @@
     padding-inline: 5px;
     box-sizing: border-box;
     overflow-y: auto;
+    margin-bottom: 100px;
 }
 
 .comunidades-list .text {
     position: sticky;
     top: 0;
-    background-color: #ffffff;
+    background-color: #E3EAF1;
     z-index: 1;
+    text-align: start;
 }
 
 .comunidades-list ul {
@@ -86,13 +135,18 @@
     border: none;
     padding: 10px;
     width: 100%;
-    text-align: center;
+    height: 55px;
+    text-align: start;
     color: #03314B;
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.4s;
     border-radius: 5px;
     box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+    
 }
 
 .comunidad-item button:hover {
@@ -102,21 +156,69 @@
 
 .comunidad-content {
     flex: 1;
-    min-width: 300px;
+    width: 100%;
 }
 
 .posts {
     margin-top: 20px;
 }
+empty {
+    justify-content: center; 
+    color: #666; 
+    font-style: italic; 
+}
+
+.selected-button {
+    background-color: #03314B; 
+    color: #ffffff; 
+    border: 2px solid #03314B; 
+    transition: all 0.4s ease;
+}
+.comunidad-item-btn {
+    background-color: #ffffff;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    color: #03314B;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.4s, color 0.4s;
+    border-radius: 5px;
+    box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.1);
+}
+.comunidad-item-btn img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.comunidad-item-btn:hover {
+    background-color: #03314B;
+    color: #ffffff;
+}
+
+.comunidad-item-btn.active {
+    background-color: #03314B;
+    color: #ffffff;
+}
+
+
 
 @media (max-width: 870px) {
     .comunidad-page {
         flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
     .comunidades-list {
         top: 0;
         width: 100%;
         margin-right: 0;
+    }
+    .titulo-comunidad {
+        padding: 0px;
     }
 }

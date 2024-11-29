@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { collection, addDoc, onSnapshot } from "firebase/firestore";
-import { db, storage } from "../../firebaseConfig"; // Asegúrate de importar 'storage' para subir imágenes
+import { db, storage } from "../../firebaseConfig"; 
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { FaPaperclip, FaPaperPlane } from "react-icons/fa"; // Íconos para clip y envío
+import { FaPaperclip, FaPaperPlane } from "react-icons/fa"; 
 import "../../estilos/comunidad/Comentarios.css";
-import ModalCargando from '../../components/Modal/ModalCargando'; 
+import ModalCargando from "../../components/Modal/ModalCargando";
+import { width } from "@fortawesome/free-solid-svg-icons/fa0";
 
-const Comentarios = ({ comunidadId, subComunidadId, postId, usuarioActual, mostrarComentarios }) => {
+const Comentarios = ({
+  comunidadId,
+  subComunidadId,
+  postId,
+  usuarioActual,
+  mostrarComentarios,
+}) => {
   const [comentarios, setComentarios] = useState([]);
   const [nuevoComentario, setNuevoComentario] = useState("");
   const [imagenComentario, setImagenComentario] = useState(null); // Estado para la imagen
-  const [imagenPreview, setImagenPreview] = useState(null); 
+  const [imagenPreview, setImagenPreview] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -21,18 +28,18 @@ const Comentarios = ({ comunidadId, subComunidadId, postId, usuarioActual, mostr
     }
   }, [imagenComentario]);
 
-          // Función para formatear la fecha y hora
-          const formatearFecha = (fecha) => {
-            const opciones = { 
-              year: "numeric", 
-              month: "long", 
-              day: "numeric", 
-              hour: "2-digit", 
-              minute: "2-digit" 
-            };
-            return new Date(fecha).toLocaleString("es-ES", opciones);
-          };
-  
+ 
+  const formatearFecha = (fecha) => {
+    const opciones = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    };
+    return new Date(fecha).toLocaleString("es-ES", opciones);
+  };
+
   // Función para obtener comentarios en tiempo real
   useEffect(() => {
     if (!comunidadId || !subComunidadId || !postId) return;
@@ -51,7 +58,9 @@ const Comentarios = ({ comunidadId, subComunidadId, postId, usuarioActual, mostr
       const comentariosCargados = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
-        fechaHora: doc.data().fechaHora?.toDate ? doc.data().fechaHora.toDate() : doc.data().fechaHora,
+        fechaHora: doc.data().fechaHora?.toDate
+          ? doc.data().fechaHora.toDate()
+          : doc.data().fechaHora,
       }));
       setComentarios(comentariosCargados);
     });
@@ -63,20 +72,22 @@ const Comentarios = ({ comunidadId, subComunidadId, postId, usuarioActual, mostr
   const subirImagen = async (archivo) => {
     setIsLoading(true); // Mostrar el modal
     try {
-      const imagenRef = ref(storage, `comentarios/${Date.now()}_${archivo.name}`);
+      const imagenRef = ref(
+        storage,
+        `comentarios/${Date.now()}_${archivo.name}`
+      );
       const snapshot = await uploadBytes(imagenRef, archivo);
-      return await getDownloadURL(snapshot.ref); // URL de descarga
+      return await getDownloadURL(snapshot.ref); 
     } finally {
-      setIsLoading(false); // Ocultar el modal
+      setIsLoading(false); 
     }
   };
-  
 
-  // Función para agregar un comentario
+  
   const agregarComentario = async () => {
     if (!nuevoComentario.trim() && !imagenComentario) return;
-  
-    setIsLoading(true); // Mostrar el modal
+
+    setIsLoading(true); 
     try {
       const comentariosRef = collection(
         db,
@@ -88,27 +99,27 @@ const Comentarios = ({ comunidadId, subComunidadId, postId, usuarioActual, mostr
         postId,
         "comentarios"
       );
-  
+
       let urlImagen = null;
       if (imagenComentario) {
-        urlImagen = await subirImagen(imagenComentario); // Subir imagen con el modal
+        urlImagen = await subirImagen(imagenComentario);
       }
-  
+
       await addDoc(comentariosRef, {
         contenido: nuevoComentario,
         usuario: usuarioActual || "Anónimo",
         fechaHora: new Date().toISOString(),
         imagen: urlImagen,
       });
-  
-      setNuevoComentario(""); // Limpiar estado
+
+      setNuevoComentario(""); 
       setImagenComentario(null);
       setImagenPreview(null);
     } finally {
-      setIsLoading(false); // Ocultar el modal
+      setIsLoading(false); 
     }
   };
-  
+
   if (!mostrarComentarios) return null;
 
   return (
@@ -118,12 +129,20 @@ const Comentarios = ({ comunidadId, subComunidadId, postId, usuarioActual, mostr
           comentarios.map((comentario) => (
             <div key={comentario.id} className="comentario">
               {comentario.imagen && (
-                <img src={comentario.imagen} alt="Comentario" className="comentario-imagen" />
+                <img
+                  src={comentario.imagen}
+                  alt="Comentario"
+                  className="comentario-imagen"
+                />
               )}
               <div className="comentario-texto">
                 <strong>{comentario.usuario}:</strong>
                 <span>{comentario.contenido}</span>
-                <p>{formatearFecha(comentario.fechaHora || "Fecha no disponible")}</p>
+                <p>
+                  {formatearFecha(
+                    comentario.fechaHora || "Fecha no disponible"
+                  )}
+                </p>
               </div>
             </div>
           ))
@@ -136,7 +155,11 @@ const Comentarios = ({ comunidadId, subComunidadId, postId, usuarioActual, mostr
               <img
                 src={imagenPreview}
                 alt="Previsualización"
-                style={{ width: "100px", borderRadius: "5px", marginBottom: "10px" }}
+                style={{
+                  width: "100px",
+                  borderRadius: "5px",
+                  marginBottom: "10px",
+                }}
               />
               <button
                 type="button"
@@ -150,12 +173,20 @@ const Comentarios = ({ comunidadId, subComunidadId, postId, usuarioActual, mostr
               </button>
             </div>
           )}
-          <input
-            type="text"
-            placeholder="Escribe un comentario..."
-            value={nuevoComentario}
-            onChange={(e) => setNuevoComentario(e.target.value)}
-          />
+          <div className="tooltip-container">
+            <input
+              type="text"
+              placeholder="Escribe un comentario..."
+              value={nuevoComentario}
+              onChange={(e) => setNuevoComentario(e.target.value)}
+              maxLength={500}
+            />
+            {nuevoComentario.length === 500 && (
+              <div className="tooltip-box">
+                Los comentarios no pueden exceder los 500 caracteres.
+              </div>
+            )}
+          </div>
           <input
             type="file"
             accept="image/*"
@@ -164,10 +195,10 @@ const Comentarios = ({ comunidadId, subComunidadId, postId, usuarioActual, mostr
             onChange={(e) => setImagenComentario(e.target.files[0])}
           />
           <label htmlFor="imagen-comentario" className="btn-clip">
-            <FaPaperclip />
+            <FaPaperclip size="1em" />
           </label>
-          <button onClick={agregarComentario}>
-            <FaPaperPlane />
+          <button onClick={agregarComentario} className="boton-comentario">
+            <FaPaperPlane size="1.3em" />
           </button>
         </div>
       </div>

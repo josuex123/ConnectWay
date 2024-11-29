@@ -23,7 +23,7 @@ function FormularioCrearComunidad() {
   const db = getFirestore(app);
   const navigate = useNavigate(); 
   const maxCharsDescripcion = 400;
-  const maxCharsTitulo = 100;
+  const maxCharsTitulo = 50;
   const [titulo, setTitulo] = useState('');
   const [showTooltip, setShowTooltip] = useState(false);
   const { role } = useParams();
@@ -38,6 +38,20 @@ function FormularioCrearComunidad() {
     const redirectionPath = role === '1' ? '/Home/1' : '/Home/0';
     navigate(redirectionPath);
   }
+  const formatearDescripcion = (texto) => {
+    // Divide el texto en palabras
+    const palabras = texto.split(' ');
+    // Recorre cada palabra y agrega un salto de línea si la palabra tiene más de 26 caracteres
+    const palabrasFormateadas = palabras.map((palabra) => {
+      if (palabra.length > 26) {
+        return palabra + '\n'; // Añade un salto de línea al final de palabras largas
+      }
+      return palabra;
+    });
+    // Une las palabras de nuevo en una sola cadena, separadas por un espacio
+    return palabrasFormateadas.join(' ');
+  };
+  
 
   const handleTituloChange = (e) => {
     const value = e.target.value;
@@ -47,11 +61,26 @@ function FormularioCrearComunidad() {
   };
   
   const handleDescripcionChange = (e) => {
-    const value = e.target.value;
-    if (value.length <= maxCharsDescripcion && validateAlphanumeric(value)) {
-      setDescripcion(value);
-    }
-  };
+    const { value } = e.target;
+
+    // Divide el texto ingresado en palabras
+    const words = value.split(" ");
+
+    // Procesa cada palabra para verificar su longitud
+    const processedWords = words.map(word => {
+        // Si la palabra tiene más de 40 caracteres, agrega saltos de línea
+        if (word.length > 25) {
+            return word.match(/.{1,25}/g).join(" "); // Divide en bloques de 40 caracteres y agrega saltos de línea
+        }
+        return word;
+    });
+
+    // Une las palabras procesadas con espacios
+    const newDescription = processedWords.join(" ");
+
+        setDescripcion(newDescription);
+    
+};
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -137,7 +166,7 @@ function FormularioCrearComunidad() {
                   id="titulo"
                   placeholder="Ej: La Ventaja De Ser Introvertido"
                   value={titulo} 
-                  maxLength="100"
+                  maxLength={maxCharsTitulo}
                   onChange={handleTituloChange} 
                 />
                     {showTooltip && (
@@ -148,8 +177,8 @@ function FormularioCrearComunidad() {
                     )}
                 </div>
                 <span style={{ fontSize: '12px', color: '#888', marginLeft: '10px' }}>
-                {titulo.length}/{maxCharsTitulo}
-              </span>
+    {titulo.length}/{maxCharsTitulo}
+  </span>
             </div>
             </div>
             

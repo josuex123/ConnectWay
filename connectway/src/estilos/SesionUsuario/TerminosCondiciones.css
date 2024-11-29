@@ -1,0 +1,96 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-contenido {
+    background: #fff;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    position: relative;
+    text-align: start;
+  }
+
+/* Scrollbar personalizado */
+.modal-contenido::-webkit-scrollbar {
+    width: 10px;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+.modal-contenido::-webkit-scrollbar-thumb {
+    background-color: #03314B;
+    border-radius: 5px;
+}
+
+.modal-contenido::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 5px;
+}
+  
+  .modal-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .title-modal {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #03314b;
+  }
+  
+  .modal-header button {
+    background: none;
+    border: none;
+    font-size: 3rem;
+    cursor: pointer;
+    color: black;
+    position: relative;
+    top: -10px;
+  }
+  
+  .modal-divider {
+    border-bottom: 1px solid #d1d1d1;
+    margin-bottom: 20px;
+  }
+  
+  .modal-body {
+    line-height: 1.8;
+    color: #03314b;
+  }
+  
+  .modal-footer-noti {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .confirm-button {
+    background-color: #2980b9;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .confirm-button:hover {
+    background-color: #1f6ca1;
+  }
+  

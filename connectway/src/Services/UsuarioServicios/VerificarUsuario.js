@@ -33,15 +33,19 @@ const VerificarUsuario = {
 
  
   signInWithEmail: async (email, password) => {
+    if (!email || !password) {
+        throw new Error('Correo o contraseña vacíos');
+    }
     return signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        console.log('Usuario autenticado con correo y contraseña:', userCredential.user);
-        return userCredential.user;
-      })
-      .catch((error) => {
-        console.error('Error al iniciar sesión con correo y contraseña:', error.message);
-        throw error;
-      });
+        .then((userCredential) => {
+            console.log('Usuario autenticado con correo y contraseña:', userCredential.user);
+            return userCredential.user;
+        })
+        .catch((error) => {
+            console.error('Error al iniciar sesión con correo y contraseña:', error.message);
+            console.error('E', error);
+            throw error;
+        });
   }
 
 };

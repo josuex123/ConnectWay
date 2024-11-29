@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../../estilos/SesionUsuario/CambiarContra.css';
 import ModalNotificacion from '../../components/Modal/ModalNotificacion';
+import ModalCargando from '../../components/Modal/ModalCargando'; 
 import { confirmPasswordReset } from 'firebase/auth';
 import { auth } from '../../firebaseConfig';
 
@@ -10,7 +11,7 @@ const CambiarContra = () => {
   const [passwordError, setPasswordError] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
-
+  const [isLoading, setIsLoading] = useState(false);  // Estado de carga
   const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
   const [notificationType, setNotificationType] = useState('success');
   const [notificationMessage, setNotificationMessage] = useState('');
@@ -80,22 +81,25 @@ const CambiarContra = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     if (!validateForm()) {
+      setIsLoading(false);
       console.log('Por favor, corrige los errores antes de enviar.');
       return;
     }
 
     if (!oobCode) {
+      setIsLoading(false);
       showModalNotificacion('error', 'El enlace de restablecimiento no es válido.');
       return;
     }
 
     try {
       await confirmPasswordReset(auth, oobCode, password);
+      setIsLoading(false);
       showModalNotificacion('success', 'Se ha cambiado la contraseña exitosamente.');
     } catch (error) {
-      console.error(error);
+      setIsLoading(false);
       showModalNotificacion(
         'error',
         'No se pudo cambiar la contraseña. El enlace podría haber expirado.'
@@ -159,6 +163,13 @@ const CambiarContra = () => {
           </form>
         </div>
       </div>
+      <ModalCargando
+        isOpen={isLoading} 
+        onClose={() => {}}
+        type="loading"
+        message="Cargando, por favor espera..."
+        iconClass="fa fa-spinner fa-spin" 
+      />
       <ModalNotificacion
         isOpen={isModalNotificacionOpen}
         onClose={closeModalNotificacion}

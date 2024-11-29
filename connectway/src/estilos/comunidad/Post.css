@@ -1,11 +1,12 @@
 .post-container {
     text-align: start;
     display: flex;
-    max-width: 1200px;
     border: 2px solid #03314B;
+    width: auto;
     padding: 10px;
     margin-bottom: 20px;
     border-radius: 8px;
+    background-color: white;
   }
   
   .post-image img {
@@ -15,15 +16,28 @@
     border-radius: 8px;
   }
   
+  .post-info{
+    width: 85%;
+  }
+  .post-info p h2{
+    width: 100%;
+  }
+
   .post-contenido {
     margin-left: 20px;
     flex: 1;
+  }
+  .post-contenido h5 {
+    max-width: 100%;
+    overflow-wrap: anywhere; /* Divide palabras largas en cualquier parte */
+    white-space: normal;
+    font-size: 14px;
+    font-weight: 400;
   }
   
   .post-header {
     display: flex;
     padding-bottom: 20px;
-    justify-content: space-between;
   }
   
   .post-header h2 {
@@ -47,11 +61,13 @@
   }
   
   .user-info {
+    position: relative;
     font-size: 0.8em;
-    width: 100px;
+    width: 15%;
     display: flex;
     flex-direction: column;
     align-items: center;
+
   }
   
   .user-info img {
@@ -62,24 +78,23 @@
   
   .user-info span {
     display: inline-block;
-    max-width: 100px;
+    width: 100%;
     white-space: nowrap;
+    text-align: center;
     overflow: hidden;
     text-overflow: ellipsis;
   }
   
   .post-footer {
     display: flex;
-    justify-content: space-between;
     /*margin-top: 10px;
     gap: 10px;*/
     align-items: center;
-    flex-wrap: nowrap;
   }
   
   .icon-button {
     font-size: 0.8em;
-    width: 135px;
+    width: 65px;
     background: none;
     border: none;
     cursor: pointer;
@@ -95,8 +110,7 @@
   .icon-button:hover,
   .icon-button:hover i {
     transition: none !important;
-    background-color: #03314B !important;
-    color: #ffffff !important;
+    background-color: #e8e8e8c5 !important;
   }
   
   .reactions-summary {
@@ -143,8 +157,8 @@
   
   .reaction-button {
     font-size: 0.8em;
-    width: 135px;
-    background: none;
+    width: 65px;
+    background: white;
     border: none;
     cursor: pointer;
     color: #03314B;
@@ -154,14 +168,12 @@
   }
   .reaction-button:hover {
     transition: none !important;
-    background-color: #03314B !important;
-    color: #ffffff !important;
+    background-color: #e8e8e8c5 !important;
   }
   
   .reaction-button img {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
+    width: 15px;
+    height: 15px;
   }
   .icon-button {
     position: relative;
