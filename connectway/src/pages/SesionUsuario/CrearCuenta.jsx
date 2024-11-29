@@ -125,25 +125,37 @@ const CrearCuenta = () => {
   const handlePasswordChange = (e) => {
     const value = e.target.value;
 
+    const filteredValue = value.replace(/[^a-zA-Z0-9.,;:!¡¿?()#@_\-]/g, "");
+
     let error = "";
 
-    if (value.length > 8) {
-      error = "La contraseña no puede exceder los 8 caracteres.";
+    if (filteredValue.length > 15) {
+      error = "La contraseña no puede exceder los 15 caracteres.";
+    } else if (!/[0-9]/.test(filteredValue)) {
+      error = "La contraseña debe contener al menos un número.";
+    } else if (!/[A-Z]/.test(filteredValue)) {
+      error = "La contraseña debe contener al menos una letra mayúscula.";
+    } else if (!/[a-z]/.test(filteredValue)) {
+      error = "La contraseña debe contener al menos una letra minúscula.";
+    } else if (!/[.,;:!¡¿?()#@_\-]/.test(filteredValue)) {
+      error =
+        "La contraseña debe contener al menos uno de estos caracteres especiales: . , ; : ! ¡ ¿ ? ( ) # @ - _";
     }
 
-    if (!/[0-9]/.test(value)) {
-      error = "La contraseña debe contener al menos un número.";
-    } else if (!/[A-Z]/.test(value)) {
-      error = "La contraseña debe contener al menos una letra mayúscula.";
-    } else if (!/[a-z]/.test(value)) {
-      error = "La contraseña debe contener al menos una letra minúscula.";
-    } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(value)) {
-      error = "La contraseña debe contener al menos un carácter especial.";
-    }
     setPasswordError(error);
 
-    if (value.length <= 8) {
-      setPassword(value);
+    if (filteredValue.length <= 15) {
+      setPassword(filteredValue);
+    }
+  };
+
+  const handlePasswordBlur = () => {
+    if (password.length === 0) {
+      setPasswordError("");
+    } else if (password.length < 8 || password.length > 15) {
+      setPasswordError(
+        "La contraseña tiene que ser mínimo de 8 a 15 caracteres."
+      );
     }
   };
 
@@ -330,6 +342,7 @@ const CrearCuenta = () => {
                     placeholder="Ingrese su contraseña"
                     value={password}
                     onChange={handlePasswordChange}
+                    onBlur={handlePasswordBlur}
                     required
                   />
                   <img
