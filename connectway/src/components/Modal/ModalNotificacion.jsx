@@ -19,7 +19,7 @@ const ModalNotificacion = ({ isOpen, onClose, type, message, iconClass, showButt
                     <p className="main-message">{type === 'success' ? '¡ÉXITO!' : '¡ERROR!'}</p>
                     <p>{message}</p>
                 </div>
-                {showButton && ( // Muestra el botón solo si `showButton` es true
+                {showButton && ( // Muestra el botón solo si `showButton` es true ..
                     <div className="modal-footer-noti">
                         <button
                             className="confirm-button"
