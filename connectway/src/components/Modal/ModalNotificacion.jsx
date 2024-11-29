@@ -19,8 +19,14 @@ const ModalNotificacion = ({ isOpen, onClose, type, message, iconClass }) => {
                     <p className="main-message">{type === 'success' ? '¡ÉXITO!' : '¡ERROR!'}</p> 
                     <p>{message}</p> 
                 </div>
+                {/*Añadi esto para el color del boton espero no afecte en nada */}
                 <div className="modal-footer-noti">
-                    <button className="confirm-button" onClick={onClose}>Aceptar</button>
+                <button className="confirm-button"
+                style={{backgroundColor: '#03314B', color: 'white', }}
+                onClick={onClose}>
+                Aceptar
+                </button>
+                 {/*Añadi esto para el color del boton espero no afecte en nada */}
                 </div>
             </div>
         </div>

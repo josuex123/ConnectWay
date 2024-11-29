@@ -12,7 +12,6 @@ const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColecci
     const [modalMessage, setModalMessage] = useState('');
     const [modalType, setModalType] = useState('success');
 
-    //Cerrar el modad y redirigir    
     const handleModalClose = () => {
         setIsModalOpen(false);
         navigate('/comunidad/ver-comunidad', {
@@ -36,7 +35,7 @@ const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColecci
                 setModalType('success');
                 setModalMessage('Te has unido exitosamente a la comunidad.');
                 setIsModalOpen(true);
-                //Modal por 3seg
+
                 setTimeout(() => {
                     setIsModalOpen(false);
                     handleModalClose();
@@ -47,7 +46,7 @@ const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColecci
                 setModalMessage('Hubo un error al intentar unirte a la comunidad.');
                 setIsModalOpen(true);
             }
-        }else{//Caso de VerComunidad Redirigir
+        } else {
             navigate('/comunidad/ver-comunidad', {
                 state: {
                     idComunidad: id,
@@ -61,7 +60,12 @@ const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColecci
     return (
         <div className="contenedor-comun card mb-4">
             <div className="card-body">
-                <h5 className="card-title titulo-comun text-start"><strong>{titulo}</strong></h5>
+                <h5
+                    className="card-title titulo-comun text-start"
+                    data-tooltip={titulo} // Tooltip con el texto completo
+                >
+                    <strong>{titulo}</strong>
+                </h5>
                 <img src={imgPortada} className="card-img-top img-portada-comun" alt="Portada" />
                 <p className="descripcion-comun text-start">{descripcion}</p>
 
@@ -73,12 +77,10 @@ const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColecci
                             handleClick();
                         }}
                     >
-                        {estadoBoton}  {/* Muestra el texto del botón basado en el estado */}
+                        {estadoBoton} {/* Muestra el texto del botón basado en el estado */}
                     </button>
                 </div>
             </div>
-
-            {/* Modal de notificación */}
             <ModalNotificacion
                 isOpen={isModalOpen}
                 onClose={handleModalClose}

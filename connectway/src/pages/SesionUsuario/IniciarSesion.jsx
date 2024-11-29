@@ -144,7 +144,7 @@ const IniciarSesion = () => {
       }
 
       sessionStorage.setItem("correoUsuario", user.email);
-
+      sessionStorage.setItem('nombreUsuario', userName);
       navigate("/Home/0");
     } catch (error) {
       console.error("Error en inicio de sesión con Google:", error.message);
