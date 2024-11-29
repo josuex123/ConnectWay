@@ -87,7 +87,7 @@ const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColecci
                 type={modalType}
                 message={modalMessage}
                 iconClass={modalType === 'success' ? 'fa-check-circle' : 'fa-times-circle'}
-                showButton = {false}{/* Nuevo parametro no necesariamente se debe usar para activar el boton */}
+                showButton = {false}
             />
         </div>
     );
