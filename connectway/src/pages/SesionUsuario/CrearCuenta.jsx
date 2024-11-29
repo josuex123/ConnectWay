@@ -24,27 +24,27 @@ const CrearCuenta = () => {
 
   const navigate = useNavigate();
 
-    const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
-    const [notificationType, setNotificationType] = useState("success");
-    const [notificationMessage, setNotificationMessage] = useState("");
-    const [checkboxActive, setCheckboxActive] = useState(false);
+  const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
+  const [notificationType, setNotificationType] = useState("success");
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [checkboxActive, setCheckboxActive] = useState(false);
 
-    const [isTermsOpen, setIsTermsOpen ] = useState(false);
-    const closeTerms = async () => {
-      setIsTermsOpen(false);
+  const [isTermsOpen, setIsTermsOpen] = useState(false);
+  const closeTerms = async () => {
+    setIsTermsOpen(false);
+  };
+  const showTerms = async () => {
+    setIsTermsOpen(true);
+  };
+
+  const handleShowTerms = () => {
+    if (!checkboxActive) {
+      showTerms();
+      setCheckboxActive(true);
+    } else {
+      setCheckboxActive(false);
     }
-    const showTerms = async () => {
-      setIsTermsOpen(true);
-    }
-    
-    const handleShowTerms = () => {
-      if(!checkboxActive) {
-        showTerms();
-        setCheckboxActive(true);
-      } else {
-        setCheckboxActive(false);
-      }
-    };
+  };
 
   const showModalNotificacion = (type, message) => {
     setNotificationType(type);
@@ -99,7 +99,8 @@ const CrearCuenta = () => {
   };
 
   const handleEmailBlur = () => {
-    const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/;
+    const emailRegex =
+      /^[a-zA-Z0-9](\.?[a-zA-Z0-9]){0,63}@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/;
 
     if (email.length > 254) {
       setEmailError("El correo no puede tener más de 254 caracteres.");
@@ -379,9 +380,7 @@ const CrearCuenta = () => {
                 )}
 
                 <div className="terms">
-                  <input type="checkbox" 
-                  required 
-                  onClick={handleShowTerms}/>
+                  <input type="checkbox" required onClick={handleShowTerms} />
                   <label className="terms-label1">
                     He leído y acepto los{" "}
                     <span
