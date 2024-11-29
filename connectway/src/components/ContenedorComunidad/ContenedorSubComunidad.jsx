@@ -87,7 +87,7 @@ const ContenedorSubComunidad = ({ id, imgPortada, titulo, descripcion, idColecci
                 type={modalType}
                 message={modalMessage}
                 iconClass={modalType === 'success' ? 'fa-check-circle' : 'fa-times-circle'}
-                showButton = {false}
+                showButton = {false} 
             />
         </div>
     );
