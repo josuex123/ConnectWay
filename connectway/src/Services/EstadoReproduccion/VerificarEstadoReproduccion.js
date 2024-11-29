@@ -5,10 +5,7 @@ const db = getFirestore(app);
 
 export const VerificarEstadoReporduccion = async (idAudiolibro, idUsuario) => {
     try {
-        // Referencia a la colección
         const documentRef = collection(db, 'Usuario_EstadoReproduccion');
-        
-        // Consulta con where para traer el único documento que coincide
         const q = query(
             documentRef, 
             where('idUsuario', '==', idUsuario), 
