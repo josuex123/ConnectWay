@@ -5,6 +5,7 @@ import { subirPost } from '../../Services/Post/SubirPost';
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { app } from '../../firebaseConfig';
 import { obtenerNombreUsuario } from '../../Services/UsuarioServicios/NombreUsuarioPorIdDoc';
+import ModalNotificacion from '../../components/Modal/ModalNotificacion';
 
 const storage = getStorage(app);
 
@@ -20,11 +21,12 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
     const [archivo, setArchivo] = useState(null);
     const [archivoPreview, setArchivoPreview] = useState(null);  
     const [nombreUsuario, setNombreUsuario] = useState('Usuario Anónimo');
-    const [mensajeError, setMensajeError] = useState(''); // Nuevo estado para el mensaje de error
+    const [mensajeError, setMensajeError] = useState(''); 
     const [mensajeTituloError, setMensajeTituloError] = useState('');
     const [mensajeContenidoError, setMensajeContenidoError] = useState('');
+    const [modalNotificacion, setModalNotificacion] = useState(false);
 
-    // Actualiza el nombre del usuario al abrir el modal
+   
     useEffect(() => {
         const cargarNombreUsuario = async () => {
             const correoUsuario = sessionStorage.getItem('correoUsuario');
@@ -43,8 +45,8 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
             setTitulo('');
             setContenido('');
             setArchivo(null);
-            setArchivoPreview(null); // Limpia la previsualización al abrir
-            setMensajeError(''); // Limpia el mensaje de error
+            setArchivoPreview(null); 
+            setMensajeError(''); 
             setMensajeTituloError('');
             setMensajeContenidoError('');
         }
@@ -57,7 +59,7 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
             return;
         }
         setTitulo(value);
-        setMensajeTituloError(''); // Limpia el mensaje de error si vuelve a estar dentro del límite
+        setMensajeTituloError(''); 
     };
 
     const handleContenidoChange = (e) => {
@@ -67,24 +69,24 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
             return;
         }
         setContenido(value);
-        setMensajeContenidoError(''); // Limpia el mensaje de error si vuelve a estar dentro del límite
+        setMensajeContenidoError(''); 
     };
 
     const handleArchivoChange = (e) => {
         const file = e.target.files?.[0];
         if (file) {
-            const allowedFormats = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif']; // Formatos permitidos
+            const allowedFormats = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif']; 
             if (!allowedFormats.includes(file.type)) {
                 setMensajeError('Solo se permiten imágenes en formato PNG, JPG y GIF.');
                 return;
             }
-            if (file.size > 10 * 1024 * 1024) { // Verifica si el archivo es mayor a 10 MB
+            if (file.size > 10 * 1024 * 1024) { 
                 setMensajeError('Imágenes superiores a 10MB no están permitidas.');
                 return;
             }
             setArchivo(file);
             setArchivoPreview(URL.createObjectURL(file));
-            setMensajeError(''); // Limpia cualquier error previo
+            setMensajeError(''); 
         }
     };
 
@@ -93,9 +95,14 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
     };
 
     const handleSubmit = async () => {
+        if (!titulo.trim() || !contenido.trim()) {
+            setModalNotificacion(true); // Muestra el modal si falta información
+            return;
+        }
+    
         try {
             const archivoUrl = archivo ? await handleFileUpload(archivo) : null;
-
+    
             const nuevoPost = {
                 titulo,
                 contenido,
@@ -103,7 +110,7 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
                 correoUsuario: sessionStorage.getItem('correoUsuario'),
                 usuario: nombreUsuario,
             };
-
+    
             await subirPost(nuevoPost);
             onSubmit(nuevoPost);
             onClose();
@@ -111,10 +118,11 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
             console.error("Error al enviar el post:", error);
         }
     };
-
+    
     if (!isOpen) return null;
 
     return (
+        
         <div className="modal-overlay" onClick={handleOverlayClick}>
             <div className="modal-container" onClick={(e) => e.stopPropagation()}>
                 <button className="close-button" onClick={onClose}>×</button>
@@ -214,6 +222,15 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
                     </div>
                 </form>
             </div>
+            <ModalNotificacion
+            isOpen={modalNotificacion}
+            onClose={() => setModalNotificacion(false)}
+            type="error"
+            message="Es necesario Título y Contenido para publicar."
+            iconClass="fa-times-circle" 
+        />
+
+
         </div>
     );
 };
