@@ -173,6 +173,9 @@ const CrearCuenta = () => {
       setUserError(
         "El nombre de usuario no puede tener más de 2 caracteres especiales."
       );
+      setTimeout(() => {
+        setUserError("");
+      }, 2000);
       return;
     }
 
@@ -391,8 +394,11 @@ const CrearCuenta = () => {
                 {confirmPasswordError && (
                   <p className="error-message">{confirmPasswordError}</p>
                 )}
-
+                <div className="puntos">
+                  <p>(*): Todos los campos son obligatorios</p>
+                </div>
                 <div className="terms">
+                
                   <input type="checkbox" required onClick={handleShowTerms} />
                   <label className="terms-label1">
                     He leído y acepto los{" "}
