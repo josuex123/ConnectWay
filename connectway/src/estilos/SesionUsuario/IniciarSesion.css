@@ -171,13 +171,17 @@ a {
 }
 
 .logo-text.first-word {
-  color: #94b9ff;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  color: #03314B; 
+  padding-bottom: 15px;
+  padding-top: 10px;
+  -webkit-text-stroke: 0.5px #FFFFFF; 
 }
 
 .logo-text.second-word {
-  color: #cdffd8;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  color: #34A853; 
+  padding-bottom: 15px;
+  padding-top: 10px;
+  -webkit-text-stroke: 1px #000000; 
 }
 
 .logo-text.first-word {
