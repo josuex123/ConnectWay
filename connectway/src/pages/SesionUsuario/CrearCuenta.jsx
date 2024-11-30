@@ -39,7 +39,7 @@ const CrearCuenta = () => {
 
   const handleShowTerms = () => {
     if (!checkboxActive) {
-      showTerms();
+      
       setCheckboxActive(true);
     } else {
       setCheckboxActive(false);
@@ -54,7 +54,7 @@ const CrearCuenta = () => {
 
   const closeModalNotificacion = async () => {
     setIsModalNotificacionOpen(false);
-    navigate("/home/0");
+    navigate("/IniciarSesion");
   };
 
   const togglePasswordVisibility = () => {
@@ -394,9 +394,9 @@ const CrearCuenta = () => {
                 {confirmPasswordError && (
                   <p className="error-message">{confirmPasswordError}</p>
                 )}
-                <div className="puntos">
+                {/*<div className="puntos">
                   <p>(*): Todos los campos son obligatorios</p>
-                </div>
+                </div>*/}
                 <div className="terms">
                 
                   <input type="checkbox" required onClick={handleShowTerms} />
