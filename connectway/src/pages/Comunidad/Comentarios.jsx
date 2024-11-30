@@ -20,6 +20,7 @@ const Comentarios = ({
   const [imagenPreview, setImagenPreview] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const inputArchivoRef = useRef(null);
+  const LIMITE_CARACTERES = 400;
 
   useEffect(() => {
     if (imagenComentario) {
@@ -190,6 +191,9 @@ const Comentarios = ({
             </div>
           )}
           <div className="tooltip-container">
+          <span style={{ fontSize: '12px', color: '#888' }}>
+            {nuevoComentario.length}/{LIMITE_CARACTERES}
+          </span>
             <input
               type="text"
               placeholder="Escribe un comentario..."
