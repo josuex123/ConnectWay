@@ -231,10 +231,10 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
                         )}
                     </div>
                     <div className="modal-buttons">
-                        <button type="button" className="cancel-button" onClick={onClose}>
+                        <button type="button" className="cancel-bot" onClick={onClose}>
                             Cancelar
                         </button>
-                        <button type="button" className="cancel-button" onClick={handleSubmit}>
+                        <button type="button" className="submit-bot" onClick={handleSubmit}>
                             Publicar
                         </button>
                     </div>
