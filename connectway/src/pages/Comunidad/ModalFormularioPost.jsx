@@ -146,6 +146,10 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
                 )}
                 <form className="modal-form">
                     <div className="form-group">
+
+                    <span style={{ fontSize: '12px', color: '#888' }}>
+                    {titulo.length}/100
+                    </span>
                         <input
                             type="text"
                             value={titulo}
@@ -217,6 +221,9 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
                     </div>
 
                     <div className="form-group">
+                    <span style={{ fontSize: '12px', color: '#888' }}>
+                        {contenido.length}/400
+                    </span>
                         <textarea
                             value={contenido}
                             onChange={handleContenidoChange}
