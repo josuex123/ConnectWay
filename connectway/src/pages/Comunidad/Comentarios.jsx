@@ -16,16 +16,16 @@ const Comentarios = ({
 }) => {
   const [comentarios, setComentarios] = useState([]);
   const [nuevoComentario, setNuevoComentario] = useState("");
-  const [imagenComentario, setImagenComentario] = useState(null); // Estado para la imagen
+  const [imagenComentario, setImagenComentario] = useState(null); 
   const [imagenPreview, setImagenPreview] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const inputArchivoRef = useRef(null);
 
   useEffect(() => {
     if (imagenComentario) {
-      setImagenPreview(URL.createObjectURL(imagenComentario)); // Crear la URL de previsualización
+      setImagenPreview(URL.createObjectURL(imagenComentario)); 
     } else {
-      setImagenPreview(null); // Limpiar la previsualización si no hay imagen
+      setImagenPreview(null); 
     }
   }, [imagenComentario]);
 
@@ -71,12 +71,12 @@ const Comentarios = ({
     });
   
     return () => unsubscribe();
-  }, [comunidadId, subComunidadId, postId]); // postId debe estar correctamente actualizado
+  }, [comunidadId, subComunidadId, postId]); 
   
 
-  // Función para subir la imagen al Storage
+
   const subirImagen = async (archivo) => {
-    setIsLoading(true); // Mostrar el modal
+    setIsLoading(true); 
     try {
       const imagenRef = ref(
         storage,
@@ -209,7 +209,7 @@ const Comentarios = ({
           id="imagen-comentario"
           style={{ display: "none" }}
           onChange={(e) => setImagenComentario(e.target.files[0])}
-          ref={inputArchivoRef} // Vincular el input al useRef
+          ref={inputArchivoRef} 
         />
           <label htmlFor="imagen-comentario" className="btn-clip">
             <FaPaperclip size="1em" />
