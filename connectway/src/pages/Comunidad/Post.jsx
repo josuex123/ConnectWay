@@ -14,7 +14,7 @@ import HahaIcon from "../../images/haha.png";
 import LoveIcon from "../../images/love.png";
 import LaughIcon from "../../images/laugh.png";
 import Comentarios from "./Comentarios";
-import { onSnapshot } from "firebase/firestore"; 
+
 
 const reactions = [
   { id: "like", label: "Me gusta", icon: LikeIcon },
@@ -24,7 +24,7 @@ const reactions = [
   { id: "wow", label: "Me asombra", icon: WowIcon },
   { id: "sad", label: "Me entristece", icon: SadIcon },
   { id: "angry", label: "Me enoja", icon: AngryIcon },
-  { id: "laugh", label: "Me hace reír mucho", icon: LaughIcon }, 
+  { id: "laugh", label: "Me hace reír mucho", icon: LaughIcon }, // Me divierte
 ];
 
 
@@ -182,27 +182,6 @@ const Post = ({titulo,contenido,imagenUsuario,nombreUsuario,imagenPost,comunidad
     obtenerReacciones();
   }, [comunidadId, subComunidadId, postId]);
 
-  useEffect(() => {
-    if (!comunidadId || !subComunidadId || !postId) return;
-  
-    const comentariosRef = collection(
-      db,
-      "Comunidades",
-      comunidadId,
-      "comunidades",
-      subComunidadId,
-      "posts",
-      postId,
-      "comentarios"
-    );
-  
-      const unsubscribe = onSnapshot(comentariosRef, (snapshot) => {
-      setComentariosCount(snapshot.size); 
-    });
-  
-    return () => unsubscribe(); 
-  }, [comunidadId, subComunidadId, postId]);
-
   const reaccionesAgrupadas = reactions.map((reaction) => {
     const count = postReactions.filter((r) => r.reaction === reaction.id)
       .length;
@@ -232,7 +211,7 @@ const Post = ({titulo,contenido,imagenUsuario,nombreUsuario,imagenPost,comunidad
     obtenerComentariosCount();
   }, [comunidadId, subComunidadId, postId]);
   
-    
+    // Función para formatear la fecha y hora
     const formatearFecha = (fecha) => {
       return new Date(fecha).toLocaleString("es-ES", {
         dateStyle: "long",
