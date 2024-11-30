@@ -6,6 +6,8 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { app } from '../../firebaseConfig';
 import { obtenerNombreUsuario } from '../../Services/UsuarioServicios/NombreUsuarioPorIdDoc';
 import ModalNotificacion from '../../components/Modal/ModalNotificacion';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faImage,faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 const storage = getStorage(app);
 
@@ -25,6 +27,7 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
     const [mensajeTituloError, setMensajeTituloError] = useState('');
     const [mensajeContenidoError, setMensajeContenidoError] = useState('');
     const [modalNotificacion, setModalNotificacion] = useState(false);
+    const [showTooltipIcon1, setShowTooltipIcon1] = useState(false);
 
    
     useEffect(() => {
@@ -80,8 +83,8 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
                 setMensajeError('Solo se permiten imágenes en formato PNG, JPG y GIF.');
                 return;
             }
-            if (file.size > 10 * 1024 * 1024) { 
-                setMensajeError('Imágenes superiores a 10MB no están permitidas.');
+            if (file.size > 5 * 1024 * 1024) { // Cambiar el límite a 5MB
+                setMensajeError('Imágenes superiores a 5MB no están permitidas.');
                 return;
             }
             setArchivo(file);
@@ -159,7 +162,21 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
                     <div className="form-group archivo-input">
                         {!archivoPreview && ( 
                             <label htmlFor="archivo">
-                                <div className="archivo-placeholder">📂 Subir archivo (png, jpg, gif)</div>
+                                <div className="archivo-placeholder">📂 Subir archivo (png, jpg, gif)
+                                <span 
+                                    className="info-icon" 
+                                    onMouseEnter={() => setShowTooltipIcon1(true)}
+                                    onMouseLeave={() => setShowTooltipIcon1(false)}
+                                >
+                                    <FontAwesomeIcon icon={faInfoCircle} />
+                                    {showTooltipIcon1 && (
+                                        <div className="tooltip-box-icon">
+                                            Solo se permiten imágenes en formato PNG, JPG y GIF. 
+                                            El tamaño máximo es 5MB.
+                                        </div>
+                                    )}
+                                </span>
+                                </div>
                             </label>
                         )}
                         <input
