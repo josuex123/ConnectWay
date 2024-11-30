@@ -146,7 +146,11 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
                 )}
                 <form className="modal-form">
                     <div className="form-group">
-
+                    <div>
+                            <label htmlFor="nombre">
+                    Título:<span style={{ color: 'red' }}>*</span>
+                    </label>
+                    </div>
                     <span style={{ fontSize: '12px', color: '#888' }}>
                     {titulo.length}/100
                     </span>
@@ -221,6 +225,11 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
                     </div>
 
                     <div className="form-group">
+                    <div>
+                            <label htmlFor="nombre">
+                    Contenido:<span style={{ color: 'red' }}>*</span>
+                    </label>
+                    </div>
                     <span style={{ fontSize: '12px', color: '#888' }}>
                         {contenido.length}/400
                     </span>
