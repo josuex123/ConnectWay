@@ -42,8 +42,11 @@ const Comentarios = ({
 
   // Función para obtener comentarios en tiempo real
   useEffect(() => {
-    if (!comunidadId || !subComunidadId || !postId) return;
-
+    if (!comunidadId || !subComunidadId || !postId) {
+      console.warn("Falta información para construir la referencia de comentarios.");
+      return;
+    }
+  
     const comentariosRef = collection(
       db,
       "Comunidades",
@@ -54,6 +57,7 @@ const Comentarios = ({
       postId,
       "comentarios"
     );
+  
     const unsubscribe = onSnapshot(comentariosRef, (snapshot) => {
       const comentariosCargados = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -64,9 +68,10 @@ const Comentarios = ({
       }));
       setComentarios(comentariosCargados);
     });
-
+  
     return () => unsubscribe();
-  }, [comunidadId, subComunidadId, postId]);
+  }, [comunidadId, subComunidadId, postId]); // postId debe estar correctamente actualizado
+  
 
   // Función para subir la imagen al Storage
   const subirImagen = async (archivo) => {
@@ -86,7 +91,12 @@ const Comentarios = ({
   
   const agregarComentario = async () => {
     if (!nuevoComentario.trim() && !imagenComentario) return;
-
+  
+    if (!comunidadId || !subComunidadId || !postId) {
+      console.error("Información insuficiente para agregar un comentario.");
+      return;
+    }
+  
     setIsLoading(true); 
     try {
       const comentariosRef = collection(
@@ -99,19 +109,19 @@ const Comentarios = ({
         postId,
         "comentarios"
       );
-
+  
       let urlImagen = null;
       if (imagenComentario) {
         urlImagen = await subirImagen(imagenComentario);
       }
-
+  
       await addDoc(comentariosRef, {
         contenido: nuevoComentario,
         usuario: usuarioActual || "Anónimo",
         fechaHora: new Date().toISOString(),
         imagen: urlImagen,
       });
-
+  
       setNuevoComentario(""); 
       setImagenComentario(null);
       setImagenPreview(null);
@@ -119,6 +129,7 @@ const Comentarios = ({
       setIsLoading(false); 
     }
   };
+  
 
   if (!mostrarComentarios) return null;
 
