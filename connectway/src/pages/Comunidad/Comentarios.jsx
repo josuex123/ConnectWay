@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { collection, addDoc, onSnapshot } from "firebase/firestore";
 import { db, storage } from "../../firebaseConfig"; 
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -19,6 +19,7 @@ const Comentarios = ({
   const [imagenComentario, setImagenComentario] = useState(null); // Estado para la imagen
   const [imagenPreview, setImagenPreview] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const inputArchivoRef = useRef(null);
 
   useEffect(() => {
     if (imagenComentario) {
@@ -172,16 +173,20 @@ const Comentarios = ({
                   marginBottom: "10px",
                 }}
               />
-              <button
-                type="button"
-                onClick={() => {
-                  setImagenComentario(null);
-                  setImagenPreview(null);
-                }}
-                className="eliminar-imagen"
-              >
-                Eliminar
-              </button>
+            <button
+              type="button"
+              onClick={() => {
+                setImagenComentario(null);
+                setImagenPreview(null);
+                if (inputArchivoRef.current) {
+                  inputArchivoRef.current.value = ""; // Restablece el valor del input
+                }
+              }}
+              className="eliminar-imagen"
+            >
+              Eliminar
+            </button>
+
             </div>
           )}
           <div className="tooltip-container">
@@ -199,12 +204,13 @@ const Comentarios = ({
             )}
           </div>
           <input
-            type="file"
-            accept="image/*"
-            id="imagen-comentario"
-            style={{ display: "none" }}
-            onChange={(e) => setImagenComentario(e.target.files[0])}
-          />
+          type="file"
+          accept="image/*"
+          id="imagen-comentario"
+          style={{ display: "none" }}
+          onChange={(e) => setImagenComentario(e.target.files[0])}
+          ref={inputArchivoRef} // Vincular el input al useRef
+        />
           <label htmlFor="imagen-comentario" className="btn-clip">
             <FaPaperclip size="1em" />
           </label>
