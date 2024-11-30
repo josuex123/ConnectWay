@@ -14,7 +14,7 @@ import HahaIcon from "../../images/haha.png";
 import LoveIcon from "../../images/love.png";
 import LaughIcon from "../../images/laugh.png";
 import Comentarios from "./Comentarios";
-
+import { onSnapshot } from "firebase/firestore"; // Asegúrate de importar onSnapshot
 
 const reactions = [
   { id: "like", label: "Me gusta", icon: LikeIcon },
@@ -180,6 +180,28 @@ const Post = ({titulo,contenido,imagenUsuario,nombreUsuario,imagenPost,comunidad
  
   useEffect(() => {
     obtenerReacciones();
+  }, [comunidadId, subComunidadId, postId]);
+
+  useEffect(() => {
+    if (!comunidadId || !subComunidadId || !postId) return;
+  
+    const comentariosRef = collection(
+      db,
+      "Comunidades",
+      comunidadId,
+      "comunidades",
+      subComunidadId,
+      "posts",
+      postId,
+      "comentarios"
+    );
+  
+    // Suscripción en tiempo real para actualizar el contador
+    const unsubscribe = onSnapshot(comentariosRef, (snapshot) => {
+      setComentariosCount(snapshot.size); // Actualiza el contador con el tamaño de la colección
+    });
+  
+    return () => unsubscribe(); // Limpia la suscripción cuando el componente se desmonte
   }, [comunidadId, subComunidadId, postId]);
 
   const reaccionesAgrupadas = reactions.map((reaction) => {
