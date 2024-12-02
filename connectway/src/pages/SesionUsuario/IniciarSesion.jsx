@@ -217,21 +217,25 @@ const IniciarSesion = () => {
                         : "1px solid gray",
                     }}
                   />
-                  <img
-                    src={
-                      isPasswordVisible
-                        ? require("../../images/ojo2.png")
-                        : require("../../images/ojo1.png")
-                    }
-                    alt="Mostrar/ocultar contraseña"
-                    className="editIcon"
-                    onClick={togglePasswordVisibility}
-                    style={{ cursor: "pointer", marginTop: "-15px" }}
-                  />
                 </div>
                 {passwordError && (
                   <p className="error-message">{passwordError}</p>
                 )}
+
+                <div className="password-toggle">
+                  <img
+                    src={
+                      isPasswordVisible
+                        ? require("../../images/casilla1.png")
+                        : require("../../images/casilla.png")
+                    }
+                    alt="Mostrar/ocultar contraseña"
+                    className="editIcon1"
+                    onClick={togglePasswordVisibility}
+                    style={{ cursor: "pointer", marginTop: "-15px" }}
+                  />
+                  <span className="show-password-text">Mostrar Contraseña</span>
+                </div>
 
                 <a href="/RecuperarContrasenia" className="forgot-password1">
                   ¿Olvidaste tu contraseña?
