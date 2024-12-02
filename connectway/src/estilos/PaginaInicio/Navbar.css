@@ -159,6 +159,19 @@
         justify-content: center;
         align-items: center;
     }
+    .voice-button.active {
+        background-color: #9EE493; /* Color verde */
+        color: white;
+        border: none;
+      }
+      .voice-button {
+        background-color: #0A1044; /* Color azul */
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
 
     .nav-item {
         margin-bottom: 0.3rem;

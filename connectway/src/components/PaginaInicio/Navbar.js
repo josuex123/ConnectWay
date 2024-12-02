@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink, useNavigate, useLocation, useParams } from 'react-router-dom';
 import '../../estilos/PaginaInicio/Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes, faMicrophone } from '@fortawesome/free-solid-svg-icons';
 import { getAuth, signOut } from 'firebase/auth';
 import logo from '../../images/logoejemplo1.jpeg';
 import person from '../../images/usuario1.png';
@@ -22,6 +22,75 @@ const Navbar = () => {
   const isAdmin = role === '1'; 
   const isDisabled = true;
   const [isAudioEnabled, setAudioEnabled] = useState(false);
+  const [recognizedText, setRecognizedText] = useState('');
+  const [isListening, setIsListening] = useState(false);
+
+  const normalizeText = (text) => {
+    return text.toLowerCase().trim();
+  };
+  
+  // Función para manejar el reconocimiento de voz
+  const startVoiceRecognition = () => {
+    if (!('webkitSpeechRecognition' in window)) {
+      alert('Tu navegador no soporta reconocimiento de voz.');
+      return;
+    }
+
+    const recognition = new window.webkitSpeechRecognition();
+    recognition.lang = 'es-ES';
+    recognition.interimResults = false; // Solo resultados finales
+    recognition.maxAlternatives = 1;
+
+    recognition.onstart = () => {
+      setIsListening(true);
+      console.log('Reconocimiento de voz iniciado');
+    };
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      setRecognizedText(transcript);
+      console.log('Texto reconocido:', transcript);
+
+  // Acción basada en el texto reconocido
+  const transcriptNormalized = normalizeText(transcript);
+
+  if (transcriptNormalized.includes('inicio')) {
+    navigate(`/home/${role}`);
+  } else if (transcriptNormalized.includes('audiolibros')) {
+    navigate(`/audiolibros/${role}`);
+  } else if (transcriptNormalized.includes('perfil')) {
+    navigate(`/perfil/${role}`);
+  } else if (transcriptNormalized.includes('crear comunidad') || transcriptNormalized.includes('nueva comunidad')) {
+    navigate(`/comunidad/crear/${role}`);
+  } else if (transcriptNormalized.includes('unirse a comunidad')) {
+    navigate(`/comunidad/unirse/${role}`);
+  } else if (transcriptNormalized.includes('cerrar sesión')) {
+    cerrarSesion();
+  } else if (transcriptNormalized.includes('mis comunidades')) {
+    const correoUsuario = sessionStorage.getItem('correoUsuario');
+    if (correoUsuario) {
+      navigate('/comunidad/ver-comunidad', { state: { correo: correoUsuario } });
+    } else {
+      alert('No se ha encontrado el correo del usuario. Por favor, inicie sesión.');
+    }
+  } else {
+    alert(`No se encontró una acción para: "${transcript}"`);
+  }
+  
+    };
+
+    recognition.onerror = (event) => {
+      console.error('Error de reconocimiento de voz:', event.error);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+      console.log('Reconocimiento de voz terminado');
+    };
+
+    recognition.start();
+  };
+
 
   const handleAudiolibrosClick = (e) => {
     e.preventDefault();
@@ -73,14 +142,16 @@ const Navbar = () => {
     const auth = getAuth(); 
     try {
       await signOut(auth);
-      sessionStorage.removeItem('correoUsuario'); 
+      sessionStorage.removeItem('correoUsuario'); // Limpia el correo del usuario almacenado
       setMenuOpen(false); 
       console.log('Sesión cerrada con éxito');
+      navigate('/'); // Redirige al inicio
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
       alert('Hubo un problema al cerrar sesión. Por favor, inténtalo de nuevo.');
     }
   };
+  
 
   return (
     <nav className="navbar">
@@ -242,6 +313,12 @@ const Navbar = () => {
         <button onClick={toggleAudio} className="submit-bot">
           {isAudioEnabled ? 'Desactivar audio' : 'Activar audio'}
         </button>
+        <div>
+            {/* Botón para reconocimiento de voz */}
+        <button onClick={startVoiceRecognition} className={`voice-button ${isListening ? 'active' : ''}`}>
+          <FontAwesomeIcon icon={faMicrophone} /> {isListening ? 'Escuchando...' : 'Hablar'}
+        </button>
+        </div>
       </div>
     </nav>
   );
