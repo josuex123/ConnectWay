@@ -11,6 +11,21 @@
     z-index: 20;
 }
 
+.audio-button {
+    background-color: #9EE493;
+    border: none;
+    color: #0A1044;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+  
+  .audio-button:hover {
+    background-color: #7cc378;
+}
+  
+
 .nav-container {
     display: flex;
     justify-content: space-between;

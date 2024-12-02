@@ -14,15 +14,15 @@ import amigues from '../../images/grupo.png';
 const Navbar = () => {
   const [isAudiolibrosOpen, setAudiolibrosOpen] = useState(false);
   const [isComunidadOpen, setComunidadOpen] = useState(false); 
-  const [isPerfilOpen, setPerfilOpen] = useState(false);// Estado para controlar el dropdown de Comunidad
+  const [isPerfilOpen, setPerfilOpen] = useState(false);
   const [isMenuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { role } = useParams();
   const isAdmin = role === '1'; 
   const isDisabled = true;
+  const [isAudioEnabled, setAudioEnabled] = useState(false);
 
-  // Manejo del botón de Audiolibros
   const handleAudiolibrosClick = (e) => {
     e.preventDefault();
     if (isAudiolibrosOpen) {
@@ -32,7 +32,6 @@ const Navbar = () => {
     }
   };
 
-  // Manejo del botón de Comunidad
   const handleComunidadClick = (e) => {
     e.preventDefault();
     if (isComunidadOpen) {
@@ -53,6 +52,21 @@ const Navbar = () => {
 
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
+  };
+
+  const speakText = (text) => {
+    if (isAudioEnabled) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'es-ES'; // Idioma español
+      utterance.rate = 1; // Velocidad normal
+      utterance.pitch = 1; // Tono normal
+      utterance.volume = 1; // Volumen máximo
+      speechSynthesis.speak(utterance);
+    }
+  };
+
+  const toggleAudio = () => {
+    setAudioEnabled((prevState) => !prevState);
   };
 
   const cerrarSesion = async () => {
@@ -78,18 +92,19 @@ const Navbar = () => {
         </NavLink>
 
         <ul className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
+          
           <li className="nav-item">
-            <NavLink exact to={`/home/${role}`} className="nav-linkss" onClick={() => setMenuOpen(false)}>
+            <NavLink exact to={`/home/${role}`} className="nav-linkss" onClick={() => setMenuOpen(false)} onMouseEnter={() => speakText('Inicio')}>
               Inicio
               <img src={home} alt="IconHome" className="nav-logo-image1" />
             </NavLink>
           </li>
 
-          
           <li className="nav-item dropdown">
             <span
               className={`nav-linkss1 ${location.pathname.includes('/audiolibros') ? 'active' : ''}`}
               onClick={handleAudiolibrosClick}
+              onMouseEnter={() => speakText('Audiolibros')}
             >
               Audiolibros
               <img src={audifonos} alt="IconAudi" className="nav-logo-image1" />
@@ -102,6 +117,7 @@ const Navbar = () => {
                       to={`/audiolibros/añadir/${role}`}
                       className={`dropdown-link ${location.pathname === `/audiolibros/añadir/${role}` ? 'active' : ''}`}
                       onClick={() => setMenuOpen(false)}
+                      onMouseEnter={() => speakText('Registrar audiolibro')}
                     >
                       Registrar audiolibro
                     </NavLink>
@@ -109,6 +125,7 @@ const Navbar = () => {
                       to={`/audiolibros/registrados/${role}`}
                       className={`dropdown-link ${location.pathname === `/audiolibros/registrados/${role}` ? 'active' : ''}`}
                       onClick={() => setMenuOpen(false)}
+                      onMouseEnter={() => speakText('Audiolibros registrados')}
                     >
                       Audiolibros registrados
                     </NavLink>
@@ -122,6 +139,7 @@ const Navbar = () => {
             <span
               className={`nav-linkss2 ${location.pathname.includes('/comunidad') ? 'active' : ''}`}
               onClick={handleComunidadClick}
+              onMouseEnter={() => speakText('Comunidad')}
             >
               Comunidad
               <img src={amigues} alt="IconComu" className="nav-logo-image1" />
@@ -132,14 +150,15 @@ const Navbar = () => {
                   to={`/comunidad/crear/${role}`}
                   className={`dropdown-link ${location.pathname === `/comunidad/crear/${role}` ? 'active' : ''}`}
                   onClick={() => setMenuOpen(false)}
+                  onMouseEnter={() => speakText('Crear Comunidad')}
                 >
                   Crear Comunidad
                 </NavLink>
                 <NavLink
                   to={`/comunidad/unirse/${role}`}
                   className={`dropdown-link ${location.pathname === `/comunidad/unirse/${role}` ? 'active' : ''}`}
-                  //style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
                   onClick={() => setMenuOpen(false)}
+                  onMouseEnter={() => speakText('Unirse a Comunidad')}
                 >
                   Unirse a Comunidad
                 </NavLink>
@@ -154,20 +173,21 @@ const Navbar = () => {
                       alert('No se ha encontrado el correo del usuario. Por favor, inicie sesión.');
                     }
                   }}
+                  onMouseEnter={() => speakText('Mis Comunidades')}
                 >
                   Mis Comunidades
                 </NavLink>
-
               </div>
             )}
           </li>
 
-          <li className="nav-item ">
+          <li className="nav-item">
             <NavLink
               to={`/MiActividad/${role}`}
               className={`nav-linkss3 disabled`}
               style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
               onClick={() => setMenuOpen(false)}
+              onMouseEnter={() => speakText('Mi actividad')}
             >
               Mi actividad
               <img src={cabeza} alt="IconCabeza" className="nav-logo-image1" />
@@ -178,6 +198,7 @@ const Navbar = () => {
             <span
               className={`nav-linkss4 ${location.pathname.includes('/Perfil') ? 'active' : ''}`}
               onClick={handlePerfilClick}
+              onMouseEnter={() => speakText('Perfil')}
             >
               Perfil
               <img src={person} alt="IconPerson" className="nav-logo-image1" />
@@ -189,6 +210,7 @@ const Navbar = () => {
                   className={`dropdown-link ${location.pathname === `/perfil/${role}` ? 'active' : ''}`}
                   style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
                   onClick={() => setMenuOpen(false)}
+                  onMouseEnter={() => speakText('Ver Perfil')}
                 >
                   Ver Perfil
                 </NavLink>
@@ -197,16 +219,17 @@ const Navbar = () => {
                   className={`dropdown-link ${location.pathname === `/perfil/${role}` ? 'active' : ''}`}
                   style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
                   onClick={() => setMenuOpen(false)}
+                  onMouseEnter={() => speakText('Configuración')}
                 >
-                  Configuracion
+                  Configuración
                 </NavLink>
                 <NavLink
                   to={`/`}
                   className={`dropdown-link ${location.pathname === `/` ? 'active' : ''}`}
-                  //style={{ pointerEvents: isDisabled ? 'none' : 'auto', opacity: isDisabled ? 0.5 : 1 }}
                   onClick={cerrarSesion}
+                  onMouseEnter={() => speakText('Cerrar Sesión')}
                 >
-                  Cerrar Sesion
+                  Cerrar Sesión
                 </NavLink>
               </div>
             )}
@@ -216,6 +239,9 @@ const Navbar = () => {
         <div className="nav-icon" onClick={toggleMenu}>
           <FontAwesomeIcon icon={isMenuOpen ? faTimes : faBars} className="menu-icon" />
         </div>
+        <button onClick={toggleAudio} className="submit-bot">
+          {isAudioEnabled ? 'Desactivar audio' : 'Activar audio'}
+        </button>
       </div>
     </nav>
   );
