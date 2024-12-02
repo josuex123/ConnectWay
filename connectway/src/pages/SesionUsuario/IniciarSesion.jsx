@@ -3,11 +3,11 @@ import "../../estilos/SesionUsuario/IniciarSesion.css";
 import { useNavigate } from "react-router-dom";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
-import authService from '../../Services/UsuarioServicios/VerificarUsuario';
-import {guardarUsuario} from '../../Services/UsuarioServicios/GuardarUsuario';
-import { obtenerNombreUsuario } from '../../Services/UsuarioServicios/NombreUsuarioPorIdDoc';
-import ModalCargando from '../../components/Modal/ModalCargando'; 
-import ModalNotificacion from '../../components/Modal/ModalNotificacion';
+import authService from "../../Services/UsuarioServicios/VerificarUsuario";
+import { guardarUsuario } from "../../Services/UsuarioServicios/GuardarUsuario";
+import { obtenerNombreUsuario } from "../../Services/UsuarioServicios/NombreUsuarioPorIdDoc";
+import ModalCargando from "../../components/Modal/ModalCargando";
+import ModalNotificacion from "../../components/Modal/ModalNotificacion";
 
 const IniciarSesion = () => {
   const [emailOrUsername, setEmailOrUsername] = useState("");
@@ -20,8 +20,11 @@ const IniciarSesion = () => {
   const navigate = useNavigate();
 
   const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
-  const [notificationType, setNotificationType] = useState('success');
-  const [notificationMessage, setNotificationMessage] = useState('');
+  const [notificationType, setNotificationType] = useState("success");
+  const [notificationMessage, setNotificationMessage] = useState("");
+
+  const [emailValid, setEmailValid] = useState(false);
+  const [passwordValid, setPasswordValid] = useState(false);
 
   const showModalNotificacion = (type, message) => {
     setNotificationType(type);
@@ -32,7 +35,7 @@ const IniciarSesion = () => {
   const closeModalNotificacion = async () => {
     setIsModalNotificacionOpen(false);
   };
-  
+
   const usuarioExisteEnFirestore = async (email) => {
     try {
       const usuarioDocRef = doc(db, "Usuario", email); // Documento con el email como ID
@@ -53,12 +56,15 @@ const IniciarSesion = () => {
     setEmailOrUsername(value);
 
     // Arreglar Jere el value .length<20 xd, cambiar si sera aparte de @gmail.com
-    if (value === "" || value.length < 20) {
+    if (value === "" || value.length < 100) {
       setEmailError("");
+      setEmailValid(false);
     } else if (!value.includes("@gmail.com")) {
       setEmailError("El correo es inválido");
+      setEmailValid(false);
     } else {
       setEmailError("");
+      setEmailValid(true);
     }
   };
 
@@ -70,14 +76,20 @@ const IniciarSesion = () => {
   const handleEmailBlur = () => {
     if (emailOrUsername !== "" && !emailOrUsername.includes("@gmail.com")) {
       setEmailError("El correo es inválido");
+      setEmailValid(false);
+    } else {
+      setEmailError("");
+      setEmailValid(true);
     }
   };
 
   const handlePasswordBlur = () => {
-    if (password === '' || password.length < 8) {
-      setPasswordError('La contraseña no puede estar vacía o ser menor de 8 caracteres.');
+    if (password === "" || password.length < 8) {
+      setPasswordError(
+        "La contraseña tiene que ser mínimo de 8 a 15 caracteres."
+      );
     } else {
-      setPasswordError('');
+      setPasswordError("");
     }
   };
 
@@ -85,10 +97,9 @@ const IniciarSesion = () => {
     const docRef = doc(db, "Usuario", id); // Suponiendo que 'usuarios' es tu colección y 'id' es el campo del documento
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-            setPasswordError("La contraseña es incorrecta");
-            return true;
+      setPasswordError("La contraseña es incorrecta");
+      return true;
     } else {
-      
       setEmailError("El correo no se encuentra registrado");
       return false;
     }
@@ -98,30 +109,28 @@ const IniciarSesion = () => {
   const handleEmailSignIn = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setEmailError('');
-    setPasswordError('');
-    
+    setEmailError("");
+    setPasswordError("");
+
     try {
-        const user = await authService.signInWithEmail(emailOrUsername, password);
-        console.log('Usuario autenticado:', user);
+      const user = await authService.signInWithEmail(emailOrUsername, password);
+      console.log("Usuario autenticado:", user);
 
-        // Guardar el correo en sessionStorage
-        sessionStorage.setItem('correoUsuario', emailOrUsername);
+      // Guardar el correo en sessionStorage
+      sessionStorage.setItem("correoUsuario", emailOrUsername);
 
-        const username = await obtenerNombreUsuario(emailOrUsername);
-        sessionStorage.setItem('nombreUsuario', username);
+      const username = await obtenerNombreUsuario(emailOrUsername);
+      sessionStorage.setItem("nombreUsuario", username);
 
-        setIsLoading(false);
-        navigate('/Home/0');
+      setIsLoading(false);
+      navigate("/Home/0");
     } catch (error) {
-        console.error('Error en inicio de sesión:', error.code);
-        setIsLoading(false); 
+      console.error("Error en inicio de sesión:", error.code);
+      setIsLoading(false);
 
-        veriUsuario(emailOrUsername);
+      veriUsuario(emailOrUsername);
     }
-};
-
-
+  };
 
   const removeDomain = (user2) => {
     const userName = user2.split("@")[0];
@@ -144,7 +153,7 @@ const IniciarSesion = () => {
       }
 
       sessionStorage.setItem("correoUsuario", user.email);
-      sessionStorage.setItem('nombreUsuario', userName);
+      sessionStorage.setItem("nombreUsuario", userName);
       navigate("/Home/0");
     } catch (error) {
       console.error("Error en inicio de sesión con Google:", error.message);
@@ -176,38 +185,74 @@ const IniciarSesion = () => {
                   onBlur={handleEmailBlur}
                   autoComplete="email"
                   required
+                  style={{
+                    border: emailValid
+                      ? "2px solid #28a745"
+                      : emailError
+                      ? "2px solid red"
+                      : "1px solid gray",
+                  }}
                 />
                 {emailError && <p className="error-message">{emailError}</p>}
-  
-                <label>Contraseña<span style={{ color: 'red', marginLeft: '2px' }}>*</span></label>
+
+                <label>
+                  Contraseña
+                  <span style={{ color: "red", marginLeft: "2px" }}>*</span>
+                </label>
                 <div className="password-field">
-                  <input 
-                    type={isPasswordVisible ? "text" : "password"} 
-                    placeholder="Ingrese su contraseña" 
+                  <input
+                    type={isPasswordVisible ? "text" : "password"}
+                    placeholder="Ingrese su contraseña"
                     value={password}
                     onChange={handlePasswordChange}
                     onBlur={handlePasswordBlur}
-                    required 
+                    required
+                    style={{
+                      border: passwordValid
+                        ? "2px solid green"
+                        : passwordError
+                        ? "2px solid red"
+                        : "1px solid gray",
+                    }}
                   />
-                  <img 
-                    src={isPasswordVisible ? require('../../images/ojo2.png') : require('../../images/ojo1.png')} 
-                    alt="Mostrar/ocultar contraseña" 
-                    className="editIcon" 
-                    onClick={togglePasswordVisibility} 
-                    style={{ cursor: 'pointer', marginTop: '-15px' }}
+                  <img
+                    src={
+                      isPasswordVisible
+                        ? require("../../images/ojo2.png")
+                        : require("../../images/ojo1.png")
+                    }
+                    alt="Mostrar/ocultar contraseña"
+                    className="editIcon"
+                    onClick={togglePasswordVisibility}
+                    style={{ cursor: "pointer", marginTop: "-15px" }}
                   />
                 </div>
-                {passwordError && <p className="error-message">{passwordError}</p>}
-  
-                <a href="/RecuperarContrasenia" className="forgot-password1">¿Olvidaste tu contraseña?</a>
-  
-                <button type="submit" className="login-button">Iniciar Sesión</button>
+                {passwordError && (
+                  <p className="error-message">{passwordError}</p>
+                )}
+
+                <a href="/RecuperarContrasenia" className="forgot-password1">
+                  ¿Olvidaste tu contraseña?
+                </a>
+
+                <button type="submit" className="login-button">
+                  Iniciar Sesión
+                </button>
               </form>
-  
-              <p>¿No tienes una cuenta? <a href="/CrearCuenta" className="create-login1">Crea una cuenta aquí</a></p>
+
+              <p>
+                ¿No tienes una cuenta?{" "}
+                <a href="/CrearCuenta" className="create-login1">
+                  Crea una cuenta aquí
+                </a>
+              </p>
               <p>O</p>
               <button className="google-button1" onClick={handleGoogleSignIn}>
-                <img src={require('../../images/IconGo.png')} alt="Google Icon" className='editIcon' />
+                <img
+                  src={require("../../images/IconGo.png")}
+                  alt="Google Icon"
+                  className="editIcon"
+                />
                 Continuar con Google
               </button>
             </div>
@@ -218,17 +263,19 @@ const IniciarSesion = () => {
           onClose={() => {}}
           type="loading"
           message="Cargando, por favor espera... "
-          iconClass="fa fa-spinner fa-spin" 
+          iconClass="fa fa-spinner fa-spin"
         />
         <ModalNotificacion
           isOpen={isModalNotificacionOpen}
           onClose={closeModalNotificacion}
           type={notificationType}
           message={notificationMessage}
-          iconClass={notificationType === 'success' ? 'fa fa-check' : 'fa fa-exclamation'}
+          iconClass={
+            notificationType === "success" ? "fa fa-check" : "fa fa-exclamation"
+          }
         />
       </div>
     </>
   );
-}  
+};
 export default IniciarSesion;
