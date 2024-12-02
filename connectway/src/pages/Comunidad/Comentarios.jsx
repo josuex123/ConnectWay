@@ -64,15 +64,23 @@ const Comentarios = ({
       const comentariosCargados = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
-        fechaHora: doc.data().fechaHora?.toDate
-          ? doc.data().fechaHora.toDate()
-          : doc.data().fechaHora,
+        fechaHora: doc.data().fechaHora
+          ? new Date(doc.data().fechaHora)
+          : new Date(), 
       }));
+    
+     
+      comentariosCargados.sort((a, b) => b.fechaHora - a.fechaHora);
+    
+      
       setComentarios(comentariosCargados);
     });
+    
   
     return () => unsubscribe();
-  }, [comunidadId, subComunidadId, postId]); 
+  }, [comunidadId, subComunidadId, postId]);
+  
+  
   
 
 
@@ -99,7 +107,7 @@ const Comentarios = ({
       return;
     }
   
-    setIsLoading(true); 
+    setIsLoading(true);
     try {
       const comentariosRef = collection(
         db,
@@ -117,20 +125,25 @@ const Comentarios = ({
         urlImagen = await subirImagen(imagenComentario);
       }
   
-      await addDoc(comentariosRef, {
+      const nuevoComentarioObj = {
         contenido: nuevoComentario,
         usuario: usuarioActual || "Anónimo",
         fechaHora: new Date().toISOString(),
         imagen: urlImagen,
-      });
+      };
   
-      setNuevoComentario(""); 
+      // Sube el comentario a Firebase
+      await addDoc(comentariosRef, nuevoComentarioObj);
+  
+      setNuevoComentario("");
       setImagenComentario(null);
       setImagenPreview(null);
     } finally {
-      setIsLoading(false); 
+      setIsLoading(false);
     }
   };
+  
+  
   
 
   if (!mostrarComentarios) return null;

@@ -8,6 +8,7 @@ import { obtenerNombreUsuario } from '../../Services/UsuarioServicios/NombreUsua
 import ModalNotificacion from '../../components/Modal/ModalNotificacion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage,faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import defaultUser from "../../images/usuario.png";
 
 const storage = getStorage(app);
 
@@ -16,6 +17,7 @@ const handleFileUpload = async (file) => {
     await uploadBytes(fileRef, file);
     return await getDownloadURL(fileRef);
 };
+
 
 const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
     const [titulo, setTitulo] = useState('');
@@ -134,7 +136,7 @@ const ModalFormularioPost = ({ isOpen, onClose, onSubmit }) => {
                 <div className="usuario-info">
                     <span className="nombre-usuario">{nombreUsuario}</span>
                     <img
-                        src="/ruta/icono-usuario.png"
+                        src={defaultUser}
                         alt="Usuario"
                         className="usuario-icono-derecha"
                     />

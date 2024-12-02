@@ -346,5 +346,3 @@ const Post = ({titulo,contenido,imagenUsuario,nombreUsuario,imagenPost,comunidad
 };
 
 export default Post;
-
-

@@ -81,7 +81,7 @@
   }
   
   .confirm-button {
-    background-color: #2980b9;
+    background-color: #03314b;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -91,6 +91,6 @@
   }
   
   .confirm-button:hover {
-    background-color: #1f6ca1;
+    background-color: #03314b;
   }
   
