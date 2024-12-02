@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink, useNavigate, useLocation, useParams } from 'react-router-dom';
 import '../../estilos/PaginaInicio/Navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faTimes, faMicrophone } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes, faMicrophone,faVolumeUp, faVolumeMute } from '@fortawesome/free-solid-svg-icons';
 import { getAuth, signOut } from 'firebase/auth';
 import logo from '../../images/logoejemplo1.jpeg';
 import person from '../../images/usuario1.png';
@@ -311,8 +311,11 @@ const Navbar = () => {
           <FontAwesomeIcon icon={isMenuOpen ? faTimes : faBars} className="menu-icon" />
         </div>
         <button onClick={toggleAudio} className="submit-bot">
+          <FontAwesomeIcon icon={isAudioEnabled ? faVolumeUp : faVolumeMute} style={{ marginRight: '8px' }} />
           {isAudioEnabled ? 'Desactivar audio' : 'Activar audio'}
         </button>
+
+
         <div>
             {/* Botón para reconocimiento de voz */}
         <button onClick={startVoiceRecognition} className={`cancel-bot ${isListening ? 'active' : ''}`}>
