@@ -88,8 +88,10 @@ const IniciarSesion = () => {
       setPasswordError(
         "La contraseña tiene que ser mínimo de 8 a 15 caracteres."
       );
+      setPasswordValid(false);
     } else {
       setPasswordError("");
+      setPasswordValid(true);
     }
   };
 
@@ -209,7 +211,7 @@ const IniciarSesion = () => {
                     required
                     style={{
                       border: passwordValid
-                        ? "2px solid green"
+                        ? "2px solid #28a745"
                         : passwordError
                         ? "2px solid red"
                         : "1px solid gray",
