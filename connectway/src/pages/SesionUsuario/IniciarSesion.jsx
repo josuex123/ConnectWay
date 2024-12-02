@@ -150,7 +150,6 @@ const IniciarSesion = () => {
       const usuarioExiste = await usuarioExisteEnFirestore(user2);
 
       if (!usuarioExiste) {
-        // Si no existe, lo guardamos
         await guardarUsuario(user2, userName);
       }
 
