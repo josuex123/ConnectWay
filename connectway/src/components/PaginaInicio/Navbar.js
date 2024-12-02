@@ -315,7 +315,7 @@ const Navbar = () => {
         </button>
         <div>
             {/* Botón para reconocimiento de voz */}
-        <button onClick={startVoiceRecognition} className={`voice-button ${isListening ? 'active' : ''}`}>
+        <button onClick={startVoiceRecognition} className={`cancel-bot ${isListening ? 'active' : ''}`}>
           <FontAwesomeIcon icon={faMicrophone} /> {isListening ? 'Escuchando...' : 'Hablar'}
         </button>
         </div>
