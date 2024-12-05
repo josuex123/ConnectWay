@@ -8,7 +8,7 @@ import LikeGreyIcon from "../../images/like-grey.png";
 import LikeIcon from "../../images/like.png"; /*like*/
 import SadIcon from "../../images/sad.PNG"; /*sad*/
 import CareIcon from "../../images/care.png"; /*care*/
-import WowIcon from "../../images/wow.png";
+import WowIcon from "../../images/wow.png"; /*wow*/
 import AngryIcon from "../../images/angry.png";
 import HahaIcon from "../../images/haha.png";
 import LoveIcon from "../../images/love.png";
