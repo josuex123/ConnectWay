@@ -10,7 +10,7 @@ import SadIcon from "../../images/sad.PNG"; /*sad*/
 import CareIcon from "../../images/care.png"; /*care*/
 import WowIcon from "../../images/wow.png"; /*wow*/
 import AngryIcon from "../../images/angry.png"; /*angry*/
-import HahaIcon from "../../images/haha.png";
+import HahaIcon from "../../images/haha.png"; /*haha*/
 import LoveIcon from "../../images/love.png";
 import LaughIcon from "../../images/laugh.png";
 import Comentarios from "./Comentarios";
