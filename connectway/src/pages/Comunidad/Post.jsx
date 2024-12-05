@@ -12,7 +12,7 @@ import WowIcon from "../../images/wow.png"; /*wow*/
 import AngryIcon from "../../images/angry.png"; /*angry*/
 import HahaIcon from "../../images/haha.png"; /*haha*/
 import LoveIcon from "../../images/love.png"; /*love*/
-import LaughIcon from "../../images/laugh.png";
+import LaughIcon from "../../images/laugh.png"; /*laugh*/
 import Comentarios from "./Comentarios";
 import { onSnapshot } from "firebase/firestore"; 
 
