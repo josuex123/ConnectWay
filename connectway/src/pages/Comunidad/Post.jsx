@@ -7,7 +7,7 @@ import defaultUser from "../../images/usuario.png";
 import LikeGreyIcon from "../../images/like-grey.png";
 import LikeIcon from "../../images/like.png"; /*like*/
 import SadIcon from "../../images/sad.PNG"; /*sad*/
-import CareIcon from "../../images/care.png";
+import CareIcon from "../../images/care.png"; /*care*/
 import WowIcon from "../../images/wow.png";
 import AngryIcon from "../../images/angry.png";
 import HahaIcon from "../../images/haha.png";
