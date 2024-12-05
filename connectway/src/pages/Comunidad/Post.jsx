@@ -24,7 +24,7 @@ const reactions = [
   { id: "wow", label: "Me asombra", icon: WowIcon }, /*wow reactions*/
   { id: "sad", label: "Me entristece", icon: SadIcon }, /*sad reactions*/
   { id: "angry", label: "Me enoja", icon: AngryIcon }, /*angry*/
-  { id: "laugh", label: "Me hace reír mucho", icon: LaughIcon }, 
+  { id: "laugh", label: "Me hace reír mucho", icon: LaughIcon }, /*laugh reactions*/
 ];
 
 
