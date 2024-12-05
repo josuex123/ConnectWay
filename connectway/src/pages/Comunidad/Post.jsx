@@ -5,7 +5,7 @@ import { db } from "../../firebaseConfig";
 import "../../estilos/comunidad/Post.css";
 import defaultUser from "../../images/usuario.png";
 import LikeGreyIcon from "../../images/like-grey.png";
-import LikeIcon from "../../images/like.png";
+import LikeIcon from "../../images/like.png"; /*like*/
 import SadIcon from "../../images/sad.PNG";
 import CareIcon from "../../images/care.png";
 import WowIcon from "../../images/wow.png";
