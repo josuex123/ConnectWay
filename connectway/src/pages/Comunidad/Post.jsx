@@ -14,7 +14,7 @@ import HahaIcon from "../../images/haha.png"; /*haha*/
 import LoveIcon from "../../images/love.png"; /*love*/
 import LaughIcon from "../../images/laugh.png"; /*laugh*/
 import Comentarios from "./Comentarios"; /*comentarios*/
-import { onSnapshot } from "firebase/firestore"; 
+import { onSnapshot } from "firebase/firestore"; /*firebase*/
 
 const reactions = [
   { id: "like", label: "Me gusta", icon: LikeIcon },
