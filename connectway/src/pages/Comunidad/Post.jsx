@@ -22,7 +22,7 @@ const reactions = [
   { id: "care", label: "Me importa", icon: CareIcon }, /*care reactions*/
   { id: "haha", label: "Me divierte", icon: HahaIcon },/*haha reactions*/
   { id: "wow", label: "Me asombra", icon: WowIcon }, /*wow reactions*/
-  { id: "sad", label: "Me entristece", icon: SadIcon },
+  { id: "sad", label: "Me entristece", icon: SadIcon }, /*sad reactions*/
   { id: "angry", label: "Me enoja", icon: AngryIcon },
   { id: "laugh", label: "Me hace reír mucho", icon: LaughIcon }, 
 ];
