@@ -118,7 +118,6 @@ const IniciarSesion = () => {
       const user = await authService.signInWithEmail(emailOrUsername, password);
       console.log("Usuario autenticado:", user);
 
-      // Guardar el correo en sessionStorage
       sessionStorage.setItem("correoUsuario", emailOrUsername);
 
       const username = await obtenerNombreUsuario(emailOrUsername);
