@@ -40,7 +40,7 @@ const IniciarSesion = () => {
     try {
       const usuarioDocRef = doc(db, "Usuario", email); // Documento con el email como ID
       const docSnapshot = await getDoc(usuarioDocRef);
-      return docSnapshot.exists(); // Retorna true si el documento existe
+      return docSnapshot.exists();
     } catch (error) {
       console.error("Error al verificar el usuario:", error);
       return false;
