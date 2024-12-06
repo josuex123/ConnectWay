@@ -39,7 +39,6 @@ const CrearCuenta = () => {
 
   const handleShowTerms = () => {
     if (!checkboxActive) {
-      
       setCheckboxActive(true);
     } else {
       setCheckboxActive(false);
@@ -348,17 +347,6 @@ const CrearCuenta = () => {
                     onBlur={handlePasswordBlur}
                     required
                   />
-                  <img
-                    src={
-                      isPasswordVisible
-                        ? require("../../images/ojo2.png")
-                        : require("../../images/ojo1.png")
-                    }
-                    alt="Mostrar/ocultar contraseña"
-                    className="editIcon"
-                    onClick={togglePasswordVisibility}
-                    style={{ cursor: "pointer", marginTop: "-15px" }}
-                  />
                 </div>
 
                 {passwordError && (
@@ -377,18 +365,20 @@ const CrearCuenta = () => {
                     onChange={handleConfirmPasswordChange}
                     required
                   />
-
+                </div>
+                <div className="password-toggle">
                   <img
                     src={
                       isPasswordVisible
-                        ? require("../../images/ojo2.png")
-                        : require("../../images/ojo1.png")
+                        ? require("../../images/casilla1.png")
+                        : require("../../images/casilla.png")
                     }
                     alt="Mostrar/ocultar contraseña"
-                    className="editIcon"
+                    className="editIcon1"
                     onClick={togglePasswordVisibility}
                     style={{ cursor: "pointer", marginTop: "-15px" }}
                   />
+                  <span className="show-password-text">Mostrar Contraseña</span>
                 </div>
 
                 {confirmPasswordError && (
@@ -398,7 +388,6 @@ const CrearCuenta = () => {
                   <p>(*): Todos los campos son obligatorios</p>
                 </div>*/}
                 <div className="terms">
-                
                   <input type="checkbox" required onClick={handleShowTerms} />
                   <label className="terms-label1">
                     He leído y acepto los{" "}
