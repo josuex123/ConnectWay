@@ -16,7 +16,7 @@ const IniciarSesion = () => {
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(false); // Estado de carga
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const [isModalNotificacionOpen, setIsModalNotificacionOpen] = useState(false);
