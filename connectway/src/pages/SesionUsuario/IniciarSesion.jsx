@@ -107,7 +107,6 @@ const IniciarSesion = () => {
     }
   }
 
-  // Maneja el inicio de sesión con correo/usuario y contraseña
   const handleEmailSignIn = async (e) => {
     e.preventDefault();
     setIsLoading(true);
