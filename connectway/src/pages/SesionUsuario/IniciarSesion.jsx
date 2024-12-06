@@ -146,7 +146,6 @@ const IniciarSesion = () => {
       const user2 = user.email;
       const userName = removeDomain(user2);
 
-      // Verificar si el usuario ya existe
       const usuarioExiste = await usuarioExisteEnFirestore(user2);
 
       if (!usuarioExiste) {
