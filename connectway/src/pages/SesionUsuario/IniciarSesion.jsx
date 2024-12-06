@@ -139,7 +139,7 @@ const IniciarSesion = () => {
     console.log("name", userName);
     return userName;
   };
-  // Maneja el inicio de sesión con Google
+
   const handleGoogleSignIn = async () => {
     try {
       const user = await authService.signInWithGoogle();
