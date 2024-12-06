@@ -55,7 +55,6 @@ const IniciarSesion = () => {
     const value = e.target.value;
     setEmailOrUsername(value);
 
-    // Arreglar Jere el value .length<20 xd, cambiar si sera aparte de @gmail.com
     if (value === "" || value.length < 100) {
       setEmailError("");
       setEmailValid(false);
